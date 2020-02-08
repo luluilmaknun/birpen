@@ -1,5 +1,6 @@
 stages:
   - test
+  - staging
 variables:
 
 UnitTestVue:
@@ -22,3 +23,19 @@ UnitTestDjango:
     - python3 run_lint.py
     - coverage run --include='backend/api/*' manage.py test
     - coverage report -m
+
+Staging Deployment:
+  image: ruby:2.4
+  stage: staging
+  before_script:
+    - gem install dpl
+    - wget -qO- https://cli-assets.heroku.com/install-ubuntu.sh | sh
+  script:
+    - dpl --provider=heroku --app=$STAGING_HEROKU_APPNAME --api-key=$STAGING_HEROKU_APIKEY
+    - export HEROKU_API_KEY=$STAGING_HEROKU_APIKEY
+    - heroku run --app $STAGING_HEROKU_APPNAME migrate
+  environment:
+    name: production
+    url: $STAGING_HEROKU_APP_HOST
+  only:
+    - staging
