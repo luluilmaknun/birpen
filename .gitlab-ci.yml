@@ -21,7 +21,7 @@ UnitTestDjango:
   when: on_success
   script:
     - python3 run_lint.py
-    - coverage run --include='backend/api/*' manage.py test
+    - coverage run --include='landing_page/*,pengumuman/*,permohonan_surat/*' manage.py test
     - coverage report -m
 
 Staging Deployment:

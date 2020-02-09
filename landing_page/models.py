@@ -8,6 +8,7 @@ class Message(models.Model):
 
 
 class MessageSerializer(serializers.HyperlinkedModelSerializer):
+    url = serializers.HyperlinkedIdentityField(view_name="landing_page:message-detail")
     class Meta:
         model = Message
         fields = ('url', 'subject', 'body', 'pk')

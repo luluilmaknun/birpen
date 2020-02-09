@@ -6,20 +6,25 @@ The `urlpatterns` list routes URLs to views. For more information please see:
 
 from django.contrib import admin
 from django.urls import path, include
-from rest_framework import routers
 
-from .api.views import index_view, MessageViewSet
-
-router = routers.DefaultRouter()
-router.register('messages', MessageViewSet)
 
 urlpatterns = [
 
     # http://localhost:8000/
-    path('', index_view, name='index'),
+    path(
+        '',
+        include(('landing_page.urls', 'landing_page'),
+                namespace='landing_page')),
 
     # http://localhost:8000/api/<router-viewsets>
-    path('api/', include(router.urls)),
+    path(
+        'api/pengumuman/',
+        include(('pengumuman.urls', 'pengumuman'),
+                namespace='pengumuman')),
+    path(
+        'api/permohonan-surat/',
+        include(('permohonan_surat.urls', 'permohonan_surat'),
+                namespace='permohonan_surat')),
 
     # http://localhost:8000/api/admin/
     path('api/admin/', admin.site.urls),
