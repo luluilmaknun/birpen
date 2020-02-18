@@ -23,6 +23,7 @@ UnitTestDjango:
     - python3 run_lint.py
     - coverage run --include='landing_page/*,pengumuman/*,permohonan_surat/*' manage.py test
     - coverage report -m
+    - coverage xml
 
 SonarScanner:
   image: addianto/sonar-scanner-cli:latest
