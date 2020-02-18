@@ -24,6 +24,15 @@ UnitTestDjango:
     - coverage run --include='landing_page/*,pengumuman/*,permohonan_surat/*' manage.py test
     - coverage report -m
 
+SonarScanner:
+  image: addianto/sonar-scanner-cli:latest
+  stage: test
+  script:
+    - sonar-scanner -Dsonar.host.url=https://pmpl.cs.ui.ac.id/sonarqube -Dsonar.login=$SONARQUBE_TOKEN -Dsonar.branch.name=$CI_COMMIT_REF_NAME -Dsonar.projectKey=$SONARQUBE_PROJECT_KEY
+  only:
+    - master
+    - staging
+
 Staging Deployment:
   image: ruby:2.4
   stage: staging
