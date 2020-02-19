@@ -12,6 +12,10 @@ UnitTestVue:
   when: on_success
   script:
     - yarn test
+  artifacts:
+    paths:
+    - coverage/lcov.info
+    expire_in: 1 day
 
 UnitTestDjango:
   image: python:3.6
@@ -25,6 +29,10 @@ UnitTestDjango:
     - coverage run --include='landing_page/*,pengumuman/*,permohonan_surat/*' manage.py test
     - coverage report -m
     - coverage xml
+  artifacts:
+    paths:
+    - coverage.xml
+    expire_in: 1 day
 
 SonarScanner:
   image: addianto/sonar-scanner-cli:latest
