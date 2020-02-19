@@ -5,8 +5,8 @@ const state = {
 };
 
 const getters = {
-  messages: (state) => {
-    return state.messages;
+  messages: (stateParam) => {
+    return stateParam.messages;
   },
 };
 
@@ -30,14 +30,14 @@ const actions = {
 };
 
 const mutations = {
-  setMessages(state, messages) {
-    state.messages = messages;
+  setMessages(stateParam, messages) {
+    stateParam.messages = messages;
   },
-  addMessage(state, message) {
-    state.messages.push(message);
+  addMessage(stateParam, message) {
+    stateParam.messages.push(message);
   },
-  deleteMessage(state, msgId) {
-    state.messages = state.messages.filter((obj) => obj.pk !== msgId);
+  deleteMessage(stateParam, msgId) {
+    stateParam.messages = stateParam.messages.filter((obj) => obj.pk !== msgId);
   },
 };
 

@@ -6,7 +6,7 @@ from rest_framework.decorators import api_view
 @api_view(["GET"])
 def pengumuman_placeholder_views(_):
     result = {
-        "message": "pengumuman placeholder_message"
+        "message": "pengumuman placeholder message"
     }
 
     return Response({"success": True, "result": result}, status=200)

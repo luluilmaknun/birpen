@@ -1,6 +1,7 @@
 <template>
   <div class="hello">
-    <img src='@/assets/logo-django.png' style="width: 250px" />
+    <img src='@/assets/logo-django.png' style="width: 250px"
+    alt="logo-django" />
     <p>The data below is added/removed from the SQLite Database
      using Django's ORM and Rest Framework.</p>
     <br/>

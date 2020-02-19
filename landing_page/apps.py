@@ -1,5 +1,5 @@
 from django.apps import AppConfig
 
 
-class ApiConfig(AppConfig):
+class LandingPageConfig(AppConfig):
     name = 'landing_page'
