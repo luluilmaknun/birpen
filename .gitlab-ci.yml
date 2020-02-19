@@ -1,5 +1,6 @@
 stages:
   - test
+  - analysis
   - staging
   - production
 
@@ -27,12 +28,14 @@ UnitTestDjango:
 
 SonarScanner:
   image: addianto/sonar-scanner-cli:latest
-  stage: test
+  stage: analysis
   script:
-    - sonar-scanner -Dsonar.host.url=https://pmpl.cs.ui.ac.id/sonarqube -Dsonar.login=$SONARQUBE_TOKEN -Dsonar.branch.name=$CI_COMMIT_REF_NAME -Dsonar.projectKey=$SONARQUBE_PROJECT_KEY
-  only:
-    - master
-    - staging
+    - >
+      sonar-scanner 
+      -Dsonar.host.url=https://pmpl.cs.ui.ac.id/sonarqube
+      -Dsonar.login=$SONARQUBE_TOKEN
+      -Dsonar.branch.name=$CI_COMMIT_REF_NAME 
+      -Dsonar.projectKey=$SONARQUBE_PROJECT_KEY
 
 Staging Deployment:
   image: ruby:2.4
