@@ -198,3 +198,7 @@ yarn-error.log*
 *.njsproj
 *.sln
 *.sw*
+
+
+#Sonarqube
+.scannerwork/
