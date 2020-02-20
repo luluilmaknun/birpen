@@ -45,7 +45,7 @@ SonarScanner:
       -Dsonar.branch.name=$CI_COMMIT_REF_NAME 
       -Dsonar.projectKey=$SONARQUBE_PROJECT_KEY
 
-Staging Deployment:
+Staging Deployment Heroku:
   image: ruby:2.4
   stage: staging
   before_script:
@@ -56,8 +56,34 @@ Staging Deployment:
     - export HEROKU_API_KEY=$STAGING_HEROKU_APIKEY
     - heroku run --app $STAGING_HEROKU_APPNAME migrate
   environment:
-    name: production
+    name: staging_heroku
     url: $STAGING_HEROKU_APP_HOST
+  only:
+    - staging
+
+Staging Deployment VM:
+  image: ruby:2.4
+  stage: staging
+  before_script:
+    - apt-get update -qq
+    - apt-get install -qq git
+    - 'which ssh-agent || ( apt-get install -qq openssh-client )'
+    - eval $(ssh-agent -s)
+    - ssh-add <(echo "$SSH_PRIVATE_KEY")
+    - mkdir -p ~/.ssh
+    - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
+  script:
+    - >
+      ssh admin@10.119.106.13 
+      "ps ax | grep manage.py | grep -v grep | head -n1 | awk '{print $1}' | xargs sudo kill -TERM &&
+      cd /opt/pplukan-feb-ui-biro-pendidikan-online &&
+      git checkout staging &&
+      git pull origin staging &&
+      sudo nohup /opt/pplukan-feb-ui-biro-pendidikan-online/env/bin/python3 manage.py runserver 0:80 & &&
+      exit"
+  environment:
+    name: staging_vm
+    url: $VM_URL
   only:
     - staging
 
