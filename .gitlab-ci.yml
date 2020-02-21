@@ -75,10 +75,10 @@ Staging Deployment VM:
   script:
     - >
       ssh admin@10.119.106.13 
-      "ps ax | grep manage.py | grep -v grep | head -n1 | awk '{print $1}' | xargs sudo kill -TERM &&
-      cd /opt/pplukan-feb-ui-biro-pendidikan-online &&
+      "cd /opt/pplukan-feb-ui-biro-pendidikan-online &&
       git checkout staging &&
       git pull origin staging &&
+      bash stop.sh &&
       bash start.sh &&
       exit"
   environment:
