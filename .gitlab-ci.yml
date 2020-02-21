@@ -79,7 +79,7 @@ Staging Deployment VM:
       cd /opt/pplukan-feb-ui-biro-pendidikan-online &&
       git checkout staging &&
       git pull origin staging &&
-      sudo nohup /opt/pplukan-feb-ui-biro-pendidikan-online/env/bin/python3 manage.py runserver 0:80 & &&
+      bash start.sh &&
       exit"
   environment:
     name: staging_vm
