@@ -1,3 +1,3 @@
 #!/bin/bash
 echo "Starting birpen ..."
-sudo nohup env/bin/python3 manage.py runserver 0:80 &
+sudo env/bin/python3 manage.py runserver 0:80 >out 2>&1 &
