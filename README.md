@@ -75,7 +75,13 @@ To resolve each issue:
 - Create new branch "[username]/[issue's number]" from related PBI branch.
 - Work on your branch
 - After you finish your work, pull latest update from related PBI branch and resolve the conflict
+- Push your work to your branch, make sure pipeline passed and no new issue at [sonarqube][1]   
 - Create a new merge request to related PBI branch and mention the issue on the description.
 - Mention at least two team member and ask for approval
 
 For more information: http://bit.ly/GitFlowPPL
+
+### Sonarqube Analysis
+https://pmpl.cs.ui.ac.id/sonarqube/dashboard?id=ppl2020-a-feb_biro_pendidikan
+
+[1]: https://pmpl.cs.ui.ac.id/sonarqube/dashboard?id=ppl2020-a-feb_biro_pendidikan
