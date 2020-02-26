@@ -25,14 +25,14 @@ class LandingPageApiTest(TestCase):
 
 class login_test(TestCase):
     def setUp(self):
-        User = get_user_model()
-        User.objects.create_user('yusuf.tri',
+        user = get_user_model()
+        user.objects.create_user('yusuf.tri',
                                  'yusuf tri a.', '1701837382', 'mahasiswa', 1)
-        User.objects.create_user('athallah.annafis',
+        user.objects.create_user('athallah.annafis',
                                  'athallah annafis.', '1706492028', 'asdos', 2)
-        User.objects.create_user('ahmad.fauzan',
+        user.objects.create_user('ahmad.fauzan',
                                  'ahmad fauzan dst.', '1102939504', 'dosen', 3)
-        User.objects.create_user('julia.ningrum',
+        user.objects.create_user('julia.ningrum',
                                  'julia ningrum', '12048593059', 'admin', 4)
 
     def test_login_page(self):
