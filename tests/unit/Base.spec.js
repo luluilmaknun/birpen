@@ -26,33 +26,4 @@ describe('Tes base navbar', () => {
     expect(button.exists()).toBe(true);
     expect(wrapper.html()).toContain('Surat');
   });
-
-  it('button Surat redirect', () => {
-    const button = wrapper.find({ref: 'surat-button'});
-    window.location.assign = jest.fn();
-    button.trigger('click');
-    expect(window.location.assign).toHaveBeenCalledWith('/surat');
-  });
-
-  it('button Pengumuman redirect', () => {
-    const button = wrapper.find({ref: 'pengumuman-button'});
-    window.location.assign = jest.fn();
-    button.trigger('click');
-    expect(window.location.assign).toHaveBeenCalledWith('/pengumuman');
-  });
-
-
-  it('button Login redirect', () => {
-    const button = wrapper.find({ref: 'login'});
-    window.location.assign = jest.fn();
-    button.trigger('click');
-    expect(window.location.assign).toHaveBeenCalledWith('/login');
-  });
-
-  it('button buat akun redirect', () => {
-    const button = wrapper.find({ref: 'buat-akun'});
-    window.location.assign = jest.fn();
-    button.trigger('click');
-    expect(window.location.assign).toHaveBeenCalledWith('/buatAkun');
-  });
 });
