@@ -26,40 +26,39 @@ class LandingPageApiTest(TestCase):
 class login_test(TestCase):
     def setUp(self):
         user = get_user_model()
-        user.objects.create_user('yusuf.tri',
-                                 'yusuf tri a.', '1701837382', 'mahasiswa', 1)
-        user.objects.create_user('athallah.annafis',
-                                 'athallah annafis.', '1706492028', 'asdos', 2)
-        user.objects.create_user('ahmad.fauzan',
-                                 'ahmad fauzan dst.', '1102939504', 'dosen', 3)
-        user.objects.create_user('julia.ningrum',
-                                 'julia ningrum', '12048593059', 'admin', 4)
+        user.objects.create_user(username='yusuf.tri',
+                                 name='yusuf tri a.', npm='1701837382', password='mahasiswa', user_type=1)
+        user.objects.create_user(username='athallah.annafis',
+                                 name='athallah annafis.', npm='1706492028', password='asdos',user_type= 2)
+        user.objects.create_user(username='ahmad.fauzan',
+                                 name='ahmad fauzan dst.', npm='1102939504', password='dosen', user_type=3)
+        user.objects.create_user(username='julia.ningrum',
+                                 name='julia ningrum', npm='12048593059', password='admin', user_type=4)
 
-    def test_login_page(self):
-        response = APIClient().get('/api/pengumuman/login')
-        self.assertEqual(response.status_code, 200)
+
 
     def test_login_as_mhs(self):
         pwd = "mahasiswa"
         client = APIClient()
-        response = APIClient().get('/api/pengumuman/login')
-        client.login(username="yusuf.tri", password=pwd)
-        self.assertEqual(response.status_code, 200)
+        response = client.login(username="yusuf.tri", password=pwd)
+        self.assertEqual(response, True)
 
     def test_login_as_asdos(self):
         client = APIClient()
-        response = APIClient().get('/api/pengumuman/login')
-        client.login(username="athallah.annafis", password="asdos")
-        self.assertEqual(response.status_code, 200)
+        response = client.login(username="athallah.annafis", password="asdos")
+        self.assertEqual(response, True)
 
     def test_login_as_dosen(self):
         client = APIClient()
-        response = APIClient().get('/api/pengumuman/login')
-        client.login(username="ahmad.fauzan", password="dosen")
-        self.assertEqual(response.status_code, 200)
+        response = client.login(username="ahmad.fauzan", password="dosen")
+        self.assertEqual(response,True)
 
     def test_login_as_admin(self):
         client = APIClient()
-        response = APIClient().get('/api/pengumuman/login')
-        client.login(username="julia.ningrum", password="admin")
-        self.assertEqual(response.status_code, 200)
+        response = client.login(username="julia.ningrum", password="admin")
+        self.assertEqual(response, True)
+
+    def test_login_failed(self):
+        client = APIClient()
+        response = client.login(username="annida.safira", password="admin")
+        self.assertEqual(response, False)
