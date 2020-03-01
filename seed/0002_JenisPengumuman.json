@@ -1,0 +1,18 @@
+[
+    {
+        "model":"pengumuman.jenispengumuman",
+        "pk":1,
+        "fields":{
+            "deleted":null,
+            "nama":"Asistensi"
+        }
+    },
+    {
+        "model":"pengumuman.jenispengumuman",
+        "pk":2,
+        "fields":{
+            "deleted":null,
+            "nama":"Perkuliahan"
+        }
+    }
+]
