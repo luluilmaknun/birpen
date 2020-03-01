@@ -86,3 +86,9 @@ class login_test(TestCase):
                                data=urlencode(MultiValueDict(({'username': 'annida.safira', 'password': 'hehehehe'}))),
                                content_type='application/x-www-form-urlencoded')
         self.assertEqual(response.status_code, 404)
+
+    def test_login_form(self):
+        client = APIClient()
+        response = client.get('/api/pengumuman/login-form')
+        print(response)
+        self.assertIn("Login Dummy", response.content.decode("utf8"))
