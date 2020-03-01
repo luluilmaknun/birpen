@@ -1,4 +1,6 @@
 from django.contrib.auth import authenticate
+from django.http import HttpResponseRedirect
+from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.authtoken.models import Token
 from rest_framework.decorators import api_view, permission_classes
@@ -21,6 +23,12 @@ def pengumuman_placeholder_views(_):
     }
 
     return Response({"success": True, "result": result}, status=200)
+
+
+def login_form(request):
+    response = {}
+    return render(request, 'login.html', response)
+
 
 @csrf_exempt
 @api_view(["POST"])
