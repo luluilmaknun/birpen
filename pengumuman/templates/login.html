@@ -7,6 +7,10 @@
     <link rel="stylesheet" type="text/css" href="/static/admin/css/login.css">
     <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1.0, maximum-scale=1.0">
     <link rel="stylesheet" type="text/css" href="/static/admin/css/responsive.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
 <meta name="robots" content="NONE,NOARCHIVE">
 </head>
 
@@ -35,7 +39,7 @@
               <input type="password" name="password" autocomplete="current-password" required id="id_password">
             </div>
             <div class="submit-row">
-              <label>&nbsp;</label><input type="submit" value="Log in">
+                <label>&nbsp;</label><button type="button" class="btn btn-primary" onclick="login()"> Log In </button>
             </div>
           </form>
       </div>
@@ -45,5 +49,20 @@
     <div id="footer"></div>
 </div>
 <!-- END Container -->
+<script>
+     function login() {
+        $.ajax({
+            method: "POST",
+            url: "/api/pengumuman/login",
+            data: {username:$('input[name="username"]').val(),password:$('input[name="password"]').val()},
+            success: function(data) {
+                window.location = "/";
+            },
+            fail: function(data){
+                console.log(data);
+         `` }
+            });
+      };
+</script>
 </body>
 </html>
