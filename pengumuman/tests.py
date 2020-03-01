@@ -1,6 +1,8 @@
 from django.apps import apps
 from django.contrib.auth import get_user_model
 from django.test import TestCase
+from django.utils.datastructures import MultiValueDict
+from django.utils.http import urlencode
 from rest_framework.test import APIClient
 
 from pengumuman.apps import PengumumanConfig
@@ -62,3 +64,25 @@ class login_test(TestCase):
         client = APIClient()
         response = client.login(username="annida.safira", password="admin")
         self.assertEqual(response, False)
+
+    def test_post_login_success(self):
+        client = APIClient()
+        response = client.post('/api/pengumuman/login',
+                               data=urlencode(MultiValueDict(({'username': 'yusuf.tri', 'password': 'mahasiswa'}))),
+                               content_type='application/x-www-form-urlencoded')
+        self.assertEqual(response.status_code, 200)
+
+    def test_post_login_blank(self):
+        client = APIClient()
+        response = client.post('/api/pengumuman/login',
+                               data=urlencode(MultiValueDict(({'username': 'yusuf.tri'}))),
+                               content_type='application/x-www-form-urlencoded')
+        self.assertEqual(response.status_code, 400)
+
+
+    def test_post_login_invalid(self):
+        client = APIClient()
+        response = client.post('/api/pengumuman/login',
+                               data=urlencode(MultiValueDict(({'username': 'annida.safira', 'password': 'hehehehe'}))),
+                               content_type='application/x-www-form-urlencoded')
+        self.assertEqual(response.status_code, 404)
