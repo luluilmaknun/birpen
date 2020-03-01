@@ -26,7 +26,7 @@ http://birpen.docs.apiary.io/
   npm install yarn
   yarn install
   ```
-
+  
 - Install postgresql
   ```
   sudo apt update
@@ -42,6 +42,11 @@ http://birpen.docs.apiary.io/
   
   Match variables' content in .env with your local environment settings
 
+- Seed database
+  ```
+  bash seed.sh
+  ```
+  
 ### Testing
 
 #### Testing for backend code

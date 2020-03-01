@@ -1,0 +1,26 @@
+[
+    {
+        "model":"pengumuman.statuspengumuman",
+        "pk":1,
+        "fields":{
+            "deleted":null,
+            "nama":"Terlambat"
+        }
+    },
+    {
+        "model":"pengumuman.statuspengumuman",
+        "pk":2,
+        "fields":{
+            "deleted":null,
+            "nama":"Dibatalkan"
+        }
+    },
+    {
+        "model":"pengumuman.statuspengumuman",
+        "pk":3,
+        "fields":{
+            "deleted":null,
+            "nama":"Kelas Pengganti"
+        }
+    }
+]
