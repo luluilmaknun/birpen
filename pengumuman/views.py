@@ -1,5 +1,4 @@
 from django.contrib.auth import authenticate
-from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.authtoken.models import Token
