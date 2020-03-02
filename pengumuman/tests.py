@@ -44,9 +44,8 @@ class login_test(TestCase):
 
 
     def test_login_as_mhs(self):
-        pwd = "mahasiswa"
         client = APIClient()
-        response = client.login(username="yusuf.tri", password=pwd)
+        response = client.login(username="yusuf.tri", password="mahasiswa")
         self.assertEqual(response, True)
 
     def test_login_as_asdos(self):
