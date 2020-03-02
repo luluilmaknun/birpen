@@ -101,6 +101,13 @@
     ],
     "testURL": "http://localhost/",
     "collectCoverage": true,
-    "collectCoverageFrom": ["src/**/*.(js|jsx|ts|tsx|vue)"]
+    "collectCoverageFrom": [
+      "src/**/*.(js|jsx|ts|tsx|vue)",
+      "!src/main.js",
+      "!src/router.js",
+      "!src/plugins/*",
+      "!src/store/*",
+      "!src/services/*"
+    ]
   }
 }
