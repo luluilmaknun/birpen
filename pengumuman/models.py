@@ -1,8 +1,9 @@
+# Create your models here.
+from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.utils import timezone
-
-from safedelete.models import SafeDeleteModel
 from safedelete.models import SOFT_DELETE_CASCADE
+from safedelete.models import SafeDeleteModel
 
 
 # For reference on using SafeDeleteModel please refer to
@@ -55,3 +56,15 @@ class Pengumuman(SafeDeleteModel):
     nama_sesi = models.ForeignKey(Sesi, on_delete=models.CASCADE)
     nama_status_pengumuman = models.ForeignKey(StatusPengumuman, on_delete=models.CASCADE)
     komentar = models.CharField(max_length=255, blank=True)
+
+
+class User(AbstractUser):
+    USER_TYPE_CHOICES = (
+        (1, 'mahasiswa'),
+        (2, 'asdos'),
+        (3, 'dosen'),
+        (4, 'admin'),
+    )
+    name = models.CharField(max_length=50)
+    npm = models.CharField(max_length=10)
+    user_type = models.PositiveSmallIntegerField(choices=USER_TYPE_CHOICES, default=1)
