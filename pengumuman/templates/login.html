@@ -55,9 +55,11 @@
             url: "/api/pengumuman/login",
             data: {username:$('input[name="username"]').val(),password:$('input[name="password"]').val()},
             success: function(data) {
+                sessionStorage.setItem("token",data.token);
+                sessionStorage.setItem("role",data.role);
                 window.location = "/";
             },
-            fail: function(data){
+            error: function(data){
                 console.log(data);
           }
             });
