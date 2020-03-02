@@ -42,7 +42,7 @@ class login_test(TestCase):
                                  name='ahmad fauzan dst.', npm='1102939504',
                                  password='dosen', user_type=3)
         user.objects.create_user(username='julia.ningrum',
-                                 name='julia ningrum', npm='12048593059',
+                                 name='julia ningrum', npm='1204893059',
                                  password='admin', user_type=4)
 
 
