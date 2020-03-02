@@ -15,10 +15,14 @@
   "dependencies": {
     "axios": "^0.18.0",
     "js-cookie": "^2.2.0",
+    "luxon": "^1.22.0",
     "vue": "^2.6.6",
+    "vue-datetime": "^1.0.0-beta.11",
     "vue-router": "^3.0.2",
     "vuetify": "^1.5.2",
-    "vuex": "^3.1.0"
+    "vuex": "^3.1.0",
+    "weekstart": "^1.0.1",
+    "yarn": "^1.22.0"
   },
   "devDependencies": {
     "@babel/core": "^7.3.3",
@@ -101,6 +105,8 @@
     ],
     "testURL": "http://localhost/",
     "collectCoverage": true,
-    "collectCoverageFrom": ["src/**/*.(js|jsx|ts|tsx|vue)"]
+    "collectCoverageFrom": [
+      "src/**/*.(js|jsx|ts|tsx|vue)"
+    ]
   }
 }
