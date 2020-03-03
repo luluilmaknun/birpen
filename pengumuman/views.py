@@ -1,9 +1,10 @@
 from datetime import datetime
+
 from django.contrib.auth import authenticate
-from django.shortcuts import render
-from django.views.decorators.csrf import csrf_exempt
 from django.core.exceptions import ObjectDoesNotExist
 from django.forms.models import model_to_dict
+from django.shortcuts import render
+from django.views.decorators.csrf import csrf_exempt
 from rest_framework.authtoken.models import Token
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import AllowAny
@@ -15,7 +16,8 @@ from rest_framework.status import (
     HTTP_403_FORBIDDEN,
     HTTP_401_UNAUTHORIZED
 )
-from  .models import User, Pengumuman, MataKuliah, JenisPengumuman, \
+
+from .models import User, Pengumuman, MataKuliah, JenisPengumuman, \
     Ruang, Sesi, StatusPengumuman
 
 
@@ -26,8 +28,6 @@ def pengumuman_placeholder_views(_):
     }
 
     return Response({"success": True, "result": result}, status=200)
-
-
 
 
 @csrf_exempt
@@ -55,7 +55,6 @@ def login(request):
 @csrf_exempt
 @api_view(["POST"])
 def edit_pengumuman(request, key):
-
     try:
         token = request.headers.get('Authorization').split()[1]
     except AttributeError:
@@ -87,8 +86,8 @@ def edit_pengumuman(request, key):
     pengumuman.komentar = request.data.get('komentar')
 
     try:
-        pengumuman.tanggal_kelas = datetime.strptime(request.data.get('tanggal_kelas'), \
-            '%Y-%m-%d')
+        pengumuman.tanggal_kelas = datetime.strptime(request.data.get('tanggal_kelas'),
+                                                     '%Y-%m-%d')
         pengumuman.nama_mata_kuliah = \
             MataKuliah.objects.get(nama=request.data.get('nama_mata_kuliah'))
         pengumuman.jenis_pengumuman = \

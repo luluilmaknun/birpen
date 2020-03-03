@@ -227,12 +227,13 @@ class PengumumanModelTest(TestCase):
         sesi = Sesi.objects.create(nama="16.00 - 17.40")
         status_pengumuman = StatusPengumuman.objects.create(nama="Ditunda")
         user = User.objects.create(username='julia.ningrum', name='julia ningrum',
-            npm='1204893059', password='admin', user_type=User.ADMIN)
+                                   npm='1204893059', password='admin', user_type=User.ADMIN)
 
         Pengumuman.objects.create(tanggal_kelas=tanggal_kelas, pembuat=user,
                                   nama_mata_kuliah=mata_kuliah, jenis_pengumuman=jenis_pengumuman,
-                                  nama_dosen="Dosen S.kom", nama_asisten="Asistenku", nama_ruang=ruang,
-                                  nama_sesi=sesi, nama_status_pengumuman=status_pengumuman, komentar="")
+                                  nama_dosen="Dosen S.kom", nama_asisten="Asistenku",
+                                  nama_ruang=ruang, nama_sesi=sesi,
+                                  nama_status_pengumuman=status_pengumuman, komentar="")
 
         count = Pengumuman.objects.all().count()
         self.assertEqual(count, 1)
@@ -249,12 +250,13 @@ class PengumumanModelTest(TestCase):
         sesi = Sesi.objects.create(nama="16.00 - 17.40")
         status_pengumuman = StatusPengumuman.objects.create(nama="Ditunda")
         user = User.objects.create(username='julia.ningrum', name='julia ningrum',
-            npm='1204893059', password='admin', user_type=User.ADMIN)
+                                   npm='1204893059', password='admin', user_type=User.ADMIN)
 
         Pengumuman.objects.create(tanggal_kelas=tanggal_kelas, pembuat=user,
                                   nama_mata_kuliah=mata_kuliah, jenis_pengumuman=jenis_pengumuman,
-                                  nama_dosen="Dosen S.kom", nama_asisten="Asistenku", nama_ruang=ruang,
-                                  nama_sesi=sesi, nama_status_pengumuman=status_pengumuman, komentar="")
+                                  nama_dosen="Dosen S.kom", nama_asisten="Asistenku",
+                                  nama_ruang=ruang, nama_sesi=sesi,
+                                  nama_status_pengumuman=status_pengumuman, komentar="")
         count = Pengumuman.objects.all().count()
         self.assertEqual(count, 1)
 
@@ -267,16 +269,18 @@ class PengumumanModelTest(TestCase):
 
 class PengumumanApiTest(TestCase):
     def setUp(self):
-        user_1 = User.objects.create(username='athallah.annafis', name='Athallah Annafis', \
-            npm='1701837382', password='mahasiswa', user_type=User.MAHASISWA)
+        user_1 = User.objects.create(username='athallah.annafis', name='Athallah Annafis',
+                                     npm='1701837382', password='mahasiswa',
+                                     user_type=User.MAHASISWA)
         self.token_1 = Token.objects.get_or_create(user=user_1)[0].key
 
-        user_2 = User.objects.create(username='julia.ningrum', name='Julia Ningrum', \
-            npm='1204893059', password='admin', user_type=User.ADMIN)
+        user_2 = User.objects.create(username='julia.ningrum', name='Julia Ningrum',
+                                     npm='1204893059', password='admin', user_type=User.ADMIN)
         self.token_2 = Token.objects.get_or_create(user=user_2)[0].key
 
-        user_3 = User.objects.create(username='yusuf.tri', name='Yusuf Tri Ardho', \
-            npm='1701837382', password='mahasiswa', user_type=User.MAHASISWA)
+        user_3 = User.objects.create(username='yusuf.tri', name='Yusuf Tri Ardho',
+                                     npm='1701837382', password='mahasiswa',
+                                     user_type=User.MAHASISWA)
         self.token_3 = Token.objects.get_or_create(user=user_3)[0].key
 
         tanggal_kelas = "2016-11-16T22:31:18.130822+00:00"
@@ -286,10 +290,15 @@ class PengumumanApiTest(TestCase):
         sesi = Sesi.objects.create(nama="Sesi 4 (17.00 - 19.30)")
         status_pengumuman = StatusPengumuman.objects.create(nama="Terlambat")
 
-        self.pengumuman_pk = Pengumuman.objects.create(tanggal_kelas=tanggal_kelas, \
-            pembuat=user_3, nama_mata_kuliah=mata_kuliah, jenis_pengumuman=jenis_pengumuman, \
-            nama_dosen="Lulu Ilmaknun S.kom", nama_asisten="Annida Safira", nama_ruang=ruang, \
-            nama_sesi=sesi, nama_status_pengumuman=status_pengumuman, komentar="").pk
+        self.pengumuman_pk = Pengumuman.objects.create(tanggal_kelas=tanggal_kelas,
+                                                       pembuat=user_3, nama_mata_kuliah=mata_kuliah,
+                                                       jenis_pengumuman=jenis_pengumuman,
+                                                       nama_dosen="Lulu Ilmaknun S.kom",
+                                                       nama_asisten="Annida Safira",
+                                                       nama_ruang=ruang,
+                                                       nama_sesi=sesi,
+                                                       nama_status_pengumuman=status_pengumuman,
+                                                       komentar="").pk
 
         mata_kuliah = MataKuliah.objects.create(nama="DDP")
         jenis_pengumuman = JenisPengumuman.objects.create(nama="Perkuliahan")
@@ -309,45 +318,40 @@ class PengumumanApiTest(TestCase):
 
         self.client = APIClient()
 
-
     def test_fail_edit_without_authorization_header(self):
-        response = self.client.post('/api/pengumuman/{}/edit/'.format(self.pengumuman_pk), \
-            data=urlencode(MultiValueDict(())), \
-            content_type='application/x-www-form-urlencoded')
+        response = self.client.post('/api/pengumuman/{}/edit/'.format(self.pengumuman_pk),
+                                    data=urlencode(MultiValueDict(())),
+                                    content_type='application/x-www-form-urlencoded')
 
         self.assertEqual(response.status_code, 401)
         self.assertEqual(response.data['error'], 'Authorization header not found')
 
-
     def test_fail_edit_with_invalid_token(self):
         self.client.credentials(HTTP_AUTHORIZATION='Token invalid_token')
-        response = self.client.post('/api/pengumuman/{}/edit/'.format(self.pengumuman_pk), \
-            data=urlencode(MultiValueDict((self.valid_data))), \
-            content_type='application/x-www-form-urlencoded')
+        response = self.client.post('/api/pengumuman/{}/edit/'.format(self.pengumuman_pk),
+                                    data=urlencode(MultiValueDict(self.valid_data)),
+                                    content_type='application/x-www-form-urlencoded')
 
         self.assertEqual(response.status_code, 401)
         self.assertEqual(response.data['error'], 'Invalid token')
 
-
     def test_fail_edit_because_pengumuman_doesnt_exist(self):
         self.client.credentials(HTTP_AUTHORIZATION='Token ' + self.token_1)
-        response = self.client.post('/api/pengumuman/{}/edit/'.format(100), \
-            data=urlencode(MultiValueDict((self.valid_data))), \
-            content_type='application/x-www-form-urlencoded')
+        response = self.client.post('/api/pengumuman/{}/edit/'.format(100),
+                                    data=urlencode(MultiValueDict(self.valid_data)),
+                                    content_type='application/x-www-form-urlencoded')
 
         self.assertEqual(response.status_code, 400)
         self.assertEqual(response.data['error'], 'Pengumuman does not exist')
 
-
     def test_fail_edit_because_not_enough_privileges(self):
         self.client.credentials(HTTP_AUTHORIZATION='Token ' + self.token_1)
-        response = self.client.post('/api/pengumuman/{}/edit/'.format(self.pengumuman_pk), \
-            data=urlencode(MultiValueDict((self.valid_data))), \
-            content_type='application/x-www-form-urlencoded')
+        response = self.client.post('/api/pengumuman/{}/edit/'.format(self.pengumuman_pk),
+                                    data=urlencode(MultiValueDict((self.valid_data))),
+                                    content_type='application/x-www-form-urlencoded')
 
         self.assertEqual(response.status_code, 403)
         self.assertEqual(response.data['error'], 'Not enough privileges')
-
 
     def test_fail_edit_because_invalid_data(self):
         self.client.credentials(HTTP_AUTHORIZATION='Token ' + self.token_3)
@@ -356,19 +360,18 @@ class PengumumanApiTest(TestCase):
         invalid_data = self.valid_data
         invalid_data['nama_mata_kuliah'] = invalid_nama_mata_kuliah
 
-        response = self.client.post('/api/pengumuman/{}/edit/'.format(self.pengumuman_pk), \
-            data=urlencode(MultiValueDict((invalid_data))), \
-            content_type='application/x-www-form-urlencoded')
+        response = self.client.post('/api/pengumuman/{}/edit/'.format(self.pengumuman_pk),
+                                    data=urlencode(MultiValueDict((invalid_data))),
+                                    content_type='application/x-www-form-urlencoded')
 
         self.assertEqual(response.status_code, 400)
         self.assertEqual(response.data['error'], 'Invalid data')
 
-
     def test_success_edit_admin_non_creator(self):
         self.client.credentials(HTTP_AUTHORIZATION='Token ' + self.token_2)
-        response = self.client.post('/api/pengumuman/{}/edit/'.format(self.pengumuman_pk), \
-            data=urlencode(MultiValueDict((self.valid_data))), \
-            content_type='application/x-www-form-urlencoded')
+        response = self.client.post('/api/pengumuman/{}/edit/'.format(self.pengumuman_pk),
+                                    data=urlencode(MultiValueDict(self.valid_data)),
+                                    content_type='application/x-www-form-urlencoded')
 
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.data['pengumuman']['tanggal_kelas'],
@@ -382,9 +385,9 @@ class PengumumanApiTest(TestCase):
 
     def test_success_edit_pengumuman_creator(self):
         self.client.credentials(HTTP_AUTHORIZATION='Token ' + self.token_3)
-        response = self.client.post('/api/pengumuman/{}/edit/'.format(self.pengumuman_pk), \
-            data=urlencode(MultiValueDict((self.valid_data))), \
-            content_type='application/x-www-form-urlencoded')
+        response = self.client.post('/api/pengumuman/{}/edit/'.format(self.pengumuman_pk),
+                                    data=urlencode(MultiValueDict(self.valid_data)),
+                                    content_type='application/x-www-form-urlencoded')
 
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.data['pengumuman']['tanggal_kelas'],
