@@ -1,6 +1,9 @@
+from datetime import datetime
 from django.contrib.auth import authenticate
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
+from django.core.exceptions import ObjectDoesNotExist
+from django.forms.models import model_to_dict
 from rest_framework.authtoken.models import Token
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import AllowAny
@@ -8,11 +11,12 @@ from rest_framework.response import Response
 from rest_framework.status import (
     HTTP_400_BAD_REQUEST,
     HTTP_404_NOT_FOUND,
-    HTTP_200_OK
+    HTTP_200_OK,
+    HTTP_403_FORBIDDEN,
+    HTTP_401_UNAUTHORIZED
 )
-
-
-# Create your views here.
+from  .models import User, Pengumuman, MataKuliah, JenisPengumuman, \
+    Ruang, Sesi, StatusPengumuman
 
 
 @api_view(["GET"])
@@ -46,3 +50,31 @@ def login(request):
     token, _ = Token.objects.get_or_create(user=user)
     return Response({'token': token.key, 'role': user.user_type},
                     status=HTTP_200_OK)
+
+
+@csrf_exempt
+@api_view(["POST"])
+def edit_pengumuman(request, key):
+    pengumuman = Pengumuman.objects.get(pk=key)
+
+    pengumuman.nama_dosen = request.data.get('nama_dosen')
+    pengumuman.nama_asisten = request.data.get('nama_asisten')
+    pengumuman.komentar = request.data.get('komentar')
+    pengumuman.tanggal_kelas = datetime.strptime(request.data.get('tanggal_kelas'), \
+        '%Y-%m-%d')
+    pengumuman.nama_mata_kuliah = \
+        MataKuliah.objects.get(nama=request.data.get('nama_mata_kuliah'))
+    pengumuman.jenis_pengumuman = \
+        JenisPengumuman.objects.get(nama=request.data.get('jenis_pengumuman'))
+
+    pengumuman.nama_ruang = Ruang.objects.get(nama=request.data.get('nama_ruang'))
+    pengumuman.nama_sesi = Sesi.objects.get(nama=request.data.get('nama_sesi'))
+    pengumuman.nama_status_pengumuman = \
+        StatusPengumuman.objects.get(nama=request.data.get('nama_status_pengumuman'))
+
+    pengumuman.save()
+
+    return Response({
+        "success": True,
+        "pengumuman": model_to_dict(pengumuman)
+    }, status=HTTP_200_OK)
