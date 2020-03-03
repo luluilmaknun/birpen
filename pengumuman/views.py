@@ -41,11 +41,11 @@ def login(request):
     username = request.data.get("username")
     password = request.data.get("password")
     if username is None or password is None:
-        return Response({'error': 'Please provide both username and password'},
+        return Response({'detail': 'Please provide both username and password'},
                         status=HTTP_400_BAD_REQUEST)
     user = authenticate(username=username, password=password)
     if not user:
-        return Response({'error': 'Invalid Credentials'},
+        return Response({'detail': 'Invalid Credentials'},
                         status=HTTP_404_NOT_FOUND)
     token, _ = Token.objects.get_or_create(user=user)
     return Response({'token': token.key, 'role': user.user_type},
@@ -60,12 +60,12 @@ def edit_pengumuman(request, key):
         pengumuman = Pengumuman.objects.get(pk=key)
     except Pengumuman.DoesNotExist:
         return Response({
-            'error': 'Pengumuman does not exist'
+            'detail': 'Pengumuman does not exist.'
         }, status=HTTP_400_BAD_REQUEST)
 
     if request.user.user_type != User.ADMIN and pengumuman.pembuat != request.user:
         return Response({
-            'error': 'Not enough privileges'
+            'detail': 'Not enough privileges.'
         }, status=HTTP_403_FORBIDDEN)
 
     pengumuman.nama_dosen = request.data.get('nama_dosen')
@@ -85,7 +85,7 @@ def edit_pengumuman(request, key):
             StatusPengumuman.objects.get(nama=request.data.get('nama_status_pengumuman'))
     except (ObjectDoesNotExist, ValueError, TypeError):
         return Response({
-            'error': 'Invalid data'
+            'detail': 'Invalid data.'
         }, status=HTTP_400_BAD_REQUEST)
 
     pengumuman.save()
