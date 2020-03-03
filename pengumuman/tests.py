@@ -324,7 +324,7 @@ class PengumumanApiTest(TestCase):
                                     content_type='application/x-www-form-urlencoded')
 
         self.assertEqual(response.status_code, 401)
-        self.assertEqual(response.data['error'], 'Authorization header not found')
+        self.assertEqual(response.data['detail'], 'Authentication credentials were not provided.')
 
     def test_fail_edit_with_invalid_token(self):
         self.client.credentials(HTTP_AUTHORIZATION='Token invalid_token')
@@ -333,7 +333,7 @@ class PengumumanApiTest(TestCase):
                                     content_type='application/x-www-form-urlencoded')
 
         self.assertEqual(response.status_code, 401)
-        self.assertEqual(response.data['error'], 'Invalid token')
+        self.assertEqual(str(response.data['detail']), 'Invalid token.')
 
     def test_fail_edit_because_pengumuman_doesnt_exist(self):
         self.client.credentials(HTTP_AUTHORIZATION='Token ' + self.token_1)
@@ -342,7 +342,7 @@ class PengumumanApiTest(TestCase):
                                     content_type='application/x-www-form-urlencoded')
 
         self.assertEqual(response.status_code, 400)
-        self.assertEqual(response.data['error'], 'Pengumuman does not exist')
+        self.assertEqual(response.data['detail'], 'Pengumuman does not exist.')
 
     def test_fail_edit_because_not_enough_privileges(self):
         self.client.credentials(HTTP_AUTHORIZATION='Token ' + self.token_1)
@@ -351,7 +351,7 @@ class PengumumanApiTest(TestCase):
                                     content_type='application/x-www-form-urlencoded')
 
         self.assertEqual(response.status_code, 403)
-        self.assertEqual(response.data['error'], 'Not enough privileges')
+        self.assertEqual(response.data['detail'], 'Not enough privileges.')
 
     def test_fail_edit_because_invalid_data(self):
         self.client.credentials(HTTP_AUTHORIZATION='Token ' + self.token_3)
@@ -365,7 +365,7 @@ class PengumumanApiTest(TestCase):
                                     content_type='application/x-www-form-urlencoded')
 
         self.assertEqual(response.status_code, 400)
-        self.assertEqual(response.data['error'], 'Invalid data')
+        self.assertEqual(response.data['detail'], 'Invalid data.')
 
     def test_success_edit_admin_non_creator(self):
         self.client.credentials(HTTP_AUTHORIZATION='Token ' + self.token_2)
