@@ -6,7 +6,7 @@ from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.authtoken.models import Token
 from rest_framework.decorators import api_view, permission_classes
-from rest_framework.permissions import AllowAny
+from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.status import (
     HTTP_400_BAD_REQUEST,
@@ -54,21 +54,8 @@ def login(request):
 
 @csrf_exempt
 @api_view(["POST"])
+@permission_classes((IsAuthenticated,))
 def edit_pengumuman(request, key):
-    try:
-        token = request.headers.get('Authorization').split()[1]
-    except AttributeError:
-        return Response({
-            'error': 'Authorization header not found'
-        }, status=HTTP_401_UNAUTHORIZED)
-
-    try:
-        user = Token.objects.get(key=token).user
-    except Token.DoesNotExist:
-        return Response({
-            'error': 'Invalid token'
-        }, status=HTTP_401_UNAUTHORIZED)
-
     try:
         pengumuman = Pengumuman.objects.get(pk=key)
     except Pengumuman.DoesNotExist:
@@ -76,7 +63,7 @@ def edit_pengumuman(request, key):
             'error': 'Pengumuman does not exist'
         }, status=HTTP_400_BAD_REQUEST)
 
-    if user.user_type != User.ADMIN and pengumuman.pembuat != user:
+    if request.user.user_type != User.ADMIN and pengumuman.pembuat != request.user:
         return Response({
             'error': 'Not enough privileges'
         }, status=HTTP_403_FORBIDDEN)
