@@ -1,21 +1,37 @@
 <template>
   <div id="app">
-    <h1>Hello World</h1>
-    <div id="nav">
-     <router-link :to="{ name: 'home' }">Vue</router-link> |
-     <router-link :to="{ name: 'messages' }">Django Rest</router-link>
-    </div>
-    <router-view/>
+    <Navigate-Bar></Navigate-Bar>
+    <router-view class="page-container"></router-view>
   </div>
 </template>
 
+<script>
+import Navigation from './components/Navigation';
+export default {
+  components: {
+    'NavigateBar': Navigation,
+  },
+};
+</script>
+
 <style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+@import url('https://fonts.googleapis.com/css?family=Montserrat&display=swap');
+
+* {
+  margin: 0 auto;
+  -webkit-transition: 0.25s;
+  -moz-transition: 0.25s;
+  -o-transition: 0.25s;
+  transition: 0.25s;
+  font-family: 'Montserrat'
+}
+
+.page-container {
+  display:flex;
+  flex-direction: column;
+  align-items: center;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+  /* color: #2c3e50; */
 }
 </style>
