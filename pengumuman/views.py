@@ -63,7 +63,12 @@ def edit_pengumuman(request, key):
             'error': 'Authorization header not found'
         }, status=HTTP_401_UNAUTHORIZED)
 
-    user = Token.objects.get(key=token).user
+    try:
+        user = Token.objects.get(key=token).user
+    except Token.DoesNotExist:
+        return Response({
+            'error': 'Invalid token'
+        }, status=HTTP_401_UNAUTHORIZED)
 
     try:
         pengumuman = Pengumuman.objects.get(pk=key)
