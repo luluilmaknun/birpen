@@ -20,7 +20,7 @@
             ref="buatAkun-button" :to="{ name: 'buat akun' }">
             Buat Akun
             </router-link>
-            <router-link class="nav-elem-login"
+            <router-link class="nav-elem" id="login-button"
             ref="login" :to="{ name: 'login' }">
             Login
             </router-link>
@@ -34,10 +34,12 @@ export default {
     return {};
   },
 };
+
 </script>
 
 
 <style>
+
 h2 {
     font-size: 26pt;
     color: white;
@@ -54,6 +56,7 @@ h2 {
     align-items: center;
     justify-content: center;
     background-color: black;
+    flex-wrap: wrap;
 }
 
 .nav-spreader {
@@ -75,20 +78,19 @@ h2 {
     color: black;
 }
 
-.nav-elem-login {
+#login-button {
+    color:black;
+    background-color: yellow;
+    border-radius: 100px;
     padding-left: 15px;
     padding-right: 15px;
     padding-top: 5px;
     padding-bottom: 5px;
-    text-decoration: none;
-    margin-left: 10px;
-    margin-right: 10px;
     font-size: 20pt;
-    color: black;
-    background: yellow;
-    border-color: yellow;
-    border-width: 10px;
-    border-radius: 50px;
+}
+
+#login-button:hover {
+    background-color: white;
 }
 
 .nav-elem-login:hover {
