@@ -2,7 +2,6 @@ from datetime import datetime
 
 from django.contrib.auth import authenticate
 from django.core.exceptions import ObjectDoesNotExist
-from django.forms.models import model_to_dict
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.authtoken.models import Token
@@ -17,6 +16,7 @@ from rest_framework.status import (
     HTTP_401_UNAUTHORIZED
 )
 
+from .serializers import PengumumanSerializer
 from .models import User, Pengumuman, MataKuliah, JenisPengumuman, \
     Ruang, Sesi, StatusPengumuman
 
@@ -105,5 +105,5 @@ def edit_pengumuman(request, key):
 
     return Response({
         "success": True,
-        "pengumuman": model_to_dict(pengumuman)
+        "pengumuman": PengumumanSerializer(pengumuman).data
     }, status=HTTP_200_OK)
