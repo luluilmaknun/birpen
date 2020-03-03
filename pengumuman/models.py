@@ -59,11 +59,16 @@ class Pengumuman(SafeDeleteModel):
 
 
 class User(AbstractUser):
+    MAHASISWA = 1
+    ASDOS = 2
+    DOSEN = 3
+    ADMIN = 4
+
     USER_TYPE_CHOICES = (
-        (1, 'mahasiswa'),
-        (2, 'asdos'),
-        (3, 'dosen'),
-        (4, 'admin'),
+        (MAHASISWA, 'mahasiswa'),
+        (ASDOS, 'asdos'),
+        (DOSEN, 'dosen'),
+        (ADMIN, 'admin'),
     )
     name = models.CharField(max_length=50)
     npm = models.CharField(max_length=10)

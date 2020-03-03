@@ -10,7 +10,8 @@ from django.db import IntegrityError
 from rest_framework.test import APIClient
 
 from pengumuman.apps import PengumumanConfig
-from .models import MataKuliah, JenisPengumuman, Ruang, Sesi, StatusPengumuman, Pengumuman
+from .models import MataKuliah, JenisPengumuman, Ruang, Sesi, StatusPengumuman, Pengumuman, \
+    User
 
 
 class LandingPageConfigTest(TestCase):
@@ -34,16 +35,16 @@ class LoginTest(TestCase):
         user = get_user_model()
         user.objects.create_user(username='yusuf.tri',
                                  name='yusuf tri a.', npm='1701837382',
-                                 password='mahasiswa', user_type=1)
+                                 password='mahasiswa', user_type=User.MAHASISWA)
         user.objects.create_user(username='athallah.annafis',
                                  name='athallah annafis.', npm='1706492028',
-                                 password='asdos', user_type=2)
+                                 password='asdos', user_type=User.ASDOS)
         user.objects.create_user(username='ahmad.fauzan',
                                  name='ahmad fauzan dst.', npm='1102939504',
-                                 password='dosen', user_type=3)
+                                 password='dosen', user_type=User.DOSEN)
         user.objects.create_user(username='julia.ningrum',
                                  name='julia ningrum', npm='1204893059',
-                                 password='admin', user_type=4)
+                                 password='admin', user_type=User.ADMIN)
 
     def test_login_as_mhs(self):
         client = APIClient()
