@@ -85,17 +85,22 @@ def edit_pengumuman(request, key):
     pengumuman.nama_dosen = request.data.get('nama_dosen')
     pengumuman.nama_asisten = request.data.get('nama_asisten')
     pengumuman.komentar = request.data.get('komentar')
-    pengumuman.tanggal_kelas = datetime.strptime(request.data.get('tanggal_kelas'), \
-        '%Y-%m-%d')
-    pengumuman.nama_mata_kuliah = \
-        MataKuliah.objects.get(nama=request.data.get('nama_mata_kuliah'))
-    pengumuman.jenis_pengumuman = \
-        JenisPengumuman.objects.get(nama=request.data.get('jenis_pengumuman'))
 
-    pengumuman.nama_ruang = Ruang.objects.get(nama=request.data.get('nama_ruang'))
-    pengumuman.nama_sesi = Sesi.objects.get(nama=request.data.get('nama_sesi'))
-    pengumuman.nama_status_pengumuman = \
-        StatusPengumuman.objects.get(nama=request.data.get('nama_status_pengumuman'))
+    try:
+        pengumuman.tanggal_kelas = datetime.strptime(request.data.get('tanggal_kelas'), \
+            '%Y-%m-%d')
+        pengumuman.nama_mata_kuliah = \
+            MataKuliah.objects.get(nama=request.data.get('nama_mata_kuliah'))
+        pengumuman.jenis_pengumuman = \
+            JenisPengumuman.objects.get(nama=request.data.get('jenis_pengumuman'))
+        pengumuman.nama_ruang = Ruang.objects.get(nama=request.data.get('nama_ruang'))
+        pengumuman.nama_sesi = Sesi.objects.get(nama=request.data.get('nama_sesi'))
+        pengumuman.nama_status_pengumuman = \
+            StatusPengumuman.objects.get(nama=request.data.get('nama_status_pengumuman'))
+    except (ObjectDoesNotExist, ValueError, TypeError):
+        return Response({
+            'error': 'Invalid data'
+        }, status=HTTP_400_BAD_REQUEST)
 
     pengumuman.save()
 
