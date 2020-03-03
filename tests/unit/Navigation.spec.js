@@ -1,8 +1,9 @@
-import {mount} from '@vue/test-utils';
-import Navbase from '../../src/components/Navigation.vue';
+import {shallowMount} from '@vue/test-utils';
+import Navigation from '@/components/Navigation.vue';
 
 describe('Tes base navbar', () => {
-  const wrapper = mount(Navbase);
+  const wrapper = shallowMount(Navigation);
+
   it('apakah base navbar ada tombol Buat akun', () => {
     const button = wrapper.find({ref: 'buatAkun-button'});
     expect(button.exists()).toBe(true);
