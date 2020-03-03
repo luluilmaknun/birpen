@@ -1,3 +1,6 @@
+import json
+from datetime import datetime, timedelta
+
 from django.apps import apps
 from django.contrib.auth import get_user_model
 from django.test import TestCase
@@ -7,11 +10,14 @@ from django.utils.http import urlencode
 
 from django.db import IntegrityError
 
-from rest_framework.test import APIClient
+from rest_framework.test import APIClient, APIRequestFactory
 
 from pengumuman.apps import PengumumanConfig
-from .models import MataKuliah, JenisPengumuman, Ruang, Sesi, StatusPengumuman, Pengumuman
+from .models import MataKuliah, JenisPengumuman, Ruang, Sesi, StatusPengumuman, Pengumuman, User
 
+from rest_framework.test import force_authenticate
+
+from .views import get_pengumuman_default
 
 class LandingPageConfigTest(TestCase):
     def test_apps(self):
@@ -44,8 +50,6 @@ class login_test(TestCase):
         user.objects.create_user(username='julia.ningrum',
                                  name='julia ningrum', npm='1204893059',
                                  password='admin', user_type=4)
-
-
 
     def test_login_as_mhs(self):
         client = APIClient()
@@ -87,7 +91,6 @@ class login_test(TestCase):
                                content_type='application/x-www-form-urlencoded')
         self.assertEqual(response.status_code, 400)
 
-
     def test_post_login_invalid(self):
         client = APIClient()
         response = client.post('/api/pengumuman/login',
@@ -101,6 +104,7 @@ class login_test(TestCase):
         response = client.get('/api/pengumuman/login')
         print(response)
         self.assertIn("Login Dummy", response.content.decode("utf8"))
+
 class MataKuliahModelTest(TestCase):
     def test_model_can_create(self):
         MataKuliah.objects.create(nama='PPL')
@@ -108,11 +112,9 @@ class MataKuliahModelTest(TestCase):
         count = MataKuliah.objects.all().count()
         self.assertEqual(count, 1)
 
-
     def test_model_not_create_with_invalid_data(self):
         with self.assertRaises(IntegrityError):
             MataKuliah.objects.create(nama=None)
-
 
     def test_soft_delete(self):
         MataKuliah.objects.create(nama='PPL')
@@ -133,11 +135,9 @@ class JenisPengumumanModelTest(TestCase):
         count = JenisPengumuman.objects.all().count()
         self.assertEqual(count, 1)
 
-
     def test_model_not_create_with_invalid_data(self):
         with self.assertRaises(IntegrityError):
             JenisPengumuman.objects.create(nama=None)
-
 
     def test_soft_delete(self):
         JenisPengumuman.objects.create(nama='PPL')
@@ -158,11 +158,9 @@ class RuangModelTest(TestCase):
         count = Ruang.objects.all().count()
         self.assertEqual(count, 1)
 
-
     def test_model_not_create_with_invalid_data(self):
         with self.assertRaises(IntegrityError):
             Ruang.objects.create(nama=None)
-
 
     def test_soft_delete(self):
         Ruang.objects.create(nama='PPL')
@@ -183,11 +181,9 @@ class SesiModelTest(TestCase):
         count = Sesi.objects.all().count()
         self.assertEqual(count, 1)
 
-
     def test_model_not_create_with_invalid_data(self):
         with self.assertRaises(IntegrityError):
             Sesi.objects.create(nama=None)
-
 
     def test_soft_delete(self):
         Sesi.objects.create(nama='PPL')
@@ -208,11 +204,9 @@ class StatusPengumumanModelTest(TestCase):
         count = StatusPengumuman.objects.all().count()
         self.assertEqual(count, 1)
 
-
     def test_model_not_create_with_invalid_data(self):
         with self.assertRaises(IntegrityError):
             StatusPengumuman.objects.create(nama=None)
-
 
     def test_soft_delete(self):
         StatusPengumuman.objects.create(nama='PPL')
@@ -236,18 +230,16 @@ class PengumumanModelTest(TestCase):
         status_pengumuman = StatusPengumuman.objects.create(nama="Ditunda")
 
         Pengumuman.objects.create(tanggal_kelas=tanggal_kelas, nama_pembuat="Jaraka", \
-            nama_mata_kuliah=mata_kuliah, jenis_pengumuman=jenis_pengumuman, \
-            nama_dosen="Dosen S.kom", nama_asisten="Asistenku", nama_ruang=ruang, \
-            nama_sesi=sesi, nama_status_pengumuman=status_pengumuman, komentar="")
+                                  nama_mata_kuliah=mata_kuliah, jenis_pengumuman=jenis_pengumuman, \
+                                  nama_dosen="Dosen S.kom", nama_asisten="Asistenku", nama_ruang=ruang, \
+                                  nama_sesi=sesi, nama_status_pengumuman=status_pengumuman, komentar="")
 
         count = Pengumuman.objects.all().count()
         self.assertEqual(count, 1)
 
-
     def test_model_not_create_with_invalid_data(self):
         with self.assertRaises(IntegrityError):
             Pengumuman.objects.create(nama_pembuat=None)
-
 
     def test_soft_delete(self):
         tanggal_kelas = "2016-11-16T22:31:18.130822+00:00"
@@ -258,9 +250,9 @@ class PengumumanModelTest(TestCase):
         status_pengumuman = StatusPengumuman.objects.create(nama="Ditunda")
 
         Pengumuman.objects.create(tanggal_kelas=tanggal_kelas, nama_pembuat="Jaraka", \
-            nama_mata_kuliah=mata_kuliah, jenis_pengumuman=jenis_pengumuman, \
-            nama_dosen="Dosen S.kom", nama_asisten="Asistenku", nama_ruang=ruang, \
-            nama_sesi=sesi, nama_status_pengumuman=status_pengumuman, komentar="")
+                                  nama_mata_kuliah=mata_kuliah, jenis_pengumuman=jenis_pengumuman, \
+                                  nama_dosen="Dosen S.kom", nama_asisten="Asistenku", nama_ruang=ruang, \
+                                  nama_sesi=sesi, nama_status_pengumuman=status_pengumuman, komentar="")
         count = Pengumuman.objects.all().count()
         self.assertEqual(count, 1)
 
@@ -269,3 +261,71 @@ class PengumumanModelTest(TestCase):
         count_with_soft_deleted = Pengumuman.all_objects.all().count()
         self.assertEqual(count_without_soft_deleted, 0)
         self.assertEqual(count_with_soft_deleted, 1)
+
+
+class lihat_pengumuman_api_test(TestCase):
+    def setUp(self):
+        user = get_user_model()
+        user.objects.create_user(username='yusuf.tri',
+                                 name='yusuf tri a.', npm='1701837382',
+                                 password='mahasiswa', user_type=1)
+        user.objects.create_user(username='julia.ningrum',
+                                 name='julia ningrum', npm='1204893059',
+                                 password='admin', user_type=4)
+        tanggal_kelas = datetime.now()
+        mata_kuliah = MataKuliah.objects.create(nama="Alin")
+        jenis_pengumuman = JenisPengumuman.objects.create(nama="Asistensi")
+        ruang = Ruang.objects.create(nama="3111")
+        sesi = Sesi.objects.create(nama="16.00 - 17.40")
+        status_pengumuman = StatusPengumuman.objects.create(nama="Ditunda")
+
+        Pengumuman.objects.create(tanggal_kelas=tanggal_kelas, nama_pembuat="Jaraka",
+                                  nama_mata_kuliah=mata_kuliah, jenis_pengumuman=jenis_pengumuman,
+                                  nama_dosen="Dosen S.kom", nama_asisten="Asistenku", nama_ruang=ruang,
+                                  nama_sesi=sesi, nama_status_pengumuman=status_pengumuman, komentar="")
+
+        Pengumuman.objects.create(tanggal_kelas=tanggal_kelas, nama_pembuat="Fauzan",
+                                  nama_mata_kuliah=mata_kuliah, jenis_pengumuman=jenis_pengumuman,
+                                  nama_dosen="Dosen S.Kom", nama_asisten="Asistennya", nama_ruang=ruang,
+                                  nama_sesi=sesi, nama_status_pengumuman=status_pengumuman, komentar="")
+
+        Pengumuman.objects.create(tanggal_kelas=tanggal_kelas+timedelta(days=1), nama_pembuat="admin",
+                                  nama_mata_kuliah=mata_kuliah, jenis_pengumuman=jenis_pengumuman,
+                                  nama_dosen="Dosen S.Si", nama_asisten="asdos", nama_ruang=ruang,
+                                  nama_sesi=sesi, nama_status_pengumuman=status_pengumuman, komentar="")
+
+        Pengumuman.objects.filter(nama_pembuat="Fauzan").delete()
+
+    def test_request_without_authentication(self):
+        client = APIClient()
+        response = client.get('/api/pengumuman/get-pengumuman')
+
+        self.assertEqual(response.status_code, 401)
+
+    def test_request_not_admin(self):
+        factory = APIRequestFactory()
+        user = User.objects.get(username='yusuf.tri')
+        view = get_pengumuman_default
+
+        # Make an authenticated request to the view...
+        request = factory.get('/api/pengumuman/get-pengumuman')
+        force_authenticate(request, user=user)
+        response = view(request)
+        data_today = json.loads(response.data["pengumuman_today"])
+        self.assertEqual(len(data_today), 1)
+        data_tomo = json.loads(response.data["pengumuman_tomo"])
+        self.assertEqual(len(data_tomo), 1)
+
+    def test_request_as_admin(self):
+        factory = APIRequestFactory()
+        user = User.objects.get(username='julia.ningrum')
+        view = get_pengumuman_default
+
+        # Make an authenticated request to the view...
+        request = factory.get('/api/pengumuman/get-pengumuman')
+        force_authenticate(request, user=user)
+        response = view(request)
+        data_today = json.loads(response.data["pengumuman_today"])
+        self.assertEqual(len(data_today), 2)
+        data_tomo = json.loads(response.data["pengumuman_tomo"])
+        self.assertEqual(len(data_tomo), 1)
