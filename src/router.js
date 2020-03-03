@@ -17,5 +17,20 @@ export default new Router({
       name: 'messages',
       component: Messages,
     },
+    {
+      path: '/surat',
+      name: 'surat',
+      component: null,
+    },
+    {
+      path: '/pengumuman',
+      name: 'pengumuman',
+      component: null,
+    },
+    {
+      path: '/login',
+      name: 'login',
+      component: null,
+    },
   ],
 });

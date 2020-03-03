@@ -9,19 +9,19 @@
 
         <div class="nav-elem-container-right">
             <router-link class="nav-elem"
-            ref="surat-button" :to="{ name:'messages' }">
+            ref="surat-button" :to="{ name: 'surat' }">
             Surat
             </router-link>
             <router-link class="nav-elem"
-            ref="pengumuman-button" :to="{ name:'messages' }">
+            ref="pengumuman-button" :to="{ name: 'pengumuman' }">
             Pengumuman
             </router-link>
             <router-link class="nav-elem"
-            ref="buatAkun-button" :to="{ name:'messages' }">
+            ref="buatAkun-button" :to="{ name: 'buat akun' }">
             Buat Akun
             </router-link>
             <router-link class="nav-elem-login"
-            ref="login" :to="{ name:'messages' }">
+            ref="login" :to="{ name: 'login' }">
             Login
             </router-link>
         </div>
@@ -30,7 +30,6 @@
 
 <script>
 export default {
-  components: 'Navigation',
   data() {
     return {};
   },
