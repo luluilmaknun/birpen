@@ -29,7 +29,7 @@ class LandingPageApiTest(TestCase):
         self.assertEqual(response.data['result']['message'], "pengumuman placeholder message")
 
 
-class login_test(TestCase):
+class LoginTest(TestCase):
     def setUp(self):
         user = get_user_model()
         user.objects.create_user(username='yusuf.tri',
@@ -44,8 +44,6 @@ class login_test(TestCase):
         user.objects.create_user(username='julia.ningrum',
                                  name='julia ningrum', npm='1204893059',
                                  password='admin', user_type=4)
-
-
 
     def test_login_as_mhs(self):
         client = APIClient()
@@ -87,7 +85,6 @@ class login_test(TestCase):
                                content_type='application/x-www-form-urlencoded')
         self.assertEqual(response.status_code, 400)
 
-
     def test_post_login_invalid(self):
         client = APIClient()
         response = client.post('/api/pengumuman/login',
@@ -101,6 +98,8 @@ class login_test(TestCase):
         response = client.get('/api/pengumuman/login')
         print(response)
         self.assertIn("Login Dummy", response.content.decode("utf8"))
+
+
 class MataKuliahModelTest(TestCase):
     def test_model_can_create(self):
         MataKuliah.objects.create(nama='PPL')
@@ -108,11 +107,9 @@ class MataKuliahModelTest(TestCase):
         count = MataKuliah.objects.all().count()
         self.assertEqual(count, 1)
 
-
     def test_model_not_create_with_invalid_data(self):
         with self.assertRaises(IntegrityError):
             MataKuliah.objects.create(nama=None)
-
 
     def test_soft_delete(self):
         MataKuliah.objects.create(nama='PPL')
@@ -133,11 +130,9 @@ class JenisPengumumanModelTest(TestCase):
         count = JenisPengumuman.objects.all().count()
         self.assertEqual(count, 1)
 
-
     def test_model_not_create_with_invalid_data(self):
         with self.assertRaises(IntegrityError):
             JenisPengumuman.objects.create(nama=None)
-
 
     def test_soft_delete(self):
         JenisPengumuman.objects.create(nama='PPL')
@@ -158,11 +153,9 @@ class RuangModelTest(TestCase):
         count = Ruang.objects.all().count()
         self.assertEqual(count, 1)
 
-
     def test_model_not_create_with_invalid_data(self):
         with self.assertRaises(IntegrityError):
             Ruang.objects.create(nama=None)
-
 
     def test_soft_delete(self):
         Ruang.objects.create(nama='PPL')
@@ -183,11 +176,9 @@ class SesiModelTest(TestCase):
         count = Sesi.objects.all().count()
         self.assertEqual(count, 1)
 
-
     def test_model_not_create_with_invalid_data(self):
         with self.assertRaises(IntegrityError):
             Sesi.objects.create(nama=None)
-
 
     def test_soft_delete(self):
         Sesi.objects.create(nama='PPL')
@@ -208,11 +199,9 @@ class StatusPengumumanModelTest(TestCase):
         count = StatusPengumuman.objects.all().count()
         self.assertEqual(count, 1)
 
-
     def test_model_not_create_with_invalid_data(self):
         with self.assertRaises(IntegrityError):
             StatusPengumuman.objects.create(nama=None)
-
 
     def test_soft_delete(self):
         StatusPengumuman.objects.create(nama='PPL')
@@ -235,19 +224,17 @@ class PengumumanModelTest(TestCase):
         sesi = Sesi.objects.create(nama="16.00 - 17.40")
         status_pengumuman = StatusPengumuman.objects.create(nama="Ditunda")
 
-        Pengumuman.objects.create(tanggal_kelas=tanggal_kelas, nama_pembuat="Jaraka", \
-            nama_mata_kuliah=mata_kuliah, jenis_pengumuman=jenis_pengumuman, \
-            nama_dosen="Dosen S.kom", nama_asisten="Asistenku", nama_ruang=ruang, \
-            nama_sesi=sesi, nama_status_pengumuman=status_pengumuman, komentar="")
+        Pengumuman.objects.create(tanggal_kelas=tanggal_kelas, nama_pembuat="Jaraka",
+                                  nama_mata_kuliah=mata_kuliah, jenis_pengumuman=jenis_pengumuman,
+                                  nama_dosen="Dosen S.kom", nama_asisten="Asistenku", nama_ruang=ruang,
+                                  nama_sesi=sesi, nama_status_pengumuman=status_pengumuman, komentar="")
 
         count = Pengumuman.objects.all().count()
         self.assertEqual(count, 1)
 
-
     def test_model_not_create_with_invalid_data(self):
         with self.assertRaises(IntegrityError):
             Pengumuman.objects.create(nama_pembuat=None)
-
 
     def test_soft_delete(self):
         tanggal_kelas = "2016-11-16T22:31:18.130822+00:00"
@@ -257,10 +244,10 @@ class PengumumanModelTest(TestCase):
         sesi = Sesi.objects.create(nama="16.00 - 17.40")
         status_pengumuman = StatusPengumuman.objects.create(nama="Ditunda")
 
-        Pengumuman.objects.create(tanggal_kelas=tanggal_kelas, nama_pembuat="Jaraka", \
-            nama_mata_kuliah=mata_kuliah, jenis_pengumuman=jenis_pengumuman, \
-            nama_dosen="Dosen S.kom", nama_asisten="Asistenku", nama_ruang=ruang, \
-            nama_sesi=sesi, nama_status_pengumuman=status_pengumuman, komentar="")
+        Pengumuman.objects.create(tanggal_kelas=tanggal_kelas, nama_pembuat="Jaraka",
+                                  nama_mata_kuliah=mata_kuliah, jenis_pengumuman=jenis_pengumuman,
+                                  nama_dosen="Dosen S.kom", nama_asisten="Asistenku", nama_ruang=ruang,
+                                  nama_sesi=sesi, nama_status_pengumuman=status_pengumuman, komentar="")
         count = Pengumuman.objects.all().count()
         self.assertEqual(count, 1)
 
