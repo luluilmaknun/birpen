@@ -13,7 +13,6 @@ from rest_framework.status import (
     HTTP_404_NOT_FOUND,
     HTTP_200_OK,
     HTTP_403_FORBIDDEN,
-    HTTP_401_UNAUTHORIZED
 )
 
 from .serializers import PengumumanSerializer
