@@ -97,7 +97,6 @@ class LoginTest(TestCase):
     def test_login_form(self):
         client = APIClient()
         response = client.get('/api/pengumuman/login')
-        print(response)
         self.assertIn("Login Dummy", response.content.decode("utf8"))
 
 
