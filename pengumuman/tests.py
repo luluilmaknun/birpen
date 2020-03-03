@@ -31,7 +31,7 @@ class LandingPageApiTest(TestCase):
         self.assertEqual(response.data['result']['message'], "pengumuman placeholder message")
 
 
-class login_test(TestCase):
+class LoginTest(TestCase):
     def setUp(self):
         user = get_user_model()
         user.objects.create_user(username='yusuf.tri',
