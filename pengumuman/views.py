@@ -55,12 +55,21 @@ def login(request):
 @csrf_exempt
 @api_view(["POST"])
 def edit_pengumuman(request, key):
+
+    token = request.headers.get('Authorization').split()[1]
+    user = Token.objects.get(key=token).user
+
     try:
         pengumuman = Pengumuman.objects.get(pk=key)
     except Pengumuman.DoesNotExist:
         return Response({
             'error': 'Pengumuman does not exist'
         }, status=HTTP_400_BAD_REQUEST)
+
+    if user.user_type != User.ADMIN and pengumuman.pembuat != user:
+        return Response({
+            'error': 'Not enough privileges'
+        }, status=HTTP_403_FORBIDDEN)
 
     pengumuman.nama_dosen = request.data.get('nama_dosen')
     pengumuman.nama_asisten = request.data.get('nama_asisten')
