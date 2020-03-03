@@ -3,21 +3,17 @@ from datetime import datetime, timedelta
 
 from django.apps import apps
 from django.contrib.auth import get_user_model
+from django.db import IntegrityError
 from django.test import TestCase
-
 from django.utils.datastructures import MultiValueDict
 from django.utils.http import urlencode
-
-from django.db import IntegrityError
-
 from rest_framework.test import APIClient, APIRequestFactory
+from rest_framework.test import force_authenticate
 
 from pengumuman.apps import PengumumanConfig
 from .models import MataKuliah, JenisPengumuman, Ruang, Sesi, StatusPengumuman, Pengumuman, User
-
-from rest_framework.test import force_authenticate
-
 from .views import get_pengumuman_default
+
 
 class LandingPageConfigTest(TestCase):
     def test_apps(self):
@@ -229,10 +225,12 @@ class PengumumanModelTest(TestCase):
         sesi = Sesi.objects.create(nama="16.00 - 17.40")
         status_pengumuman = StatusPengumuman.objects.create(nama="Ditunda")
 
-        Pengumuman.objects.create(tanggal_kelas=tanggal_kelas, nama_pembuat="Jaraka", \
-                                  nama_mata_kuliah=mata_kuliah, jenis_pengumuman=jenis_pengumuman, \
-                                  nama_dosen="Dosen S.kom", nama_asisten="Asistenku", nama_ruang=ruang, \
-                                  nama_sesi=sesi, nama_status_pengumuman=status_pengumuman, komentar="")
+        Pengumuman.objects.create(tanggal_kelas=tanggal_kelas, nama_pembuat="Jaraka",
+                                  nama_mata_kuliah=mata_kuliah, jenis_pengumuman=jenis_pengumuman,
+                                  nama_dosen="Dosen S.kom",
+                                  nama_asisten="Asistenku", nama_ruang=ruang,
+                                  nama_sesi=sesi,
+                                  nama_status_pengumuman=status_pengumuman, komentar="")
 
         count = Pengumuman.objects.all().count()
         self.assertEqual(count, 1)
@@ -249,10 +247,12 @@ class PengumumanModelTest(TestCase):
         sesi = Sesi.objects.create(nama="16.00 - 17.40")
         status_pengumuman = StatusPengumuman.objects.create(nama="Ditunda")
 
-        Pengumuman.objects.create(tanggal_kelas=tanggal_kelas, nama_pembuat="Jaraka", \
-                                  nama_mata_kuliah=mata_kuliah, jenis_pengumuman=jenis_pengumuman, \
-                                  nama_dosen="Dosen S.kom", nama_asisten="Asistenku", nama_ruang=ruang, \
-                                  nama_sesi=sesi, nama_status_pengumuman=status_pengumuman, komentar="")
+        Pengumuman.objects.create(tanggal_kelas=tanggal_kelas, nama_pembuat="Jaraka",
+                                  nama_mata_kuliah=mata_kuliah, jenis_pengumuman=jenis_pengumuman,
+                                  nama_dosen="Dosen S.kom",
+                                  nama_asisten="Asistenku", nama_ruang=ruang,
+                                  nama_sesi=sesi,
+                                  nama_status_pengumuman=status_pengumuman, komentar="")
         count = Pengumuman.objects.all().count()
         self.assertEqual(count, 1)
 
@@ -281,18 +281,24 @@ class lihat_pengumuman_api_test(TestCase):
 
         Pengumuman.objects.create(tanggal_kelas=tanggal_kelas, nama_pembuat="Jaraka",
                                   nama_mata_kuliah=mata_kuliah, jenis_pengumuman=jenis_pengumuman,
-                                  nama_dosen="Dosen S.kom", nama_asisten="Asistenku", nama_ruang=ruang,
-                                  nama_sesi=sesi, nama_status_pengumuman=status_pengumuman, komentar="")
+                                  nama_dosen="Dosen S.kom",
+                                  nama_asisten="Asistenku", nama_ruang=ruang,
+                                  nama_sesi=sesi,
+                                  nama_status_pengumuman=status_pengumuman, komentar="")
 
         Pengumuman.objects.create(tanggal_kelas=tanggal_kelas, nama_pembuat="Fauzan",
                                   nama_mata_kuliah=mata_kuliah, jenis_pengumuman=jenis_pengumuman,
-                                  nama_dosen="Dosen S.Kom", nama_asisten="Asistennya", nama_ruang=ruang,
-                                  nama_sesi=sesi, nama_status_pengumuman=status_pengumuman, komentar="")
+                                  nama_dosen="Dosen S.Kom",
+                                  nama_asisten="Asistennya", nama_ruang=ruang,
+                                  nama_sesi=sesi,
+                                  nama_status_pengumuman=status_pengumuman, komentar="")
 
-        Pengumuman.objects.create(tanggal_kelas=tanggal_kelas+timedelta(days=1), nama_pembuat="admin",
+        Pengumuman.objects.create(tanggal_kelas=tanggal_kelas+timedelta(days=1),
+                                  nama_pembuat="admin",
                                   nama_mata_kuliah=mata_kuliah, jenis_pengumuman=jenis_pengumuman,
                                   nama_dosen="Dosen S.Si", nama_asisten="asdos", nama_ruang=ruang,
-                                  nama_sesi=sesi, nama_status_pengumuman=status_pengumuman, komentar="")
+                                  nama_sesi=sesi,
+                                  nama_status_pengumuman=status_pengumuman, komentar="")
 
         Pengumuman.objects.filter(nama_pembuat="Fauzan").delete()
 
