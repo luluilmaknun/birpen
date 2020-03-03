@@ -226,8 +226,9 @@ class PengumumanModelTest(TestCase):
 
         Pengumuman.objects.create(tanggal_kelas=tanggal_kelas, nama_pembuat="Jaraka",
                                   nama_mata_kuliah=mata_kuliah, jenis_pengumuman=jenis_pengumuman,
-                                  nama_dosen="Dosen S.kom", nama_asisten="Asistenku", nama_ruang=ruang,
-                                  nama_sesi=sesi, nama_status_pengumuman=status_pengumuman, komentar="")
+                                  nama_dosen="Dosen S.kom", nama_asisten="Asistenku",
+                                  nama_ruang=ruang, nama_sesi=sesi,
+                                  nama_status_pengumuman=status_pengumuman, komentar="")
 
         count = Pengumuman.objects.all().count()
         self.assertEqual(count, 1)
@@ -246,8 +247,9 @@ class PengumumanModelTest(TestCase):
 
         Pengumuman.objects.create(tanggal_kelas=tanggal_kelas, nama_pembuat="Jaraka",
                                   nama_mata_kuliah=mata_kuliah, jenis_pengumuman=jenis_pengumuman,
-                                  nama_dosen="Dosen S.kom", nama_asisten="Asistenku", nama_ruang=ruang,
-                                  nama_sesi=sesi, nama_status_pengumuman=status_pengumuman, komentar="")
+                                  nama_dosen="Dosen S.kom", nama_asisten="Asistenku",
+                                  nama_ruang=ruang, nama_sesi=sesi,
+                                  nama_status_pengumuman=status_pengumuman, komentar="")
         count = Pengumuman.objects.all().count()
         self.assertEqual(count, 1)
 
