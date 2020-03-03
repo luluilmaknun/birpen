@@ -56,7 +56,13 @@ def login(request):
 @api_view(["POST"])
 def edit_pengumuman(request, key):
 
-    token = request.headers.get('Authorization').split()[1]
+    try:
+        token = request.headers.get('Authorization').split()[1]
+    except AttributeError:
+        return Response({
+            'error': 'Authorization header not found'
+        }, status=HTTP_401_UNAUTHORIZED)
+
     user = Token.objects.get(key=token).user
 
     try:
