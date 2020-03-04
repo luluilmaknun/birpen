@@ -325,6 +325,18 @@ class FilterPengumumanTest(TestCase):
         data_date = list(response.data["pengumuman_response"])
         self.assertEqual(len(data_date), 2)
 
+    def test_invalid_date_format(self):
+        factory = APIRequestFactory()
+        user = User.objects.get(username='julia.ningrum')
+        view = filter_pengumuman
+
+        # Make an authenticated request to the view...
+        request = factory.get('/api/pengumuman/filter-pengumuman?tanggal=az-11-2016')
+        force_authenticate(request, user=user)
+        response = view(request)
+        self.assertEqual(response.status_code, 400)
+
+
 class PengumumanApiTest(TestCase):
     def setUp(self):
         user_1 = User.objects.create(username='athallah.annafis', name='Athallah Annafis',
