@@ -30,6 +30,11 @@ describe('Tes Buat Pengumuman page', () => {
     expect(wrapper.contains('input#nama_dosen')).toBe(true);
   });
 
+  it('punya elemen nama asisten', () => {
+    expect(wrapper.contains('input#nama_asisten')).toBe(false);
+    wrapper.setData({jenis_pengumuman: 'asistensi'});
+  });
+
   it('punya elemen nama ruang', () => {
     expect(wrapper.contains('select#nama_ruang')).toBe(true);
   });
