@@ -267,7 +267,7 @@ class PengumumanModelTest(TestCase):
         self.assertEqual(count_with_soft_deleted, 1)
 
 
-class lihat_pengumuman_api_test(TestCase):
+class LihatPengumumanTest(TestCase):
     def setUp(self):
         tanggal_kelas = datetime.now()
         mata_kuliah = MataKuliah.objects.create(nama="Alin")
