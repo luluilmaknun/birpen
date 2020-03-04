@@ -22,15 +22,5 @@ export default new Router({
       name: 'pengumuman',
       component: null,
     },
-    {
-      path: '/login',
-      name: 'login',
-      component: null,
-    },
-    {
-      path: '/buatakun',
-      name: 'buatakun',
-      component: null,
-    },
   ],
 });
