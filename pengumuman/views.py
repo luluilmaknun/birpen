@@ -130,3 +130,26 @@ def dropdown_pengumuman(request):
         response[key] = [_.nama for _ in all_obj]
 
     return Response(response)
+
+@csrf_exempt
+@api_view(["POST"])
+@permission_classes((IsAuthenticated,))
+def delete_pengumuman(request, key):
+    try:
+        pengumuman = Pengumuman.objects.get(pk=key)
+    except Pengumuman.DoesNotExist:
+        return Response({
+            'detail': 'Pengumuman does not exist.'
+        }, status=HTTP_400_BAD_REQUEST)
+
+    if pengumuman.pembuat != request.user:
+        return Response({
+            'detail': 'You are not the owner of the announcement.'
+        }, status=HTTP_403_FORBIDDEN)
+
+    pengumuman.delete()
+
+    return Response({
+        "success": True,
+        "pengumuman": PengumumanSerializer(pengumuman).data
+    }, status=HTTP_200_OK)
