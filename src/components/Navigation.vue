@@ -67,12 +67,10 @@ export default {
 }
 </script>
 
-
 <style>
 .nav-700px {
   display: none;
 }
-
 .nav-container {
   padding: 20px 20px;
   display: flex;
@@ -82,20 +80,16 @@ export default {
   background-color: black;
   flex-wrap: wrap;
 }
-
 h2 {
   font-size: 26pt;
   color: white;
 }
-
 .nav-elem-container-left {
   font-weight: bolder;
 }
-
 #nav-dropdown {
   display: none;
 }
-
 .nav-elem {
   padding:20px 20px;
   text-decoration: none;
@@ -105,12 +99,10 @@ h2 {
   font-size: 20pt;
   color: white;
 }
-
 .nav-elem:hover {
   background-color: white;
   color: black;
 }
-
 #login-button {
   color:black;
   background-color: yellow;
@@ -121,34 +113,28 @@ h2 {
   padding-bottom: 5px;
   font-size: 20pt;
 }
-
 #login-button:hover {
   background-color: white;
 }
-
 .dropdown-button {
   display: none;
 }
-
 @media only screen and (max-width:700px) {
   #dropdown-img {
     width: 10px;
     height: 10px;
   }
-
   .nav-700px {
     display: flex;
     flex-direction: column;
     align-items: center;
   }
-
   .toggle-dropdown {
     background: none;
     border-style: none;
     color: white;
     margin-top: 5px;
   }
-
   #desktop-nav {
     display: none;
   }
@@ -162,22 +148,18 @@ h2 {
     flex-direction: column;
     align-items: center;
   }
-
   .nav-elem {
     padding: 10px 10px;
     font-size: 10pt;
     margin-top: 5px;
     width: fit-content;
   }
-
   .nav-elem-container-left h2 {
     font-size: 15pt;
   }
-
   .dropdown-button {
     display: flex;
   }
-
   #login-button {
     padding-left: 10px;
     padding-right: 10px;
@@ -187,5 +169,4 @@ h2 {
     margin-top: 10px;
   }
 }
-
 </style>
