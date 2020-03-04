@@ -1,6 +1,7 @@
 from django.urls import path
 
-from .views import pengumuman_placeholder_views, login, edit_pengumuman, dropdown_pengumuman, filter_pengumuman
+from .views import pengumuman_placeholder_views, login, edit_pengumuman, dropdown_pengumuman, \
+    filter_pengumuman
 
 
 urlpatterns = [
