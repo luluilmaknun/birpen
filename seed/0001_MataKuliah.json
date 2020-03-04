@@ -1,0 +1,82 @@
+[
+    {
+        "model":"pengumuman.matakuliah",
+        "pk":1,
+        "fields":{
+            "deleted":null,
+            "nama":"Aljabar Linier"
+        }
+    },
+    {
+        "model":"pengumuman.matakuliah",
+        "pk":2,
+        "fields":{
+            "deleted":null,
+            "nama":"Analisis Numerik"
+        }
+    },
+    {
+        "model":"pengumuman.matakuliah",
+        "pk":3,
+        "fields":{
+            "deleted":null,
+            "nama":"Dasar Dasar Pemrograman"
+        }
+    },
+    {
+        "model":"pengumuman.matakuliah",
+        "pk":4,
+        "fields":{
+            "deleted":null,
+            "nama":"Proyek Perangkat Lunak"
+        }
+    },
+    {
+        "model":"pengumuman.matakuliah",
+        "pk":5,
+        "fields":{
+            "deleted":null,
+            "nama":"Struktur Data dan Algoritma"
+        }
+    },
+    {
+        "model":"pengumuman.matakuliah",
+        "pk":6,
+        "fields":{
+            "deleted":null,
+            "nama":"Perancangan dan Pemrograman Web"
+        }
+    },
+    {
+        "model":"pengumuman.matakuliah",
+        "pk":7,
+        "fields":{
+            "deleted":null,
+            "nama":"Pembelajaran Mesin"
+        }
+    },
+    {
+        "model":"pengumuman.matakuliah",
+        "pk":8,
+        "fields":{
+            "deleted":null,
+            "nama":"Penambangan Data"
+        }
+    },
+    {
+        "model":"pengumuman.matakuliah",
+        "pk":9,
+        "fields":{
+            "deleted":null,
+            "nama":"Basis Data"
+        }
+    },
+    {
+        "model":"pengumuman.matakuliah",
+        "pk":10,
+        "fields":{
+            "deleted":null,
+            "nama":"Sistem Cerdas"
+        }
+    }
+]
