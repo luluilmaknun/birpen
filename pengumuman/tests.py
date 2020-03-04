@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-import json
-=======
 from datetime import datetime
->>>>>>> 18a708b65e7cbabce3999fa95892ac1176cd0b56
 
 from django.apps import apps
 from django.contrib.auth import get_user_model
@@ -10,21 +6,15 @@ from django.db import IntegrityError
 from django.test import TestCase
 from django.utils.datastructures import MultiValueDict
 from django.utils.http import urlencode
-from rest_framework.test import APIClient, APIRequestFactory
-from rest_framework.test import force_authenticate
-
-from pengumuman.apps import PengumumanConfig
-from .models import MataKuliah, JenisPengumuman, Ruang, Sesi, StatusPengumuman, Pengumuman, User
-from .views import filter_pengumuman
-
-from django.db import IntegrityError
-
-from rest_framework.test import APIClient
 from rest_framework.authtoken.models import Token
+from rest_framework.test import APIClient
+from rest_framework.test import APIRequestFactory
+from rest_framework.test import force_authenticate
 
 from pengumuman.apps import PengumumanConfig
 from .models import MataKuliah, JenisPengumuman, Ruang, Sesi, StatusPengumuman, Pengumuman, \
     User
+from .views import filter_pengumuman
 
 
 class LandingPageConfigTest(TestCase):
@@ -277,37 +267,32 @@ class PengumumanModelTest(TestCase):
         self.assertEqual(count_with_soft_deleted, 1)
 
 
-class lihat_pengumuman_api_test(TestCase):
+class FilterPengumumanTest(TestCase):
     def setUp(self):
-        user = get_user_model()
-        user.objects.create_user(username='yusuf.tri',
-                                 name='yusuf tri a.', npm='1701837382',
-                                 password='mahasiswa', user_type=1)
-        user.objects.create_user(username='julia.ningrum',
-                                 name='julia ningrum', npm='1204893059',
-                                 password='admin', user_type=4)
-        tanggal_kelas = "2016-11-16T03:31:18.130822+00:00"
+        tanggal_kelas = "2016-11-16T07:00:18.130822+00:00"
         mata_kuliah = MataKuliah.objects.create(nama="Alin")
         jenis_pengumuman = JenisPengumuman.objects.create(nama="Asistensi")
         ruang = Ruang.objects.create(nama="3111")
         sesi = Sesi.objects.create(nama="16.00 - 17.40")
         status_pengumuman = StatusPengumuman.objects.create(nama="Ditunda")
-
-        Pengumuman.objects.create(tanggal_kelas=tanggal_kelas, nama_pembuat="Jaraka",
+        user = User.objects.create(username='julia.ningrum', name='julia ningrum',
+                                   npm='1204893059', password='admin', user_type=User.ADMIN)
+        User.objects.create(username='yusuf.tri',
+                            name='yusuf tri a.', npm='1701837382',
+                            password='mahasiswa', user_type=User.MAHASISWA)
+        Pengumuman.objects.create(tanggal_kelas=tanggal_kelas, pembuat=user,
                                   nama_mata_kuliah=mata_kuliah, jenis_pengumuman=jenis_pengumuman,
-                                  nama_dosen="Dosen S.kom",
-                                  nama_asisten="Asistenku", nama_ruang=ruang,
-                                  nama_sesi=sesi,
+                                  nama_dosen="Dosen S.kom", nama_asisten="Asistennya",
+                                  nama_ruang=ruang, nama_sesi=sesi,
                                   nama_status_pengumuman=status_pengumuman, komentar="")
 
-        Pengumuman.objects.create(tanggal_kelas=tanggal_kelas, nama_pembuat="Fauzan",
+        Pengumuman.objects.create(tanggal_kelas=tanggal_kelas, pembuat=user,
                                   nama_mata_kuliah=mata_kuliah, jenis_pengumuman=jenis_pengumuman,
-                                  nama_dosen="Dosen S.Kom",
-                                  nama_asisten="Asistennya", nama_ruang=ruang,
-                                  nama_sesi=sesi,
+                                  nama_dosen="Dosen S.kom", nama_asisten="Asistenku",
+                                  nama_ruang=ruang, nama_sesi=sesi,
                                   nama_status_pengumuman=status_pengumuman, komentar="")
+        Pengumuman.objects.filter(nama_asisten="Asistenku").delete()
 
-        Pengumuman.objects.filter(nama_pembuat="Fauzan").delete()
 
     def test_request_without_authentication(self):
         client = APIClient()
@@ -324,8 +309,9 @@ class lihat_pengumuman_api_test(TestCase):
         request = factory.get('/api/pengumuman/filter-pengumuman?tanggal=16-11-2016')
         force_authenticate(request, user=user)
         response = view(request)
-        data_date = json.loads(response.data["pengumuman_response"])
+        data_date = list(response.data["pengumuman_response"])
         self.assertEqual(len(data_date), 1)
+
 
     def test_request_as_admin(self):
         factory = APIRequestFactory()
@@ -336,8 +322,9 @@ class lihat_pengumuman_api_test(TestCase):
         request = factory.get('/api/pengumuman/filter-pengumuman?tanggal=16-11-2016')
         force_authenticate(request, user=user)
         response = view(request)
-        data_date = json.loads(response.data["pengumuman_response"])
+        data_date = list(response.data["pengumuman_response"])
         self.assertEqual(len(data_date), 2)
+
 class PengumumanApiTest(TestCase):
     def setUp(self):
         user_1 = User.objects.create(username='athallah.annafis', name='Athallah Annafis',
