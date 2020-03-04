@@ -93,3 +93,28 @@ def edit_pengumuman(request, key):
         "success": True,
         "pengumuman": PengumumanSerializer(pengumuman).data
     }, status=HTTP_200_OK)
+
+@csrf_exempt
+@api_view(["GET"])
+@permission_classes((IsAuthenticated,))
+def dropdown_pengumuman(request):
+    response = {}
+    DROPDOWN = {
+        JenisPengumuman: 'jenis_pengumuman',
+        MataKuliah: 'mata_kuliah',
+        Ruang: 'ruang',
+        Sesi: 'sesi',
+        StatusPengumuman: 'status_pengumuman'
+    }
+    for data, key in DROPDOWN.items(): # key = key buat response
+        try:
+            all_obj = data.objects.all()
+            if len(all_obj) == 0:
+                raise ValueError()
+            response[key] = [_.nama for _ in all_obj]
+        except ValueError:
+            return Response({
+                'detail': key + ' does not exist.'
+            }, status=HTTP_400_BAD_REQUEST)
+
+    return Response(response)
