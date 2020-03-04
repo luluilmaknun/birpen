@@ -106,15 +106,8 @@ def dropdown_pengumuman(request):
         Sesi: 'sesi',
         StatusPengumuman: 'status_pengumuman'
     }
-    for data, key in DROPDOWN.items(): # key = key buat response
-        try:
-            all_obj = data.objects.all()
-            if len(all_obj) == 0:
-                raise ValueError()
-            response[key] = [_.nama for _ in all_obj]
-        except ValueError:
-            return Response({
-                'detail': key + ' does not exist.'
-            }, status=HTTP_400_BAD_REQUEST)
+    for data, key in DROPDOWN.items():
+        all_obj = data.objects.all()
+        response[key] = [_.nama for _ in all_obj]
 
     return Response(response)

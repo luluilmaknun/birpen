@@ -426,13 +426,3 @@ class DropdownApiTest(TestCase):
         force_authenticate(request, user=user)
         response = view(request)
         self.assertEqual(response.status_code, 200)
-
-    def test_data_not_exist(self):
-        factory = APIRequestFactory()
-        user = User.objects.get(username='julia.ningrum')
-        view = dropdown_pengumuman
-
-        request = factory.get('/api/pengumuman/dropdown')
-        force_authenticate(request, user=user)
-        response = view(request)
-        self.assertEqual(response.status_code, 400)
