@@ -1,7 +1,6 @@
 from datetime import datetime
 
 from django.contrib.auth import authenticate
-from django.core import serializers
 from django.core.exceptions import ObjectDoesNotExist
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
@@ -16,9 +15,9 @@ from rest_framework.status import (
     HTTP_403_FORBIDDEN,
 )
 
-from .serializers import PengumumanSerializer
 from .models import User, Pengumuman, MataKuliah, JenisPengumuman, \
     Ruang, Sesi, StatusPengumuman
+from .serializers import PengumumanSerializer
 
 
 @api_view(["GET"])
@@ -59,12 +58,12 @@ def filter_pengumuman(request):
     pengumuman_date = datetime.strptime(pengumuman_request, '%d-%m-%Y').date()
     # if user is admin, return all include soft delete
     if request.user.user_type == 4:
-        filter_today = Pengumuman.all_objects.filter(tanggal_kelas__date=pengumuman_date)
-        pengumuman_response = serializers.serialize("json", filter_today)
+        filter_date = Pengumuman.all_objects.filter(tanggal_kelas__date=pengumuman_date)
     else:
-        filter_today = Pengumuman.objects.filter(tanggal_kelas__date=pengumuman_date)
-        pengumuman_response = serializers.serialize("json", filter_today)
-    return Response({"pengumuman_response": pengumuman_response}, status=200)
+        filter_date = Pengumuman.objects.filter(tanggal_kelas__date=pengumuman_date)
+    pengumuman_response = (PengumumanSerializer(x).data for x in filter_date)
+    return Response({"pengumuman_response": pengumuman_response}, status=HTTP_200_OK)
+
 @csrf_exempt
 @api_view(["POST"])
 @permission_classes((IsAuthenticated,))
