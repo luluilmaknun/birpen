@@ -1,6 +1,5 @@
 <template>
     <div class="nav-container">
-
         <div class="nav-elem-container-left">
             <h2>
                 Biro Pendidikan FEB
@@ -29,26 +28,26 @@
 </template>
 
 <script>
+function myfunction() {
+    var x = document.getElementById("nav-dropdown");
+    if (x.style.display === "none") {
+        x.style.display = "flex";
+    } else {
+        x.style.display = "none";
+    }
+}
+</script>
+
+<script>
 export default {
   data() {
     return {};
   },
 };
-
 </script>
 
 
 <style>
-
-h2 {
-    font-size: 26pt;
-    color: white;
-}
-
-.nav-elem-container-left {
-    font-weight: bolder;
-}
-
 .nav-container {
     padding: 20px 20px;
     display: flex;
@@ -59,8 +58,17 @@ h2 {
     flex-wrap: wrap;
 }
 
-.nav-spreader {
-    margin-left: 20px;
+h2 {
+    font-size: 26pt;
+    color: white;
+}
+
+.nav-elem-container-left {
+    font-weight: bolder;
+}
+
+#nav-dropdown {
+    display: none;
 }
 
 .nav-elem {
@@ -93,9 +101,44 @@ h2 {
     background-color: white;
 }
 
-.nav-elem-login:hover {
-    background: white;
+.dropdown-button {
+    display: none;
 }
 
+@media only screen and (max-width:700px) {
+    .nav-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    .nav-elem-container-right {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .nav-elem {
+        padding: 10px 10px;
+        font-size: 10pt;
+        width: fit-content;
+    }
+
+    .nav-elem-container-left h2 {
+        font-size: 15pt;
+    }
+
+    .dropdown-button {
+        display: flex;
+    }
+
+    #login-button {
+        padding-left: 10px;
+        padding-right: 10px;
+        padding-top: 3px;
+        padding-bottom: 3px;
+        font-size: 10pt;
+        margin-top: 10px;
+    }
+}
 
 </style>
