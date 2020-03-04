@@ -6,10 +6,10 @@ from django.db import IntegrityError
 from django.test import TestCase
 from django.utils.datastructures import MultiValueDict
 from django.utils.http import urlencode
-from rest_framework.authtoken.models import Token
 from rest_framework.test import APIClient
 from rest_framework.test import APIRequestFactory
 from rest_framework.test import force_authenticate
+from rest_framework.authtoken.models import Token
 
 from pengumuman.apps import PengumumanConfig
 from .models import MataKuliah, JenisPengumuman, Ruang, Sesi, StatusPengumuman, Pengumuman, \
