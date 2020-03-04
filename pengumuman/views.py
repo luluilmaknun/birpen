@@ -68,6 +68,24 @@ def get_pengumuman_default(request):
     return Response({"pengumuman_today": pengumuman_today,
                      "pengumuman_tomo": pengumuman_tomo}, status=200)
 
+@api_view(["GET"])
+@permission_classes((IsAuthenticated,))
+def filter_pengumuman(request):
+    pengumuman_request = request.GET["tanggal"]
+    try:
+        pengumuman_date = datetime.strptime(pengumuman_request, '%d-%m-%Y').date()
+    except ValueError as err:
+        return Response({
+            'Error': str(err)
+        }, status=HTTP_400_BAD_REQUEST)
+
+    # if user is admin, return all include soft delete
+    if request.user.user_type == User.ADMIN:
+        filter_date = Pengumuman.all_objects.filter(tanggal_kelas__date=pengumuman_date)
+    else:
+        filter_date = Pengumuman.objects.filter(tanggal_kelas__date=pengumuman_date)
+    pengumuman_response = (PengumumanSerializer(x).data for x in filter_date)
+    return Response({"pengumuman_response": pengumuman_response}, status=HTTP_200_OK)
 
 @csrf_exempt
 @api_view(["POST"])
