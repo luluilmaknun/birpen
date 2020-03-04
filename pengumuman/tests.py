@@ -218,6 +218,7 @@ class StatusPengumumanModelTest(TestCase):
         self.assertEqual(count_without_soft_deleted, 0)
         self.assertEqual(count_with_soft_deleted, 1)
 
+
 class PengumumanModelTest(TestCase):
     def test_model_can_create(self):
         tanggal_kelas = "2016-11-16T22:31:18.130822+00:00"
@@ -469,6 +470,7 @@ class PengumumanApiTest(TestCase):
         self.assertEqual(response.data['pengumuman']['nama_sesi'], 'Sesi 4 (17.00 - 19.25)')
         self.assertEqual(response.data['pengumuman']['nama_status_pengumuman'], 'Dibatalkan')
 
+
 class DropdownApiTest(TestCase):
     def setUp(self):
         User.objects.create(username='julia.ningrum', name='julia ningrum',
@@ -493,6 +495,7 @@ class DropdownApiTest(TestCase):
         force_authenticate(request, user=user)
         response = view(request)
         self.assertEqual(response.status_code, 200)
+
 
 class DeleteApiTest(TestCase):
     def setUp(self):
