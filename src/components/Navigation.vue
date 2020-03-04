@@ -28,17 +28,6 @@
 </template>
 
 <script>
-function myfunction() {
-    var x = document.getElementById("nav-dropdown");
-    if (x.style.display === "none") {
-        x.style.display = "flex";
-    } else {
-        x.style.display = "none";
-    }
-}
-</script>
-
-<script>
 export default {
   data() {
     return {};
