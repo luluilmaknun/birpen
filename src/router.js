@@ -14,6 +14,26 @@ export default new Router({
       component: Home,
     },
     {
+      path: '/surat',
+      name: 'surat',
+      component: null,
+    },
+    {
+      path: '/pengumuman',
+      name: 'pengumuman',
+      component: null,
+    },
+    {
+      path: '/login',
+      name: 'login',
+      component: null,
+    },
+    {
+      path: '/buatakun',
+      name: 'buatakun',
+      component: null,
+    },
+    {
       path: '/pengumuman/create',
       name: 'create-pengumuman',
       component: CreateAnnouncement,

@@ -15,9 +15,9 @@ from rest_framework.status import (
     HTTP_403_FORBIDDEN,
 )
 
-from .serializers import PengumumanSerializer
 from .models import User, Pengumuman, MataKuliah, JenisPengumuman, \
     Ruang, Sesi, StatusPengumuman
+from .serializers import PengumumanSerializer
 
 
 @api_view(["GET"])
@@ -50,6 +50,25 @@ def login(request):
     return Response({'username': username, 'token': token.key, 'role': user.user_type},
                     status=HTTP_200_OK)
 
+
+@api_view(["GET"])
+@permission_classes((IsAuthenticated,))
+def filter_pengumuman(request):
+    pengumuman_request = request.GET["tanggal"]
+    try:
+        pengumuman_date = datetime.strptime(pengumuman_request, '%d-%m-%Y').date()
+    except ValueError as err:
+        return Response({
+            'Error': str(err)
+        }, status=HTTP_400_BAD_REQUEST)
+
+    # if user is admin, return all include soft delete
+    if request.user.user_type == User.ADMIN:
+        filter_date = Pengumuman.all_objects.filter(tanggal_kelas__date=pengumuman_date)
+    else:
+        filter_date = Pengumuman.objects.filter(tanggal_kelas__date=pengumuman_date)
+    pengumuman_response = (PengumumanSerializer(x).data for x in filter_date)
+    return Response({"pengumuman_response": pengumuman_response}, status=HTTP_200_OK)
 
 @csrf_exempt
 @api_view(["POST"])
@@ -93,3 +112,21 @@ def edit_pengumuman(request, key):
         "success": True,
         "pengumuman": PengumumanSerializer(pengumuman).data
     }, status=HTTP_200_OK)
+
+@csrf_exempt
+@api_view(["GET"])
+@permission_classes((IsAuthenticated,))
+def dropdown_pengumuman(request):
+    response = {}
+    DROPDOWN = {
+        JenisPengumuman: 'jenis_pengumuman',
+        MataKuliah: 'mata_kuliah',
+        Ruang: 'ruang',
+        Sesi: 'sesi',
+        StatusPengumuman: 'status_pengumuman'
+    }
+    for data, key in DROPDOWN.items():
+        all_obj = data.objects.all()
+        response[key] = [_.nama for _ in all_obj]
+
+    return Response(response)
