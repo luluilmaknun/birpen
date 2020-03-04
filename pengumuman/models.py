@@ -42,29 +42,34 @@ class StatusPengumuman(SafeDeleteModel):
     nama = models.CharField(max_length=32)
 
 
+class User(AbstractUser):
+    MAHASISWA = 1
+    ASDOS = 2
+    DOSEN = 3
+    ADMIN = 4
+
+    USER_TYPE_CHOICES = (
+        (MAHASISWA, 'mahasiswa'),
+        (ASDOS, 'asdos'),
+        (DOSEN, 'dosen'),
+        (ADMIN, 'admin'),
+    )
+    name = models.CharField(max_length=50)
+    npm = models.CharField(max_length=10)
+    user_type = models.PositiveSmallIntegerField(choices=USER_TYPE_CHOICES, default=1)
+
+
 class Pengumuman(SafeDeleteModel):
     _safedelete_policy = SOFT_DELETE_CASCADE
     created_at = models.DateTimeField(auto_now_add=True)
     modified_at = models.DateTimeField(auto_now=True)
     tanggal_kelas = models.DateTimeField(default=timezone.now)
-    nama_pembuat = models.CharField(max_length=32)
+    pembuat = models.ForeignKey(User, on_delete=models.CASCADE)
     nama_mata_kuliah = models.ForeignKey(MataKuliah, on_delete=models.CASCADE)
     jenis_pengumuman = models.ForeignKey(JenisPengumuman, on_delete=models.CASCADE)
     nama_dosen = models.CharField(max_length=32)
-    nama_asisten = models.CharField(max_length=32, blank=True)
+    nama_asisten = models.CharField(max_length=32, blank=True, null=True)
     nama_ruang = models.ForeignKey(Ruang, on_delete=models.CASCADE)
     nama_sesi = models.ForeignKey(Sesi, on_delete=models.CASCADE)
     nama_status_pengumuman = models.ForeignKey(StatusPengumuman, on_delete=models.CASCADE)
-    komentar = models.CharField(max_length=255, blank=True)
-
-
-class User(AbstractUser):
-    USER_TYPE_CHOICES = (
-        (1, 'mahasiswa'),
-        (2, 'asdos'),
-        (3, 'dosen'),
-        (4, 'admin'),
-    )
-    name = models.CharField(max_length=50)
-    npm = models.CharField(max_length=10)
-    user_type = models.PositiveSmallIntegerField(choices=USER_TYPE_CHOICES, default=1)
+    komentar = models.CharField(max_length=255, blank=True, null=True)
