@@ -42,5 +42,10 @@ export default new Router({
       name: 'login',
       component: Login,
     },
+    {
+      path: '/buatakun',
+      name: 'buatakun',
+      component: null,
+    },
   ],
 });
