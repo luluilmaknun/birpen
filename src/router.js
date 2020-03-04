@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 import Home from '@/Home.vue';
+import Pengumuman from './components/Pengumuman.vue';
 
 Vue.use(Router);
 
@@ -20,7 +21,7 @@ export default new Router({
     {
       path: '/pengumuman',
       name: 'pengumuman',
-      component: null,
+      component: Pengumuman,
     },
     {
       path: '/login',
