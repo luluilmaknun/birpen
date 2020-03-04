@@ -112,3 +112,21 @@ def edit_pengumuman(request, key):
         "success": True,
         "pengumuman": PengumumanSerializer(pengumuman).data
     }, status=HTTP_200_OK)
+
+@csrf_exempt
+@api_view(["GET"])
+@permission_classes((IsAuthenticated,))
+def dropdown_pengumuman(request):
+    response = {}
+    DROPDOWN = {
+        JenisPengumuman: 'jenis_pengumuman',
+        MataKuliah: 'mata_kuliah',
+        Ruang: 'ruang',
+        Sesi: 'sesi',
+        StatusPengumuman: 'status_pengumuman'
+    }
+    for data, key in DROPDOWN.items():
+        all_obj = data.objects.all()
+        response[key] = [_.nama for _ in all_obj]
+
+    return Response(response)
