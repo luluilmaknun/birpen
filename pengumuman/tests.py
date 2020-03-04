@@ -332,6 +332,8 @@ class LihatPengumumanTest(TestCase):
         self.assertEqual(len(data_today), 2)
         data_tomo = list(response.data["pengumuman_tomo"])
         self.assertEqual(len(data_tomo), 1)
+
+
 class PengumumanApiTest(TestCase):
     def setUp(self):
         user_1 = User.objects.create(username='athallah.annafis', name='Athallah Annafis',
