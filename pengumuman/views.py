@@ -55,9 +55,15 @@ def login(request):
 @permission_classes((IsAuthenticated,))
 def filter_pengumuman(request):
     pengumuman_request = request.GET["tanggal"]
-    pengumuman_date = datetime.strptime(pengumuman_request, '%d-%m-%Y').date()
+    try:
+        pengumuman_date = datetime.strptime(pengumuman_request, '%d-%m-%Y').date()
+    except ValueError as err:
+        return Response({
+            'Error': str(err)
+        }, status=HTTP_400_BAD_REQUEST)
+
     # if user is admin, return all include soft delete
-    if request.user.user_type == 4:
+    if request.user.user_type == User.ADMIN:
         filter_date = Pengumuman.all_objects.filter(tanggal_kelas__date=pengumuman_date)
     else:
         filter_date = Pengumuman.objects.filter(tanggal_kelas__date=pengumuman_date)
