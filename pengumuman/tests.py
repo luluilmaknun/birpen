@@ -398,3 +398,42 @@ class PengumumanApiTest(TestCase):
         self.assertEqual(response.data['pengumuman']['nama_ruang'], '3311')
         self.assertEqual(response.data['pengumuman']['nama_sesi'], 'Sesi 4 (17.00 - 19.25)')
         self.assertEqual(response.data['pengumuman']['nama_status_pengumuman'], 'Dibatalkan')
+
+
+class CreatePengumumanApiTest(TestCase):
+    def setUp(self):
+        self.client = APIClient()
+        user_1 = User.objects.create(username='athallah.annafis', name='Athallah Annafis',
+                                     npm='1701837382', password='mahasiswa',
+                                     user_type=User.MAHASISWA)
+        self.token_1 = Token.objects.get_or_create(user=user_1)[0].key
+        self.valid_data = {
+            # 'pembuat': user_1,
+            'tanggal_kelas': '2016-11-12',
+            'nama_mata_kuliah': 'DDP',
+            'jenis_pengumuman': 'Perkuliahan',
+            'nama_dosen': 'Dosen Baru',
+            'nama_ruang': '3311',
+            'nama_sesi': 'Sesi 4 (17.00 - 19.25)',
+            'nama_status_pengumuman': 'Dibatalkan',
+            'komentar': 'Saya kesiangan'
+        }
+        self.invalid_data = {
+            'tanggal_kelass': '2016-11-12',
+        }
+
+    def test_cant_create(self):
+        self.client.credentials(HTTP_AUTHORIZATION='Token ' + self.token_1)
+        response = self.client.post('/api/pengumuman/create/',
+                                    data=urlencode(MultiValueDict(self.invalid_data)),
+                                    content_type='application/x-www-form-urlencoded')
+        self.assertEqual(response.status_code, 400)
+    
+    def test_can_create(self):
+        self.client.credentials(HTTP_AUTHORIZATION='Token ' + self.token_1)
+        self.client.post("user") = user_1
+        response = self.client.post('/api/pengumuman/create/',
+                                    data=urlencode(MultiValueDict(self.valid_data)),
+                                    content_type='application/x-www-form-urlencoded')
+        print(self.valid_data)
+        self.assertEqual(response.status_code, 200)
