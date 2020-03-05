@@ -28,8 +28,8 @@ export default {
       this.$modal.hide('hello-world');
     },
     postdelete() {
-      const url_target = "/api/pengumuman/"+document.getElementById("pk")+"/hapus";
-      axios({ method: "POST", "url": "/api/pengumuman/2/delete/",
+      const url_target = "/api/pengumuman/"+document.getElementById("pk")+"/delete/";
+      axios({ method: "POST", "url": url_target,
       "headers":
       {
         "content-type": "application/x-www-form-urlencoded" ,
