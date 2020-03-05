@@ -361,15 +361,17 @@ class PengumumanApiTest(TestCase):
         sesi = Sesi.objects.create(nama="Sesi 4 (17.00 - 19.30)")
         status_pengumuman = StatusPengumuman.objects.create(nama="Terlambat")
 
-        self.pengumuman_pk = Pengumuman.objects.create(tanggal_kelas=tanggal_kelas,
-                                                       pembuat=user_3, nama_mata_kuliah=mata_kuliah,
-                                                       jenis_pengumuman=jenis_pengumuman,
-                                                       nama_dosen="Lulu Ilmaknun S.kom",
-                                                       nama_asisten="Annida Safira",
-                                                       nama_ruang=ruang,
-                                                       nama_sesi=sesi,
-                                                       nama_status_pengumuman=status_pengumuman,
-                                                       komentar="").pk
+        self.pengumuman = Pengumuman.objects.create(tanggal_kelas=tanggal_kelas,
+                                                    pembuat=user_3, nama_mata_kuliah=mata_kuliah,
+                                                    jenis_pengumuman=jenis_pengumuman,
+                                                    nama_dosen="Lulu Ilmaknun S.kom",
+                                                    nama_asisten="Annida Safira",
+                                                    nama_ruang=ruang,
+                                                    nama_sesi=sesi,
+                                                    nama_status_pengumuman=status_pengumuman,
+                                                    komentar="")
+
+        self.pengumuman_pk = self.pengumuman.pk
 
         mata_kuliah = MataKuliah.objects.create(nama="DDP")
         jenis_pengumuman = JenisPengumuman.objects.create(nama="Perkuliahan")
@@ -470,6 +472,53 @@ class PengumumanApiTest(TestCase):
         self.assertEqual(response.data['pengumuman']['nama_sesi'], 'Sesi 4 (17.00 - 19.25)')
         self.assertEqual(response.data['pengumuman']['nama_status_pengumuman'], 'Dibatalkan')
 
+    def test_success_get_pengumuman_admin(self):
+        self.pengumuman.delete()
+
+        self.client.credentials(HTTP_AUTHORIZATION='Token ' + self.token_2)
+        response = self.client.post('/api/pengumuman/{}/'.format(self.pengumuman_pk))
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.data['pengumuman']['tanggal_kelas'],
+                         datetime.strptime('2016-11-16', '%Y-%m-%d').date())
+        self.assertEqual(response.data['pengumuman']['nama_mata_kuliah'], 'Aljabar Linier')
+        self.assertEqual(response.data['pengumuman']['jenis_pengumuman'], 'Asistensi')
+        self.assertEqual(response.data['pengumuman']['nama_dosen'], 'Lulu Ilmaknun S.kom')
+        self.assertEqual(response.data['pengumuman']['nama_asisten'], 'Annida Safira')
+        self.assertEqual(response.data['pengumuman']['nama_ruang'], '2311')
+        self.assertEqual(response.data['pengumuman']['nama_sesi'], 'Sesi 4 (17.00 - 19.30)')
+        self.assertEqual(response.data['pengumuman']['nama_status_pengumuman'], 'Terlambat')
+
+    def test_fail_get_pengumuman_admin(self):
+        self.client.credentials(HTTP_AUTHORIZATION='Token ' + self.token_2)
+        response = self.client.post('/api/pengumuman/{}/'.format(10000))
+
+        self.assertEqual(response.status_code, 400)
+        self.assertEqual(response.data['detail'], 'Pengumuman does not exist.')
+
+    def test_success_get_pengumuman_non_admin(self):
+        self.client.credentials(HTTP_AUTHORIZATION='Token ' + self.token_3)
+        response = self.client.post('/api/pengumuman/{}/'.format(self.pengumuman_pk))
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.data['pengumuman']['tanggal_kelas'],
+                         datetime.strptime('2016-11-16', '%Y-%m-%d').date())
+        self.assertEqual(response.data['pengumuman']['nama_mata_kuliah'], 'Aljabar Linier')
+        self.assertEqual(response.data['pengumuman']['jenis_pengumuman'], 'Asistensi')
+        self.assertEqual(response.data['pengumuman']['nama_dosen'], 'Lulu Ilmaknun S.kom')
+        self.assertEqual(response.data['pengumuman']['nama_asisten'], 'Annida Safira')
+        self.assertEqual(response.data['pengumuman']['nama_ruang'], '2311')
+        self.assertEqual(response.data['pengumuman']['nama_sesi'], 'Sesi 4 (17.00 - 19.30)')
+        self.assertEqual(response.data['pengumuman']['nama_status_pengumuman'], 'Terlambat')
+
+    def test_fail_get_pengumuman_non_admin(self):
+        self.pengumuman.delete()
+
+        self.client.credentials(HTTP_AUTHORIZATION='Token ' + self.token_3)
+        response = self.client.post('/api/pengumuman/{}/'.format(self.pengumuman_pk))
+
+        self.assertEqual(response.status_code, 400)
+        self.assertEqual(response.data['detail'], 'Pengumuman does not exist.')
 
 class DropdownApiTest(TestCase):
     def setUp(self):
