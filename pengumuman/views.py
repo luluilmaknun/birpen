@@ -19,8 +19,6 @@ from .serializers import PengumumanSerializer
 from .models import User, Pengumuman, MataKuliah, JenisPengumuman, \
     Ruang, Sesi, StatusPengumuman
 
-from django.utils import timezone
-
 @api_view(["GET"])
 def pengumuman_placeholder_views(_):
     result = {
@@ -52,7 +50,7 @@ def login(request):
                     status=HTTP_200_OK)
 
 @csrf_exempt
-@api_view(["POST"]) 
+@api_view(["POST"])
 @permission_classes((IsAuthenticated,))
 def create_pengumuman(request):
     ''' asumsi post buat pengumuman nerima atribut
@@ -60,7 +58,7 @@ def create_pengumuman(request):
 
         asumsi bentuk tanggal kelas: y-m-d
         asumsi tiap atribut gak ada nama yang sama
-    ''' 
+    '''
     pengumuman = Pengumuman()
     try:
         pengumuman.pembuat = request.user
@@ -79,7 +77,7 @@ def create_pengumuman(request):
             nama=request.POST['nama_sesi'])
         pengumuman.nama_status_pengumuman = StatusPengumuman.objects.get(
             nama=request.POST['nama_status_pengumuman'])
-    except:
+    except (ObjectDoesNotExist, ValueError, TypeError):
         return Response({
             'detail': 'Invalid data.',
             "success": False,
@@ -92,7 +90,7 @@ def create_pengumuman(request):
         "success": True,
         "pengumuman": PengumumanSerializer(pengumuman).data
     }, status=HTTP_200_OK)
-    
+
 @csrf_exempt
 @api_view(["POST"])
 @permission_classes((IsAuthenticated,))

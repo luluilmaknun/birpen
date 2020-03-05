@@ -408,12 +408,11 @@ class CreatePengumumanApiTest(TestCase):
                                      user_type=User.MAHASISWA)
         self.token_1 = Token.objects.get_or_create(user=user_1)[0].key
 
-        tanggal_kelas = "2016-11-16T22:31:18.130822+00:00"
-        mata_kuliah = MataKuliah.objects.create(nama="Aljabar Linier")
-        jenis_pengumuman = JenisPengumuman.objects.create(nama="Asistensi")
-        ruang = Ruang.objects.create(nama="2311")
-        sesi = Sesi.objects.create(nama="Sesi 4 (17.00 - 19.30)")
-        status_pengumuman = StatusPengumuman.objects.create(nama="Terlambat")
+        MataKuliah.objects.create(nama="Aljabar Linier")
+        JenisPengumuman.objects.create(nama="Asistensi")
+        Ruang.objects.create(nama="2311")
+        Sesi.objects.create(nama="Sesi 4 (17.00 - 19.30)")
+        StatusPengumuman.objects.create(nama="Terlambat")
 
         self.valid_data = {
             'tanggal_kelas': '2016-11-16',
