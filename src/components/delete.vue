@@ -2,10 +2,12 @@
   <div>
     <modal name="hello-world"
     :pivotX="0.0" id = "center-div">
-      Apakah anda yakin?
         <div class="modal-container">
-          <button v-on:click="postdelete" id='blue-btn'>Ya</button>
-          <button v-on:click="hide" id="hapus-btn">Tidak</button>
+          Apakah anda yakin?
+          <div class="modal-buttons">
+            <button v-on:click="postdelete" id='blue-btn'>Ya</button>
+            <button v-on:click="hide" id="hapus-btn">Tidak</button>
+          </div>
         </div>
     </modal>
     <button v-on:click="show" id="hapus-btn" >Hapus</button>
@@ -50,6 +52,22 @@ export default {
 </script>
 
 <style>
+.modal-buttons button {
+  margin-left: 20px;
+  margin-right: 20px;
+}
+.modal-buttons {
+  margin-top: 40px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+.modal-container {
+  margin: 70px 70px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 .nav-700px {
   display: none;
 }
