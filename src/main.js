@@ -1,11 +1,11 @@
 import Vue from 'vue';
 import App from '@/App.vue';
 import router from '@/router';
-import VueSessionStorage from 'vue-sessionstorage'
+import VueSessionStorage from 'vue-sessionstorage';
 import VueModal from 'vue-js-modal';
 
-import axios from 'axios'
-import VueAxios from 'vue-axios'
+import axios from 'axios';
+import VueAxios from 'vue-axios';
 
 Vue.use(VueAxios, axios);
 

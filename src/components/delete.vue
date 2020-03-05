@@ -30,7 +30,7 @@ export default {
       this.$modal.hide('hello-world');
     },
     postdelete() {
-      const url_target = "/api/pengumuman/"+document.getElementById("pk")+"/delete/";
+      const url_target = "/api/pengumuman/"+document.getElementById("pk").innerText+"/delete/";
       axios({ method: "POST", "url": url_target,
       "headers":
       {
@@ -42,8 +42,6 @@ export default {
         window.location.pathname='/pengumuman';
       },
       error => {
-        console.log('masuk sini')
-        console.log(error);
         this.error=error;
       });
     }
