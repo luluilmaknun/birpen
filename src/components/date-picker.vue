@@ -10,7 +10,7 @@
       <div v-show="show">
       </div>
       <button>
-        <a :href="'/api/pengumuman/?tanggal='+date">Filter</a>
+        <a :href="'/?tanggal='+date">Filter</a>
       </button>
     </div>
   </div>
