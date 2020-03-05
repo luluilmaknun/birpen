@@ -19,6 +19,7 @@ from .serializers import PengumumanSerializer
 from .models import User, Pengumuman, MataKuliah, JenisPengumuman, \
     Ruang, Sesi, StatusPengumuman
 
+from django.utils import timezone
 
 @api_view(["GET"])
 def pengumuman_placeholder_views(_):
@@ -50,7 +51,48 @@ def login(request):
     return Response({'token': token.key, 'role': user.user_type},
                     status=HTTP_200_OK)
 
+@csrf_exempt
+@api_view(["POST"]) 
+@permission_classes((IsAuthenticated,))
+def create_pengumuman(request):
+    ''' asumsi post buat pengumuman nerima atribut
+        atribut yang dipost = atribut pengumuman
 
+        asumsi bentuk tanggal kelas: y-m-d
+        asumsi tiap atribut gak ada nama yang sama
+    ''' 
+    pengumuman = Pengumuman()
+    try:
+        pengumuman.pembuat = request.user
+        pengumuman.nama_dosen = request.POST['nama_dosen']
+        pengumuman.nama_asisten = request.POST['nama_asisten']
+        pengumuman.komentar = request.POST['komentar']
+        pengumuman.tanggal_kelas = datetime.strptime(
+            request.POST['tanggal_kelas'], '%Y-%m-%d')
+        pengumuman.nama_mata_kuliah = MataKuliah.objects.get(
+            nama=request.POST['nama_mata_kuliah'])
+        pengumuman.jenis_pengumuman = JenisPengumuman.objects.get(
+            nama=request.POST['jenis_pengumuman'])
+        pengumuman.nama_ruang = Ruang.objects.get(
+            nama=request.POST['nama_ruang'])
+        pengumuman.nama_sesi = Sesi.objects.get(
+            nama=request.POST['nama_sesi'])
+        pengumuman.nama_status_pengumuman = StatusPengumuman.objects.get(
+            nama=request.POST['nama_status_pengumuman'])
+    except:
+        return Response({
+            'detail': 'Invalid data.',
+            "success": False,
+        }, status=HTTP_400_BAD_REQUEST)
+
+    pengumuman.save()
+
+    return Response({
+        "detail": 'Valid data.',
+        "success": True,
+        "pengumuman": PengumumanSerializer(pengumuman).data
+    }, status=HTTP_200_OK)
+    
 @csrf_exempt
 @api_view(["POST"])
 @permission_classes((IsAuthenticated,))
