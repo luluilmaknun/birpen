@@ -2,19 +2,20 @@ from datetime import datetime
 
 from django.apps import apps
 from django.contrib.auth import get_user_model
+from django.db import IntegrityError
 from django.test import TestCase
-
 from django.utils.datastructures import MultiValueDict
 from django.utils.http import urlencode
 
-from django.db import IntegrityError
-
-from rest_framework.test import APIClient
 from rest_framework.authtoken.models import Token
+from rest_framework.test import APIClient
+from rest_framework.test import APIRequestFactory
+from rest_framework.test import force_authenticate
 
 from pengumuman.apps import PengumumanConfig
 from .models import MataKuliah, JenisPengumuman, Ruang, Sesi, StatusPengumuman, Pengumuman, \
     User
+from .views import dropdown_pengumuman, filter_pengumuman
 
 
 class LandingPageConfigTest(TestCase):
@@ -267,6 +268,76 @@ class PengumumanModelTest(TestCase):
         self.assertEqual(count_with_soft_deleted, 1)
 
 
+class FilterPengumumanTest(TestCase):
+    def setUp(self):
+        tanggal_kelas = "2016-11-16T07:00:18.130822+00:00"
+        mata_kuliah = MataKuliah.objects.create(nama="Alin")
+        jenis_pengumuman = JenisPengumuman.objects.create(nama="Asistensi")
+        ruang = Ruang.objects.create(nama="3111")
+        sesi = Sesi.objects.create(nama="16.00 - 17.40")
+        status_pengumuman = StatusPengumuman.objects.create(nama="Ditunda")
+        user = User.objects.create(username='julia.ningrum', name='julia ningrum',
+                                   npm='1204893059', password='admin', user_type=User.ADMIN)
+        User.objects.create(username='yusuf.tri',
+                            name='yusuf tri a.', npm='1701837382',
+                            password='mahasiswa', user_type=User.MAHASISWA)
+        Pengumuman.objects.create(tanggal_kelas=tanggal_kelas, pembuat=user,
+                                  nama_mata_kuliah=mata_kuliah, jenis_pengumuman=jenis_pengumuman,
+                                  nama_dosen="Dosen S.kom", nama_asisten="Asistennya",
+                                  nama_ruang=ruang, nama_sesi=sesi,
+                                  nama_status_pengumuman=status_pengumuman, komentar="")
+
+        Pengumuman.objects.create(tanggal_kelas=tanggal_kelas, pembuat=user,
+                                  nama_mata_kuliah=mata_kuliah, jenis_pengumuman=jenis_pengumuman,
+                                  nama_dosen="Dosen S.kom", nama_asisten="Asistenku",
+                                  nama_ruang=ruang, nama_sesi=sesi,
+                                  nama_status_pengumuman=status_pengumuman, komentar="")
+        Pengumuman.objects.filter(nama_asisten="Asistenku").delete()
+
+
+    def test_request_without_authentication(self):
+        client = APIClient()
+        response = client.get('/api/pengumuman/filter-pengumuman?tanggal=16-11-2016')
+
+        self.assertEqual(response.status_code, 401)
+
+    def test_request_not_admin(self):
+        factory = APIRequestFactory()
+        user = User.objects.get(username='yusuf.tri')
+        view = filter_pengumuman
+
+        # Make an authenticated request to the view...
+        request = factory.get('/api/pengumuman/filter-pengumuman?tanggal=16-11-2016')
+        force_authenticate(request, user=user)
+        response = view(request)
+        data_date = list(response.data["pengumuman_response"])
+        self.assertEqual(len(data_date), 1)
+
+
+    def test_request_as_admin(self):
+        factory = APIRequestFactory()
+        user = User.objects.get(username='julia.ningrum')
+        view = filter_pengumuman
+
+        # Make an authenticated request to the view...
+        request = factory.get('/api/pengumuman/filter-pengumuman?tanggal=16-11-2016')
+        force_authenticate(request, user=user)
+        response = view(request)
+        data_date = list(response.data["pengumuman_response"])
+        self.assertEqual(len(data_date), 2)
+
+    def test_invalid_date_format(self):
+        factory = APIRequestFactory()
+        user = User.objects.get(username='julia.ningrum')
+        view = filter_pengumuman
+
+        # Make an authenticated request to the view...
+        request = factory.get('/api/pengumuman/filter-pengumuman?tanggal=az-11-2016')
+        force_authenticate(request, user=user)
+        response = view(request)
+        self.assertEqual(response.status_code, 400)
+
+
 class PengumumanApiTest(TestCase):
     def setUp(self):
         user_1 = User.objects.create(username='athallah.annafis', name='Athallah Annafis',
@@ -290,15 +361,17 @@ class PengumumanApiTest(TestCase):
         sesi = Sesi.objects.create(nama="Sesi 4 (17.00 - 19.30)")
         status_pengumuman = StatusPengumuman.objects.create(nama="Terlambat")
 
-        self.pengumuman_pk = Pengumuman.objects.create(tanggal_kelas=tanggal_kelas,
-                                                       pembuat=user_3, nama_mata_kuliah=mata_kuliah,
-                                                       jenis_pengumuman=jenis_pengumuman,
-                                                       nama_dosen="Lulu Ilmaknun S.kom",
-                                                       nama_asisten="Annida Safira",
-                                                       nama_ruang=ruang,
-                                                       nama_sesi=sesi,
-                                                       nama_status_pengumuman=status_pengumuman,
-                                                       komentar="").pk
+        self.pengumuman = Pengumuman.objects.create(tanggal_kelas=tanggal_kelas,
+                                                    pembuat=user_3, nama_mata_kuliah=mata_kuliah,
+                                                    jenis_pengumuman=jenis_pengumuman,
+                                                    nama_dosen="Lulu Ilmaknun S.kom",
+                                                    nama_asisten="Annida Safira",
+                                                    nama_ruang=ruang,
+                                                    nama_sesi=sesi,
+                                                    nama_status_pengumuman=status_pengumuman,
+                                                    komentar="")
+
+        self.pengumuman_pk = self.pengumuman.pk
 
         mata_kuliah = MataKuliah.objects.create(nama="DDP")
         jenis_pengumuman = JenisPengumuman.objects.create(nama="Perkuliahan")
@@ -399,20 +472,109 @@ class PengumumanApiTest(TestCase):
         self.assertEqual(response.data['pengumuman']['nama_sesi'], 'Sesi 4 (17.00 - 19.25)')
         self.assertEqual(response.data['pengumuman']['nama_status_pengumuman'], 'Dibatalkan')
 
+    def test_success_get_pengumuman_admin(self):
+        self.pengumuman.delete()
 
-class CreatePengumumanApiTest(TestCase):
+        self.client.credentials(HTTP_AUTHORIZATION='Token ' + self.token_2)
+        response = self.client.post('/api/pengumuman/{}/'.format(self.pengumuman_pk))
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.data['pengumuman']['tanggal_kelas'],
+                         datetime.strptime('2016-11-16', '%Y-%m-%d').date())
+        self.assertEqual(response.data['pengumuman']['nama_mata_kuliah'], 'Aljabar Linier')
+        self.assertEqual(response.data['pengumuman']['jenis_pengumuman'], 'Asistensi')
+        self.assertEqual(response.data['pengumuman']['nama_dosen'], 'Lulu Ilmaknun S.kom')
+        self.assertEqual(response.data['pengumuman']['nama_asisten'], 'Annida Safira')
+        self.assertEqual(response.data['pengumuman']['nama_ruang'], '2311')
+        self.assertEqual(response.data['pengumuman']['nama_sesi'], 'Sesi 4 (17.00 - 19.30)')
+        self.assertEqual(response.data['pengumuman']['nama_status_pengumuman'], 'Terlambat')
+
+    def test_fail_get_pengumuman_admin(self):
+        self.client.credentials(HTTP_AUTHORIZATION='Token ' + self.token_2)
+        response = self.client.post('/api/pengumuman/{}/'.format(10000))
+
+        self.assertEqual(response.status_code, 400)
+        self.assertEqual(response.data['detail'], 'Pengumuman does not exist.')
+
+    def test_success_get_pengumuman_non_admin(self):
+        self.client.credentials(HTTP_AUTHORIZATION='Token ' + self.token_3)
+        response = self.client.post('/api/pengumuman/{}/'.format(self.pengumuman_pk))
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.data['pengumuman']['tanggal_kelas'],
+                         datetime.strptime('2016-11-16', '%Y-%m-%d').date())
+        self.assertEqual(response.data['pengumuman']['nama_mata_kuliah'], 'Aljabar Linier')
+        self.assertEqual(response.data['pengumuman']['jenis_pengumuman'], 'Asistensi')
+        self.assertEqual(response.data['pengumuman']['nama_dosen'], 'Lulu Ilmaknun S.kom')
+        self.assertEqual(response.data['pengumuman']['nama_asisten'], 'Annida Safira')
+        self.assertEqual(response.data['pengumuman']['nama_ruang'], '2311')
+        self.assertEqual(response.data['pengumuman']['nama_sesi'], 'Sesi 4 (17.00 - 19.30)')
+        self.assertEqual(response.data['pengumuman']['nama_status_pengumuman'], 'Terlambat')
+
+    def test_fail_get_pengumuman_non_admin(self):
+        self.pengumuman.delete()
+
+        self.client.credentials(HTTP_AUTHORIZATION='Token ' + self.token_3)
+        response = self.client.post('/api/pengumuman/{}/'.format(self.pengumuman_pk))
+
+        self.assertEqual(response.status_code, 400)
+        self.assertEqual(response.data['detail'], 'Pengumuman does not exist.')
+
+class DropdownApiTest(TestCase):
+    def setUp(self):
+        User.objects.create(username='julia.ningrum', name='julia ningrum',
+                            npm='1204893059', password='admin', user_type=User.ADMIN)
+        User.objects.create(username='yusuf.tri',
+                            name='yusuf tri a.', npm='1701837382',
+                            password='mahasiswa', user_type=User.MAHASISWA)
+
+    def test_request_as_admin(self):
+        factory = APIRequestFactory()
+        user = User.objects.get(username='julia.ningrum')
+        view = dropdown_pengumuman
+
+        JenisPengumuman.objects.create(nama='Asistensi')
+        MataKuliah.objects.create(nama='Sistem Cerdas')
+        Ruang.objects.create(nama='3111')
+        Sesi.objects.create(nama='Sesi 1 (08.00 - 10.30)')
+        StatusPengumuman.objects.create(nama='Terlambat')
+
+        # Make an authenticated request to the view...
+        request = factory.get('/api/pengumuman/dropdown')
+        force_authenticate(request, user=user)
+        response = view(request)
+        self.assertEqual(response.status_code, 200)
+
+
+class DeleteApiTest(TestCase):
     def setUp(self):
         self.client = APIClient()
+
         user_1 = User.objects.create(username='athallah.annafis', name='Athallah Annafis',
                                      npm='1701837382', password='mahasiswa',
                                      user_type=User.MAHASISWA)
         self.token_1 = Token.objects.get_or_create(user=user_1)[0].key
 
-        MataKuliah.objects.create(nama="Aljabar Linier")
-        JenisPengumuman.objects.create(nama="Asistensi")
-        Ruang.objects.create(nama="2311")
-        Sesi.objects.create(nama="Sesi 4 (17.00 - 19.30)")
-        StatusPengumuman.objects.create(nama="Terlambat")
+        user_2 = User.objects.create(username='julia.ningrum', name='Julia Ningrum',
+                                     npm='1204893059', password='admin', user_type=User.ADMIN)
+        self.token_2 = Token.objects.get_or_create(user=user_2)[0].key
+
+        tanggal_kelas = "2016-11-16T22:31:18.130822+00:00"
+        mata_kuliah = MataKuliah.objects.create(nama="Aljabar Linier")
+        jenis_pengumuman = JenisPengumuman.objects.create(nama="Asistensi")
+        ruang = Ruang.objects.create(nama="2311")
+        sesi = Sesi.objects.create(nama="Sesi 4 (17.00 - 19.30)")
+        status_pengumuman = StatusPengumuman.objects.create(nama="Terlambat")
+
+        self.pengumuman_pk = Pengumuman.objects.create(tanggal_kelas=tanggal_kelas,
+                                                       pembuat=user_2, nama_mata_kuliah=mata_kuliah,
+                                                       jenis_pengumuman=jenis_pengumuman,
+                                                       nama_dosen="Lulu Ilmaknun S.kom",
+                                                       nama_asisten="Annida Safira",
+                                                       nama_ruang=ruang,
+                                                       nama_sesi=sesi,
+                                                       nama_status_pengumuman=status_pengumuman,
+                                                       komentar="").pk
 
         self.valid_data = {
             'tanggal_kelas': '2016-11-16',
@@ -443,4 +605,24 @@ class CreatePengumumanApiTest(TestCase):
                                     data=urlencode(MultiValueDict(self.valid_data)),
                                     content_type='application/x-www-form-urlencoded')
         print(response)
+
+    def test_no_announcement_found(self):
+        self.client.credentials(HTTP_AUTHORIZATION='Token ' + self.token_1)
+        response = self.client.post('/api/pengumuman/{}/delete/'.format('999'))
+
+        self.assertEqual(response.data['detail'], 'Pengumuman does not exist.')
+
+    def test_not_owner_of_announcement(self):
+        self.client.credentials(HTTP_AUTHORIZATION='Token ' + self.token_1)
+        response = self.client.post('/api/pengumuman/{}/delete/'.format(self.pengumuman_pk))
+
+        self.assertEqual(response.data['detail'], 'You are not the owner of the announcement.')
+
+    def test_success_delete(self):
+        before_delete_count = Pengumuman.objects.all().count()
+
+        self.client.credentials(HTTP_AUTHORIZATION='Token ' + self.token_2)
+        response = self.client.post('/api/pengumuman/{}/delete/'.format(self.pengumuman_pk))
+
+        self.assertEqual(before_delete_count, Pengumuman.objects.all().count()+1)
         self.assertEqual(response.status_code, 200)

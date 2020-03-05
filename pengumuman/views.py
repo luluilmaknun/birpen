@@ -15,9 +15,9 @@ from rest_framework.status import (
     HTTP_403_FORBIDDEN,
 )
 
-from .serializers import PengumumanSerializer
 from .models import User, Pengumuman, MataKuliah, JenisPengumuman, \
     Ruang, Sesi, StatusPengumuman
+from .serializers import PengumumanSerializer
 
 @api_view(["GET"])
 def pengumuman_placeholder_views(_):
@@ -91,6 +91,25 @@ def create_pengumuman(request):
         "pengumuman": PengumumanSerializer(pengumuman).data
     }, status=HTTP_200_OK)
 
+@api_view(["GET"])
+@permission_classes((IsAuthenticated,))
+def filter_pengumuman(request):
+    pengumuman_request = request.GET["tanggal"]
+    try:
+        pengumuman_date = datetime.strptime(pengumuman_request, '%d-%m-%Y').date()
+    except ValueError as err:
+        return Response({
+            'Error': str(err)
+        }, status=HTTP_400_BAD_REQUEST)
+
+    # if user is admin, return all include soft delete
+    if request.user.user_type == User.ADMIN:
+        filter_date = Pengumuman.all_objects.filter(tanggal_kelas__date=pengumuman_date)
+    else:
+        filter_date = Pengumuman.objects.filter(tanggal_kelas__date=pengumuman_date)
+    pengumuman_response = (PengumumanSerializer(x).data for x in filter_date)
+    return Response({"pengumuman_response": pengumuman_response}, status=HTTP_200_OK)
+
 @csrf_exempt
 @api_view(["POST"])
 @permission_classes((IsAuthenticated,))
@@ -133,3 +152,64 @@ def edit_pengumuman(request, key):
         "success": True,
         "pengumuman": PengumumanSerializer(pengumuman).data
     }, status=HTTP_200_OK)
+
+@csrf_exempt
+@api_view(["GET"])
+@permission_classes((IsAuthenticated,))
+def dropdown_pengumuman(request):
+    response = {}
+    DROPDOWN = {
+        JenisPengumuman: 'jenis_pengumuman',
+        MataKuliah: 'mata_kuliah',
+        Ruang: 'ruang',
+        Sesi: 'sesi',
+        StatusPengumuman: 'status_pengumuman'
+    }
+    for data, key in DROPDOWN.items():
+        all_obj = data.objects.all()
+        response[key] = [_.nama for _ in all_obj]
+
+    return Response(response)
+
+@csrf_exempt
+@api_view(["POST"])
+@permission_classes((IsAuthenticated,))
+def delete_pengumuman(request, key):
+    try:
+        pengumuman = Pengumuman.objects.get(pk=key)
+    except Pengumuman.DoesNotExist:
+        return Response({
+            'detail': 'Pengumuman does not exist.'
+        }, status=HTTP_400_BAD_REQUEST)
+
+    if pengumuman.pembuat != request.user and request.user.user_type != User.ADMIN:
+        return Response({
+            'detail': 'You are not the owner of the announcement.'
+        }, status=HTTP_403_FORBIDDEN)
+
+    pengumuman.delete()
+
+    return Response({
+        "success": True,
+        "pengumuman": PengumumanSerializer(pengumuman).data
+    }, status=HTTP_200_OK)
+
+@csrf_exempt
+@api_view(["POST"])
+@permission_classes((IsAuthenticated,))
+def read_pengumuman(request, key):
+    try:
+        if request.user.user_type != User.ADMIN:
+            pengumuman = Pengumuman.objects.get(pk=key)
+        else:
+            pengumuman = Pengumuman.all_objects.get(pk=key)
+    except Pengumuman.DoesNotExist:
+        return Response({
+            'detail': 'Pengumuman does not exist.'
+        }, status=HTTP_400_BAD_REQUEST)
+
+    return Response({
+        "success": True,
+        "pengumuman": PengumumanSerializer(pengumuman).data
+    }, status=HTTP_200_OK)
+    
