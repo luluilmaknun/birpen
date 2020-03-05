@@ -1,14 +1,9 @@
 import {shallowMount} from '@vue/test-utils';
 import CreateAnnouncement from '@/views/CreateAnnouncement';
+import dropdownApi from '@/services/dropdownDataServices';
 
-describe('Tes Buat Pengumuman page', () => {
-  const props = {
-
-  };
-
-  const wrapper = shallowMount(CreateAnnouncement, {
-    props,
-  });
+describe('Tes Elemen Form', () => {
+  const wrapper = shallowMount(CreateAnnouncement);
 
   it('Buat Pengumuman page name : CreateAnnouncement', () =>{
     expect(wrapper.name()).toEqual('CreateAnnouncement');
@@ -16,6 +11,11 @@ describe('Tes Buat Pengumuman page', () => {
 
   it('punya elemen nama pembuat', () => {
     expect(wrapper.contains('p#pembuat')).toBe(true);
+  });
+
+  it('punya elemen tanggal', () => {
+    expect(wrapper.contains('input#tanggal_kelas')).toBe(true);
+    wrapper.find('input#tanggal_kelas').setValue('2020-03-30');
   });
 
   it('punya elemen nama mata kuliah', () => {
@@ -53,5 +53,40 @@ describe('Tes Buat Pengumuman page', () => {
 
   it('Tes submit form', () =>{
     wrapper.find('[type=\'submit\']').trigger('click');
+  });
+});
+
+describe('Tes function', () => {
+  let wrapper; let vm;
+
+  beforeEach(() => {
+    wrapper = shallowMount(CreateAnnouncement, {
+      'jenis_pengumuman': 'Asistensi',
+      'tanggal_kelas': '2020-03-30',
+      'nama_mata_kuliah': 'Aljabar Linier',
+      'nama_dosen': 'Lulu Ilmaknun',
+      'nama_asisten': 'Lulz',
+      'nama_sesi': 'Sesi 1 (08.00 - 10.30)',
+      'nama_ruang': '3111',
+      'nama_status_pengumuman': 'Terlambat',
+    });
+    vm = wrapper.vm;
+
+    dropdownApi.fetch = jest.fn(() => Promise.resolve({
+      status: 200,
+      data: {
+        jenis_pengumuman: ['Asistensi', 'Perkualiahan'],
+        mata_kuliah: ['Aljabar Linier', 'Analisis Numerik'],
+        ruang: ['3111', '2312'],
+        sesi: ['Sesi 1 (08.00 - 10.30)', 'Sesi 2 (11.00 - 13.30)'],
+        status_pengumuman: ['Terlambat', 'Dibatalkan'],
+      },
+    }));
+
+    vm.fetchData();
+  });
+
+  it('Test post data', () => {
+    wrapper.vm.postData();
   });
 });
