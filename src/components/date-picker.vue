@@ -1,10 +1,18 @@
 <template>
   <div>
-    <date-pick
-      v-model="date"
-      :inputAttributes="{readonly: true}"
-      :displayFormat="'DD-MM-YYYY'">
-    </date-pick>
+    <div class="container">
+      <date-pick
+          v-model="date"
+          :inputAttributes="{readonly: true}"
+          :isDateDisabled="isFutureDate"
+          :format="'YYYY-MM-DD'"
+      ></date-pick>
+      <div v-show="show">
+      </div>
+      <button>
+        <a :href="'/api/pengumuman/?tanggal='+date">Filter</a>
+      </button>
+    </div>
   </div>
 </template>
 
@@ -14,8 +22,25 @@ import 'vue-date-pick/dist/vueDatePick.css';
 
 export default {
   components: {DatePick},
-  data: () => ({
-    date: '',
-  }),
+  data() {
+    return {
+      date: '',
+      show: false,
+    };
+  },
 };
 </script>
+
+<style>
+ .container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+.container a {
+  text-decoration: none;
+  color:black;
+}
+</style>
+
+
