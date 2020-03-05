@@ -26,7 +26,27 @@ http://birpen.docs.apiary.io/
   npm install yarn
   yarn install
   ```
+  
+- Install postgresql
+  ```
+  sudo apt update
+  sudo apt install postgresql postgresql-contrib
+  ```
 
+- Set environment variable
+  
+  Create .env file based on .env.example
+  ```
+  cp birpen/.env.example birpen/.env
+  ```
+  
+  Match variables' content in .env with your local environment settings
+
+- Seed database
+  ```
+  bash seed.sh
+  ```
+  
 ### Testing
 
 #### Testing for backend code

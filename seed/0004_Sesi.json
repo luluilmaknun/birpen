@@ -1,0 +1,34 @@
+[
+    {
+        "model":"pengumuman.sesi",
+        "pk":1,
+        "fields":{
+            "deleted":null,
+            "nama":"Sesi 1 (08.00 - 10.30)"
+        }
+    },
+    {
+        "model":"pengumuman.sesi",
+        "pk":2,
+        "fields":{
+            "deleted":null,
+            "nama":"Sesi 2 (11.00 - 13.30)"
+        }
+    },
+    {
+        "model":"pengumuman.sesi",
+        "pk":3,
+        "fields":{
+            "deleted":null,
+            "nama":"Sesi 3 (14.00 - 16.30)"
+        }
+    },
+    {
+        "model":"pengumuman.sesi",
+        "pk":4,
+        "fields":{
+            "deleted":null,
+            "nama":"Sesi 4 (17.00 - 19.30)"
+        }
+    }
+]
