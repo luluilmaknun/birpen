@@ -142,7 +142,7 @@ def delete_pengumuman(request, key):
             'detail': 'Pengumuman does not exist.'
         }, status=HTTP_400_BAD_REQUEST)
 
-    if pengumuman.pembuat != request.user:
+    if pengumuman.pembuat != request.user and request.user.user_type != User.ADMIN:
         return Response({
             'detail': 'You are not the owner of the announcement.'
         }, status=HTTP_403_FORBIDDEN)
