@@ -1,20 +1,21 @@
 <template>
   <div>
-    <CreateAnnouncement :data_edit="data_pengumuman" edit="true" />
+    <CreateAnnouncement :edit="true" :pk="pk" />
   </div>
 </template>
 
 <script>
-import CreateAnnouncement from '@/views/CreateAnnouncement';
-import announcementApi from '@/services/announcementServices';
+import CreateAnnouncement from '@/views/CreateAnnouncement.vue';
 
 export default {
   name: 'EditAnnouncement',
-  component: CreateAnnouncement,
+  components: {
+    CreateAnnouncement,
+  },
   data: function() {
-    announcementApi.getAnnouncement().then((d) => {
-      return d.data;
-    });
+    return {
+      pk: this.$router.history.current.params.key,
+    };
   },
 };
 </script>

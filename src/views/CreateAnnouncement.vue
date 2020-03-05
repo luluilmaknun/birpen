@@ -110,7 +110,10 @@ import announcementApi from '@/services/announcementServices';
 
 export default {
   name: 'CreateAnnouncement',
-
+  props: {
+    edit: Boolean,
+    pk: String,
+  },
   data: function() {
     return {
       role: '',
@@ -134,6 +137,9 @@ export default {
     };
   },
   created: function() {
+    if (this.edit) {
+      this.editData(this.pk);
+    }
     this.fetchData();
   },
   methods: {
@@ -166,6 +172,11 @@ export default {
         }
       });
     },
+    editData: function(pk) {
+      announcementApi.getAnnouncement(pk).then((d) => {
+
+      });
+    },
     postData: function() {
       const request = {};
       request['jenis_pengumuman'] = this.jenis_pengumuman;
@@ -178,11 +189,15 @@ export default {
       request['nama_status_pengumuman'] = this.nama_status_pengumuman;
       request['komentar'] = this.komentar;
 
-      announcementApi.createAnnouncement(request).then((d) => {
+      if (!this.edit) {
+        announcementApi.createAnnouncement(request).then((d) => {
 
-      }).catch((error) => {
+        }).catch((error) => {
 
-      });
+        });
+      } else {
+        announcementApi.editAnnouncement(this.key, request);
+      }
     },
   },
 };
