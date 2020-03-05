@@ -257,7 +257,7 @@ form.vue-form button {
   background: #FFDD00;
   border: 0;
   border-radius: 46.5px;
-  font-family: Montserrat;
+  font-family: 'Montserrat', sans-serif;
   font-style: normal;
   font-weight: bold;
   padding: 10px;
