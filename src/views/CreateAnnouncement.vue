@@ -1,7 +1,9 @@
 <template>
   <div id="create-announcement">
-    <h2 class="title">Buat Pengumuman</h2>
-    <form class="vue-form" @submit.prevent="submit">
+    <h2 class="title" style="color: black">Buat Pengumuman</h2>
+    <br>
+    <br>
+    <form class="vue-form" @submit.prevent="postData()">
       <div>
         <label class="label" for="pembuat" style="display: inline">
           Dibuat oleh:
@@ -9,6 +11,14 @@
         <p id="pembuat" style="display: inline; margin: 0 0 20px 0">
           {{ pembuat }}
         </p>
+      </div>
+
+      <div>
+        <label class="label" for="tanggal_kelas">
+          Tanggal Kelas:
+        </label>
+        <input type="date" id="tanggal_kelas"
+          required="" v-model="tanggal_kelas">
       </div>
 
       <div>
@@ -95,6 +105,9 @@
 </template>
 
 <script>
+import dropdownApi from '@/services/dropdownDataServices';
+import announcementApi from '@/services/announcementServices';
+
 export default {
   name: 'CreateAnnouncement',
 
@@ -103,8 +116,16 @@ export default {
       role: '',
       pembuat: '',
       jenis_pengumuman: '',
+      tanggal_kelas: '',
+      nama_mata_kuliah: '',
+      nama_dosen: '',
+      nama_asisten: '',
+      nama_sesi: '',
+      nama_ruang: '',
+      nama_status_pengumuman: '',
+      komentar: '',
       daftar_mata_kuliah: [],
-      daftar_jenis_pengumuman: ['Asistensi', 'asistensi'],
+      daftar_jenis_pengumuman: [],
       daftar_nama_ruang: [],
       daftar_nama_sesi: [],
       daftar_nama_status_pengumuman: [],
@@ -113,12 +134,55 @@ export default {
     };
   },
   created: function() {
-    this.response = this.fetchData();
+    this.fetchData();
   },
   methods: {
     fetchData: function() {
       this.pembuat = sessionStorage.username;
       this.role = sessionStorage.role;
+
+      dropdownApi.fetch().then((d) => {
+        this.response = d.data;
+
+        for (let i = 0; i < this.response.jenis_pengumuman.length; i++) {
+          this.daftar_jenis_pengumuman[i] = this.response.jenis_pengumuman[i];
+        }
+
+        for (let i = 0; i < this.response.mata_kuliah.length; i++) {
+          this.daftar_mata_kuliah[i] = this.response.mata_kuliah[i];
+        }
+
+        for (let i = 0; i < this.response.ruang.length; i++) {
+          this.daftar_nama_ruang[i] = this.response.ruang[i];
+        }
+
+        for (let i = 0; i < this.response.sesi.length; i++) {
+          this.daftar_nama_sesi[i] = this.response.sesi[i];
+        }
+
+        for (let i = 0; i < this.response.status_pengumuman.length; i++) {
+          this.daftar_nama_status_pengumuman[i] =
+            this.response.status_pengumuman[i];
+        }
+      });
+    },
+    postData: function() {
+      const request = {};
+      request['jenis_pengumuman'] = this.jenis_pengumuman;
+      request['tanggal_kelas'] = this.tanggal_kelas;
+      request['nama_mata_kuliah'] = this.nama_mata_kuliah;
+      request['nama_dosen'] = this.nama_dosen;
+      request['nama_asisten'] = this.nama_asisten;
+      request['nama_sesi'] = this.nama_sesi;
+      request['nama_ruang'] = this.nama_ruang;
+      request['nama_status_pengumuman'] = this.nama_status_pengumuman;
+      request['komentar'] = this.komentar;
+
+      announcementApi.createAnnouncement(request).then((d) => {
+
+      }).catch((error) => {
+
+      });
     },
   },
 };
