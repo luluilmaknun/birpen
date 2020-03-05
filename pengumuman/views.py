@@ -153,3 +153,23 @@ def delete_pengumuman(request, key):
         "success": True,
         "pengumuman": PengumumanSerializer(pengumuman).data
     }, status=HTTP_200_OK)
+
+@csrf_exempt
+@api_view(["POST"])
+@permission_classes((IsAuthenticated,))
+def read_pengumuman(request, key):
+    try:
+        if request.user.user_type != User.ADMIN:
+            pengumuman = Pengumuman.objects.get(pk=key)
+        else:
+            pengumuman = Pengumuman.all_objects.get(pk=key)
+    except Pengumuman.DoesNotExist:
+        return Response({
+            'detail': 'Pengumuman does not exist.'
+        }, status=HTTP_400_BAD_REQUEST)
+
+    return Response({
+        "success": True,
+        "pengumuman": PengumumanSerializer(pengumuman).data
+    }, status=HTTP_200_OK)
+    
