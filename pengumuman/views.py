@@ -212,4 +212,3 @@ def read_pengumuman(request, key):
         "success": True,
         "pengumuman": PengumumanSerializer(pengumuman).data
     }, status=HTTP_200_OK)
-    
