@@ -28,29 +28,6 @@ def pengumuman_placeholder_views(_):
 
     return Response({"success": True, "result": result}, status=200)
 
-
-@csrf_exempt
-@api_view(["POST", "GET"])
-@permission_classes((AllowAny,))
-def login(request):
-    if request.method == "GET":
-        response = {}
-        return render(request, 'login.html', response)
-
-    username = request.data.get("username")
-    password = request.data.get("password")
-    if username is None or password is None:
-        return Response({'detail': 'Please provide both username and password'},
-                        status=HTTP_400_BAD_REQUEST)
-    user = authenticate(username=username, password=password)
-    if not user:
-        return Response({'detail': 'Invalid Credentials'},
-                        status=HTTP_404_NOT_FOUND)
-    token, _ = Token.objects.get_or_create(user=user)
-    return Response({'token': token.key, 'role': user.user_type},
-                    status=HTTP_200_OK)
-
-
 @api_view(["GET"])
 @permission_classes((IsAuthenticated,))
 def filter_pengumuman(request):
