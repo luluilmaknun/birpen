@@ -6,11 +6,21 @@ from django.contrib.auth import get_user_model
 from django.test import TestCase
 from django.urls import reverse
 from django_cas_ng.signals import cas_user_authenticated
+from django.contrib.admin.sites import AdminSite
+from .models import ORG_CODE, Profile
+from .admin import ProfileAdmin
 
 User = get_user_model()
 
 class SSOUITest(TestCase):
     """Test SSO UI app."""
+
+    class MockRequest:
+        pass
+
+    class MockUser:
+        pass
+
     ATTRIBUTES = {
         "nama": "Ice Bear",
         "peran_user": "mahasiswa",
@@ -68,3 +78,14 @@ class SSOUITest(TestCase):
     def test_profile_str(self):
         """Test string representation of Profile model."""
         self.assertEqual(str(self.user.profile), self.user.username)
+
+    def test_has_change_permission(self):
+        """
+        has_change_permission returns True for users who can edit objects and
+        False for users who can't.
+        """
+        profileAdmin = ProfileAdmin(Profile, AdminSite())
+        request = self.MockRequest()
+
+        request.user = self.MockUser()
+        self.assertFalse(profileAdmin.has_change_permission(request))
