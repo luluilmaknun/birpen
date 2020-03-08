@@ -48,6 +48,8 @@ INSTALLED_APPS = [
     'pengumuman',
     'permohonan_surat',
     'safedelete',
+    'django_cas_ng',
+    'sso_ui.apps.SSOUIConfig',
 ]
 
 MIDDLEWARE = [
@@ -98,6 +100,25 @@ DATABASES = {
 
 if os.environ.get("DATABASE_URL"):
     DATABASES['default'] = dj_database_url.config()
+
+# Authentication backends
+# https://docs.djangoproject.com/en/2.1/topics/auth/customizing/#specifying-authentication-backends
+
+AUTHENTICATION_BACKENDS = (
+
+)
+
+# Django CAS-NG configuration
+
+CAS_SERVER_URL = os.getenv("CAS_SERVER_URL", 'https://sso.ui.ac.id/cas2/')
+CAS_LOGIN_URL_NAME = 'sso_ui:login'
+CAS_FORCE_CHANGE_USERNAME_CASE = 'lower'
+
+
+# SSO-UI configuration
+
+SSO_UI_ORG_DETAIL_FILE_PATH = "sso_ui/static/sso_ui/kodoru.json"
+SSO_UI_ORG_DETAIL_LANG = "id"
 
 # Password validation
 # https://docs.djangoproject.com/en/2.1/ref/settings/#auth-password-validators
@@ -162,3 +183,11 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.TokenAuthentication',
     )
 }
+
+# Authentication backends
+# https://docs.djangoproject.com/en/2.1/topics/auth/customizing/#specifying-authentication-backends
+
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',
+    'django_cas_ng.backends.CASBackend',
+)
