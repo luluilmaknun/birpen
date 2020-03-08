@@ -9,6 +9,8 @@ from django_cas_ng.signals import cas_user_authenticated
 from django.contrib.admin.sites import AdminSite
 from .models import ORG_CODE, Profile
 from .admin import ProfileAdmin
+from django_cas_ng import views as cas_views
+from django.test import Client
 
 User = get_user_model()
 
@@ -89,3 +91,16 @@ class SSOUITest(TestCase):
 
         request.user = self.MockUser()
         self.assertFalse(profileAdmin.has_change_permission(request))
+
+    def test_success_create_token(self):
+        User = get_user_model()
+        user = User.objects.create_user(username='yusuf.tri',
+                                 name='yusuf tri a.', npm='1701837382',
+                                 password='mahasiswa', user_type=User.MAHASISWA)
+        self.client.force_login(user)
+        response = self.client.get(reverse('sso_ui:create-token'))
+        self.assertEqual(response.status_code, 200)
+    
+    def test_fail_create_token_user_not_authenticated(self):
+        response = self.client.get(reverse('sso_ui:create-token'))
+        self.assertEqual(response.status_code, 302)
