@@ -191,3 +191,5 @@ AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
     'django_cas_ng.backends.CASBackend',
 )
+
+CAS_REDIRECT_URL = '/sso/create-token'
