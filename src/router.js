@@ -21,7 +21,6 @@ export default new Router({
     {
       path: '/pengumuman',
       name: 'pengumuman',
-<<<<<<< HEAD
       component: Pengumuman,
     },
     {
@@ -32,8 +31,6 @@ export default new Router({
     {
       path: '/buatakun',
       name: 'buatakun',
-=======
->>>>>>> 02f9fd458ec0b9cdf198b3cdab98c6a3e4c5fe99
       component: null,
     },
   ],
