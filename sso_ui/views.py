@@ -10,5 +10,5 @@ def create_token(request):
         return JsonResponse({
             'token' : str(token)
         })
-    else:
-        return redirect('/')
+
+    return redirect('/')

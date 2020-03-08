@@ -5,23 +5,24 @@ from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.test import TestCase
 from django.urls import reverse
-from django_cas_ng.signals import cas_user_authenticated
 from django.contrib.admin.sites import AdminSite
+
+from django_cas_ng.signals import cas_user_authenticated
+
 from .models import ORG_CODE, Profile
 from .admin import ProfileAdmin
-from django_cas_ng import views as cas_views
-from django.test import Client
 
 User = get_user_model()
 
 class SSOUITest(TestCase):
     """Test SSO UI app."""
 
-    class MockRequest:
-        pass
-
     class MockUser:
         pass
+
+    class MockRequest():
+        def __init__(self):
+            self.user = SSOUITest.MockUser()
 
     ATTRIBUTES = {
         "nama": "Ice Bear",
@@ -86,21 +87,19 @@ class SSOUITest(TestCase):
         has_change_permission returns True for users who can edit objects and
         False for users who can't.
         """
-        profileAdmin = ProfileAdmin(Profile, AdminSite())
+        profile_admin = ProfileAdmin(Profile, AdminSite())
         request = self.MockRequest()
 
-        request.user = self.MockUser()
-        self.assertFalse(profileAdmin.has_change_permission(request))
+        self.assertFalse(profile_admin.has_change_permission(request))
 
     def test_success_create_token(self):
-        User = get_user_model()
         user = User.objects.create_user(username='yusuf.tri',
-                                 name='yusuf tri a.', npm='1701837382',
-                                 password='mahasiswa', user_type=User.MAHASISWA)
+                                        name='yusuf tri a.', npm='1701837382',
+                                        password='mahasiswa', user_type=User.MAHASISWA)
         self.client.force_login(user)
         response = self.client.get(reverse('sso_ui:create-token'))
         self.assertEqual(response.status_code, 200)
-    
+
     def test_fail_create_token_user_not_authenticated(self):
         response = self.client.get(reverse('sso_ui:create-token'))
         self.assertEqual(response.status_code, 302)
