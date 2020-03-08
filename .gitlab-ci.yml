@@ -34,6 +34,7 @@ UnitTestDjango:
     - pip install -r requirements_dev.txt
   when: on_success
   script:
+    - cp -r public/ dist/
     - python3 run_lint.py
     - coverage run --include='landing_page/*,pengumuman/*,permohonan_surat/*' manage.py test
     - coverage report -m
