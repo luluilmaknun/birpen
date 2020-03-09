@@ -4,9 +4,32 @@
     name="detail-modal"
     :pivotX="0.0"
     >
-      <div class="modal-container">
-        It's me again, Nafis.
-      </div>
+    <div class="modal-container">
+      <h1 style="margin-bottom:20px">Detail</h1>
+        <div class="detail-content">
+          <div id="left">
+            <p>Dibuat oleh:</p>
+            <p>Mata kuliah:</p>
+            <p>Jenis:</p>
+            <p>Dosen:</p>
+            <p>Ruang:</p>
+            <p>Sesi:</p>
+            <p>Status:</p>
+            <p>Komentar:</p>
+          </div>
+
+          <div id="right">
+            <p>{{ temp[0].pembuat }}</p>
+            <p>{{ temp[0].nama_mata_kuliah }}</p>
+            <p>{{ temp[0].jenis_pengumuman }}</p>
+            <p>{{ temp[0].nama_dosen }}</p>
+            <p>{{ temp[0].nama_ruang }}</p>
+            <p>{{ temp[0].sesi }}</p>
+            <p>{{ temp[0].nama_status_pengumuman }}</p>
+            <p>{{ temp[0].komentar }}</p>
+          </div>
+        </div>
+    </div>
     </modal>
 
     <h1 class="title-pengumuman">
@@ -20,7 +43,7 @@
         </th>
       </tr>
 
-      <tr v-for="content in tableData" :key="content.id">
+      <tr v-for="content in tableData" :key="content.pk">
         <td>
           {{ content.nama_mata_kuliah }}
         </td>
@@ -34,7 +57,17 @@
           {{ content.nama_status_pengumuman }}
         </td>
         <td>
-          <button v-on:click="showModal()" class="detail-button">
+          <button
+          v-on:click="showModal(
+            content.pk,
+            content.pembuat,
+            content.nama_mata_kuliah,
+            content.jenis_pengumuman,
+            content.nama_dosen,
+            content.nama_ruang,
+            content.sesi,
+            content.nama_status_pengumuman,
+            content.komentar)" class="detail-button">
             Detail
           </button>
         </td>
@@ -47,32 +80,83 @@
 export default {
   data: function() {
     return {
+      temp: [
+        { pk: 999,
+          pembuat: '',
+          nama_mata_kuliah: '',
+          jenis_pengumuman: '',
+          nama_dosen: '',
+          nama_ruang: '',
+          sesi: '',
+          nama_status_pengumuman: '',
+          komentar: '',
+        },
+      ],
       tableHead: [
         'Mata Kuliah', 'Dosen', 'Sesi', 'Status', 'Aksi',
       ],
       tableData: [
-        {id: 1, nama_mata_kuliah: 'PPL-A', nama_dosen: 'Ahmad Fauzan A.I',
-          sesi: '08.00 - 10.30', nama_status_pengumuman: 'Terlambat'},
-        {id: 2, nama_mata_kuliah: 'Alin', nama_dosen: 'Lulu',
-          sesi: '10.00 - 12.30', nama_status_pengumuman: 'Dibatalkan'},
-        {id: 3, nama_mata_kuliah: 'POK', nama_dosen: 'Ardho',
-          sesi: '08.00 - 10.30', nama_status_pengumuman: 'Dibatalkan'},
+        { pk: 1,
+          pembuat: 'Ardho',
+          nama_mata_kuliah: 'PPL-A',
+          jenis_pengumuman: 'Asistensi',
+          nama_dosen: 'Ahmad Fauzan A.I',
+          nama_ruang: '1203',
+          sesi: '08.00 - 10.30',
+          nama_status_pengumuman: 'Terlambat',
+          komentar: 'Saya ketiduran',
+        },
+        { pk: 2,
+          pembuat:'Nafis',
+          nama_mata_kuliah: 'Alin',
+          jenis_pengumuman: 'Perkuliahan',
+          nama_dosen: 'Lulu',
+          nama_ruang: '2203',
+          sesi: '10.00 - 12.30',
+          nama_status_pengumuman: 'Dibatalkan',
+          komentar: 'Macet',
+        },
+        { pk: 3,
+          pembuat:'Juli',
+          nama_mata_kuliah: 'POK',
+          jenis_pengumuman: 'Perkuliahan',
+          nama_dosen: 'Ardho',
+          nama_ruang: '1203',
+          sesi: '08.00 - 10.30',
+          nama_status_pengumuman: 'Terlambat',
+          komentar: 'Saya ketiduran',
+        },
       ],
-      myArray: {
-        namaMatkul: 'PPL', namaDosen: 'Napis', sesi: '08.00 - 10.30',
-        statusPengumuman: 'Terlambat',
-      },
     };
   },
   methods: {
-    showModal() {
+    showModal(pk, pembuat, matkul, jenis, dosen,
+    ruang, sesi, status, komentar) {
+      const data = this.temp[0];
       this.$modal.show('detail-modal');
+      data.pk = pk;
+      data.pembuat = pembuat;
+      data.nama_mata_kuliah = matkul;
+      data.nama_dosen = dosen;
+      data.nama_ruang = ruang;
+      data.sesi = sesi;
+      data.jenis_pengumuman = jenis;
+      data.nama_status_pengumuman = status;
+      data.komentar = komentar;
     },
   },
 };
 </script>
 
 <style>
+.detail-content {
+  color: red;
+}
+.detail-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
 .title-pengumuman {
   margin-top: 50px;
   margin-bottom: 20px;
@@ -103,6 +187,7 @@ tr:nth-child(odd) {
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin: 20px;
 }
 .detail-button {
   background: none;
