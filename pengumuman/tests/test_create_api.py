@@ -1,8 +1,9 @@
 from django.test import TestCase
+from django.utils.datastructures import MultiValueDict
+from django.utils.http import urlencode
+
 from rest_framework.test import APIClient
 from rest_framework.authtoken.models import Token
-from django.utils.http import urlencode
-from django.utils.datastructures import MultiValueDict
 
 from pengumuman.models import MataKuliah, JenisPengumuman, Ruang, \
     Sesi, StatusPengumuman, Pengumuman, User
@@ -67,6 +68,7 @@ class CreateApiTest(TestCase):
         response = self.client.post('/api/pengumuman/create/',
                                     data=urlencode(MultiValueDict(self.valid_data)),
                                     content_type='application/x-www-form-urlencoded')
+        self.assertEqual(response.status_code, 200)
 
     def test_no_announcement_found(self):
         self.client.credentials(HTTP_AUTHORIZATION='Token ' + self.token_1)
