@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 import Home from '@/Home.vue';
-import Pengumuman from './components/Pengumuman.vue';
+import Delete from '@/components/delete.vue';
 
 Vue.use(Router);
 
@@ -21,17 +21,7 @@ export default new Router({
     {
       path: '/pengumuman',
       name: 'pengumuman',
-      component: Pengumuman,
-    },
-    {
-      path: '/login',
-      name: 'login',
-      component: null,
-    },
-    {
-      path: '/buatakun',
-      name: 'buatakun',
-      component: null,
+      component: Delete,
     },
   ],
 });
