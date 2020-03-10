@@ -67,7 +67,6 @@ class CreateApiTest(TestCase):
         response = self.client.post('/api/pengumuman/create/',
                                     data=urlencode(MultiValueDict(self.valid_data)),
                                     content_type='application/x-www-form-urlencoded')
-        print(response)
 
     def test_no_announcement_found(self):
         self.client.credentials(HTTP_AUTHORIZATION='Token ' + self.token_1)
