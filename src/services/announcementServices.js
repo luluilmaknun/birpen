@@ -5,7 +5,7 @@ export default {
     return api.post('pengumuman/'+key+'/');
   },
   editAnnouncement(key, request) {
-    return api.post('pengumuman/'+key+'/edit', request);
+    return api.post('pengumuman/'+key+'/edit/', request);
   },
   createAnnouncement(request) {
     return api.post('pengumuman/create', request);

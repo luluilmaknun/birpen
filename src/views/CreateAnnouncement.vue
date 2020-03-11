@@ -209,7 +209,7 @@ export default {
 
         });
       } else {
-        announcementApi.editAnnouncement(this.key, request);
+        announcementApi.editAnnouncement(this.pk, request);
       }
     },
   },
