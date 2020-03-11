@@ -12,9 +12,12 @@ export default {
   components: {
     CreateAnnouncement,
   },
+  props: {
+    pk_key: String,
+  },
   data: function() {
     return {
-      pk: this.$router.history.current.params.key,
+      pk: this.pk_key,
     };
   },
 };

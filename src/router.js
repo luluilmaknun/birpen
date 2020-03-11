@@ -30,7 +30,7 @@ export default new Router({
       component: CreateAnnouncement,
     },
     {
-      path: '/pengumuman/:key/edit',
+      path: '/pengumuman/:pk_key/edit',
       name: 'edit-pengumuman',
       component: EditAnnouncement,
       props: true,
