@@ -1,6 +1,7 @@
 import {shallowMount} from '@vue/test-utils';
 import CreateAnnouncement from '@/views/CreateAnnouncement';
 import dropdownApi from '@/services/dropdownDataServices';
+import announcementApi from '@/services/announcementServices';
 
 describe('Tes Elemen Form', () => {
   const wrapper = shallowMount(CreateAnnouncement);
@@ -88,5 +89,46 @@ describe('Tes function', () => {
 
   it('Test post data', () => {
     wrapper.vm.postData();
+  });
+});
+
+describe('Edit function', () => {
+  let wrapper; let vm;
+
+  beforeEach(() => {
+    wrapper = shallowMount(CreateAnnouncement, {
+      'propsData': {
+        edit: true,
+        pk: 1,
+      },
+    });
+    vm = wrapper.vm;
+
+    announcementApi.getAnnouncement = jest.fn((data) => Promise.resolve({
+      status: 200,
+      data: {
+        pk: 1,
+        pembuat: 'lulu',
+        nama_mata_kuliah: 'Aljabar Linier',
+        jenis_pengumuman: 'Perkuliahan',
+        nama_dosen: 'Lulu Ilmaknun',
+        tanggal_kelas: '2020-03-30',
+        nama_ruang: '3111',
+        nama_sesi: 'Sesi 1 (08.00 - 10.30)',
+        nama_status_pengumuman: 'Terlambat',
+        komentar: 'lol',
+      },
+    }));
+
+    vm.fetchData();
+  });
+
+  it('Test post data', () => {
+    vm.postData();
+  });
+
+  it('Test edit data', () => {
+    expect(wrapper.props('edit')).toBe(true);
+    vm.editData(1);
   });
 });
