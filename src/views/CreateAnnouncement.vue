@@ -137,10 +137,11 @@ export default {
     };
   },
   created: function() {
+    this.fetchData();
+
     if (this.edit) {
       this.editData(this.pk);
     }
-    this.fetchData();
   },
   methods: {
     fetchData: function() {
@@ -151,30 +152,42 @@ export default {
         this.response = d.data;
 
         for (let i = 0; i < this.response.jenis_pengumuman.length; i++) {
-          this.daftar_jenis_pengumuman[i] = this.response.jenis_pengumuman[i];
+          this.$set(this.daftar_jenis_pengumuman, i,
+              this.response.jenis_pengumuman[i]);
         }
 
         for (let i = 0; i < this.response.mata_kuliah.length; i++) {
-          this.daftar_mata_kuliah[i] = this.response.mata_kuliah[i];
+          this.$set(this.daftar_mata_kuliah, i, this.response.mata_kuliah[i]);
         }
 
         for (let i = 0; i < this.response.ruang.length; i++) {
-          this.daftar_nama_ruang[i] = this.response.ruang[i];
+          this.$set(this.daftar_nama_ruang, i, this.response.ruang[i]);
         }
 
         for (let i = 0; i < this.response.sesi.length; i++) {
           this.daftar_nama_sesi[i] = this.response.sesi[i];
+          this.$set(this.daftar_nama_sesi, i, this.response.sesi[i]);
         }
 
         for (let i = 0; i < this.response.status_pengumuman.length; i++) {
-          this.daftar_nama_status_pengumuman[i] =
-            this.response.status_pengumuman[i];
+          this.$set(this.daftar_nama_status_pengumuman, i,
+              this.response.status_pengumuman[i]);
         }
       });
     },
     editData: function(pk) {
       announcementApi.getAnnouncement(pk).then((d) => {
+        const data = d.data.pengumuman;
 
+        this.pembuat = data['pembuat'];
+        this.nama_mata_kuliah = data['nama_mata_kuliah'];
+        this.jenis_pengumuman = data['jenis_pengumuman'];
+        this.komentar = data['komentar'];
+        this.nama_dosen = data['nama_dosen'];
+        this.nama_ruang = data['nama_ruang'];
+        this.tanggal_kelas = data['tanggal_kelas'];
+        this.nama_sesi = data['nama_sesi'];
+        this.nama_status_pengumuman = data['nama_status_pengumuman'];
       });
     },
     postData: function() {

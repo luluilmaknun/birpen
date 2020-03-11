@@ -2,7 +2,7 @@ import api from '@/services/api';
 
 export default {
   getAnnouncement(key) {
-    return api.get('pengumuman/'+key);
+    return api.post('pengumuman/'+key+'/');
   },
   editAnnouncement(key, request) {
     return api.post('pengumuman/'+key+'/edit', request);
