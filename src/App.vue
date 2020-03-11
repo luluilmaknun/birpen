@@ -22,7 +22,7 @@ export default {
   -moz-transition: 0.25s;
   -o-transition: 0.25s;
   transition: 0.25s;
-  font-family: 'Montserrat'
+  font-family: 'Montserrat', sans-serif;
 }
 .page-container {
   display:flex;

@@ -25,16 +25,17 @@
       Login
       </router-link>
     </div>
-    
+
     <!-- NAVBAR WHEN WIDTH 700px -->
     <div class="nav-700px">
       <button class="toggle-dropdown"
       v-on:click="mobileView = !mobileView">
-      Menu List <img id="dropdown-img" 
-      src="./../assets/images/white-arrow-png-41944.png"/>
+      Menu List <img id="dropdown-img"
+      src="./../assets/images/white-arrow-png-41944.png"
+      alt="Klink untuk melihat lebih lanjut" />
       </button>
 
-      <div class="nav-elem-container-right" 
+      <div class="nav-elem-container-right"
       id="mob-nav" v-show="mobileView">
         <router-link class="nav-elem"
         ref="surat-button" :to="{ name: 'surat' }">
@@ -59,12 +60,12 @@
 
 <script>
 export default {
-  data () {
+  data() {
     return {
-        mobileView: false,
+      mobileView: false,
     };
   },
-}
+};
 </script>
 
 <style>
