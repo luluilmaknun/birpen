@@ -71,7 +71,7 @@ def filter_pengumuman(request):
     return Response({"pengumuman_response": pengumuman_response}, status=HTTP_200_OK)
 
 @csrf_exempt
-@api_view(["POST"])
+@api_view(["PUT"])
 @permission_classes((IsAuthenticated,))
 def edit_pengumuman(request, key):
     try:
