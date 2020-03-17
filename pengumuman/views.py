@@ -155,7 +155,7 @@ def delete_pengumuman(request, key):
     }, status=HTTP_200_OK)
 
 @csrf_exempt
-@api_view(["POST"])
+@api_view(["GET"])
 @permission_classes((IsAuthenticated,))
 def read_pengumuman(request, key):
     try:
