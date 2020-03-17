@@ -132,7 +132,7 @@ def dropdown_pengumuman(request):
     return Response(response)
 
 @csrf_exempt
-@api_view(["POST"])
+@api_view(["DELETE"])
 @permission_classes((IsAuthenticated,))
 def delete_pengumuman(request, key):
     try:

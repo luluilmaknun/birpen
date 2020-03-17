@@ -5,7 +5,7 @@
         <div class="modal-container">
           Apakah anda yakin?
           <div class="modal-buttons">
-            <button v-on:click="postdelete" id='blue-btn'>Ya</button>
+            <button v-on:click="deletePengumuman" id='blue-btn'>Ya</button>
             <button v-on:click="hide" id="hapus-btn">Tidak</button>
           </div>
         </div>
@@ -28,10 +28,10 @@ export default {
     hide() {
       this.$modal.hide('hello-world');
     },
-    postdelete() {
+    deletePengumuman() {
       const urlTarget = "/api/pengumuman/"+
       document.getElementById("pk").innerText+"/delete/";
-      axios({ method: "POST", "url": urlTarget,
+      axios({ method: "DELETE", "url": urlTarget,
       "headers":
       {
         "content-type": "application/x-www-form-urlencoded" ,
