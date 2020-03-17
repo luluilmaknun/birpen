@@ -149,7 +149,7 @@ class PengumumanApiTest(TestCase):
         self.pengumuman.delete()
 
         self.client.credentials(HTTP_AUTHORIZATION='Token ' + self.token_2)
-        response = self.client.post('/api/pengumuman/{}/'.format(self.pengumuman_pk))
+        response = self.client.get('/api/pengumuman/{}/'.format(self.pengumuman_pk))
 
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.data['pengumuman']['tanggal_kelas'],
@@ -164,14 +164,14 @@ class PengumumanApiTest(TestCase):
 
     def test_fail_get_pengumuman_admin(self):
         self.client.credentials(HTTP_AUTHORIZATION='Token ' + self.token_2)
-        response = self.client.post('/api/pengumuman/{}/'.format(10000))
+        response = self.client.get('/api/pengumuman/{}/'.format(10000))
 
         self.assertEqual(response.status_code, 400)
         self.assertEqual(response.data['detail'], 'Pengumuman does not exist.')
 
     def test_success_get_pengumuman_non_admin(self):
         self.client.credentials(HTTP_AUTHORIZATION='Token ' + self.token_3)
-        response = self.client.post('/api/pengumuman/{}/'.format(self.pengumuman_pk))
+        response = self.client.get('/api/pengumuman/{}/'.format(self.pengumuman_pk))
 
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.data['pengumuman']['tanggal_kelas'],
@@ -188,7 +188,7 @@ class PengumumanApiTest(TestCase):
         self.pengumuman.delete()
 
         self.client.credentials(HTTP_AUTHORIZATION='Token ' + self.token_3)
-        response = self.client.post('/api/pengumuman/{}/'.format(self.pengumuman_pk))
+        response = self.client.get('/api/pengumuman/{}/'.format(self.pengumuman_pk))
 
         self.assertEqual(response.status_code, 400)
         self.assertEqual(response.data['detail'], 'Pengumuman does not exist.')
