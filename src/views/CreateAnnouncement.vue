@@ -145,24 +145,26 @@ export default {
         this.response = d.data;
 
         for (let i = 0; i < this.response.jenis_pengumuman.length; i++) {
-          this.daftar_jenis_pengumuman[i] = this.response.jenis_pengumuman[i];
+          this.$set(this.daftar_jenis_pengumuman, i,
+              this.response.jenis_pengumuman[i]);
         }
 
         for (let i = 0; i < this.response.mata_kuliah.length; i++) {
-          this.daftar_mata_kuliah[i] = this.response.mata_kuliah[i];
+          this.$set(this.daftar_mata_kuliah, i, this.response.mata_kuliah[i]);
         }
 
         for (let i = 0; i < this.response.ruang.length; i++) {
-          this.daftar_nama_ruang[i] = this.response.ruang[i];
+          this.$set(this.daftar_nama_ruang, i, this.response.ruang[i]);
         }
 
         for (let i = 0; i < this.response.sesi.length; i++) {
           this.daftar_nama_sesi[i] = this.response.sesi[i];
+          this.$set(this.daftar_nama_sesi, i, this.response.sesi[i]);
         }
 
         for (let i = 0; i < this.response.status_pengumuman.length; i++) {
-          this.daftar_nama_status_pengumuman[i] =
-            this.response.status_pengumuman[i];
+          this.$set(this.daftar_nama_status_pengumuman, i,
+              this.response.status_pengumuman[i]);
         }
       });
     },
