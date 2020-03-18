@@ -36,7 +36,11 @@
         </div>
 
         <div class="modal-button-container">
-
+          <DeleteButton class="delete-button"/>
+          <div class="spreader-button" />
+          <button class="close-modal" v-on:click="closeModal()">
+            Tutup
+          </button>
         </div>
     </div>
     </modal>
@@ -87,6 +91,7 @@
 </template>
 
 <script>
+import DeleteButton from "./delete";
 export default {
   data: function() {
     return {
@@ -163,6 +168,12 @@ export default {
       data.nama_status_pengumuman = status;
       data.komentar = komentar;
     },
+    closeModal() {
+      this.$modal.hide('detail-modal');
+    }
+  },
+  components: {
+    DeleteButton
   },
 };
 </script>
@@ -200,7 +211,7 @@ tr:nth-child(odd) {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin: 10px;
+  margin: 30px;
 }
 .detail-button {
   background: none;
@@ -237,5 +248,26 @@ tr:nth-child(odd) {
 .modal-button-container {
   display: flex;
   flex-direction: row;
+  margin-top: 150px;
+}
+.close-modal {
+  border-color: #2D3033;
+}
+.modal-button-container button {
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  border-style: none;
+  background: none;
+  background-color: #2D3033;
+  color: white;
+  font-weight: bolder;
+  border-radius: 1000px;
+  font-size: 20pt;
+}
+.spreader-button {
+  margin-left: 100px;
+  margin-right: 100px;
 }
 </style>
