@@ -157,7 +157,7 @@ def delete_pengumuman(request, key):
 @csrf_exempt
 @api_view(["GET"])
 @permission_classes((IsAuthenticated,))
-def read_pengumuman(request, key):
+def read_pengumuman_by_pk(request, key):
     try:
         if request.user.user_type != User.ADMIN:
             pengumuman = Pengumuman.objects.get(pk=key)
