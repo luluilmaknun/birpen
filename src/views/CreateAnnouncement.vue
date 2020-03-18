@@ -96,7 +96,10 @@
         </label>
         <textarea type="text" id="komentar" v-model="komentar" />
       </div>
-
+      <br>
+      <span style="text-align:center;color:red" v-if="message_seen">
+        {{ message }}
+      </span>
       <button type="submit">
         Submit
       </button>
@@ -131,6 +134,8 @@ export default {
       daftar_nama_status_pengumuman: [],
 
       response: {},
+      message: '',
+      message_seen: false,
     };
   },
   created: function() {
@@ -181,9 +186,10 @@ export default {
       request['komentar'] = this.komentar;
 
       announcementApi.createAnnouncement(request).then((d) => {
-
+        this.$router.push('/pengumuman');
       }).catch((error) => {
-
+        this.message = 'Ada kendala error';
+        this.meesage_seen = true;
       });
     },
   },
@@ -269,6 +275,9 @@ form.vue-form button {
   align-self: center;
   text-align: center;
   cursor: pointer;
+}
+#alert {
+
 }
 @media only screen and (max-width: 1000px) {
   form.vue-form {
