@@ -3,12 +3,16 @@
     <modal
     name="detail-modal"
     :pivotX="0.0"
+    :pivotY="0.3"
+    :height="700"
+    :width="1000"
     >
     <div class="modal-container">
       <h1 style="margin-bottom:20px">Detail</h1>
-        <div class="detail-content">
+        <div class="detail-container">
           <div id="left">
             <p>Dibuat oleh:</p>
+            <p>Timestamp:</p>
             <p>Mata kuliah:</p>
             <p>Jenis:</p>
             <p>Dosen:</p>
@@ -20,6 +24,7 @@
 
           <div id="right">
             <p>{{ temp[0].pembuat }}</p>
+            <p>{{ temp[0].timestamp }}</p>
             <p>{{ temp[0].nama_mata_kuliah }}</p>
             <p>{{ temp[0].jenis_pengumuman }}</p>
             <p>{{ temp[0].nama_dosen }}</p>
@@ -28,6 +33,10 @@
             <p>{{ temp[0].nama_status_pengumuman }}</p>
             <p>{{ temp[0].komentar }}</p>
           </div>
+        </div>
+
+        <div class="modal-button-container">
+
         </div>
     </div>
     </modal>
@@ -61,6 +70,7 @@
           v-on:click="showModal(
             content.pk,
             content.pembuat,
+            content.timestamp,
             content.nama_mata_kuliah,
             content.jenis_pengumuman,
             content.nama_dosen,
@@ -81,8 +91,10 @@ export default {
   data: function() {
     return {
       temp: [
-        { pk: 999,
+        {
+          pk: 999,
           pembuat: '',
+          timestamp: '',
           nama_mata_kuliah: '',
           jenis_pengumuman: '',
           nama_dosen: '',
@@ -96,8 +108,10 @@ export default {
         'Mata Kuliah', 'Dosen', 'Sesi', 'Status', 'Aksi',
       ],
       tableData: [
-        { pk: 1,
+        {
+          pk: 1,
           pembuat: 'Ardho',
+          timestamp: '18/07/2020 08:33:02',
           nama_mata_kuliah: 'PPL-A',
           jenis_pengumuman: 'Asistensi',
           nama_dosen: 'Ahmad Fauzan A.I',
@@ -106,8 +120,10 @@ export default {
           nama_status_pengumuman: 'Terlambat',
           komentar: 'Saya ketiduran',
         },
-        { pk: 2,
-          pembuat:'Nafis',
+        {
+          pk: 2,
+          pembuat: 'Nafis',
+          timestamp: '18/07/2020 08:33:01',
           nama_mata_kuliah: 'Alin',
           jenis_pengumuman: 'Perkuliahan',
           nama_dosen: 'Lulu',
@@ -116,8 +132,10 @@ export default {
           nama_status_pengumuman: 'Dibatalkan',
           komentar: 'Macet',
         },
-        { pk: 3,
-          pembuat:'Juli',
+        {
+          pk: 3,
+          pembuat: 'Juli',
+          timestamp: '18/07/2020 08:33:00',
           nama_mata_kuliah: 'POK',
           jenis_pengumuman: 'Perkuliahan',
           nama_dosen: 'Ardho',
@@ -130,12 +148,13 @@ export default {
     };
   },
   methods: {
-    showModal(pk, pembuat, matkul, jenis, dosen,
-    ruang, sesi, status, komentar) {
+    showModal(pk, pembuat, timestamp, matkul, jenis, dosen,
+        ruang, sesi, status, komentar) {
       const data = this.temp[0];
       this.$modal.show('detail-modal');
       data.pk = pk;
       data.pembuat = pembuat;
+      data.timestamp = timestamp;
       data.nama_mata_kuliah = matkul;
       data.nama_dosen = dosen;
       data.nama_ruang = ruang;
@@ -149,14 +168,6 @@ export default {
 </script>
 
 <style>
-.detail-content {
-  color: red;
-}
-.detail-container {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-}
 .title-pengumuman {
   margin-top: 50px;
   margin-bottom: 20px;
@@ -183,11 +194,13 @@ th {
 tr:nth-child(odd) {
   background-color: #D3D3D3;
 }
+
+/* MODAL SECTION */
 .modal-container {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin: 20px;
+  margin: 10px;
 }
 .detail-button {
   background: none;
@@ -203,5 +216,26 @@ tr:nth-child(odd) {
 .detail-button:hover {
   background-color: white;
   color: #5386E8;
+}
+.detail-container {
+  display:flex;
+  flex-direction: row;
+  line-height: 30pt;
+}
+.detail-container #left {
+  margin-right: 20px;
+  font-weight: bolder;
+}
+.detail-container #right {
+  margin-right: 500px;
+}
+.detail-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+.modal-button-container {
+  display: flex;
+  flex-direction: row;
 }
 </style>
