@@ -25,8 +25,8 @@ export default new Router({
       component: Delete,
     },
     {
-      name: 'create-pengumuman',
       path: '/pengumuman/create',
+      name: 'create-pengumuman',
       component: CreateAnnouncement,
     },
   ],

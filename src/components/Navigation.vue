@@ -30,7 +30,7 @@
     <div class="nav-700px">
       <button class="toggle-dropdown"
       v-on:click="mobileView = !mobileView">
-      Menu List <img id="dropdown-img" 
+      Menu List <img id="dropdown-img"
       src="./../assets/images/white-arrow-png-41944.png"
       alt="Klik untuk opsi lebih lanjut" />
       </button>
