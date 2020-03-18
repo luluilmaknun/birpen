@@ -16,7 +16,6 @@ export default {
 
 <style>
 @import url('https://fonts.googleapis.com/css?family=Montserrat&display=swap');
-
 * {
   margin: 0 auto;
   -webkit-transition: 0.25s;
@@ -25,7 +24,6 @@ export default {
   transition: 0.25s;
   font-family: 'Montserrat'
 }
-
 .page-container {
   display:flex;
   flex-direction: column;

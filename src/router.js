@@ -2,6 +2,7 @@ import Vue from 'vue';
 import Router from 'vue-router';
 import Home from '@/Home.vue';
 import Pengumuman from './components/Pengumuman.vue';
+import Delete from '@/components/delete.vue';
 
 Vue.use(Router);
 
