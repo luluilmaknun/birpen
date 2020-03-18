@@ -37,7 +37,8 @@ DISABLE_CHECKS = [
     "too-many-public-methods",
     "wrong-spelling-in-comment",
     "wrong-spelling-in-docstring",
-    "abstract-method"
+    "abstract-method",
+    "too-many-instance-attributes"
 ]
 DISABLE_CHECKS_STR = ",".join(DISABLE_CHECKS)
 DEFAULT_ARGS = ["--load-plugins=pylint_django", "--disable=" + DISABLE_CHECKS_STR]

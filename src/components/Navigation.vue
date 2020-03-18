@@ -25,7 +25,7 @@
       Login
       </router-link>
     </div>
-    
+
     <!-- NAVBAR WHEN WIDTH 700px -->
     <div class="nav-700px">
       <button class="toggle-dropdown"
@@ -35,7 +35,7 @@
       alt="Klik untuk opsi lebih lanjut" />
       </button>
 
-      <div class="nav-elem-container-right" 
+      <div class="nav-elem-container-right"
       id="mob-nav" v-show="mobileView">
         <router-link class="nav-elem"
         ref="surat-button" :to="{ name: 'surat' }">
@@ -60,12 +60,12 @@
 
 <script>
 export default {
-  data () {
+  data() {
     return {
-        mobileView: false,
+      mobileView: false,
     };
   },
-}
+};
 </script>
 
 <style>
