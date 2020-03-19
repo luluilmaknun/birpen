@@ -2,17 +2,23 @@ import {shallowMount} from '@vue/test-utils';
 import Login from '@/components/Login.vue';
 
 describe('Tes login page', () => {
-    const wrapper = shallowMount(Login);
+  const wrapper = shallowMount(Login);
 
-    it ('apakah ada field username', () => {
-        const field = wrapper.find({placeholder: 'username'});
-        expect(field.exists()).toBe(true);
-        expect(wrapper.html()).toContain('Username:');
-    });
+  it('apakah ada field username', () => {
+    const field = wrapper.find('.username-input');
+    expect(field.exists()).toBe(true);
+    expect(wrapper.html()).toContain('Username:');
+  });
 
-    it ('apakah ada field password', () => {
-        const field = wrapper.find({placeholder: 'password'});
-        expect(field.exists()).toBe(true);
-        expect(wrapper.html()).toContain('Password:');
-    })
-})
+  it('apakah ada field password', () => {
+    const field = wrapper.find('.password-input');
+    expect(field.exists()).toBe(true);
+    expect(wrapper.html()).toContain('Password:');
+  });
+
+  it('apakah tombol masuk bisa diklik', () => {
+    const button = wrapper.find('.login-button');
+    expect(button.exists()).toBe(true);
+    button.trigger('click');
+  });
+});
