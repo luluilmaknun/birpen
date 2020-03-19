@@ -15,8 +15,19 @@ with open(settings.SSO_UI_ORG_DETAIL_FILE_PATH, 'r') as ORG_CODE_FILE:
 
 
 class User(AbstractUser):
-    is_admin = models.BooleanField(default=False)
-    is_asdos = models.BooleanField(default=False)
+    def is_admin(self):
+        return Admin.objects.filter(username=self.username).exists()
+
+    def is_asdos(self):
+        return AsistenDosen.objects.filter(username=self.username).exists()
+
+
+class Admin(models.Model):
+    username = models.CharField(max_length=150, unique=True)
+
+
+class AsistenDosen(models.Model):
+    username = models.CharField(max_length=150, unique=True)
 
 
 class Profile(models.Model):
