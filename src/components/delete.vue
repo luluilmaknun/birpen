@@ -17,7 +17,7 @@
 
 <script>
 
-import axios from 'axios'
+import axios from 'axios';
 export default {
   name: 'delete',
   methods: {
@@ -29,24 +29,24 @@ export default {
       this.$modal.hide('hello-world');
     },
     deletePengumuman() {
-      const urlTarget = "/api/pengumuman/"+
-      document.getElementById("pk").innerText+"/delete/";
-      axios({ method: "DELETE", "url": urlTarget,
-      "headers":
+      const urlTarget = '/api/pengumuman/'+
+      document.getElementById('pk').innerText+'/delete/';
+      axios({'method': 'DELETE', 'url': urlTarget,
+        'headers':
       {
-        "content-type": "application/x-www-form-urlencoded" ,
-        "authorization": "Token " + sessionStorage.getItem('token')
-      }}).then (
-        (response) => {
-        this.response = response.data;
-        window.location.pathname='/pengumuman';
-      },
-      error => {
-        this.error=error;
-      });
-    }
-  }
-}
+        'content-type': 'application/x-www-form-urlencoded',
+        'authorization': 'Token ' + sessionStorage.getItem('token'),
+      }}).then(
+          (response) => {
+            this.response = response.data;
+            window.location.pathname='/pengumuman';
+          },
+          (error) => {
+            this.error=error;
+          });
+    },
+  },
+};
 </script>
 
 <style>
