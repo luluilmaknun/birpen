@@ -62,14 +62,18 @@ describe('Tes function', () => {
 
   beforeEach(() => {
     wrapper = shallowMount(CreateAnnouncement, {
-      'jenis_pengumuman': 'Asistensi',
-      'tanggal_kelas': '2020-03-30',
-      'nama_mata_kuliah': 'Aljabar Linier',
-      'nama_dosen': 'Lulu Ilmaknun',
-      'nama_asisten': 'Lulz',
-      'nama_sesi': 'Sesi 1 (08.00 - 10.30)',
-      'nama_ruang': '3111',
-      'nama_status_pengumuman': 'Terlambat',
+      data() {
+        return {
+          'jenis_pengumuman': 'Asistensi',
+          'tanggal_kelas': '2100-03-30',
+          'nama_mata_kuliah': 'Aljabar Linier',
+          'nama_dosen': 'Lulu Ilmaknun',
+          'nama_asisten': 'Lulz',
+          'nama_sesi': 'Sesi 2 (11.00 - 13.30)',
+          'nama_ruang': '3111',
+          'nama_status_pengumuman': 'Terlambat',
+        };
+      },
     });
     vm = wrapper.vm;
 
@@ -77,18 +81,80 @@ describe('Tes function', () => {
       status: 200,
       data: {
         jenis_pengumuman: ['Asistensi', 'Perkualiahan'],
-        mata_kuliah: ['Aljabar Linier', 'Analisis Numerik'],
-        ruang: ['3111', '2312'],
+        mata_kuliah: ['Aljabar Linier', 'Analisis Numerik', 'Basdut'],
+        ruang: ['3111'],
         sesi: ['Sesi 1 (08.00 - 10.30)', 'Sesi 2 (11.00 - 13.30)'],
-        status_pengumuman: ['Terlambat', 'Dibatalkan'],
+        status_pengumuman: ['Terlambat', 'Dibatalkan', 'Dihancurkan'],
       },
     }));
 
     vm.fetchData();
   });
 
-  it('Test post data', () => {
-    wrapper.vm.postData();
+  it('Test fetched data', () => {
+    expect(wrapper.find('#jenis_pengumuman').findAll('option').length)
+        .toBe(2);
+    expect(wrapper.find('#nama_mata_kuliah').findAll('option').length)
+        .toBe(3);
+    expect(wrapper.find('#nama_ruang').findAll('option').length)
+        .toBe(1);
+    expect(wrapper.find('#nama_sesi').findAll('option').length)
+        .toBe(2);
+    expect(wrapper.find('#nama_status_pengumuman').findAll('option').length)
+        .toBe(3);
+  });
+
+  it('Test data return', () => {
+    expect(wrapper.find('#nama_dosen').element.value)
+        .toBe('Lulu Ilmaknun');
+    expect(wrapper.find('#tanggal_kelas').element.value)
+        .toBe('2100-03-30');
+    expect(wrapper.find('#jenis_pengumuman').element.value)
+        .toBe('Asistensi');
+    expect(wrapper.find('#nama_asisten').element.value)
+        .toBe('Lulz');
+    expect(wrapper.find('#nama_mata_kuliah').element.value)
+        .toBe('Aljabar Linier');
+    expect(wrapper.find('#nama_sesi').element.value)
+        .toBe('Sesi 2 (11.00 - 13.30)');
+    expect(wrapper.find('#nama_ruang').element.value)
+        .toBe('3111');
+    expect(wrapper.find('#nama_status_pengumuman').element.value)
+        .toBe('Terlambat');
+  });
+
+  it('Test post data success', () => {
+    announcementApi.createAnnouncement = jest.fn(() => Promise.resolve({
+      status: 200,
+      data: {
+        detail: 'Valid data.',
+        success: true,
+      },
+    }));
+
+    vm.postData();
+  });
+
+  it('Test post data error', () => {
+    const wrapper = shallowMount(CreateAnnouncement, {
+      data() {
+        return {
+          'jenis_pengumuman': 'Asistensi',
+          'tanggal_kelas': '2001-03-30',
+          'nama_mata_kuliah': 'Aljabar Linier',
+          'nama_dosen': 'Lulu Ilmaknun',
+          'nama_asisten': 'Lulz',
+          'nama_sesi': 'Sesi 2 (11.00 - 13.30)',
+          'nama_ruang': '3111',
+          'nama_status_pengumuman': 'Terlambat',
+        };
+      },
+    });
+    const vm = wrapper.vm;
+
+    vm.postData();
+    expect(wrapper.vm.message_seen).toBe(true);
+    expect(wrapper.vm.message).toBe('Kelas sudah lampau');
   });
 });
 
