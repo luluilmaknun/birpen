@@ -11,7 +11,7 @@ from rest_framework.status import (
     HTTP_403_FORBIDDEN,
 )
 
-from .models import User, Pengumuman, MataKuliah, JenisPengumuman, \
+from .models import Pengumuman, MataKuliah, JenisPengumuman, \
     Ruang, Sesi, StatusPengumuman
 from .serializers import PengumumanSerializer
 
@@ -37,7 +37,7 @@ def filter_pengumuman(request):
         }, status=HTTP_400_BAD_REQUEST)
 
     # if user is admin, return all include soft delete
-    if request.user.user_type == User.ADMIN:
+    if request.user.is_admin:
         filter_date = Pengumuman.all_objects.filter(tanggal_kelas__date=pengumuman_date)
     else:
         filter_date = Pengumuman.objects.filter(tanggal_kelas__date=pengumuman_date)
@@ -55,7 +55,7 @@ def edit_pengumuman(request, key):
             'detail': PENGUMUMAN_NOT_FOUND_MESSAGE
         }, status=HTTP_400_BAD_REQUEST)
 
-    if request.user.user_type != User.ADMIN and pengumuman.pembuat != request.user:
+    if not request.user.is_admin and pengumuman.pembuat != request.user:
         return Response({
             'detail': 'Not enough privileges.'
         }, status=HTTP_403_FORBIDDEN)
@@ -116,7 +116,7 @@ def delete_pengumuman(request, key):
             'detail': PENGUMUMAN_NOT_FOUND_MESSAGE
         }, status=HTTP_400_BAD_REQUEST)
 
-    if pengumuman.pembuat != request.user and request.user.user_type != User.ADMIN:
+    if pengumuman.pembuat != request.user and not request.user.is_admin:
         return Response({
             'detail': 'You are not the owner of the announcement.'
         }, status=HTTP_403_FORBIDDEN)
@@ -133,7 +133,7 @@ def delete_pengumuman(request, key):
 @permission_classes((IsAuthenticated,))
 def read_pengumuman(request, key):
     try:
-        if request.user.user_type != User.ADMIN:
+        if not request.user.is_admin:
             pengumuman = Pengumuman.objects.get(pk=key)
         else:
             pengumuman = Pengumuman.all_objects.get(pk=key)

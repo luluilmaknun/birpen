@@ -43,18 +43,8 @@ class StatusPengumuman(SafeDeleteModel):
 
 
 class User(AbstractUser):
-    MAHASISWA = 1
-    ASDOS = 2
-    DOSEN = 3
-    ADMIN = 4
-
-    USER_TYPE_CHOICES = (
-        (MAHASISWA, 'mahasiswa'),
-        (ASDOS, 'asdos'),
-        (DOSEN, 'dosen'),
-        (ADMIN, 'admin'),
-    )
-    user_type = models.PositiveSmallIntegerField(choices=USER_TYPE_CHOICES, default=1)
+    is_admin = models.BooleanField(default=False)
+    is_asdos = models.BooleanField(default=False)
 
 
 class Pengumuman(SafeDeleteModel):
