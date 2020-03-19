@@ -1,6 +1,7 @@
 import {shallowMount} from '@vue/test-utils';
 import CreateAnnouncement from '@/views/CreateAnnouncement';
 import dropdownApi from '@/services/dropdownDataServices';
+import announcementApi from '@/services/announcementServices';
 
 describe('Tes Elemen Form', () => {
   const wrapper = shallowMount(CreateAnnouncement);
@@ -61,14 +62,18 @@ describe('Tes function', () => {
 
   beforeEach(() => {
     wrapper = shallowMount(CreateAnnouncement, {
-      'jenis_pengumuman': 'Asistensi',
-      'tanggal_kelas': '2020-03-30',
-      'nama_mata_kuliah': 'Aljabar Linier',
-      'nama_dosen': 'Lulu Ilmaknun',
-      'nama_asisten': 'Lulz',
-      'nama_sesi': 'Sesi 1 (08.00 - 10.30)',
-      'nama_ruang': '3111',
-      'nama_status_pengumuman': 'Terlambat',
+      data() {
+        return {
+          'jenis_pengumuman': 'Asistensi',
+          'tanggal_kelas': '2100-03-30',
+          'nama_mata_kuliah': 'Aljabar Linier',
+          'nama_dosen': 'Lulu Ilmaknun',
+          'nama_asisten': 'Lulz',
+          'nama_sesi': 'Sesi 2 (11.00 - 13.30)',
+          'nama_ruang': '3111',
+          'nama_status_pengumuman': 'Terlambat',
+        };
+      },
     });
     vm = wrapper.vm;
 
@@ -86,7 +91,54 @@ describe('Tes function', () => {
     vm.fetchData();
   });
 
-  it('Test post data', () => {
-    wrapper.vm.postData();
+  it('Test data return', () => {
+    expect(wrapper.find('#nama_dosen').element.value)
+        .toBe('Lulu Ilmaknun');
+    expect(wrapper.find('#tanggal_kelas').element.value)
+        .toBe('2100-03-30');
+    expect(wrapper.find('#jenis_pengumuman').element.value)
+        .toBe('Asistensi');
+    expect(wrapper.find('#nama_asisten').element.value)
+        .toBe('Lulz');
+    expect(wrapper.find('#nama_mata_kuliah').element.value)
+        .toBe('Aljabar Linier');
+    expect(wrapper.find('#nama_sesi').element.value)
+        .toBe('Sesi 2 (11.00 - 13.30)');
+    expect(wrapper.find('#nama_ruang').element.value)
+        .toBe('3111');
+    expect(wrapper.find('#nama_status_pengumuman').element.value)
+        .toBe('Terlambat');
+  });
+
+  it('Test post data success', () => {
+    announcementApi.createAnnouncement = jest.fn(() => Promise.resolve({
+      status: 200,
+      data: {
+        detail: 'Valid data.',
+        success: true,
+      },
+    }));
+
+    vm.postData();
+  });
+
+  it('Test post data error', () => {
+    const wrapper = shallowMount(CreateAnnouncement, {
+      data() {
+        return {
+          'jenis_pengumuman': 'Asistensi',
+          'tanggal_kelas': '2001-03-30',
+          'nama_mata_kuliah': 'Aljabar Linier',
+          'nama_dosen': 'Lulu Ilmaknun',
+          'nama_asisten': 'Lulz',
+          'nama_sesi': 'Sesi 2 (11.00 - 13.30)',
+          'nama_ruang': '3111',
+          'nama_status_pengumuman': 'Terlambat',
+        };
+      },
+    });
+    const vm = wrapper.vm;
+
+    vm.postData();
   });
 });
