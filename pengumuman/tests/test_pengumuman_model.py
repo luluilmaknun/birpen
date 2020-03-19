@@ -15,7 +15,7 @@ class PengumumanModelTest(TestCase):
         sesi = Sesi.objects.create(nama="16.00 - 17.40")
         status_pengumuman = StatusPengumuman.objects.create(nama="Ditunda")
         user = User.objects.create(username='julia.ningrum',
-                                   password='admin', user_type=User.ADMIN)
+                                   password='admin', is_admin=True)
 
         Pengumuman.objects.create(tanggal_kelas=tanggal_kelas, pembuat=user,
                                   nama_mata_kuliah=mata_kuliah, jenis_pengumuman=jenis_pengumuman,
@@ -38,7 +38,7 @@ class PengumumanModelTest(TestCase):
         sesi = Sesi.objects.create(nama="16.00 - 17.40")
         status_pengumuman = StatusPengumuman.objects.create(nama="Ditunda")
         user = User.objects.create(username='julia.ningrum',
-                                   password='admin', user_type=User.ADMIN)
+                                   password='admin', is_admin=True)
 
         Pengumuman.objects.create(tanggal_kelas=tanggal_kelas, pembuat=user,
                                   nama_mata_kuliah=mata_kuliah, jenis_pengumuman=jenis_pengumuman,

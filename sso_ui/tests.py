@@ -94,7 +94,7 @@ class SSOUITest(TestCase):
 
     def test_success_create_token(self):
         user = User.objects.create_user(username='yusuf.tri',
-                                        password='mahasiswa', user_type=User.MAHASISWA)
+                                        password='mahasiswa')
         self.client.force_login(user)
         response = self.client.get(reverse('sso_ui:create-token'))
 

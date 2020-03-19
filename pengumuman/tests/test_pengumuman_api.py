@@ -14,17 +14,15 @@ from pengumuman.models import MataKuliah, JenisPengumuman, Ruang, \
 class PengumumanApiTest(TestCase):
     def setUp(self):
         user_1 = User.objects.create(username='athallah.annafis',
-                                     password='mahasiswa',
-                                     user_type=User.MAHASISWA)
+                                     password='mahasiswa')
         self.token_1 = Token.objects.get_or_create(user=user_1)[0].key
 
         user_2 = User.objects.create(username='julia.ningrum',
-                                     password='admin', user_type=User.ADMIN)
+                                     password='admin', is_admin=True)
         self.token_2 = Token.objects.get_or_create(user=user_2)[0].key
 
         user_3 = User.objects.create(username='yusuf.tri',
-                                     password='mahasiswa',
-                                     user_type=User.MAHASISWA)
+                                     password='mahasiswa')
         self.token_3 = Token.objects.get_or_create(user=user_3)[0].key
 
         tanggal_kelas = "2016-11-16T22:31:18.130822+00:00"

@@ -12,9 +12,9 @@ from pengumuman.views import dropdown_pengumuman
 class DropdownApiTest(TestCase):
     def setUp(self):
         User.objects.create(username='julia.ningrum',
-                            password='admin', user_type=User.ADMIN)
+                            password='admin', is_admin=True)
         User.objects.create(username='yusuf.tri',
-                            password='mahasiswa', user_type=User.MAHASISWA)
+                            password='mahasiswa')
 
     def test_request_as_admin(self):
         factory = APIRequestFactory()
