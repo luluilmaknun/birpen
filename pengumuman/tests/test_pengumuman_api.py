@@ -13,17 +13,17 @@ from pengumuman.models import MataKuliah, JenisPengumuman, Ruang, \
 
 class PengumumanApiTest(TestCase):
     def setUp(self):
-        user_1 = User.objects.create(username='athallah.annafis', name='Athallah Annafis',
-                                     npm='1701837382', password='mahasiswa',
+        user_1 = User.objects.create(username='athallah.annafis',
+                                     password='mahasiswa',
                                      user_type=User.MAHASISWA)
         self.token_1 = Token.objects.get_or_create(user=user_1)[0].key
 
-        user_2 = User.objects.create(username='julia.ningrum', name='Julia Ningrum',
-                                     npm='1204893059', password='admin', user_type=User.ADMIN)
+        user_2 = User.objects.create(username='julia.ningrum',
+                                     password='admin', user_type=User.ADMIN)
         self.token_2 = Token.objects.get_or_create(user=user_2)[0].key
 
-        user_3 = User.objects.create(username='yusuf.tri', name='Yusuf Tri Ardho',
-                                     npm='1701837382', password='mahasiswa',
+        user_3 = User.objects.create(username='yusuf.tri',
+                                     password='mahasiswa',
                                      user_type=User.MAHASISWA)
         self.token_3 = Token.objects.get_or_create(user=user_3)[0].key
 
@@ -128,6 +128,7 @@ class PengumumanApiTest(TestCase):
         self.assertEqual(response.data['pengumuman']['nama_ruang'], '3311')
         self.assertEqual(response.data['pengumuman']['nama_sesi'], 'Sesi 4 (17.00 - 19.25)')
         self.assertEqual(response.data['pengumuman']['nama_status_pengumuman'], 'Dibatalkan')
+        self.assertEqual(response.data['pengumuman']['pembuat'], 'yusuf.tri')
 
     def test_success_edit_pengumuman_creator(self):
         self.client.credentials(HTTP_AUTHORIZATION='Token ' + self.token_3)
@@ -144,6 +145,7 @@ class PengumumanApiTest(TestCase):
         self.assertEqual(response.data['pengumuman']['nama_ruang'], '3311')
         self.assertEqual(response.data['pengumuman']['nama_sesi'], 'Sesi 4 (17.00 - 19.25)')
         self.assertEqual(response.data['pengumuman']['nama_status_pengumuman'], 'Dibatalkan')
+        self.assertEqual(response.data['pengumuman']['pembuat'], 'yusuf.tri')
 
     def test_success_get_pengumuman_admin(self):
         self.pengumuman.delete()
@@ -161,6 +163,7 @@ class PengumumanApiTest(TestCase):
         self.assertEqual(response.data['pengumuman']['nama_ruang'], '2311')
         self.assertEqual(response.data['pengumuman']['nama_sesi'], 'Sesi 4 (17.00 - 19.30)')
         self.assertEqual(response.data['pengumuman']['nama_status_pengumuman'], 'Terlambat')
+        self.assertEqual(response.data['pengumuman']['pembuat'], 'yusuf.tri')
 
     def test_fail_get_pengumuman_admin(self):
         self.client.credentials(HTTP_AUTHORIZATION='Token ' + self.token_2)
@@ -183,6 +186,7 @@ class PengumumanApiTest(TestCase):
         self.assertEqual(response.data['pengumuman']['nama_ruang'], '2311')
         self.assertEqual(response.data['pengumuman']['nama_sesi'], 'Sesi 4 (17.00 - 19.30)')
         self.assertEqual(response.data['pengumuman']['nama_status_pengumuman'], 'Terlambat')
+        self.assertEqual(response.data['pengumuman']['pembuat'], 'yusuf.tri')
 
     def test_fail_get_pengumuman_non_admin(self):
         self.pengumuman.delete()

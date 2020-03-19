@@ -11,10 +11,9 @@ from pengumuman.views import dropdown_pengumuman
 
 class DropdownApiTest(TestCase):
     def setUp(self):
-        User.objects.create(username='julia.ningrum', name='julia ningrum',
-                            npm='1204893059', password='admin', user_type=User.ADMIN)
+        User.objects.create(username='julia.ningrum',
+                            password='admin', user_type=User.ADMIN)
         User.objects.create(username='yusuf.tri',
-                            name='yusuf tri a.', npm='1701837382',
                             password='mahasiswa', user_type=User.MAHASISWA)
 
     def test_request_as_admin(self):
