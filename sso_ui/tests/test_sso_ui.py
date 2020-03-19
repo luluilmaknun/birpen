@@ -9,8 +9,8 @@ from django.contrib.admin.sites import AdminSite
 
 from django_cas_ng.signals import cas_user_authenticated
 
-from .models import ORG_CODE, Profile
-from .admin import ProfileAdmin
+from sso_ui.models import ORG_CODE, Profile
+from sso_ui.admin import ProfileAdmin
 
 User = get_user_model()
 
