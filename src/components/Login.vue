@@ -88,7 +88,7 @@ input {
   margin-top: 20px;
 }
 .login-class button {
-  border-style: solid;
+  border-style: none;
   background: none;
   background-color: #D8DADB;
   color: black;
@@ -98,6 +98,9 @@ input {
   padding-left: 10px;
   padding-right: 10px;
   font-size: 13pt;
+}
+.login-class button:hover {
+  background-color: rgb(142, 255, 157);
 }
 .bottom-container {
   display: flex;
@@ -121,10 +124,14 @@ input {
   border-color: #FFDD00;
   background-color: #FFDD00;
   font-weight: bolder;
+  border-width: 2px;
   color: black;
   padding: 7px 20px;
   border-radius: 1000px;
   font-size: 13pt;
   text-align: center;
+}
+.bottom-buttons:hover {
+  background-color: white;
 }
 </style>
