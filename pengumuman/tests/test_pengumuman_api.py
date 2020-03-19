@@ -11,6 +11,8 @@ from rest_framework.test import APIClient
 from pengumuman.models import MataKuliah, JenisPengumuman, Ruang, \
     Sesi, StatusPengumuman, Pengumuman
 
+from sso_ui.models import Admin
+
 User = get_user_model()
 
 
@@ -21,7 +23,8 @@ class PengumumanApiTest(TestCase):
         self.token_1 = Token.objects.get_or_create(user=user_1)[0].key
 
         user_2 = User.objects.create(username='julia.ningrum',
-                                     password='admin', is_admin=True)
+                                     password='admin')
+        Admin.objects.create(username=user_2.username)
         self.token_2 = Token.objects.get_or_create(user=user_2)[0].key
 
         user_3 = User.objects.create(username='yusuf.tri',

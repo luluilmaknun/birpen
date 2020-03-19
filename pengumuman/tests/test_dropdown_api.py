@@ -9,13 +9,18 @@ from pengumuman.models import MataKuliah, JenisPengumuman, Ruang, \
 
 from pengumuman.views import dropdown_pengumuman
 
+from sso_ui.models import Admin
+
 User = get_user_model()
 
 
 class DropdownApiTest(TestCase):
     def setUp(self):
-        User.objects.create(username='julia.ningrum',
-                            password='admin', is_admin=True)
+        user_admin = User.objects.create(username='julia.ningrum',
+                                         password='admin')
+        Admin.objects.create(username=user_admin.username)
+
+
         User.objects.create(username='yusuf.tri',
                             password='mahasiswa')
 

@@ -9,6 +9,8 @@ from pengumuman.models import MataKuliah, JenisPengumuman, Ruang, \
     Sesi, StatusPengumuman, Pengumuman
 from pengumuman.views import filter_pengumuman
 
+from sso_ui.models import Admin
+
 User = get_user_model()
 
 
@@ -20,7 +22,9 @@ class FilterPengumumanTest(TestCase):
         ruang = Ruang.objects.create(nama="3111")
         sesi = Sesi.objects.create(nama="16.00 - 17.40")
         status_pengumuman = StatusPengumuman.objects.create(nama="Ditunda")
-        user = User.objects.create(username='julia.ningrum', password='admin', is_admin=True)
+        user = User.objects.create(username='julia.ningrum', password='admin')
+        Admin.objects.create(username=user.username)
+
         User.objects.create(username='yusuf.tri',
                             password='mahasiswa')
         Pengumuman.objects.create(tanggal_kelas=tanggal_kelas, pembuat=user,

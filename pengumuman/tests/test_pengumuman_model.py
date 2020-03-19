@@ -5,6 +5,8 @@ from django.test import TestCase
 from pengumuman.models import MataKuliah, JenisPengumuman, Ruang, \
     Sesi, StatusPengumuman, Pengumuman, User
 
+from sso_ui.models import Admin
+
 User = get_user_model()
 
 
@@ -17,7 +19,8 @@ class PengumumanModelTest(TestCase):
         sesi = Sesi.objects.create(nama="16.00 - 17.40")
         status_pengumuman = StatusPengumuman.objects.create(nama="Ditunda")
         user = User.objects.create(username='julia.ningrum',
-                                   password='admin', is_admin=True)
+                                   password='admin')
+        Admin.objects.create(username=user.username)
 
         Pengumuman.objects.create(tanggal_kelas=tanggal_kelas, pembuat=user,
                                   nama_mata_kuliah=mata_kuliah, jenis_pengumuman=jenis_pengumuman,
@@ -40,7 +43,8 @@ class PengumumanModelTest(TestCase):
         sesi = Sesi.objects.create(nama="16.00 - 17.40")
         status_pengumuman = StatusPengumuman.objects.create(nama="Ditunda")
         user = User.objects.create(username='julia.ningrum',
-                                   password='admin', is_admin=True)
+                                   password='admin')
+        Admin.objects.create(username=user.username)
 
         Pengumuman.objects.create(tanggal_kelas=tanggal_kelas, pembuat=user,
                                   nama_mata_kuliah=mata_kuliah, jenis_pengumuman=jenis_pengumuman,
