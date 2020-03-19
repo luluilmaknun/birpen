@@ -54,8 +54,6 @@ class User(AbstractUser):
         (DOSEN, 'dosen'),
         (ADMIN, 'admin'),
     )
-    name = models.CharField(max_length=50)
-    npm = models.CharField(max_length=10)
     user_type = models.PositiveSmallIntegerField(choices=USER_TYPE_CHOICES, default=1)
 
 
