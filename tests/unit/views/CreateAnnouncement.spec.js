@@ -81,14 +81,27 @@ describe('Tes function', () => {
       status: 200,
       data: {
         jenis_pengumuman: ['Asistensi', 'Perkualiahan'],
-        mata_kuliah: ['Aljabar Linier', 'Analisis Numerik'],
-        ruang: ['3111', '2312'],
+        mata_kuliah: ['Aljabar Linier', 'Analisis Numerik', 'Basdut'],
+        ruang: ['3111'],
         sesi: ['Sesi 1 (08.00 - 10.30)', 'Sesi 2 (11.00 - 13.30)'],
-        status_pengumuman: ['Terlambat', 'Dibatalkan'],
+        status_pengumuman: ['Terlambat', 'Dibatalkan', 'Dihancurkan'],
       },
     }));
 
     vm.fetchData();
+  });
+
+  it('Test fetched data', () => {
+    expect(wrapper.find('#jenis_pengumuman').findAll('option').length)
+        .toBe(2);
+    expect(wrapper.find('#nama_mata_kuliah').findAll('option').length)
+        .toBe(3);
+    expect(wrapper.find('#nama_ruang').findAll('option').length)
+        .toBe(1);
+    expect(wrapper.find('#nama_sesi').findAll('option').length)
+        .toBe(2);
+    expect(wrapper.find('#nama_status_pengumuman').findAll('option').length)
+        .toBe(3);
   });
 
   it('Test data return', () => {
@@ -140,5 +153,7 @@ describe('Tes function', () => {
     const vm = wrapper.vm;
 
     vm.postData();
+    expect(wrapper.vm.message_seen).toBe(true);
+    expect(wrapper.vm.message).toBe('Kelas sudah lampau');
   });
 });
