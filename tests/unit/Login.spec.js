@@ -23,14 +23,14 @@ describe('Tes login page', () => {
   });
 
   it('apakah terdapat tombol buat akun', () => {
-      const button = wrapper.find('#buat-akun');
-      expect(button.exists()).toBe(true);
-      expect(wrapper.html()).toContain('Buat Akun');
+    const button = wrapper.find('#buat-akun');
+    expect(button.exists()).toBe(true);
+    expect(wrapper.html()).toContain('Buat Akun');
   });
 
   it('apakah terdapat tombol login dengan SSO', () => {
-      const button = wrapper.find('#sso-link');
-      expect(button.exists()).toBe(true);
-      expect(wrapper.html()).toContain('Login with SSO');
-  })
+    const button = wrapper.find('#sso-link');
+    expect(button.exists()).toBe(true);
+    expect(wrapper.html()).toContain('Login with<br>SSO');
+  });
 });
