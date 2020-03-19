@@ -85,7 +85,7 @@ Staging Deployment VM:
   script:
     - >
       ssh admin@10.119.106.13 
-      "cd /opt/pplukan-feb-ui-biro-pendidikan-online &&
+      "cd pplukan-feb-ui-biro-pendidikan-online &&
       git checkout staging &&
       git pull origin staging &&
       bash stop.sh &&

@@ -1,6 +1,6 @@
 #!/bin/bash
 echo "Starting birpen ..."
-pip3 install -r requirements.txt
+env/bin/pip3 install -r requirements.txt
 yarn install
 yarn build
 env/bin/python3 manage.py migrate
