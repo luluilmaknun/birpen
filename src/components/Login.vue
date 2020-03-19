@@ -3,9 +3,9 @@
     <h1>Masuk</h1>
     <div class="login-container">
       <!--
-        v-model -> Value yang di-passing ke script, bisa diolah untuk
-        keperluan backend-nya. Lebih jelasnya lihat console.log ketika
-        klik "Masuk"
+        v-model -> Value yang di-passing ke variabel "username" dan "password"
+        di dalam <script>, bisa dipakai untuk keperluan backend-nya. Lebih
+        jelasnya lihat console.log ketika klik "Masuk"
        -->
       <!-- USERNAME -->
       <div class="username-class">
@@ -24,7 +24,13 @@
         <button class="login-button" v-on:click="login()">Masuk</button>
       </div>
     </div>
-    <div class="hidden-div">
+    <div class="bottom-container">
+      <router-link :to="{ path: '//TODO SSO ROUTE' }" class="bottom-buttons"
+      id="sso-link">
+      Login with<br>SSO
+      </router-link>
+      <p>Tidak punya akun?</p>
+      <button class="bottom-buttons" id="buat-akun">Buat Akun</button>
     </div>
   </div>
 </template>
@@ -92,5 +98,33 @@ input {
   padding-left: 10px;
   padding-right: 10px;
   font-size: 13pt;
+}
+.bottom-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  margin-top: 50px;
+}
+.bottom-container * {
+  margin-left: 10px;
+  margin-right: 10px;
+}
+#sso-link {
+  color: black;
+  font-weight: bolder;
+  text-decoration: none;
+}
+.bottom-buttons {
+  background: none;
+  border-style: solid;
+  border-color: #FFDD00;
+  background-color: #FFDD00;
+  font-weight: bolder;
+  color: black;
+  padding: 7px 20px;
+  border-radius: 1000px;
+  font-size: 13pt;
+  text-align: center;
 }
 </style>
