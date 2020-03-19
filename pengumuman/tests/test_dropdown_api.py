@@ -1,12 +1,15 @@
+from django.contrib.auth import get_user_model
 from django.test import TestCase
 
 from rest_framework.test import APIRequestFactory
 from rest_framework.test import force_authenticate
 
 from pengumuman.models import MataKuliah, JenisPengumuman, Ruang, \
-     Sesi, StatusPengumuman, User
+     Sesi, StatusPengumuman
 
 from pengumuman.views import dropdown_pengumuman
+
+User = get_user_model()
 
 
 class DropdownApiTest(TestCase):

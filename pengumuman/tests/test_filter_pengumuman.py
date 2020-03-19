@@ -1,3 +1,4 @@
+from django.contrib.auth import get_user_model
 from django.test import TestCase
 
 from rest_framework.test import APIClient
@@ -5,8 +6,10 @@ from rest_framework.test import APIRequestFactory
 from rest_framework.test import force_authenticate
 
 from pengumuman.models import MataKuliah, JenisPengumuman, Ruang, \
-    Sesi, StatusPengumuman, Pengumuman, User
+    Sesi, StatusPengumuman, Pengumuman
 from pengumuman.views import filter_pengumuman
+
+User = get_user_model()
 
 
 class FilterPengumumanTest(TestCase):

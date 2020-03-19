@@ -1,5 +1,5 @@
 # Create your models here.
-from django.contrib.auth.models import AbstractUser
+from django.contrib.auth import get_user_model
 from django.db import models
 from django.utils import timezone
 from safedelete.models import SOFT_DELETE_CASCADE
@@ -15,6 +15,8 @@ from safedelete.models import SafeDeleteModel
 # - Get all objects without soft deleted objects: Model.objects.all()
 # - Get all objects with soft deleted objects: Model.all_objects.all()
 # - Get soft deleted objects: Model.deleted_objects.all()
+
+User = get_user_model()
 
 
 class MataKuliah(SafeDeleteModel):
@@ -40,11 +42,6 @@ class Sesi(SafeDeleteModel):
 class StatusPengumuman(SafeDeleteModel):
     _safedelete_policy = SOFT_DELETE_CASCADE
     nama = models.CharField(max_length=32)
-
-
-class User(AbstractUser):
-    is_admin = models.BooleanField(default=False)
-    is_asdos = models.BooleanField(default=False)
 
 
 class Pengumuman(SafeDeleteModel):

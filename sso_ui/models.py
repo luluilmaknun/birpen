@@ -2,7 +2,7 @@
 import json
 
 from django.conf import settings
-from django.contrib.auth import get_user_model
+from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch import receiver
@@ -12,7 +12,11 @@ LANG = settings.SSO_UI_ORG_DETAIL_LANG
 ORG_CODE = {}
 with open(settings.SSO_UI_ORG_DETAIL_FILE_PATH, 'r') as ORG_CODE_FILE:
     ORG_CODE.update(json.load(ORG_CODE_FILE))
-User = get_user_model()
+
+
+class User(AbstractUser):
+    is_admin = models.BooleanField(default=False)
+    is_asdos = models.BooleanField(default=False)
 
 
 class Profile(models.Model):

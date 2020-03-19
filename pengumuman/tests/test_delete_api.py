@@ -1,10 +1,13 @@
+from django.contrib.auth import get_user_model
 from django.test import TestCase
 
 from rest_framework.authtoken.models import Token
 from rest_framework.test import APIClient
 
 from pengumuman.models import MataKuliah, JenisPengumuman, Ruang, \
-    Sesi, StatusPengumuman, Pengumuman, User
+    Sesi, StatusPengumuman, Pengumuman
+
+User = get_user_model()
 
 
 class DeleteApiTest(TestCase):
