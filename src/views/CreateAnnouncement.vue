@@ -97,7 +97,8 @@
         <textarea type="text" id="komentar" v-model="komentar" />
       </div>
       <br>
-      <span style="text-align:center;color:red" v-if="message_seen">
+      <span style="text-align:center;color:red"
+        v-if="message_seen">
         {{ message }}
       </span>
       <button type="submit">
@@ -175,22 +176,32 @@ export default {
     },
     postData: function() {
       const request = {};
-      request['jenis_pengumuman'] = this.jenis_pengumuman;
-      request['tanggal_kelas'] = this.tanggal_kelas;
-      request['nama_mata_kuliah'] = this.nama_mata_kuliah;
-      request['nama_dosen'] = this.nama_dosen;
-      request['nama_asisten'] = this.nama_asisten;
-      request['nama_sesi'] = this.nama_sesi;
-      request['nama_ruang'] = this.nama_ruang;
-      request['nama_status_pengumuman'] = this.nama_status_pengumuman;
-      request['komentar'] = this.komentar;
 
-      announcementApi.createAnnouncement(request).then((d) => {
-        this.$router.push('/pengumuman');
-      }).catch((error) => {
-        this.message = 'Ada kendala error';
-        this.meesage_seen = true;
-      });
+      const jamKelas = this.nama_sesi.match(/[0-2][0-9].[0-9][0-9]/)[0];
+      const jamMulai = jamKelas.replace('.', ':');
+      const timeKelas = new Date(this.tanggal_kelas + ' ' + jamMulai);
+      const timeNow = new Date();
+      if (timeKelas > timeNow) {
+        request['tanggal_kelas'] = this.tanggal_kelas;
+        request['jenis_pengumuman'] = this.jenis_pengumuman;
+        request['nama_mata_kuliah'] = this.nama_mata_kuliah;
+        request['nama_dosen'] = this.nama_dosen;
+        request['nama_asisten'] = this.nama_asisten;
+        request['nama_sesi'] = this.nama_sesi;
+        request['nama_ruang'] = this.nama_ruang;
+        request['nama_status_pengumuman'] = this.nama_status_pengumuman;
+        request['komentar'] = this.komentar;
+
+        announcementApi.createAnnouncement(request).then((d) => {
+          this.$router.push('/pengumuman');
+        }).catch((error) => {
+          this.message = 'Ada kendala error';
+          this.message_seen = true;
+        });
+      } else {
+        this.message = 'Kelas sudah lampau';
+        this.message_seen = true;
+      }
     },
   },
 };
