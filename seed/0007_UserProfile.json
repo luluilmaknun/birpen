@@ -1,0 +1,67 @@
+[
+    {
+        "model": "sso_ui.profile",
+        "pk": 1,
+        "fields": {
+            "user": 1,
+            "org_code": "01.00.12.01",
+            "role": "mahasiswa",
+            "npm": "1706079210",
+            "faculty": "Ilmu Komputer",
+            "study_program": "Ilmu Komputer",
+            "educational_program": "S1 Reguler"
+        }
+    },
+    {
+        "model": "sso_ui.profile",
+        "pk": 2,
+        "fields": {
+            "user": 2,
+            "org_code": "01.00.12.01",
+            "role": "mahasiswa",
+            "npm": "1706079211",
+            "faculty": "Ilmu Komputer",
+            "study_program": "Ilmu Komputer",
+            "educational_program": "S1 Reguler"
+        }
+    },
+    {
+        "model": "sso_ui.profile",
+        "pk": 3,
+        "fields": {
+            "user": 3,
+            "org_code": "01.00.12.01",
+            "role": "mahasiswa",
+            "npm": "1706079212",
+            "faculty": "Ilmu Komputer",
+            "study_program": "Ilmu Komputer",
+            "educational_program": "S1 Reguler"
+        }
+    },
+    {
+        "model": "sso_ui.profile",
+        "pk": 4,
+        "fields": {
+            "user": 4,
+            "org_code": "01.00.12.01",
+            "role": "dosen",
+            "npm": "1706079213",
+            "faculty": "Ilmu Komputer",
+            "study_program": "Ilmu Komputer",
+            "educational_program": "S1 Reguler"
+        }
+    },
+    {
+        "model": "sso_ui.profile",
+        "pk": 5,
+        "fields": {
+            "user": 5,
+            "org_code": "01.00.12.01",
+            "role": "mahasiswa",
+            "npm": "1706079214",
+            "faculty": "Ilmu Komputer",
+            "study_program": "Ilmu Komputer",
+            "educational_program": "S1 Reguler"
+        }
+    }
+]
