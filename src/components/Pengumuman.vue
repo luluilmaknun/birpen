@@ -91,7 +91,7 @@
 </template>
 
 <script>
-import DeleteButton from "./delete";
+import DeleteButton from './delete';
 export default {
   data: function() {
     return {
@@ -170,10 +170,10 @@ export default {
     },
     closeModal() {
       this.$modal.hide('detail-modal');
-    }
+    },
   },
   components: {
-    DeleteButton
+    DeleteButton,
   },
 };
 </script>
