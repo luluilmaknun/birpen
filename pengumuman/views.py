@@ -19,6 +19,8 @@ from .models import User, Pengumuman, MataKuliah, JenisPengumuman, \
     Ruang, Sesi, StatusPengumuman
 from .serializers import PengumumanSerializer
 
+PENGUMUMAN_NOT_FOUND_MESSAGE = 'Pengumuman does not exist.'
+
 @api_view(["GET"])
 def pengumuman_placeholder_views(_):
     result = {
@@ -46,7 +48,7 @@ def login(request):
         return Response({'detail': 'Invalid Credentials'},
                         status=HTTP_404_NOT_FOUND)
     token, _ = Token.objects.get_or_create(user=user)
-    return Response({'token': token.key, 'role': user.user_type},
+    return Response({'username': username, 'token': token.key, 'role': user.user_type},
                     status=HTTP_200_OK)
 
 @csrf_exempt
@@ -118,7 +120,7 @@ def edit_pengumuman(request, key):
         pengumuman = Pengumuman.objects.get(pk=key)
     except Pengumuman.DoesNotExist:
         return Response({
-            'detail': 'Pengumuman does not exist.'
+            'detail': PENGUMUMAN_NOT_FOUND_MESSAGE
         }, status=HTTP_400_BAD_REQUEST)
 
     if request.user.user_type != User.ADMIN and pengumuman.pembuat != request.user:
@@ -179,7 +181,7 @@ def delete_pengumuman(request, key):
         pengumuman = Pengumuman.objects.get(pk=key)
     except Pengumuman.DoesNotExist:
         return Response({
-            'detail': 'Pengumuman does not exist.'
+            'detail': PENGUMUMAN_NOT_FOUND_MESSAGE
         }, status=HTTP_400_BAD_REQUEST)
 
     if pengumuman.pembuat != request.user and request.user.user_type != User.ADMIN:
@@ -205,7 +207,7 @@ def read_pengumuman_by_pk(request, key):
             pengumuman = Pengumuman.all_objects.get(pk=key)
     except Pengumuman.DoesNotExist:
         return Response({
-            'detail': 'Pengumuman does not exist.'
+            'detail': PENGUMUMAN_NOT_FOUND_MESSAGE
         }, status=HTTP_400_BAD_REQUEST)
 
     return Response({
