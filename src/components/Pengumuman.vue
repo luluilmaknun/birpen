@@ -37,7 +37,7 @@
 
         <div class="modal-button-container">
           <button class="edit-button">
-            Edit
+            Ubah
           </button>
           <DeleteButton class="delete-button"/>
           <div class="spreader-button" />
