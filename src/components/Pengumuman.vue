@@ -261,14 +261,8 @@ tr:nth-child(odd) {
   flex-direction: row;
   margin-top: 150px;
 }
-.close-modal {
-  border-color: #2D3033;
-}
 .modal-button-container button {
-  padding-left: 10px;
-  padding-right: 10px;
-  padding-top: 5px;
-  padding-bottom: 5px;
+  padding: 5px 15px;
   border-style: none;
   background: none;
   background-color: #2D3033;
@@ -276,6 +270,9 @@ tr:nth-child(odd) {
   font-weight: bolder;
   border-radius: 1000px;
   font-size: 20pt;
+}
+.modal-button-container button:hover {
+  background-color: rgb(105, 105, 105);
 }
 .spreader-button {
   margin-left: 100px;
