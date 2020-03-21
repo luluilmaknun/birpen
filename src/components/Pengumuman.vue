@@ -36,6 +36,9 @@
         </div>
 
         <div class="modal-button-container">
+          <button class="edit-button">
+            Edit
+          </button>
           <DeleteButton class="delete-button"/>
           <div class="spreader-button" />
           <button class="close-modal" v-on:click="closeModal()">
@@ -260,22 +263,45 @@ tr:nth-child(odd) {
   display: flex;
   flex-direction: row;
   margin-top: 150px;
+  align-items: center;
+  align-content: center;
 }
 .modal-button-container button {
   padding: 5px 15px;
   border-style: none;
   background: none;
-  background-color: #2D3033;
-  color: white;
   font-weight: bolder;
   border-radius: 1000px;
   font-size: 20pt;
 }
-.modal-button-container button:hover {
-  background-color: rgb(105, 105, 105);
+.modal-button-container .close-modal {
+  background-color: #2D3033;
+  border-style: solid;
+  border-color: #2D3033;
+  color: white;
 }
+.modal-button-container .close-modal:hover {
+  background-color: rgb(233, 233, 233);
+  border-color: #2D3033;
+  color: #2D3033;
+}
+.modal-button-container .edit-button {
+  background-color: #7584D1;
+  border-style: solid;
+  border-color: #7584D1;
+  color: white;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+.modal-button-container .edit-button:hover {
+  color: #7584D1;
+  background-color: white;
+}
+/* .modal-button-container button:hover {
+  background-color: rgb(105, 105, 105);
+} */
 .spreader-button {
-  margin-left: 100px;
-  margin-right: 100px;
+  margin-left: 200px;
+  margin-right: 200px;
 }
 </style>
