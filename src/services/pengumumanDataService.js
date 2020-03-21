@@ -1,4 +1,4 @@
-import api from '@/service/api';
+import api from '@/services/api';
 
 export default {
   fetch() {
