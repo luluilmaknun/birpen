@@ -23,15 +23,15 @@
           </div>
 
           <div id="right">
-            <p>{{ temp[0].pembuat }}</p>
-            <p>{{ temp[0].timestamp }}</p>
-            <p>{{ temp[0].nama_mata_kuliah }}</p>
-            <p>{{ temp[0].jenis_pengumuman }}</p>
-            <p>{{ temp[0].nama_dosen }}</p>
-            <p>{{ temp[0].nama_ruang }}</p>
-            <p>{{ temp[0].sesi }}</p>
-            <p>{{ temp[0].nama_status_pengumuman }}</p>
-            <p>{{ temp[0].komentar }}</p>
+            <p>{{ tempdetail[0].pembuat }}</p>
+            <p>{{ tempdetail[0].timestamp }}</p>
+            <p>{{ tempdetail[0].nama_mata_kuliah }}</p>
+            <p>{{ tempdetail[0].jenis_pengumuman }}</p>
+            <p>{{ tempdetail[0].nama_dosen }}</p>
+            <p>{{ tempdetail[0].nama_ruang }}</p>
+            <p>{{ tempdetail[0].sesi }}</p>
+            <p>{{ tempdetail[0].nama_status_pengumuman }}</p>
+            <p>{{ tempdetail[0].komentar }}</p>
           </div>
         </div>
 
@@ -92,10 +92,13 @@
 
 <script>
 import DeleteButton from './delete';
+import announcementData from '@/services/pengumumanDataService';
+
 export default {
   data: function() {
     return {
-      temp: [
+      // TEST DATA SECTION
+      tempdetail: [
         {
           pk: 999,
           pembuat: '',
@@ -152,10 +155,18 @@ export default {
       ],
     };
   },
+  created: function() {
+    this.fetchData();
+  },
   methods: {
+    fetchData: function() {
+      announcementData.fetch().then((d) => {
+        // TODO GET ANNOUNCEMENTS IN DEFAULT
+      });
+    },
     showModal(pk, pembuat, timestamp, matkul, jenis, dosen,
         ruang, sesi, status, komentar) {
-      const data = this.temp[0];
+      const data = this.tempdetail[0];
       this.$modal.show('detail-modal');
       data.pk = pk;
       data.pembuat = pembuat;
