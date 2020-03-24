@@ -143,6 +143,8 @@ export default {
     };
   },
   created: function() {
+    this.pembuat = sessionStorage.username;
+    this.role = sessionStorage.role;
     this.fetchData();
 
     if (this.edit) {
@@ -151,9 +153,6 @@ export default {
   },
   methods: {
     fetchData: function() {
-      this.pembuat = sessionStorage.username;
-      this.role = sessionStorage.role;
-
       dropdownApi.fetch().then((d) => {
         this.response = d.data;
 
@@ -194,6 +193,10 @@ export default {
         this.tanggal_kelas = data['tanggal_kelas'];
         this.nama_sesi = data['nama_sesi'];
         this.nama_status_pengumuman = data['nama_status_pengumuman'];
+
+        if(this.jenis_pengumuman == 'Asistensi') {
+          this.nama_asisten = data['nama_asisten'];
+        }
       });
     },
     postData: function() {
@@ -214,12 +217,21 @@ export default {
         request['nama_status_pengumuman'] = this.nama_status_pengumuman;
         request['komentar'] = this.komentar;
 
-        announcementApi.createAnnouncement(request).then((d) => {
-          this.$router.push('/pengumuman');
-        }).catch((error) => {
-          this.message = 'Ada kendala error';
-          this.message_seen = true;
-        });
+        if (this.edit) {
+          announcementApi.editAnnouncement(this.pk, request).then((d) => {
+            this.$router.push('/pengumuman');
+          }).catch((error) => {
+            this.message = 'Ada kendala error';
+            this.message_seen = true;
+          });
+        } else {
+          announcementApi.createAnnouncement(request).then((d) => {
+            this.$router.push('/pengumuman');
+          }).catch((error) => {
+            this.message = 'Ada kendala error';
+            this.message_seen = true;
+          });
+        }
       } else {
         this.message = 'Kelas sudah lampau';
         this.message_seen = true;
