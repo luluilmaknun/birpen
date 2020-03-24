@@ -80,7 +80,7 @@ describe('Tes function', () => {
     dropdownApi.fetch = jest.fn(() => Promise.resolve({
       status: 200,
       data: {
-        jenis_pengumuman: ['Asistensi', 'Perkualiahan'],
+        jenis_pengumuman: ['Asistensi', 'Perkuliahan'],
         mata_kuliah: ['Aljabar Linier', 'Analisis Numerik', 'Basdut'],
         ruang: ['3111'],
         sesi: ['Sesi 1 (08.00 - 10.30)', 'Sesi 2 (11.00 - 13.30)'],
@@ -165,36 +165,94 @@ describe('Edit function', () => {
     wrapper = shallowMount(CreateAnnouncement, {
       'propsData': {
         edit: true,
-        pk: 1,
       },
     });
     vm = wrapper.vm;
 
-    announcementApi.getAnnouncement = jest.fn((data) => Promise.resolve({
+    announcementApi.getAnnouncement = jest.fn(() => Promise.resolve({
       status: 200,
       data: {
-        pk: 1,
-        pembuat: 'lulu',
-        nama_mata_kuliah: 'Aljabar Linier',
-        jenis_pengumuman: 'Perkuliahan',
-        nama_dosen: 'Lulu Ilmaknun',
-        tanggal_kelas: '2020-03-30',
-        nama_ruang: '3111',
-        nama_sesi: 'Sesi 1 (08.00 - 10.30)',
-        nama_status_pengumuman: 'Terlambat',
-        komentar: 'lol',
+        pengumuman: {
+          'pk': '1',
+          'pembuat': 'lulu',
+          'nama_mata_kuliah': 'Aljabar Linier',
+          'jenis_pengumuman': 'Asistensi',
+          'nama_asisten': 'Lulu ajah',
+          'nama_dosen': 'Lulu Ilmaknun',
+          'tanggal_kelas': '2200-03-30',
+          'nama_ruang': '3111',
+          'nama_sesi': 'Sesi 1 (08.00 - 10.30)',
+          'nama_status_pengumuman': 'Terlambat',
+          'komentar': 'lol',
+        },
+      },
+    }));
+
+    announcementApi.editAnnouncement = jest.fn(() => Promise.resolve({
+      status: 200,
+      data: {
+        detail: 'Valid data.',
+        success: true,
       },
     }));
 
     vm.fetchData();
-  });
-
-  it('Test post data', () => {
-    vm.postData();
-  });
-
-  it('Test edit data', () => {
-    expect(wrapper.props('edit')).toBe(true);
     vm.editData(1);
+  });
+
+  it('Test data return', () => {
+    expect(wrapper.find('#nama_dosen').element.value)
+        .toBe('Lulu Ilmaknun');
+    expect(wrapper.find('#tanggal_kelas').element.value)
+        .toBe('2200-03-30');
+    expect(wrapper.find('#nama_mata_kuliah').element.value)
+        .toBe('Aljabar Linier');
+    expect(wrapper.find('#nama_sesi').element.value)
+        .toBe('Sesi 1 (08.00 - 10.30)');
+    expect(wrapper.find('#jenis_pengumuman').element.value)
+        .toBe('Asistensi');
+    expect(wrapper.find('#nama_asisten').element.value)
+        .toBe('Lulu ajah');
+    expect(wrapper.find('#nama_ruang').element.value)
+        .toBe('3111');
+    expect(wrapper.find('#nama_status_pengumuman').element.value)
+        .toBe('Terlambat');
+    expect(wrapper.find('#komentar').element.value)
+        .toBe('lol');
+  });
+
+  it('Test edit data success', () => {
+    expect(wrapper.props('edit')).toBe(true);
+    const namaDosen = wrapper.find('#nama_dosen');
+    namaDosen.element.value = 'Bukan Lulu';
+    namaDosen.trigger('change');
+
+    vm.postData();
+    vm.editData(1);
+
+    expect(wrapper.find('#nama_dosen').element.value)
+        .toBe('Bukan Lulu');
+  });
+
+  it('Test edit data error', () => {
+    const wrapper = shallowMount(CreateAnnouncement, {
+      data() {
+        return {
+          'jenis_pengumuman': 'Asistensi',
+          'tanggal_kelas': '2001-03-30',
+          'nama_mata_kuliah': 'Aljabar Linier',
+          'nama_dosen': 'Lulu Ilmaknun',
+          'nama_asisten': 'Lulz',
+          'nama_sesi': 'Sesi 2 (11.00 - 13.30)',
+          'nama_ruang': '3111',
+          'nama_status_pengumuman': 'Terlambat',
+        };
+      },
+    });
+    const vm = wrapper.vm;
+
+    vm.postData();
+    expect(wrapper.vm.message_seen).toBe(true);
+    expect(wrapper.vm.message).toBe('Kelas sudah lampau');
   });
 });
