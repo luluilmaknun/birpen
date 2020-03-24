@@ -57,7 +57,7 @@ describe('Tes Elemen Form', () => {
   });
 });
 
-describe('Tes function', () => {
+describe('Tes create data function', () => {
   let wrapper; let vm;
 
   beforeEach(() => {
@@ -123,7 +123,7 @@ describe('Tes function', () => {
         .toBe('Terlambat');
   });
 
-  it('Test post data success', () => {
+  it('Test create data success', () => {
     announcementApi.createAnnouncement = jest.fn(() => Promise.resolve({
       status: 200,
       data: {
@@ -135,7 +135,7 @@ describe('Tes function', () => {
     vm.postData();
   });
 
-  it('Test post data error', () => {
+  it('Test create data error', () => {
     const wrapper = shallowMount(CreateAnnouncement, {
       data() {
         return {

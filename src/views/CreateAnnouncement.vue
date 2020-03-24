@@ -194,7 +194,7 @@ export default {
         this.nama_sesi = data['nama_sesi'];
         this.nama_status_pengumuman = data['nama_status_pengumuman'];
 
-        if(this.jenis_pengumuman == 'Asistensi') {
+        if (this.jenis_pengumuman == 'Asistensi') {
           this.nama_asisten = data['nama_asisten'];
         }
       });
