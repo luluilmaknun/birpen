@@ -8,6 +8,6 @@ export default {
     return api.put('pengumuman/'+key+'/edit/', request);
   },
   createAnnouncement(request) {
-    return api.post('pengumuman/create', request);
+    return api.post('pengumuman/create/', request);
   },
 };
