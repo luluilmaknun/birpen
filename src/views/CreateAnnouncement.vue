@@ -114,7 +114,10 @@ import announcementApi from '@/services/announcementServices';
 
 export default {
   name: 'CreateAnnouncement',
-
+  props: {
+    edit: Boolean,
+    pk: String,
+  },
   data: function() {
     return {
       role: '',
@@ -140,13 +143,16 @@ export default {
     };
   },
   created: function() {
+    this.pembuat = this.$session.get('username');
+    this.role = this.$session.get('role');
     this.fetchData();
+
+    if (this.edit) {
+      this.editData(this.pk);
+    }
   },
   methods: {
     fetchData: function() {
-      this.pembuat = sessionStorage.username;
-      this.role = sessionStorage.role;
-
       dropdownApi.fetch().then((d) => {
         this.response = d.data;
 
@@ -174,6 +180,29 @@ export default {
         }
       });
     },
+    editData: function(pk) {
+      announcementApi.getAnnouncement(pk).then((d) => {
+        const data = d.data.pengumuman;
+
+        if (this.role != 4 && this.pembuat != data['pembuat']) {
+          this.$router.push('/pengumuman');
+        }
+
+        this.pembuat = data['pembuat'];
+        this.nama_mata_kuliah = data['nama_mata_kuliah'];
+        this.jenis_pengumuman = data['jenis_pengumuman'];
+        this.komentar = data['komentar'];
+        this.nama_dosen = data['nama_dosen'];
+        this.nama_ruang = data['nama_ruang'];
+        this.tanggal_kelas = data['tanggal_kelas'];
+        this.nama_sesi = data['nama_sesi'];
+        this.nama_status_pengumuman = data['nama_status_pengumuman'];
+
+        if (this.jenis_pengumuman == 'Asistensi') {
+          this.nama_asisten = data['nama_asisten'];
+        }
+      });
+    },
     postData: function() {
       const request = {};
 
@@ -192,12 +221,21 @@ export default {
         request['nama_status_pengumuman'] = this.nama_status_pengumuman;
         request['komentar'] = this.komentar;
 
-        announcementApi.createAnnouncement(request).then((d) => {
-          this.$router.push('/pengumuman');
-        }).catch((error) => {
-          this.message = 'Ada kendala error';
-          this.message_seen = true;
-        });
+        if (this.edit) {
+          announcementApi.editAnnouncement(this.pk, request).then((d) => {
+            this.$router.push('/pengumuman');
+          }).catch((error) => {
+            this.message = 'Ada kendala error';
+            this.message_seen = true;
+          });
+        } else {
+          announcementApi.createAnnouncement(request).then((d) => {
+            this.$router.push('/pengumuman');
+          }).catch((error) => {
+            this.message = 'Ada kendala error';
+            this.message_seen = true;
+          });
+        }
       } else {
         this.message = 'Kelas sudah lampau';
         this.message_seen = true;
@@ -286,9 +324,6 @@ form.vue-form button {
   align-self: center;
   text-align: center;
   cursor: pointer;
-}
-#alert {
-
 }
 @media only screen and (max-width: 1000px) {
   form.vue-form {

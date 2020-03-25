@@ -4,7 +4,14 @@ import dropdownApi from '@/services/dropdownDataServices';
 import announcementApi from '@/services/announcementServices';
 
 describe('Tes Elemen Form', () => {
-  const wrapper = shallowMount(CreateAnnouncement);
+  const wrapper = shallowMount(CreateAnnouncement, {
+    'mocks': {
+      $session: {
+        get: jest.fn().mockReturnValueOnce('admin').mockReturnValueOnce(4),
+      },
+    },
+  },
+  );
 
   it('Buat Pengumuman page name : CreateAnnouncement', () =>{
     expect(wrapper.name()).toEqual('CreateAnnouncement');
@@ -57,7 +64,7 @@ describe('Tes Elemen Form', () => {
   });
 });
 
-describe('Tes function', () => {
+describe('Tes create data function', () => {
   let wrapper; let vm;
 
   beforeEach(() => {
@@ -74,13 +81,18 @@ describe('Tes function', () => {
           'nama_status_pengumuman': 'Terlambat',
         };
       },
+      'mocks': {
+        $session: {
+          get: jest.fn().mockReturnValueOnce('admin').mockReturnValueOnce(4),
+        },
+      },
     });
     vm = wrapper.vm;
 
     dropdownApi.fetch = jest.fn(() => Promise.resolve({
       status: 200,
       data: {
-        jenis_pengumuman: ['Asistensi', 'Perkualiahan'],
+        jenis_pengumuman: ['Asistensi', 'Perkuliahan'],
         mata_kuliah: ['Aljabar Linier', 'Analisis Numerik', 'Basdut'],
         ruang: ['3111'],
         sesi: ['Sesi 1 (08.00 - 10.30)', 'Sesi 2 (11.00 - 13.30)'],
@@ -123,7 +135,7 @@ describe('Tes function', () => {
         .toBe('Terlambat');
   });
 
-  it('Test post data success', () => {
+  it('Test create data success', () => {
     announcementApi.createAnnouncement = jest.fn(() => Promise.resolve({
       status: 200,
       data: {
@@ -135,7 +147,7 @@ describe('Tes function', () => {
     vm.postData();
   });
 
-  it('Test post data error', () => {
+  it('Test create data error', () => {
     const wrapper = shallowMount(CreateAnnouncement, {
       data() {
         return {
@@ -149,11 +161,239 @@ describe('Tes function', () => {
           'nama_status_pengumuman': 'Terlambat',
         };
       },
+      'mocks': {
+        $session: {
+          get: jest.fn().mockReturnValueOnce('admin').mockReturnValueOnce(4),
+        },
+      },
     });
     const vm = wrapper.vm;
 
     vm.postData();
     expect(wrapper.vm.message_seen).toBe(true);
     expect(wrapper.vm.message).toBe('Kelas sudah lampau');
+  });
+});
+
+describe('Edit function', () => {
+  let wrapper; let vm;
+
+  beforeEach(() => {
+    wrapper = shallowMount(CreateAnnouncement, {
+      'propsData': {
+        edit: true,
+      },
+      'mocks': {
+        $session: {
+          get: jest.fn().mockReturnValueOnce('admin').mockReturnValueOnce(4),
+        },
+      },
+    });
+    vm = wrapper.vm;
+
+    announcementApi.getAnnouncement = jest.fn(() => Promise.resolve({
+      status: 200,
+      data: {
+        pengumuman: {
+          'pk': '1',
+          'pembuat': 'lulu',
+          'nama_mata_kuliah': 'Aljabar Linier',
+          'jenis_pengumuman': 'Asistensi',
+          'nama_asisten': 'Lulu ajah',
+          'nama_dosen': 'Lulu Ilmaknun',
+          'tanggal_kelas': '2200-03-30',
+          'nama_ruang': '3111',
+          'nama_sesi': 'Sesi 1 (08.00 - 10.30)',
+          'nama_status_pengumuman': 'Terlambat',
+          'komentar': 'lol',
+        },
+      },
+    }));
+
+    announcementApi.editAnnouncement = jest.fn(() => Promise.resolve({
+      status: 200,
+      data: {
+        detail: 'Valid data.',
+        success: true,
+      },
+    }));
+
+    vm.editData(1);
+  });
+
+  it('Test data return', () => {
+    expect(wrapper.find('#nama_dosen').element.value)
+        .toBe('Lulu Ilmaknun');
+    expect(wrapper.find('#tanggal_kelas').element.value)
+        .toBe('2200-03-30');
+    expect(wrapper.find('#nama_mata_kuliah').element.value)
+        .toBe('Aljabar Linier');
+    expect(wrapper.find('#nama_sesi').element.value)
+        .toBe('Sesi 1 (08.00 - 10.30)');
+    expect(wrapper.find('#jenis_pengumuman').element.value)
+        .toBe('Asistensi');
+    expect(wrapper.find('#nama_asisten').element.value)
+        .toBe('Lulu ajah');
+    expect(wrapper.find('#nama_ruang').element.value)
+        .toBe('3111');
+    expect(wrapper.find('#nama_status_pengumuman').element.value)
+        .toBe('Terlambat');
+    expect(wrapper.find('#komentar').element.value)
+        .toBe('lol');
+  });
+
+  it('Test edit data success', () => {
+    expect(wrapper.props('edit')).toBe(true);
+    const namaDosen = wrapper.find('#nama_dosen');
+    namaDosen.element.value = 'Bukan Lulu';
+    namaDosen.trigger('change');
+
+    vm.postData();
+    vm.editData(1);
+
+    expect(wrapper.find('#nama_dosen').element.value)
+        .toBe('Bukan Lulu');
+  });
+
+  it('Test edit data error', () => {
+    const wrapper = shallowMount(CreateAnnouncement, {
+      'propsData': {
+        edit: true,
+      },
+      data() {
+        return {
+          'jenis_pengumuman': 'Asistensi',
+          'tanggal_kelas': '2001-03-30',
+          'nama_mata_kuliah': 'Aljabar Linier',
+          'nama_dosen': 'Lulu Ilmaknun',
+          'nama_asisten': 'Lulz',
+          'nama_sesi': 'Sesi 2 (11.00 - 13.30)',
+          'nama_ruang': '3111',
+          'nama_status_pengumuman': 'Terlambat',
+        };
+      },
+      'mocks': {
+        $session: {
+          get: jest.fn().mockReturnValueOnce('admin').mockReturnValueOnce(4),
+        },
+      },
+    });
+    const vm = wrapper.vm;
+
+    vm.postData();
+    expect(wrapper.vm.message_seen).toBe(true);
+    expect(wrapper.vm.message).toBe('Kelas sudah lampau');
+  });
+
+  it('Test security access admin success', () => {
+    announcementApi.getAnnouncement = jest.fn(() => Promise.resolve({
+      status: 200,
+      data: {
+        pengumuman: {
+          'pk': '1',
+          'pembuat': 'lulu',
+          'nama_mata_kuliah': 'Aljabar Linier',
+          'jenis_pengumuman': 'Asistensi',
+          'nama_asisten': 'Lulu ajah',
+          'nama_dosen': 'Lulu Ilmaknun',
+          'tanggal_kelas': '2200-03-30',
+          'nama_ruang': '3111',
+          'nama_sesi': 'Sesi 1 (08.00 - 10.30)',
+          'nama_status_pengumuman': 'Terlambat',
+          'komentar': 'lol',
+        },
+      },
+    }));
+
+    const wrapper = shallowMount(CreateAnnouncement, {
+      'propsData': {
+        edit: true,
+      },
+      'mocks': {
+        $session: {
+          get: jest.fn().mockReturnValueOnce('admin').mockReturnValueOnce(4),
+        },
+      },
+    });
+    const vm = wrapper.vm;
+
+    vm.editData(1);
+  });
+
+  it('Test security access non-admin success', () => {
+    const wrapper = shallowMount(CreateAnnouncement, {
+      'propsData': {
+        edit: true,
+      },
+      'mocks': {
+        $session: {
+          get: jest.fn().mockReturnValueOnce('lulu.ilmaknun')
+              .mockReturnValueOnce(2),
+        },
+      },
+    });
+    const vm = wrapper.vm;
+
+    announcementApi.getAnnouncement = jest.fn(() => Promise.resolve({
+      status: 200,
+      data: {
+        pengumuman: {
+          'pk': '1',
+          'pembuat': 'lulu.ilmaknun',
+          'nama_mata_kuliah': 'Aljabar Linier',
+          'jenis_pengumuman': 'Asistensi',
+          'nama_asisten': 'Lulu ajah',
+          'nama_dosen': 'Lulu Ilmaknun',
+          'tanggal_kelas': '2200-03-30',
+          'nama_ruang': '3111',
+          'nama_sesi': 'Sesi 1 (08.00 - 10.30)',
+          'nama_status_pengumuman': 'Terlambat',
+          'komentar': 'lol',
+        },
+      },
+    }));
+
+    vm.editData(1);
+  });
+
+  it('Test security access non-admin denied', () => {
+    announcementApi.getAnnouncement = jest.fn(() => Promise.resolve({
+      status: 200,
+      data: {
+        pengumuman: {
+          'pk': '1',
+          'pembuat': 'lulu',
+          'nama_mata_kuliah': 'Aljabar Linier',
+          'jenis_pengumuman': 'Asistensi',
+          'nama_asisten': 'Lulu ajah',
+          'nama_dosen': 'Lulu Ilmaknun',
+          'tanggal_kelas': '2200-03-30',
+          'nama_ruang': '3111',
+          'nama_sesi': 'Sesi 1 (08.00 - 10.30)',
+          'nama_status_pengumuman': 'Terlambat',
+          'komentar': 'lol',
+        },
+      },
+    }));
+
+    const wrapper = shallowMount(CreateAnnouncement, {
+      'propsData': {
+        edit: true,
+      },
+      'mocks': {
+        $session: {
+          get: jest.fn().mockReturnValueOnce('lulu.ilmaknun')
+              .mockReturnValueOnce(2),
+        },
+        $router: {
+          push: jest.fn(),
+        },
+      },
+    });
+    const vm = wrapper.vm;
+
+    vm.editData();
+    expect(wrapper.find('#nama_dosen').element.value)
+        .toBe('');
   });
 });
