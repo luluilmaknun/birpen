@@ -45,6 +45,7 @@ class Profile(models.Model):
     org_code = models.CharField('kode organisasi', max_length=11, blank=True)
     role = models.CharField('peran pengguna', max_length=128, blank=True)
     npm = models.CharField('Nomor Pokok Mahasiswa', max_length=10, blank=True)
+    nip = models.CharField('Nomor Induk Pegawai', max_length=10, blank=True)
     faculty = models.CharField('fakultas', max_length=128, blank=True)
     study_program = models.CharField('program studi', max_length=128, blank=True)
     educational_program = models.CharField('program pendidikan', max_length=128, blank=True)
@@ -77,19 +78,24 @@ def save_user_attributes(user, attributes, **kwargs):
     user.save()
     profile = user.profile
     profile.role = attributes['peran_user']
-    profile.npm = attributes['npm']
+
+    if profile.role == 'staff':
+        profile.nip = attributes['nip']
+
     if profile.role == 'mahasiswa':
-        user.email = f'{user.username}@ui.ac.id'
+        profile.npm = attributes['npm']
+
+        org_code = attributes['kd_org']
+        record = ORG_CODE[LANG][org_code]
+        profile.org_code = org_code
+        profile.faculty = record['faculty']
+        profile.study_program = record['study_program']
+        profile.educational_program = record['educational_program']
+
+    user.email = f'{user.username}@ui.ac.id'
 
     full_name = attributes['nama']
     i = full_name.rfind(' ')
     user.first_name, user.last_name = full_name[:i], full_name[i + 1:]
-
-    org_code = attributes['kd_org']
-    record = ORG_CODE[LANG][org_code]
-    profile.org_code = org_code
-    profile.faculty = record['faculty']
-    profile.study_program = record['study_program']
-    profile.educational_program = record['educational_program']
 
     user.save()
