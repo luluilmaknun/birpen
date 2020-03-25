@@ -143,8 +143,8 @@ export default {
     };
   },
   created: function() {
-    this.pembuat = sessionStorage.username;
-    this.role = sessionStorage.role;
+    this.pembuat = this.$session.get('username');
+    this.role = this.$session.get('role');
     this.fetchData();
 
     if (this.edit) {
@@ -183,6 +183,10 @@ export default {
     editData: function(pk) {
       announcementApi.getAnnouncement(pk).then((d) => {
         const data = d.data.pengumuman;
+
+        if (this.role != 4 && this.pembuat != data['pembuat']) {
+          this.$router.push('/pengumuman');
+        }
 
         this.pembuat = data['pembuat'];
         this.nama_mata_kuliah = data['nama_mata_kuliah'];
