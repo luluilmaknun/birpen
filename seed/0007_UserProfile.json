@@ -43,12 +43,8 @@
         "pk": 4,
         "fields": {
             "user": 4,
-            "org_code": "01.00.12.01",
-            "role": "dosen",
-            "npm": "1706079213",
-            "faculty": "Ilmu Komputer",
-            "study_program": "Ilmu Komputer",
-            "educational_program": "S1 Reguler"
+            "role": "staff",
+            "nip": "1119030041"
         }
     },
     {
