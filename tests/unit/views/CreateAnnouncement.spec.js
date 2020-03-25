@@ -236,6 +236,9 @@ describe('Edit function', () => {
 
   it('Test edit data error', () => {
     const wrapper = shallowMount(CreateAnnouncement, {
+      'propsData': {
+        edit: true,
+      },
       data() {
         return {
           'jenis_pengumuman': 'Asistensi',
@@ -254,5 +257,117 @@ describe('Edit function', () => {
     vm.postData();
     expect(wrapper.vm.message_seen).toBe(true);
     expect(wrapper.vm.message).toBe('Kelas sudah lampau');
+  });
+
+  it('Test security access admin success', () => {
+    announcementApi.getAnnouncement = jest.fn(() => Promise.resolve({
+      status: 200,
+      data: {
+        pengumuman: {
+          'pk': '1',
+          'pembuat': 'lulu',
+          'nama_mata_kuliah': 'Aljabar Linier',
+          'jenis_pengumuman': 'Asistensi',
+          'nama_asisten': 'Lulu ajah',
+          'nama_dosen': 'Lulu Ilmaknun',
+          'tanggal_kelas': '2200-03-30',
+          'nama_ruang': '3111',
+          'nama_sesi': 'Sesi 1 (08.00 - 10.30)',
+          'nama_status_pengumuman': 'Terlambat',
+          'komentar': 'lol',
+        },
+      },
+    }));
+
+    const wrapper = shallowMount(CreateAnnouncement, {
+      'propsData': {
+        edit: true,
+      },
+      'mocks': {
+        $session: {
+          get: jest.fn().mockReturnValueOnce('admin').mockReturnValueOnce(4),
+        },
+      },
+    });
+    const vm = wrapper.vm;
+
+    vm.editData(1);
+  });
+
+  it('Test security access non-admin success', () => {
+    const wrapper = shallowMount(CreateAnnouncement, {
+      'propsData': {
+        edit: true,
+      },
+      'mocks': {
+        $session: {
+          get: jest.fn().mockReturnValueOnce('lulu.ilmaknun')
+              .mockReturnValueOnce(2),
+        },
+      },
+    });
+    const vm = wrapper.vm;
+
+    announcementApi.getAnnouncement = jest.fn(() => Promise.resolve({
+      status: 200,
+      data: {
+        pengumuman: {
+          'pk': '1',
+          'pembuat': 'lulu.ilmaknun',
+          'nama_mata_kuliah': 'Aljabar Linier',
+          'jenis_pengumuman': 'Asistensi',
+          'nama_asisten': 'Lulu ajah',
+          'nama_dosen': 'Lulu Ilmaknun',
+          'tanggal_kelas': '2200-03-30',
+          'nama_ruang': '3111',
+          'nama_sesi': 'Sesi 1 (08.00 - 10.30)',
+          'nama_status_pengumuman': 'Terlambat',
+          'komentar': 'lol',
+        },
+      },
+    }));
+
+    vm.editData(1);
+  });
+
+  it('Test security access non-admin denied', () => {
+    announcementApi.getAnnouncement = jest.fn(() => Promise.resolve({
+      status: 200,
+      data: {
+        pengumuman: {
+          'pk': '1',
+          'pembuat': 'lulu',
+          'nama_mata_kuliah': 'Aljabar Linier',
+          'jenis_pengumuman': 'Asistensi',
+          'nama_asisten': 'Lulu ajah',
+          'nama_dosen': 'Lulu Ilmaknun',
+          'tanggal_kelas': '2200-03-30',
+          'nama_ruang': '3111',
+          'nama_sesi': 'Sesi 1 (08.00 - 10.30)',
+          'nama_status_pengumuman': 'Terlambat',
+          'komentar': 'lol',
+        },
+      },
+    }));
+
+    const wrapper = shallowMount(CreateAnnouncement, {
+      'propsData': {
+        edit: true,
+      },
+      'mocks': {
+        $session: {
+          get: jest.fn().mockReturnValueOnce('lulu.ilmaknun')
+              .mockReturnValueOnce(2),
+        },
+        $router: {
+          push: jest.fn(),
+        },
+      },
+    });
+    const vm = wrapper.vm;
+
+    vm.editData();
+    expect(wrapper.find('#nama_dosen').element.value)
+        .toBe('');
   });
 });
