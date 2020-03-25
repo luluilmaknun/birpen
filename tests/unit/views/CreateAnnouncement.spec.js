@@ -4,7 +4,14 @@ import dropdownApi from '@/services/dropdownDataServices';
 import announcementApi from '@/services/announcementServices';
 
 describe('Tes Elemen Form', () => {
-  const wrapper = shallowMount(CreateAnnouncement);
+  const wrapper = shallowMount(CreateAnnouncement, {
+    'mocks': {
+      $session: {
+        get: jest.fn().mockReturnValueOnce('admin').mockReturnValueOnce(4),
+      },
+    },
+  },
+  );
 
   it('Buat Pengumuman page name : CreateAnnouncement', () =>{
     expect(wrapper.name()).toEqual('CreateAnnouncement');
@@ -73,6 +80,11 @@ describe('Tes create data function', () => {
           'nama_ruang': '3111',
           'nama_status_pengumuman': 'Terlambat',
         };
+      },
+      'mocks': {
+        $session: {
+          get: jest.fn().mockReturnValueOnce('admin').mockReturnValueOnce(4),
+        },
       },
     });
     vm = wrapper.vm;
@@ -149,6 +161,11 @@ describe('Tes create data function', () => {
           'nama_status_pengumuman': 'Terlambat',
         };
       },
+      'mocks': {
+        $session: {
+          get: jest.fn().mockReturnValueOnce('admin').mockReturnValueOnce(4),
+        },
+      },
     });
     const vm = wrapper.vm;
 
@@ -165,6 +182,11 @@ describe('Edit function', () => {
     wrapper = shallowMount(CreateAnnouncement, {
       'propsData': {
         edit: true,
+      },
+      'mocks': {
+        $session: {
+          get: jest.fn().mockReturnValueOnce('admin').mockReturnValueOnce(4),
+        },
       },
     });
     vm = wrapper.vm;
@@ -196,7 +218,6 @@ describe('Edit function', () => {
       },
     }));
 
-    vm.fetchData();
     vm.editData(1);
   });
 
@@ -250,6 +271,11 @@ describe('Edit function', () => {
           'nama_ruang': '3111',
           'nama_status_pengumuman': 'Terlambat',
         };
+      },
+      'mocks': {
+        $session: {
+          get: jest.fn().mockReturnValueOnce('admin').mockReturnValueOnce(4),
+        },
       },
     });
     const vm = wrapper.vm;
