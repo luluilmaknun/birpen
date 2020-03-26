@@ -2,6 +2,17 @@
 from django.shortcuts import render
 
 from rest_framework_jwt.settings import api_settings
+from django.core.exceptions import ObjectDoesNotExist
+from django.views.decorators.csrf import csrf_exempt
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
+from rest_framework.status import (
+    HTTP_400_BAD_REQUEST,
+    HTTP_200_OK,
+)
+
+from .models import AsistenDosen
 
 def save_user_info(request):
     response = {'token' : '', 'username':'', 'role':'', 'is_admin':'', 'is_asdos':''}
@@ -21,3 +32,33 @@ def save_user_info(request):
         return render(request, 'save_user_info.html', response)
 
     return render(request, 'save_user_info.html', response)
+
+@csrf_exempt
+@api_view(["POST"])
+@permission_classes((IsAuthenticated,))
+def create_asisten(request):
+    if request.user.is_dosen() is False:
+        return Response({
+            'detail': 'Role is not dosen.',
+            'success': False,
+        }, status=HTTP_400_BAD_REQUEST)
+
+    asisten = AsistenDosen()
+
+    try:
+        asisten.username = request.data.get('username')
+        if asisten.username is None:
+            raise ValueError
+        asisten.save()
+    except (ObjectDoesNotExist, ValueError, TypeError):
+        return Response({
+            'detail': 'Invalid data.',
+            'success': False,
+        }, status=HTTP_400_BAD_REQUEST)
+
+
+    return Response({
+        "detail": 'Valid data.',
+        "success": True,
+    }, status=HTTP_200_OK)
+    
