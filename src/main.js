@@ -1,10 +1,24 @@
-// import Vue from 'vue';
+import Vue from 'vue';
+import App from '@/App.vue';
+import router from '@/router';
+import VueSessionStorage from 'vue-sessionstorage';
+import VueModal from 'vue-js-modal';
 
-// Vue.config.productionTip = false;
+import axios from 'axios';
+import VueAxios from 'vue-axios';
 
-// Vue.use(VueRouter)
+Vue.use(VueAxios, axios);
 
-// const vue = new Vue({
-// });
+Vue.use(VueSessionStorage);
+Vue.use(VueModal);
 
-// vue.$mount('#app');
+Vue.config.productionTip = false;
+
+// Vue.use(VueRouter);
+Vue.use(VueModal);
+const vue = new Vue({
+  router,
+  render: (h) => h(App),
+});
+
+vue.$mount('#app');

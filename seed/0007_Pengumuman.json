@@ -1,0 +1,78 @@
+[
+    {
+        "model":"pengumuman.pengumuman",
+        "pk":1,
+        "fields":{
+            "deleted":null,
+            "created_at":"2020-03-01T12:43:21.358Z",
+            "modified_at":"2020-03-01T12:43:21.358Z",
+            "tanggal_kelas":"2020-03-01T12:42:35Z",
+            "pembuat":2,
+            "nama_mata_kuliah":3,
+            "jenis_pengumuman":1,
+            "nama_dosen":"Lulu Ilmaqnun S.Kom",
+            "nama_asisten":"",
+            "nama_ruang":5,
+            "nama_sesi":3,
+            "nama_status_pengumuman":2,
+            "komentar":"Saya ada urusan mendadak"
+        }
+    },
+    {
+        "model":"pengumuman.pengumuman",
+        "pk":2,
+        "fields":{
+            "deleted":null,
+            "created_at":"2020-03-01T12:44:18.708Z",
+            "modified_at":"2020-03-01T12:44:18.708Z",
+            "tanggal_kelas":"2020-03-01T12:43:21Z",
+            "pembuat":3,
+            "nama_mata_kuliah":7,
+            "jenis_pengumuman":1,
+            "nama_dosen":"Ahmad Fauzan S.Kom",
+            "nama_asisten":"",
+            "nama_ruang":3,
+            "nama_sesi":2,
+            "nama_status_pengumuman":3,
+            "komentar":"Saya ada urusan mendadak"
+        }
+    },
+    {
+        "model":"pengumuman.pengumuman",
+        "pk":3,
+        "fields":{
+            "deleted":null,
+            "created_at":"2020-03-01T12:44:58.000Z",
+            "modified_at":"2020-03-01T12:44:58.000Z",
+            "tanggal_kelas":"2020-03-01T12:44:18Z",
+            "pembuat":1,
+            "nama_mata_kuliah":4,
+            "jenis_pengumuman":2,
+            "nama_dosen":"Lulu Ilmaknun S.Kom",
+            "nama_asisten":"Yusuf Tri Ardho",
+            "nama_ruang":7,
+            "nama_sesi":2,
+            "nama_status_pengumuman":2,
+            "komentar":"Saya ada urusan mendadak"
+        }
+    },
+    {
+        "model":"pengumuman.pengumuman",
+        "pk":4,
+        "fields":{
+            "deleted":null,
+            "created_at":"2020-03-01T12:45:41.846Z",
+            "modified_at":"2020-03-01T12:45:41.846Z",
+            "tanggal_kelas":"2020-03-01T12:44:58Z",
+            "pembuat":2,
+            "nama_mata_kuliah":6,
+            "jenis_pengumuman":2,
+            "nama_dosen":"Lulu Ilmaknun S.Kom",
+            "nama_asisten":"Athallah Annafis",
+            "nama_ruang":6,
+            "nama_sesi":4,
+            "nama_status_pengumuman":3,
+            "komentar":"Saya ada urusan mendadak"
+        }
+    }
+]

@@ -30,7 +30,7 @@
 ## Plugin-specific files:
 
 # IntelliJ
-/out/
+/seed/out/
 
 # mpeltonen/sbt-idea plugin
 .idea_modules/
@@ -202,3 +202,6 @@ yarn-error.log*
 
 #Sonarqube
 .scannerwork/
+
+#npm
+package-lock.json

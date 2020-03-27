@@ -1,3 +1,12 @@
+variables:
+  POSTGRES_DB: $DB_NAME
+  POSTGRES_USER: $DB_USER
+  POSTGRES_PASSWORD: $DB_PASSWORD
+  POSTGRES_HOST_AUTH_METHOD: $DB_HOST_AUTH_METHOD
+
+services:
+  - postgres:12.2-alpine
+
 stages:
   - test
   - analysis
@@ -75,7 +84,7 @@ Staging Deployment VM:
   script:
     - >
       ssh admin@10.119.106.13 
-      "cd /opt/pplukan-feb-ui-biro-pendidikan-online &&
+      "cd pplukan-feb-ui-biro-pendidikan-online &&
       git checkout staging &&
       git pull origin staging &&
       bash stop.sh &&

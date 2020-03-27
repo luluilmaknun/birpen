@@ -1,0 +1,107 @@
+[
+  {
+    "model": "pengumuman.user",
+    "pk": 1,
+    "fields": {
+      "password": "pbkdf2_sha256$180000$vzjkHouFpSHZ$Rjh7REF5/yMotAj2LZDRRE7KIOUPRzlMG6GCs+gmxS0=",
+      "last_login": "2020-03-02T06:04:43Z",
+      "is_superuser": true,
+      "username": "admin",
+      "first_name": "Athallah",
+      "last_name": "Annafis",
+      "email": "admin@a.com",
+      "is_staff": true,
+      "is_active": true,
+      "date_joined": "2020-03-01T10:30:43Z",
+      "name": "admin",
+      "npm": "1706040050",
+      "user_type": 4,
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "pengumuman.user",
+    "pk": 2,
+    "fields": {
+      "password": "pbkdf2_sha256$180000$Ith9FBlcMfHn$r8cRaW6L+XTcLIs7DneQpNAb+Jj4ojjVvioGPjAgoeA=",
+      "last_login": null,
+      "is_superuser": true,
+      "username": "mahasiswa",
+      "first_name": "Yusuf Tri",
+      "last_name": "Ardho",
+      "email": "mahasiswa@mahasiswa.co",
+      "is_staff": true,
+      "is_active": true,
+      "date_joined": "2020-03-02T06:06:16Z",
+      "name": "mahasiswa",
+      "npm": "1706040050",
+      "user_type": 1,
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "pengumuman.user",
+    "pk": 3,
+    "fields": {
+      "password": "pbkdf2_sha256$180000$GP7Hq00Qlo9H$KtRCUSO5BUhZrG4Ejf+E0xczuGN4Gc0Sb5N8VWJjJ/U=",
+      "last_login": null,
+      "is_superuser": true,
+      "username": "mahasiswa_dua",
+      "first_name": "Annida Safira",
+      "last_name": "Arief",
+      "email": "mahasiswa@mahasiswa.co",
+      "is_staff": true,
+      "is_active": true,
+      "date_joined": "2020-03-02T06:06:16Z",
+      "name": "mahasiswa",
+      "npm": "1706040050",
+      "user_type": 1,
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "pengumuman.user",
+    "pk": 4,
+    "fields": {
+      "password": "pbkdf2_sha256$180000$fCDFg2XlSAAj$aPVdozUNcdk/36e9ZYrxCK+Sf0YmGXC1zDmey1pVd6k=",
+      "last_login": null,
+      "is_superuser": true,
+      "username": "dosen",
+      "first_name": "Ahmad Fauzan",
+      "last_name": "A. I.",
+      "email": "dosen@d.co",
+      "is_staff": true,
+      "is_active": true,
+      "date_joined": "2020-03-02T06:06:32Z",
+      "name": "fauzan S.E",
+      "npm": "1103749201",
+      "user_type": 3,
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "pengumuman.user",
+    "pk": 5,
+    "fields": {
+      "password": "pbkdf2_sha256$180000$ZwSWpRJrBvax$hcwXq+cx+daMJwFLeYZCO8/F+MI1zN/ayPTxYf1XFDQ=",
+      "last_login": null,
+      "is_superuser": true,
+      "username": "asdos",
+      "first_name": "Lulu Ilmaknun",
+      "last_name": "Qurotaini",
+      "email": "asdos@d.co",
+      "is_staff": true,
+      "is_active": true,
+      "date_joined": "2020-03-02T06:07:07Z",
+      "name": "asdos",
+      "npm": "1504829175",
+      "user_type": 2,
+      "groups": [],
+      "user_permissions": []
+    }
+  }
+]
