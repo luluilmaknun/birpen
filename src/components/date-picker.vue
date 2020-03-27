@@ -5,7 +5,7 @@
           v-model="date"
           :inputAttributes="{readonly: true}"
           :isDateDisabled="isFutureDate"
-          :format="'YYYY-MM-DD'"
+          :format="'DD-MM-YYYY'"
       ></date-pick>
       <div v-show="show">
       </div>
