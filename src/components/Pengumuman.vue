@@ -48,9 +48,20 @@
     </div>
     </modal>
 
+<!-- TABLE SECTION -->
     <h1 class="title-pengumuman">
       Pengumuman
     </h1>
+
+    <div class="create-filter-section">
+      <button class="create-announcement-button">
+        BUAT PENGUMUMAN
+      </button>
+      <div class="create-filter-spreader"></div>
+      <button class="filter-button">
+        FILTER
+      </button>
+    </div>
 
     <table>
       <tr>
@@ -196,6 +207,28 @@ export default {
 .title-pengumuman {
   margin-top: 50px;
   margin-bottom: 20px;
+}
+.create-filter-section {
+  display: flex;
+  flex-direction: row;
+  align-content: center;
+  margin-bottom: 30px;
+  width: 75%;
+}
+.create-filter-section .create-announcement-button {
+  background: none;
+  border-style: solid;
+  border-color: #FFDD00;
+  background-color: #FFDD00;
+  padding: 10px 10px;
+  border-width: 1.5px;
+  font-weight: bolder;
+  color: black;
+  border-radius: 1000px;
+}
+.create-filter-section .create-announcement-button:hover {
+  border-color: greenyellow;
+  background-color: greenyellow;
 }
 table {
   border-radius: 1em;
