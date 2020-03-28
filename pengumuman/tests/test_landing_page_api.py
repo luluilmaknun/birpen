@@ -2,6 +2,7 @@ from django.test import TestCase
 
 from rest_framework.test import APIClient
 
+
 class LandingPageApiTest(TestCase):
     def test_get_pengumuman(self):
         client = APIClient()
