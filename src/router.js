@@ -3,6 +3,7 @@ import Router from 'vue-router';
 import Home from '@/Home.vue';
 import Pengumuman from './components/Pengumuman.vue';
 import CreateAnnouncement from '@/views/CreateAnnouncement.vue';
+import EditAnnouncement from '@/views/EditAnnouncement.vue';
 
 Vue.use(Router);
 
@@ -38,6 +39,12 @@ export default new Router({
       path: '/pengumuman/create',
       name: 'create-pengumuman',
       component: CreateAnnouncement,
+    },
+    {
+      path: '/pengumuman/:pk_key/edit',
+      name: 'edit-pengumuman',
+      component: EditAnnouncement,
+      props: true,
     },
   ],
 });
