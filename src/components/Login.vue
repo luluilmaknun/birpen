@@ -25,10 +25,10 @@
       </div>
     </div>
     <div class="bottom-container">
-      <router-link :to="{ path: '//TODO SSO ROUTE' }" class="bottom-buttons"
+      <a class="bottom-buttons" :href="`https://sso.ui.ac.id/cas/login`"
       id="sso-link">
-      Login with<br>SSO
-      </router-link>
+        Login with<br>SSO
+      </a>
       <p>Tidak punya akun?</p>
       <button class="bottom-buttons" id="buat-akun">Buat Akun</button>
     </div>
