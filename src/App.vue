@@ -6,10 +6,34 @@
 </template>
 
 <script>
+import axios from 'axios';
 import Navigation from './components/Navigation';
+
 export default {
   components: {
     'NavigateBar': Navigation,
+  },
+  methods: {
+    refreshToken: function() {
+      const params = {
+        token: localStorage.token,
+      };
+
+      const self = this;
+
+      axios.post('/sso/refresh-token/', params)
+          .then(function(response) {
+            localStorage.setItem('token', response.data.token);
+          })
+    },
+  },
+  beforeMount() {
+    this.refreshToken();
+  },
+  watch: {
+    '$route': function(to, from) {
+      this.refreshToken();
+    },
   },
 };
 </script>
