@@ -28,6 +28,14 @@ export default {
               self.$router.push('/');
             }
           })
+          .catch(function(error) {
+            const token = localStorage.token;
+            localStorage.clear();
+            if (typeof(token) !== 'undefined'
+              && token !== null && token !== '') {
+              window.location.href = '/sso/logout/?next=/login';
+            }
+          });
     },
   },
   beforeMount() {
