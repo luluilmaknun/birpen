@@ -35,6 +35,9 @@ export default {
               && token !== null && token !== '') {
               window.location.href = '/sso/logout/?next=/login';
             }
+            if (self.$route.path !== '/' && self.$route.path !== '/login') {
+              self.$router.push('/login');
+            }
           });
     },
   },
