@@ -24,6 +24,9 @@ export default {
       axios.post('/sso/refresh-token/', params)
           .then(function(response) {
             localStorage.setItem('token', response.data.token);
+            if (self.$route.path === '/login') {
+              self.$router.push('/');
+            }
           })
     },
   },
