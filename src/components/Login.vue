@@ -25,7 +25,7 @@
       </div>
     </div>
     <div class="bottom-container">
-      <a class="bottom-buttons" :href="`https://sso.ui.ac.id/cas/login`"
+      <a class="bottom-buttons" :href="`/sso/login`"
       id="sso-link">
         Login with<br>SSO
       </a>
