@@ -58,9 +58,7 @@
         BUAT PENGUMUMAN
       </button>
       <div class="create-filter-spreader"></div>
-      <button class="filter-button">
-        FILTER
-      </button>
+      <FilterComponent/>
     </div>
 
     <table>
@@ -105,7 +103,8 @@
 </template>
 
 <script>
-import DeleteButton from './delete';
+import DeleteButton from '@/components/delete';
+import FilterComponent from '@/components/date-picker';
 import announcementData from '@/services/pengumumanDataService';
 
 export default {
@@ -199,6 +198,7 @@ export default {
   },
   components: {
     DeleteButton,
+    FilterComponent,
   },
 };
 </script>
@@ -212,6 +212,7 @@ export default {
   display: flex;
   flex-direction: row;
   align-content: center;
+  align-items: center;
   margin-bottom: 30px;
   width: 75%;
 }
