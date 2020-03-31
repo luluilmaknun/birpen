@@ -54,9 +54,9 @@
     </h1>
 
     <div class="create-filter-section">
-      <button class="create-announcement-button">
+      <router-link :to="{ name: 'create-pengumuman' }" class="create-announcement-button">
         BUAT PENGUMUMAN
-      </button>
+      </router-link>
       <div class="create-filter-spreader"></div>
       <FilterComponent/>
     </div>
@@ -225,6 +225,8 @@ export default {
   border-width: 1.5px;
   font-weight: bolder;
   color: black;
+  text-decoration: none;
+  font-size: 10pt;
   border-radius: 1000px;
 }
 .create-filter-section .create-announcement-button:hover {
