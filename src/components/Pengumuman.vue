@@ -54,7 +54,8 @@
     </h1>
 
     <div class="create-filter-section">
-      <router-link :to="{ name: 'create-pengumuman' }" class="create-announcement-button">
+      <router-link :to="{ name: 'create-pengumuman' }"
+      class="create-announcement-button">
         BUAT PENGUMUMAN
       </router-link>
       <div class="create-filter-spreader"></div>
