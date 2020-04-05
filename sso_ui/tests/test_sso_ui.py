@@ -122,13 +122,15 @@ class SSOUITest(TestCase):
         user = User.objects.create_user(username='yusuf.tri',
                                         password='mahasiswa')
         self.client.force_login(user)
-        response = self.client.get(reverse('sso_ui:create-token'))
+        response = self.client.get(reverse('sso_ui:save_user_info'))
 
         self.assertEqual(response.status_code, 200)
         self.assertNotEqual(response.context['token'], '')
+        self.assertEqual(response.context['username'], 'yusuf.tri')
 
     def test_fail_create_token_user_not_authenticated(self):
-        response = self.client.get(reverse('sso_ui:create-token'))
+        response = self.client.get(reverse('sso_ui:save_user_info'))
 
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.context['token'], '')
+        self.assertEqual(response.context['username'], '')

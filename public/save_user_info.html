@@ -9,11 +9,12 @@
   </head>
   <body>
   <input id="token" value='{{ token }}' hidden>
+  <input id="username" value='{{ username }}' hidden>
   </div>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
   <script>
-      token = $('#token').val()
-      sessionStorage.setItem("token", token);
+      localStorage.setItem("token", $('#token').val());
+      localStorage.setItem("username", $('#username').val());
       window.location.replace("/");
   </script>
   </body>

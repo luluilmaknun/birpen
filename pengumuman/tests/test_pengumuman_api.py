@@ -5,8 +5,8 @@ from django.test import TestCase
 from django.utils.datastructures import MultiValueDict
 from django.utils.http import urlencode
 
-from rest_framework.authtoken.models import Token
 from rest_framework.test import APIClient
+from rest_framework_jwt.settings import api_settings
 
 from pengumuman.models import MataKuliah, JenisPengumuman, Ruang, \
     Sesi, StatusPengumuman, Pengumuman
@@ -77,16 +77,16 @@ class PengumumanApiTest(TestCase):
         self.assertEqual(response.data['detail'], 'Authentication credentials were not provided.')
 
     def test_fail_edit_with_invalid_token(self):
-        self.client.credentials(HTTP_AUTHORIZATION='Token invalid_token')
+        self.client.credentials(HTTP_AUTHORIZATION='Bearer invalid_token')
         response = self.client.post('/api/pengumuman/{}/edit/'.format(self.pengumuman_pk),
                                     data=urlencode(MultiValueDict(self.valid_data)),
                                     content_type='application/x-www-form-urlencoded')
 
         self.assertEqual(response.status_code, 401)
-        self.assertEqual(str(response.data['detail']), 'Invalid token.')
+        self.assertEqual(str(response.data['detail']), 'Error decoding token.')
 
     def test_fail_edit_because_pengumuman_doesnt_exist(self):
-        self.client.credentials(HTTP_AUTHORIZATION='Token ' + self.token_1)
+        self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + self.token_1)
         response = self.client.post('/api/pengumuman/{}/edit/'.format(100),
                                     data=urlencode(MultiValueDict(self.valid_data)),
                                     content_type='application/x-www-form-urlencoded')
@@ -95,7 +95,7 @@ class PengumumanApiTest(TestCase):
         self.assertEqual(response.data['detail'], 'Pengumuman does not exist.')
 
     def test_fail_edit_because_not_enough_privileges(self):
-        self.client.credentials(HTTP_AUTHORIZATION='Token ' + self.token_1)
+        self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + self.token_1)
         response = self.client.post('/api/pengumuman/{}/edit/'.format(self.pengumuman_pk),
                                     data=urlencode(MultiValueDict((self.valid_data))),
                                     content_type='application/x-www-form-urlencoded')
@@ -104,7 +104,7 @@ class PengumumanApiTest(TestCase):
         self.assertEqual(response.data['detail'], 'Not enough privileges.')
 
     def test_fail_edit_because_invalid_data(self):
-        self.client.credentials(HTTP_AUTHORIZATION='Token ' + self.token_3)
+        self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + self.token_3)
         invalid_nama_mata_kuliah = "Aljabar Linierisss"
 
         invalid_data = self.valid_data
@@ -118,7 +118,7 @@ class PengumumanApiTest(TestCase):
         self.assertEqual(response.data['detail'], 'Invalid data.')
 
     def test_success_edit_admin_non_creator(self):
-        self.client.credentials(HTTP_AUTHORIZATION='Token ' + self.token_2)
+        self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + self.token_2)
         response = self.client.post('/api/pengumuman/{}/edit/'.format(self.pengumuman_pk),
                                     data=urlencode(MultiValueDict(self.valid_data)),
                                     content_type='application/x-www-form-urlencoded')
@@ -135,7 +135,7 @@ class PengumumanApiTest(TestCase):
         self.assertEqual(response.data['pengumuman']['pembuat'], 'yusuf.tri')
 
     def test_success_edit_pengumuman_creator(self):
-        self.client.credentials(HTTP_AUTHORIZATION='Token ' + self.token_3)
+        self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + self.token_3)
         response = self.client.post('/api/pengumuman/{}/edit/'.format(self.pengumuman_pk),
                                     data=urlencode(MultiValueDict(self.valid_data)),
                                     content_type='application/x-www-form-urlencoded')
@@ -154,7 +154,7 @@ class PengumumanApiTest(TestCase):
     def test_success_get_pengumuman_admin(self):
         self.pengumuman.delete()
 
-        self.client.credentials(HTTP_AUTHORIZATION='Token ' + self.token_2)
+        self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + self.token_2)
         response = self.client.post('/api/pengumuman/{}/'.format(self.pengumuman_pk))
 
         self.assertEqual(response.status_code, 200)
@@ -170,14 +170,14 @@ class PengumumanApiTest(TestCase):
         self.assertEqual(response.data['pengumuman']['pembuat'], 'yusuf.tri')
 
     def test_fail_get_pengumuman_admin(self):
-        self.client.credentials(HTTP_AUTHORIZATION='Token ' + self.token_2)
+        self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + self.token_2)
         response = self.client.post('/api/pengumuman/{}/'.format(10000))
 
         self.assertEqual(response.status_code, 400)
         self.assertEqual(response.data['detail'], 'Pengumuman does not exist.')
 
     def test_success_get_pengumuman_non_admin(self):
-        self.client.credentials(HTTP_AUTHORIZATION='Token ' + self.token_3)
+        self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + self.token_3)
         response = self.client.post('/api/pengumuman/{}/'.format(self.pengumuman_pk))
 
         self.assertEqual(response.status_code, 200)
@@ -195,7 +195,7 @@ class PengumumanApiTest(TestCase):
     def test_fail_get_pengumuman_non_admin(self):
         self.pengumuman.delete()
 
-        self.client.credentials(HTTP_AUTHORIZATION='Token ' + self.token_3)
+        self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + self.token_3)
         response = self.client.post('/api/pengumuman/{}/'.format(self.pengumuman_pk))
 
         self.assertEqual(response.status_code, 400)

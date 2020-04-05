@@ -35,7 +35,7 @@ export default {
       "headers":
       {
         "content-type": "application/x-www-form-urlencoded" ,
-        "authorization": "Token " + sessionStorage.getItem('token')
+        "authorization": "Token " + localStorage.getItem('token')
       }}).then (
         (response) => {
         this.response = response.data;
