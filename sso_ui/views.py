@@ -3,8 +3,8 @@ from django.shortcuts import render
 
 from rest_framework_jwt.settings import api_settings
 
-def create_token(request):
-    response = {'token' : ''}
+def save_user_info(request):
+    response = {'token' : '', 'username':''}
 
     if request.user.is_authenticated:
         jwt_payload_handler = api_settings.JWT_PAYLOAD_HANDLER
@@ -14,6 +14,7 @@ def create_token(request):
         token = jwt_encode_handler(payload)
 
         response['token'] = str(token)
-        return render(request, 'save_token.html', response)
+        response['username'] = request.user.username
+        return render(request, 'save_user_info.html', response)
 
-    return render(request, 'save_token.html', response)
+    return render(request, 'save_user_info.html', response)

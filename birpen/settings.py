@@ -198,4 +198,4 @@ AUTHENTICATION_BACKENDS = (
     'django_cas_ng.backends.CASBackend',
 )
 
-CAS_REDIRECT_URL = '/sso/create-token'
+CAS_REDIRECT_URL = '/sso/save_user_info/'
