@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'landing_page',
     'pengumuman',
     'permohonan_surat',
+    'asdos',
     'safedelete',
 ]
 
