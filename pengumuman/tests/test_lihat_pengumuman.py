@@ -3,7 +3,8 @@ from datetime import datetime, timedelta
 from django.test import TestCase
 from rest_framework.test import APIClient, APIRequestFactory, force_authenticate
 
-from pengumuman.models import MataKuliah, JenisPengumuman, Ruang, Sesi, StatusPengumuman, User, Pengumuman
+from pengumuman.models import MataKuliah, JenisPengumuman, Ruang, Sesi, \
+    StatusPengumuman, User, Pengumuman
 from pengumuman.views import get_pengumuman_default
 
 
