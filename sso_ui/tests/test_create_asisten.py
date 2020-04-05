@@ -43,7 +43,7 @@ class UserModelTest(TestCase):
                                         'username': self.admin.username
                                     })),
                                     content_type='application/x-www-form-urlencoded')
-        self.assertEqual(response.status_code, 400)
+        self.assertEqual(response.status_code, 200)
 
     def test_mahasiswa_create_asisten(self):
         self.client.credentials(HTTP_AUTHORIZATION='Token ' + self.token_mahasiswa)
@@ -67,7 +67,6 @@ class UserModelTest(TestCase):
 
     def test_dosen_create_asisten(self):
         self.client.credentials(HTTP_AUTHORIZATION='Token ' + self.token_dosen)
-
         response = self.client.post('/sso/create-asisten/',
                                     data=urlencode(MultiValueDict({
                                         'username': self.dosen.username
