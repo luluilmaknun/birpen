@@ -37,7 +37,7 @@ def save_user_info(request):
 @api_view(["POST"])
 @permission_classes((IsAuthenticated,))
 def create_asisten(request):
-    if request.user.is_dosen() is False:
+    if (request.user.is_dosen() or request.user.is_admin()) is False:
         return Response({
             'detail': 'Role is not dosen.',
             'success': False,
