@@ -89,13 +89,15 @@ class UserModelTest(TestCase):
 
         response = self.client.post('/sso/create-asisten/',
                                     data=urlencode(MultiValueDict({
-                                        'name': self.dosen.username
+                                        'username': self.dosen.username
                                     })),
                                     content_type='application/x-www-form-urlencoded')
 
+        self.assertEqual(response.status_code, 200)
+
         response = self.client.post('/sso/create-asisten/',
                                     data=urlencode(MultiValueDict({
-                                        'name': self.dosen.username
+                                        'username': self.dosen.username
                                     })),
                                     content_type='application/x-www-form-urlencoded')
 
