@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 """
 
 import os
+import datetime
 import dj_database_url
 import environ
 
@@ -50,6 +51,7 @@ INSTALLED_APPS = [
     'safedelete',
     'django_cas_ng',
     'sso_ui.apps.SSOUIConfig',
+    'rest_framework_jwt',
 ]
 
 MIDDLEWARE = [
@@ -180,8 +182,12 @@ AUTH_USER_MODEL = 'sso_ui.User'
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework.authentication.TokenAuthentication',
+        'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
     )
+}
+
+JWT_AUTH = {
+    'JWT_EXPIRATION_DELTA': datetime.timedelta(seconds=1800),
 }
 
 # Authentication backends
@@ -192,4 +198,4 @@ AUTHENTICATION_BACKENDS = (
     'django_cas_ng.backends.CASBackend',
 )
 
-CAS_REDIRECT_URL = '/sso/create-token'
+CAS_REDIRECT_URL = '/sso/save_user_info/'
