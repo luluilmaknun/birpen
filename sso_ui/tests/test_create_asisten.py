@@ -83,7 +83,7 @@ class UserModelTest(TestCase):
                                     })),
                                     content_type='application/x-www-form-urlencoded')
         self.assertEqual(response.status_code, 400)
-    
+
     def test_create_registered_asisten(self):
         self.client.credentials(HTTP_AUTHORIZATION='Token ' + self.token_dosen)
 
@@ -98,6 +98,6 @@ class UserModelTest(TestCase):
                                         'name': self.dosen.username
                                     })),
                                     content_type='application/x-www-form-urlencoded')
-        
+
         self.assertEqual(response.status_code, 400)
     
