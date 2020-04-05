@@ -39,7 +39,7 @@ def save_user_info(request):
 def create_asisten(request):
     if (request.user.is_dosen() or request.user.is_admin()) is False:
         return Response({
-            'detail': 'Role is not dosen.',
+            'detail': 'Role is not dosen / admin.',
             'success': False,
         }, status=HTTP_400_BAD_REQUEST)
 
@@ -49,13 +49,19 @@ def create_asisten(request):
         asisten.username = request.data.get('username')
         if asisten.username is None:
             raise ValueError
+
+        if (AsistenDosen.objects.filter(username=asisten.username).exists()) is True:
+            return Response({
+                'detail': asisten.username + ' already registered as asisten.',
+                'success': False,
+            }, status=HTTP_400_BAD_REQUEST)
+
         asisten.save()
     except (ObjectDoesNotExist, ValueError, TypeError):
         return Response({
-            'detail': 'Invalid data.',
+            'detail': 'Missing username argument.',
             'success': False,
         }, status=HTTP_400_BAD_REQUEST)
-
 
     return Response({
         "detail": 'Valid data.',
