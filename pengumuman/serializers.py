@@ -3,7 +3,7 @@ from .models import Pengumuman
 
 class PembuatField(serializers.RelatedField):
     def to_representation(self, value):
-        return value.name
+        return value.username
 
 
 class NamaMataKuliahField(serializers.RelatedField):
