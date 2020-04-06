@@ -8,19 +8,14 @@
     <title>FEB | Biro Pendidikan Online</title>
   </head>
   <body>
-  <input id="token" value='{{ token }}' hidden>
-  <input id="username" value='{{ username }}' hidden>
-  <input id="role" value='{{ role }}' hidden>
-  <input id="is_admin" value='{{ is_admin }}' hidden>
-  <input id="is_asdos" value='{{ is_asdos }}' hidden>
   </div>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
   <script>
-      localStorage.setItem("token", $('#token').val());
-      localStorage.setItem("username", $('#username').val());
-      localStorage.setItem("role", $('#role').val());
-      localStorage.setItem("is_admin", $('#is_admin').val());
-      localStorage.setItem("is_asdos", $('#is_asdos').val());
+      localStorage.setItem("token", "{{ token }}");
+      localStorage.setItem("username", "{{ username }}");
+      localStorage.setItem("role", "{{ role }}");
+      localStorage.setItem("is_admin", "{{ is_admin }}");
+      localStorage.setItem("is_asdos", "{{ is_asdos }}");
       window.location.replace("/");
   </script>
   </body>
