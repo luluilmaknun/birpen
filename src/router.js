@@ -2,6 +2,7 @@ import Vue from 'vue';
 import Router from 'vue-router';
 import Home from '@/Home.vue';
 import Delete from '@/components/delete.vue';
+import Login from '@/components/Login.vue';
 
 Vue.use(Router);
 
@@ -22,6 +23,11 @@ export default new Router({
       path: '/pengumuman',
       name: 'pengumuman',
       component: Delete,
+    },
+    {
+      path: '/login',
+      name: 'login',
+      component: Login,
     },
   ],
 });
