@@ -20,7 +20,7 @@
 
       <label v-if="is_authenticated === false">
         <router-link class="nav-elem"
-        ref="buatAkun-button" :to="{ name: 'buat akun' }">
+        ref="buatAkun-button" :to="{ name: 'buat-akun' }">
         Buat Akun</router-link>
         <router-link class="nav-elem" id="login-button"
         ref="login" :to="{ name: 'login' }">
@@ -30,7 +30,7 @@
       <label v-if="is_authenticated">
         <a id="username">{{ username }}</a>
         <router-link class="nav-elem" id="logout-button"
-        ref="login" :to="{ name: 'logout' }">
+        ref="logout" :to="{ name: 'logout' }">
         Logout</router-link>
       </label>
     </div>
