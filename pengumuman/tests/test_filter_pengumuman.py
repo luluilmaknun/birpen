@@ -1,3 +1,4 @@
+from django.contrib.auth import get_user_model
 from django.test import TestCase
 
 from rest_framework.test import APIClient
@@ -5,8 +6,12 @@ from rest_framework.test import APIRequestFactory
 from rest_framework.test import force_authenticate
 
 from pengumuman.models import MataKuliah, JenisPengumuman, Ruang, \
-    Sesi, StatusPengumuman, Pengumuman, User
+    Sesi, StatusPengumuman, Pengumuman
 from pengumuman.views import filter_pengumuman
+
+from sso_ui.models import Admin
+
+User = get_user_model()
 
 
 class FilterPengumumanTest(TestCase):
@@ -17,11 +22,11 @@ class FilterPengumumanTest(TestCase):
         ruang = Ruang.objects.create(nama="3111")
         sesi = Sesi.objects.create(nama="16.00 - 17.40")
         status_pengumuman = StatusPengumuman.objects.create(nama="Ditunda")
-        user = User.objects.create(username='julia.ningrum', name='julia ningrum',
-                                   npm='1204893059', password='admin', user_type=User.ADMIN)
+        user = User.objects.create(username='julia.ningrum', password='admin')
+        Admin.objects.create(username=user.username)
+
         User.objects.create(username='yusuf.tri',
-                            name='yusuf tri a.', npm='1701837382',
-                            password='mahasiswa', user_type=User.MAHASISWA)
+                            password='mahasiswa')
         Pengumuman.objects.create(tanggal_kelas=tanggal_kelas, pembuat=user,
                                   nama_mata_kuliah=mata_kuliah, jenis_pengumuman=jenis_pengumuman,
                                   nama_dosen="Dosen S.kom", nama_asisten="Asistennya",

@@ -1,0 +1,9 @@
+[
+    {
+        "model": "sso_ui.admin",
+        "pk": 1,
+        "fields": {
+          "username": "admin"
+        }
+    }
+]

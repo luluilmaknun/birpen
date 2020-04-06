@@ -1,24 +1,31 @@
+from django.contrib.auth import get_user_model
 from django.test import TestCase
 
-from rest_framework.authtoken.models import Token
 from rest_framework.test import APIClient
+from rest_framework_jwt.settings import api_settings
 
 from pengumuman.models import MataKuliah, JenisPengumuman, Ruang, \
-    Sesi, StatusPengumuman, Pengumuman, User
+    Sesi, StatusPengumuman, Pengumuman
+
+from sso_ui.models import Admin
+
+User = get_user_model()
 
 
 class DeleteApiTest(TestCase):
     def setUp(self):
+        jwt_payload_handler = api_settings.JWT_PAYLOAD_HANDLER
+        jwt_encode_handler = api_settings.JWT_ENCODE_HANDLER
+
         self.client = APIClient()
 
-        user_1 = User.objects.create(username='athallah.annafis', name='Athallah Annafis',
-                                     npm='1701837382', password='mahasiswa',
-                                     user_type=User.MAHASISWA)
-        self.token_1 = Token.objects.get_or_create(user=user_1)[0].key
+        user_1 = User.objects.create(username='athallah.annafis', password='mahasiswa')
+        self.token_1 = jwt_encode_handler(jwt_payload_handler(user_1))
 
-        user_2 = User.objects.create(username='julia.ningrum', name='Julia Ningrum',
-                                     npm='1204893059', password='admin', user_type=User.ADMIN)
-        self.token_2 = Token.objects.get_or_create(user=user_2)[0].key
+        user_2 = User.objects.create(username='julia.ningrum', password='admin')
+        Admin.objects.create(username=user_2.username)
+
+        self.token_2 = jwt_encode_handler(jwt_payload_handler(user_2))
 
         tanggal_kelas = "2016-11-16T22:31:18.130822+00:00"
         mata_kuliah = MataKuliah.objects.create(nama="Aljabar Linier")
@@ -38,13 +45,13 @@ class DeleteApiTest(TestCase):
                                                        komentar="").pk
 
     def test_no_announcement_found(self):
-        self.client.credentials(HTTP_AUTHORIZATION='Token ' + self.token_1)
+        self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + self.token_1)
         response = self.client.delete('/api/pengumuman/{}/delete/'.format('999'))
 
         self.assertEqual(response.data['detail'], 'Pengumuman does not exist.')
 
     def test_not_owner_of_announcement(self):
-        self.client.credentials(HTTP_AUTHORIZATION='Token ' + self.token_1)
+        self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + self.token_1)
         response = self.client.delete('/api/pengumuman/{}/delete/'.format(self.pengumuman_pk))
 
         self.assertEqual(response.data['detail'], 'You are not the owner of the announcement.')
@@ -52,7 +59,7 @@ class DeleteApiTest(TestCase):
     def test_success_delete(self):
         before_delete_count = Pengumuman.objects.all().count()
 
-        self.client.credentials(HTTP_AUTHORIZATION='Token ' + self.token_2)
+        self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + self.token_2)
         response = self.client.delete('/api/pengumuman/{}/delete/'.format(self.pengumuman_pk))
 
         self.assertEqual(before_delete_count, Pengumuman.objects.all().count()+1)
