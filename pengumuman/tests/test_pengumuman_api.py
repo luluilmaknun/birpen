@@ -72,9 +72,9 @@ class PengumumanApiTest(TestCase):
         self.client = APIClient()
 
     def test_fail_edit_without_authorization_header(self):
-        response = self.client.post('/api/pengumuman/{}/edit/'.format(self.pengumuman_pk),
-                                    data=urlencode(MultiValueDict(())),
-                                    content_type='application/x-www-form-urlencoded')
+        response = self.client.put('/api/pengumuman/{}/edit/'.format(self.pengumuman_pk),
+                                   data=urlencode(MultiValueDict(())),
+                                   content_type='application/x-www-form-urlencoded')
 
         self.assertEqual(response.status_code, 401)
         self.assertEqual(response.data['detail'], 'Authentication credentials were not provided.')
@@ -113,9 +113,9 @@ class PengumumanApiTest(TestCase):
         invalid_data = self.valid_data
         invalid_data['nama_mata_kuliah'] = invalid_nama_mata_kuliah
 
-        response = self.client.post('/api/pengumuman/{}/edit/'.format(self.pengumuman_pk),
-                                    data=urlencode(MultiValueDict((invalid_data))),
-                                    content_type='application/x-www-form-urlencoded')
+        response = self.client.put('/api/pengumuman/{}/edit/'.format(self.pengumuman_pk),
+                                   data=urlencode(MultiValueDict((invalid_data))),
+                                   content_type='application/x-www-form-urlencoded')
 
         self.assertEqual(response.status_code, 400)
         self.assertEqual(response.data['detail'], 'Invalid data.')
