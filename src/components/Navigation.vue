@@ -1,7 +1,9 @@
 <template>
   <div class="nav-container">
     <div class="nav-elem-container-left">
-      <a id="birpen"> Biro Pendidikan FEB </a>
+      <router-link id="birpen"
+      ref="home-button" :to="{ name: 'home' }">
+      Biro Pendidikan FEB</router-link>
       <router-link class="nav-elem"
       ref="surat-button" :to="{ name: 'surat' }">
       Surat</router-link>
