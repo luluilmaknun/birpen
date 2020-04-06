@@ -42,6 +42,16 @@ http://birpen.docs.apiary.io/
   
   Match variables' content in .env with your local environment settings
 
+- Migrate database
+  ```
+  python3 manage.py migrate
+  ```
+
+  If you encounter problem when migrating in your local database, please use:
+  ```
+  bash fresh_migrate.sh
+  ```
+
 - Seed database
   ```
   bash seed.sh

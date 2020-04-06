@@ -34,5 +34,8 @@ urlpatterns = [
     # http://localhost:8000/api/admin/
     path('api/admin/', admin.site.urls),
 
+    path('sso/', include('sso_ui.urls')),
+
     re_path(r'^.*$', TemplateView.as_view(template_name="index.html")),
+
 ]
