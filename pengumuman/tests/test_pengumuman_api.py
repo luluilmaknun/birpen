@@ -1,5 +1,6 @@
 from datetime import datetime
 
+from django.contrib.auth import get_user_model
 from django.test import TestCase
 from django.utils.datastructures import MultiValueDict
 from django.utils.http import urlencode
@@ -8,7 +9,11 @@ from rest_framework.test import APIClient
 from rest_framework_jwt.settings import api_settings
 
 from pengumuman.models import MataKuliah, JenisPengumuman, Ruang, \
-    Sesi, StatusPengumuman, Pengumuman, User
+    Sesi, StatusPengumuman, Pengumuman
+
+from sso_ui.models import Admin
+
+User = get_user_model()
 
 
 class PengumumanApiTest(TestCase):
@@ -16,18 +21,17 @@ class PengumumanApiTest(TestCase):
         jwt_payload_handler = api_settings.JWT_PAYLOAD_HANDLER
         jwt_encode_handler = api_settings.JWT_ENCODE_HANDLER
 
-        user_1 = User.objects.create(username='athallah.annafis', name='Athallah Annafis',
-                                     npm='1701837382', password='mahasiswa',
-                                     user_type=User.MAHASISWA)
+        user_1 = User.objects.create(username='athallah.annafis',
+                                     password='mahasiswa')
         self.token_1 = jwt_encode_handler(jwt_payload_handler(user_1))
 
-        user_2 = User.objects.create(username='julia.ningrum', name='Julia Ningrum',
-                                     npm='1204893059', password='admin', user_type=User.ADMIN)
+        user_2 = User.objects.create(username='julia.ningrum',
+                                     password='admin')
+        Admin.objects.create(username=user_2.username)
         self.token_2 = jwt_encode_handler(jwt_payload_handler(user_2))
 
-        user_3 = User.objects.create(username='yusuf.tri', name='Yusuf Tri Ardho',
-                                     npm='1701837382', password='mahasiswa',
-                                     user_type=User.MAHASISWA)
+        user_3 = User.objects.create(username='yusuf.tri',
+                                     password='mahasiswa')
         self.token_3 = jwt_encode_handler(jwt_payload_handler(user_3))
 
         tanggal_kelas = "2016-11-16T22:31:18.130822+00:00"
@@ -131,6 +135,7 @@ class PengumumanApiTest(TestCase):
         self.assertEqual(response.data['pengumuman']['nama_ruang'], '3311')
         self.assertEqual(response.data['pengumuman']['nama_sesi'], 'Sesi 4 (17.00 - 19.25)')
         self.assertEqual(response.data['pengumuman']['nama_status_pengumuman'], 'Dibatalkan')
+        self.assertEqual(response.data['pengumuman']['pembuat'], 'yusuf.tri')
 
     def test_success_edit_pengumuman_creator(self):
         self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + self.token_3)
@@ -147,6 +152,7 @@ class PengumumanApiTest(TestCase):
         self.assertEqual(response.data['pengumuman']['nama_ruang'], '3311')
         self.assertEqual(response.data['pengumuman']['nama_sesi'], 'Sesi 4 (17.00 - 19.25)')
         self.assertEqual(response.data['pengumuman']['nama_status_pengumuman'], 'Dibatalkan')
+        self.assertEqual(response.data['pengumuman']['pembuat'], 'yusuf.tri')
 
     def test_success_get_pengumuman_admin(self):
         self.pengumuman.delete()
@@ -164,6 +170,7 @@ class PengumumanApiTest(TestCase):
         self.assertEqual(response.data['pengumuman']['nama_ruang'], '2311')
         self.assertEqual(response.data['pengumuman']['nama_sesi'], 'Sesi 4 (17.00 - 19.30)')
         self.assertEqual(response.data['pengumuman']['nama_status_pengumuman'], 'Terlambat')
+        self.assertEqual(response.data['pengumuman']['pembuat'], 'yusuf.tri')
 
     def test_fail_get_pengumuman_admin(self):
         self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + self.token_2)
@@ -186,6 +193,7 @@ class PengumumanApiTest(TestCase):
         self.assertEqual(response.data['pengumuman']['nama_ruang'], '2311')
         self.assertEqual(response.data['pengumuman']['nama_sesi'], 'Sesi 4 (17.00 - 19.30)')
         self.assertEqual(response.data['pengumuman']['nama_status_pengumuman'], 'Terlambat')
+        self.assertEqual(response.data['pengumuman']['pembuat'], 'yusuf.tri')
 
     def test_fail_get_pengumuman_non_admin(self):
         self.pengumuman.delete()

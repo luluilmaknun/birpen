@@ -1,0 +1,9 @@
+[
+    {
+        "model": "sso_ui.asistendosen",
+        "pk": 1,
+        "fields": {
+          "username": "asdos"
+        }
+    }
+]

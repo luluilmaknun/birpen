@@ -9,8 +9,8 @@ from django.contrib.admin.sites import AdminSite
 
 from django_cas_ng.signals import cas_user_authenticated
 
-from .models import ORG_CODE, Profile
-from .admin import ProfileAdmin
+from sso_ui.models import ORG_CODE, Profile
+from sso_ui.admin import ProfileAdmin
 
 User = get_user_model()
 
@@ -24,11 +24,17 @@ class SSOUITest(TestCase):
         def __init__(self):
             self.user = SSOUITest.MockUser()
 
-    ATTRIBUTES = {
+    ATTRIBUTES_MAHASISWA = {
         "nama": "Ice Bear",
         "peran_user": "mahasiswa",
         "npm": "1706123123",
         "kd_org": "01.00.12.01"
+    }
+
+    ATTRIBUTES_STAFF = {
+        "nama": "Honey Bear",
+        "peran_user": "staff",
+        "nip": "111903041",
     }
 
     def setUp(self):
@@ -49,13 +55,13 @@ class SSOUITest(TestCase):
         self.assertEqual(response.status_code, 302)
         self.assertTrue(response.url.startswith(settings.CAS_SERVER_URL))
 
-    def test_profile_can_save_attributes(self):
-        """Test if Profile model can save the attributes from CAS."""
+    def test_profile_can_save_attributes_mahasiswa(self):
+        """Test if Profile model can save mahasiswa attributes from CAS."""
         cas_user_authenticated.send(
             sender=self,
             user=self.user,
             created=False,
-            attributes=SSOUITest.ATTRIBUTES
+            attributes=SSOUITest.ATTRIBUTES_MAHASISWA
         )
         self.assertJSONEqual(
             json.dumps({
@@ -64,7 +70,7 @@ class SSOUITest(TestCase):
                 "npm": self.user.profile.npm,
                 "kd_org": self.user.profile.org_code
             }),
-            SSOUITest.ATTRIBUTES
+            SSOUITest.ATTRIBUTES_MAHASISWA
         )
         self.assertJSONEqual(
             json.dumps({
@@ -72,10 +78,30 @@ class SSOUITest(TestCase):
                 "study_program": self.user.profile.study_program,
                 "educational_program": self.user.profile.educational_program
             }),
-            ORG_CODE['id'][SSOUITest.ATTRIBUTES['kd_org']]
+            ORG_CODE['id'][SSOUITest.ATTRIBUTES_MAHASISWA['kd_org']]
         )
         self.assertEqual(self.user.email, f"{self.user.username}@ui.ac.id")
         self.assertEqual(self.user.first_name, "Ice")
+        self.assertEqual(self.user.last_name, "Bear")
+
+    def test_profile_can_save_attributes_staff(self):
+        """Test if Profile model can save staff attributes from CAS."""
+        cas_user_authenticated.send(
+            sender=self,
+            user=self.user,
+            created=False,
+            attributes=SSOUITest.ATTRIBUTES_STAFF
+        )
+        self.assertJSONEqual(
+            json.dumps({
+                "nama": self.user.get_full_name(),
+                "peran_user": self.user.profile.role,
+                "nip": self.user.profile.nip
+            }),
+            SSOUITest.ATTRIBUTES_STAFF
+        )
+        self.assertEqual(self.user.email, f"{self.user.username}@ui.ac.id")
+        self.assertEqual(self.user.first_name, "Honey")
         self.assertEqual(self.user.last_name, "Bear")
 
     def test_profile_str(self):
@@ -94,14 +120,18 @@ class SSOUITest(TestCase):
 
     def test_success_create_token(self):
         user = User.objects.create_user(username='yusuf.tri',
-                                        name='yusuf tri a.', npm='1701837382',
-                                        password='mahasiswa', user_type=User.MAHASISWA)
+                                        password='mahasiswa')
+        user.profile.role = 'mahasiswa'
+        user.profile.save()
         self.client.force_login(user)
         response = self.client.get(reverse('sso_ui:save_user_info'))
 
         self.assertEqual(response.status_code, 200)
         self.assertNotEqual(response.context['token'], '')
         self.assertEqual(response.context['username'], 'yusuf.tri')
+        self.assertEqual(response.context['role'], 'mahasiswa')
+        self.assertEqual(response.context['is_admin'], False)
+        self.assertEqual(response.context['is_asdos'], False)
 
     def test_fail_create_token_user_not_authenticated(self):
         response = self.client.get(reverse('sso_ui:save_user_info'))
@@ -109,3 +139,6 @@ class SSOUITest(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.context['token'], '')
         self.assertEqual(response.context['username'], '')
+        self.assertEqual(response.context['role'], '')
+        self.assertEqual(response.context['is_admin'], '')
+        self.assertEqual(response.context['is_asdos'], '')

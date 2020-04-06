@@ -1,5 +1,5 @@
 # Create your models here.
-from django.contrib.auth.models import AbstractUser
+from django.contrib.auth import get_user_model
 from django.db import models
 from django.utils import timezone
 from safedelete.models import SOFT_DELETE_CASCADE
@@ -16,47 +16,51 @@ from safedelete.models import SafeDeleteModel
 # - Get all objects with soft deleted objects: Model.all_objects.all()
 # - Get soft deleted objects: Model.deleted_objects.all()
 
+User = get_user_model()
+
 
 class MataKuliah(SafeDeleteModel):
     _safedelete_policy = SOFT_DELETE_CASCADE
     nama = models.CharField(max_length=32)
+
+    class Meta:
+        verbose_name = 'mata kuliah'
+        verbose_name_plural = verbose_name
 
 
 class JenisPengumuman(SafeDeleteModel):
     _safedelete_policy = SOFT_DELETE_CASCADE
     nama = models.CharField(max_length=32)
 
+    class Meta:
+        verbose_name = 'jenis pengumuman'
+        verbose_name_plural = verbose_name
 
 class Ruang(SafeDeleteModel):
     _safedelete_policy = SOFT_DELETE_CASCADE
     nama = models.CharField(max_length=32)
+
+    class Meta:
+        verbose_name = 'ruang'
+        verbose_name_plural = verbose_name
 
 
 class Sesi(SafeDeleteModel):
     _safedelete_policy = SOFT_DELETE_CASCADE
     nama = models.CharField(max_length=32)
 
+    class Meta:
+        verbose_name = 'sesi'
+        verbose_name_plural = verbose_name
+
 
 class StatusPengumuman(SafeDeleteModel):
     _safedelete_policy = SOFT_DELETE_CASCADE
     nama = models.CharField(max_length=32)
 
-
-class User(AbstractUser):
-    MAHASISWA = 1
-    ASDOS = 2
-    DOSEN = 3
-    ADMIN = 4
-
-    USER_TYPE_CHOICES = (
-        (MAHASISWA, 'mahasiswa'),
-        (ASDOS, 'asdos'),
-        (DOSEN, 'dosen'),
-        (ADMIN, 'admin'),
-    )
-    name = models.CharField(max_length=50)
-    npm = models.CharField(max_length=10)
-    user_type = models.PositiveSmallIntegerField(choices=USER_TYPE_CHOICES, default=1)
+    class Meta:
+        verbose_name = 'status pengumuman'
+        verbose_name_plural = verbose_name
 
 
 class Pengumuman(SafeDeleteModel):
@@ -73,3 +77,7 @@ class Pengumuman(SafeDeleteModel):
     nama_sesi = models.ForeignKey(Sesi, on_delete=models.CASCADE)
     nama_status_pengumuman = models.ForeignKey(StatusPengumuman, on_delete=models.CASCADE)
     komentar = models.CharField(max_length=255, blank=True, null=True)
+
+    class Meta:
+        verbose_name = 'pengumuman'
+        verbose_name_plural = verbose_name

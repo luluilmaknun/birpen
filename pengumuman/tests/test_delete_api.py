@@ -1,10 +1,15 @@
+from django.contrib.auth import get_user_model
 from django.test import TestCase
 
 from rest_framework.test import APIClient
 from rest_framework_jwt.settings import api_settings
 
 from pengumuman.models import MataKuliah, JenisPengumuman, Ruang, \
-    Sesi, StatusPengumuman, Pengumuman, User
+    Sesi, StatusPengumuman, Pengumuman
+
+from sso_ui.models import Admin
+
+User = get_user_model()
 
 
 class DeleteApiTest(TestCase):
@@ -14,13 +19,12 @@ class DeleteApiTest(TestCase):
 
         self.client = APIClient()
 
-        user_1 = User.objects.create(username='athallah.annafis', name='Athallah Annafis',
-                                     npm='1701837382', password='mahasiswa',
-                                     user_type=User.MAHASISWA)
+        user_1 = User.objects.create(username='athallah.annafis', password='mahasiswa')
         self.token_1 = jwt_encode_handler(jwt_payload_handler(user_1))
 
-        user_2 = User.objects.create(username='julia.ningrum', name='Julia Ningrum',
-                                     npm='1204893059', password='admin', user_type=User.ADMIN)
+        user_2 = User.objects.create(username='julia.ningrum', password='admin')
+        Admin.objects.create(username=user_2.username)
+
         self.token_2 = jwt_encode_handler(jwt_payload_handler(user_2))
 
         tanggal_kelas = "2016-11-16T22:31:18.130822+00:00"
