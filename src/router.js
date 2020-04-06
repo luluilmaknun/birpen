@@ -41,7 +41,7 @@ export default new Router({
         const isAsdos = localStorage.getItem('is_asdos');
         const isAdmin = localStorage.getItem('is_admin');
         if (role == 'mahasiswa') {
-          if (isAsdos == 'false' || isAdmin == 'false') {
+          if (isAsdos == 'false' && isAdmin == 'false') {
             next('/pengumuman');
           }
         }
