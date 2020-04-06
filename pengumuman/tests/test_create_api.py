@@ -1,13 +1,14 @@
 from django.test import TestCase
+from django.utils.datastructures import MultiValueDict
+from django.utils.http import urlencode
 
-from rest_framework.authtoken.models import Token
 from rest_framework.test import APIClient
+from rest_framework.authtoken.models import Token
 
 from pengumuman.models import MataKuliah, JenisPengumuman, Ruang, \
     Sesi, StatusPengumuman, Pengumuman, User
 
-
-class DeleteApiTest(TestCase):
+class CreateApiTest(TestCase):
     def setUp(self):
         self.client = APIClient()
 
@@ -37,23 +38,34 @@ class DeleteApiTest(TestCase):
                                                        nama_status_pengumuman=status_pengumuman,
                                                        komentar="").pk
 
-    def test_no_announcement_found(self):
+        self.valid_data = {
+            'tanggal_kelas': '2016-11-16',
+            'nama_mata_kuliah': 'Aljabar Linier',
+            'jenis_pengumuman': 'Asistensi',
+            'nama_dosen': 'Dosen Nafis',
+            'nama_asisten': 'Nida',
+            'nama_ruang': '2311',
+            'nama_sesi': 'Sesi 4 (17.00 - 19.30)',
+            'nama_status_pengumuman': 'Terlambat',
+            'komentar': 'Saya kesiangan'
+        }
+        self.invalid_data = {
+            'tanggal_kelass': '2016-11-12',
+        }
+
+
+
+    def test_cant_create(self):
         self.client.credentials(HTTP_AUTHORIZATION='Token ' + self.token_1)
-        response = self.client.delete('/api/pengumuman/{}/delete/'.format('999'))
+        response = self.client.post('/api/pengumuman/create/',
+                                    data=urlencode(MultiValueDict(self.invalid_data)),
+                                    content_type='application/x-www-form-urlencoded')
+        self.assertEqual(response.status_code, 400)
 
-        self.assertEqual(response.data['detail'], 'Pengumuman does not exist.')
-
-    def test_not_owner_of_announcement(self):
+    def test_can_create(self):
         self.client.credentials(HTTP_AUTHORIZATION='Token ' + self.token_1)
-        response = self.client.delete('/api/pengumuman/{}/delete/'.format(self.pengumuman_pk))
 
-        self.assertEqual(response.data['detail'], 'You are not the owner of the announcement.')
-
-    def test_success_delete(self):
-        before_delete_count = Pengumuman.objects.all().count()
-
-        self.client.credentials(HTTP_AUTHORIZATION='Token ' + self.token_2)
-        response = self.client.delete('/api/pengumuman/{}/delete/'.format(self.pengumuman_pk))
-
-        self.assertEqual(before_delete_count, Pengumuman.objects.all().count()+1)
+        response = self.client.post('/api/pengumuman/create/',
+                                    data=urlencode(MultiValueDict(self.valid_data)),
+                                    content_type='application/x-www-form-urlencoded')
         self.assertEqual(response.status_code, 200)

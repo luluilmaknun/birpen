@@ -48,9 +48,50 @@ def login(request):
         return Response({'detail': 'Invalid Credentials'},
                         status=HTTP_404_NOT_FOUND)
     token, _ = Token.objects.get_or_create(user=user)
-    return Response({'token': token.key, 'role': user.user_type},
+    return Response({'username': username, 'token': token.key, 'role': user.user_type},
                     status=HTTP_200_OK)
 
+@csrf_exempt
+@api_view(["POST"])
+@permission_classes((IsAuthenticated,))
+def create_pengumuman(request):
+    ''' asumsi post buat pengumuman nerima atribut
+        atribut yang dipost = atribut pengumuman
+
+        asumsi bentuk tanggal kelas: y-m-d
+        asumsi tiap atribut gak ada nama yang sama
+    '''
+    pengumuman = Pengumuman()
+    try:
+        pengumuman.pembuat = request.user
+        pengumuman.nama_dosen = request.data.get('nama_dosen')
+        pengumuman.nama_asisten = request.data.get('nama_asisten')
+        pengumuman.komentar = request.data.get('komentar')
+        pengumuman.tanggal_kelas = datetime.strptime(
+            request.data.get('tanggal_kelas'), '%Y-%m-%d')
+        pengumuman.nama_mata_kuliah = MataKuliah.objects.get(
+            nama=request.data.get('nama_mata_kuliah'))
+        pengumuman.jenis_pengumuman = JenisPengumuman.objects.get(
+            nama=request.data.get('jenis_pengumuman'))
+        pengumuman.nama_ruang = Ruang.objects.get(
+            nama=request.data.get('nama_ruang'))
+        pengumuman.nama_sesi = Sesi.objects.get(
+            nama=request.data.get('nama_sesi'))
+        pengumuman.nama_status_pengumuman = StatusPengumuman.objects.get(
+            nama=request.data.get('nama_status_pengumuman'))
+    except (ObjectDoesNotExist, ValueError, TypeError):
+        return Response({
+            'detail': 'Invalid data.',
+            "success": False,
+        }, status=HTTP_400_BAD_REQUEST)
+
+    pengumuman.save()
+
+    return Response({
+        "detail": 'Valid data.',
+        "success": True,
+        "pengumuman": PengumumanSerializer(pengumuman).data
+    }, status=HTTP_200_OK)
 
 @api_view(["GET"])
 @permission_classes((IsAuthenticated,))
@@ -72,7 +113,7 @@ def filter_pengumuman(request):
     return Response({"pengumuman_response": pengumuman_response}, status=HTTP_200_OK)
 
 @csrf_exempt
-@api_view(["POST"])
+@api_view(["PUT"])
 @permission_classes((IsAuthenticated,))
 def edit_pengumuman(request, key):
     try:
@@ -133,7 +174,7 @@ def dropdown_pengumuman(request):
     return Response(response)
 
 @csrf_exempt
-@api_view(["POST"])
+@api_view(["DELETE"])
 @permission_classes((IsAuthenticated,))
 def delete_pengumuman(request, key):
     try:
@@ -156,9 +197,9 @@ def delete_pengumuman(request, key):
     }, status=HTTP_200_OK)
 
 @csrf_exempt
-@api_view(["POST"])
+@api_view(["GET"])
 @permission_classes((IsAuthenticated,))
-def read_pengumuman(request, key):
+def read_pengumuman_by_pk(request, key):
     try:
         if request.user.user_type != User.ADMIN:
             pengumuman = Pengumuman.objects.get(pk=key)
@@ -173,4 +214,3 @@ def read_pengumuman(request, key):
         "success": True,
         "pengumuman": PengumumanSerializer(pengumuman).data
     }, status=HTTP_200_OK)
-    
