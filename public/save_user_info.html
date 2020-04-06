@@ -14,8 +14,8 @@
       localStorage.setItem("token", "{{ token }}");
       localStorage.setItem("username", "{{ username }}");
       localStorage.setItem("role", "{{ role }}");
-      localStorage.setItem("is_admin", "{{ is_admin }}");
-      localStorage.setItem("is_asdos", "{{ is_asdos }}");
+      localStorage.setItem("is_admin", "{{ is_admin }}" === "True");
+      localStorage.setItem("is_asdos", "{{ is_asdos }}" === "True");
       window.location.replace("/");
   </script>
   </body>
