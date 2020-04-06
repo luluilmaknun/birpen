@@ -8,7 +8,7 @@ export default axios.create({
   timeout: 60000,
   headers: {
     'Content-Type': 'application/json',
-    'Authorization': `Token ${token}`,
+    'Authorization': `Bearer ${token}`,
     'X-CSRFToken': Cookies.get('csrftoken'),
   },
 });

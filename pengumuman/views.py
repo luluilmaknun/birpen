@@ -1,21 +1,17 @@
 from datetime import datetime
 
-from django.contrib.auth import authenticate
 from django.core.exceptions import ObjectDoesNotExist
-from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
-from rest_framework.authtoken.models import Token
 from rest_framework.decorators import api_view, permission_classes
-from rest_framework.permissions import AllowAny, IsAuthenticated
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.status import (
     HTTP_400_BAD_REQUEST,
-    HTTP_404_NOT_FOUND,
     HTTP_200_OK,
     HTTP_403_FORBIDDEN,
 )
 
-from .models import User, Pengumuman, MataKuliah, JenisPengumuman, \
+from .models import Pengumuman, MataKuliah, JenisPengumuman, \
     Ruang, Sesi, StatusPengumuman
 from .serializers import PengumumanSerializer
 
@@ -28,28 +24,6 @@ def pengumuman_placeholder_views(_):
     }
 
     return Response({"success": True, "result": result}, status=200)
-
-
-@csrf_exempt
-@api_view(["POST", "GET"])
-@permission_classes((AllowAny,))
-def login(request):
-    if request.method == "GET":
-        response = {}
-        return render(request, 'login.html', response)
-
-    username = request.data.get("username")
-    password = request.data.get("password")
-    if username is None or password is None:
-        return Response({'detail': 'Please provide both username and password'},
-                        status=HTTP_400_BAD_REQUEST)
-    user = authenticate(username=username, password=password)
-    if not user:
-        return Response({'detail': 'Invalid Credentials'},
-                        status=HTTP_404_NOT_FOUND)
-    token, _ = Token.objects.get_or_create(user=user)
-    return Response({'username': username, 'token': token.key, 'role': user.user_type},
-                    status=HTTP_200_OK)
 
 @csrf_exempt
 @api_view(["POST"])
@@ -105,7 +79,7 @@ def filter_pengumuman(request):
         }, status=HTTP_400_BAD_REQUEST)
 
     # if user is admin, return all include soft delete
-    if request.user.user_type == User.ADMIN:
+    if request.user.is_admin():
         filter_date = Pengumuman.all_objects.filter(tanggal_kelas__date=pengumuman_date)
     else:
         filter_date = Pengumuman.objects.filter(tanggal_kelas__date=pengumuman_date)
@@ -123,7 +97,7 @@ def edit_pengumuman(request, key):
             'detail': PENGUMUMAN_NOT_FOUND_MESSAGE
         }, status=HTTP_400_BAD_REQUEST)
 
-    if request.user.user_type != User.ADMIN and pengumuman.pembuat != request.user:
+    if not request.user.is_admin() and pengumuman.pembuat != request.user:
         return Response({
             'detail': 'Not enough privileges.'
         }, status=HTTP_403_FORBIDDEN)
@@ -184,7 +158,7 @@ def delete_pengumuman(request, key):
             'detail': PENGUMUMAN_NOT_FOUND_MESSAGE
         }, status=HTTP_400_BAD_REQUEST)
 
-    if pengumuman.pembuat != request.user and request.user.user_type != User.ADMIN:
+    if pengumuman.pembuat != request.user and not request.user.is_admin():
         return Response({
             'detail': 'You are not the owner of the announcement.'
         }, status=HTTP_403_FORBIDDEN)
@@ -201,7 +175,7 @@ def delete_pengumuman(request, key):
 @permission_classes((IsAuthenticated,))
 def read_pengumuman_by_pk(request, key):
     try:
-        if request.user.user_type != User.ADMIN:
+        if not request.user.is_admin():
             pengumuman = Pengumuman.objects.get(pk=key)
         else:
             pengumuman = Pengumuman.all_objects.get(pk=key)
