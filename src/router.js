@@ -4,6 +4,7 @@ import Home from '@/Home.vue';
 import Delete from '@/components/delete.vue';
 import CreateAnnouncement from '@/views/CreateAnnouncement.vue';
 import EditAnnouncement from '@/views/EditAnnouncement.vue';
+import Login from '@/components/Login.vue';
 
 Vue.use(Router);
 
@@ -26,7 +27,7 @@ export default new Router({
       component: Delete,
       beforeEnter: (to, from, next) => {
         if (!localStorage.getItem('token')) {
-          next('/sso/login/');
+          next('/login');
         }
         next();
       },
@@ -54,10 +55,15 @@ export default new Router({
       props: true,
       beforeEnter: (to, from, next) => {
         if (!localStorage.getItem('token')) {
-          next('/sso/login/');
+          next('/login');
         }
         next();
       },
+    },
+    {
+      path: '/login',
+      name: 'login',
+      component: Login,
     },
   ],
 });
