@@ -24,17 +24,40 @@ export default new Router({
       path: '/pengumuman',
       name: 'pengumuman',
       component: Delete,
+      beforeEnter: (to, from, next) => {
+        if (!localStorage.getItem('token')) {
+          next('/sso/login/');
+        }
+        next();
+      },
     },
     {
       path: '/pengumuman/create',
       name: 'create-pengumuman',
       component: CreateAnnouncement,
+      beforeEnter: (to, from, next) => {
+        const role = localStorage.getItem('role');
+        const isAsdos = localStorage.getItem('is_asdos');
+        const isAdmin = localStorage.getItem('is_admin');
+        if (role == 'mahasiswa') {
+          if (isAsdos == 'false' || isAdmin == 'false') {
+            next('/pengumuman');
+          }
+        }
+        next();
+      },
     },
     {
       path: '/pengumuman/:pk_key/edit',
       name: 'edit-pengumuman',
       component: EditAnnouncement,
       props: true,
+      beforeEnter: (to, from, next) => {
+        if (!localStorage.getItem('token')) {
+          next('/sso/login/');
+        }
+        next();
+      },
     },
   ],
 });
