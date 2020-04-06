@@ -5,7 +5,7 @@
         <div class="modal-container">
           Apakah anda yakin?
           <div class="modal-buttons">
-            <button v-on:click="postdelete" id='blue-btn'>Ya</button>
+            <button v-on:click="deletePengumuman" id='blue-btn'>Ya</button>
             <button v-on:click="hide" id="hapus-btn">Tidak</button>
           </div>
         </div>
@@ -17,7 +17,7 @@
 
 <script>
 
-import axios from 'axios'
+import axios from 'axios';
 export default {
   name: 'delete',
   methods: {
@@ -28,25 +28,25 @@ export default {
     hide() {
       this.$modal.hide('hello-world');
     },
-    postdelete() {
-      const urlTarget = "/api/pengumuman/"+
-      document.getElementById("pk").innerText+"/delete/";
-      axios({ method: "POST", "url": urlTarget,
-      "headers":
+    deletePengumuman() {
+      const urlTarget = '/api/pengumuman/'+
+      document.getElementById('pk').innerText+'/delete/';
+      axios({'method': 'DELETE', 'url': urlTarget,
+        'headers':
       {
-        "content-type": "application/x-www-form-urlencoded" ,
-        "authorization": "Bearer " + localStorage.getItem('token')
-      }}).then (
-        (response) => {
-        this.response = response.data;
-        window.location.pathname='/pengumuman';
-      },
-      error => {
-        this.error=error;
-      });
-    }
-  }
-}
+        'content-type': 'application/x-www-form-urlencoded',
+        'authorization': 'Bearer ' + sessionStorage.getItem('token'),
+      }}).then(
+          (response) => {
+            this.response = response.data;
+            window.location.pathname='/pengumuman';
+          },
+          (error) => {
+            this.error=error;
+          });
+    },
+  },
+};
 </script>
 
 <style>
