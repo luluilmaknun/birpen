@@ -1,29 +1,38 @@
 <template>
   <div class="nav-container">
     <div class="nav-elem-container-left">
-      <h2>
-          Biro Pendidikan FEB
-      </h2>
-    </div>
-
-    <!-- NAVBAR ON DESKTOP VIEW -->
-    <div class="nav-elem-container-right" id="desktop-nav">
+      <a id="birpen"> Biro Pendidikan FEB </a>
       <router-link class="nav-elem"
       ref="surat-button" :to="{ name: 'surat' }">
-      Surat
-      </router-link>
+      Surat</router-link>
       <router-link class="nav-elem"
       ref="pengumuman-button" :to="{ name: 'pengumuman' }">
-      Pengumuman
-      </router-link>
-      <router-link class="nav-elem"
-      ref="buatAkun-button" :to="{ name: 'buat akun' }">
-      Buat Akun
-      </router-link>
-      <router-link class="nav-elem" id="login-button"
-      ref="login" :to="{ name: 'login' }">
-      Login
-      </router-link>
+      Pengumuman</router-link>
+
+      <label v-if="is_authenticated && is_staff">
+            <router-link class="nav-elem"
+            ref="asisten-button" :to="{ name: 'asisten' }">
+            Asisten</router-link>
+          </label>
+    </div>
+
+    <div class="nav-elem-container-right" id="desktop-nav">
+
+      <label v-if="is_authenticated === false">
+        <router-link class="nav-elem"
+        ref="buatAkun-button" :to="{ name: 'buat akun' }">
+        Buat Akun</router-link>
+        <router-link class="nav-elem" id="login-button"
+        ref="login" :to="{ name: 'login' }">
+        Login</router-link>
+      </label>
+
+      <label v-if="is_authenticated">
+        <a id="username">{{ username }}</a>
+        <router-link class="nav-elem" id="logout-button"
+        ref="login" :to="{ name: 'logout' }">
+        Logout</router-link>
+      </label>
     </div>
 
     <!-- NAVBAR WHEN WIDTH 700px -->
@@ -62,12 +71,18 @@ export default {
   data() {
     return {
       mobileView: false,
+      username: localStorage.getItem('username'),
+      is_authenticated:
+        localStorage.getItem('username') !== null,
+      is_staff:
+        localStorage.getItem('is_admin') === 'true' ||
+        localStorage.getItem('is_asdos') === 'true',
     };
   },
 };
 </script>
 
-<style>
+<style scoped>
 .nav-700px {
   display: none;
 }
@@ -85,7 +100,7 @@ h2 {
   color: white;
 }
 .nav-elem-container-left {
-  font-weight: bolder;
+  font-weight:900;
 }
 #nav-dropdown {
   display: none;
@@ -98,23 +113,56 @@ h2 {
   font-weight: normal;
   font-size: 20pt;
   color: white;
+  text-align: center;
 }
 .nav-elem:hover {
-  background-color: white;
   color: black;
+  border-radius: 100px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  text-align: center;
 }
 #login-button {
   color:black;
-  background-color: yellow;
+  background-color: #FFDD00;
   border-radius: 100px;
-  padding-left: 15px;
-  padding-right: 15px;
   padding-top: 5px;
   padding-bottom: 5px;
   font-size: 20pt;
 }
 #login-button:hover {
-  background-color: white;
+  background-color: rgb(216, 187, 1);
+}
+#logout-button {
+  color:white;
+  background-color: #E63946;
+  border-radius: 100px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  font-size: 20pt;
+}
+#logout-button:hover {
+  background-color: rgb(202, 50, 62);
+}
+#username {
+  color: #FFDD00;
+  padding:20px 20px;
+  text-decoration: none;
+  margin-left: 10px;
+  margin-right: 10px;
+  font-weight: normal;
+  font-size: 20pt;
+  text-align: center;
+}
+#birpen {
+  color: white;
+  padding:20px 20px;
+  text-decoration: none;
+  margin-left: 10px;
+  margin-right: 10px;
+  font-weight: bolder;
+  font-size: 20pt;
+  text-align: center;
 }
 .dropdown-button {
   display: none;
