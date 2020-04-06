@@ -6,3 +6,5 @@ dj-database-url
 psycopg2-binary
 django-environ
 django-safedelete
+django-cas-ng
+drf-jwt

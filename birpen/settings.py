@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 """
 
 import os
+import datetime
 import dj_database_url
 import environ
 
@@ -48,6 +49,9 @@ INSTALLED_APPS = [
     'pengumuman',
     'permohonan_surat',
     'safedelete',
+    'django_cas_ng',
+    'sso_ui.apps.SSOUIConfig',
+    'rest_framework_jwt',
 ]
 
 MIDDLEWARE = [
@@ -98,6 +102,25 @@ DATABASES = {
 
 if os.environ.get("DATABASE_URL"):
     DATABASES['default'] = dj_database_url.config()
+
+# Authentication backends
+# https://docs.djangoproject.com/en/2.1/topics/auth/customizing/#specifying-authentication-backends
+
+AUTHENTICATION_BACKENDS = (
+
+)
+
+# Django CAS-NG configuration
+
+CAS_SERVER_URL = os.getenv("CAS_SERVER_URL", 'https://sso.ui.ac.id/cas2/')
+CAS_LOGIN_URL_NAME = 'sso_ui:login'
+CAS_FORCE_CHANGE_USERNAME_CASE = 'lower'
+
+
+# SSO-UI configuration
+
+SSO_UI_ORG_DETAIL_FILE_PATH = "sso_ui/static/sso_ui/kodoru.json"
+SSO_UI_ORG_DETAIL_LANG = "id"
 
 # Password validation
 # https://docs.djangoproject.com/en/2.1/ref/settings/#auth-password-validators
@@ -159,6 +182,20 @@ AUTH_USER_MODEL = 'pengumuman.User'
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework.authentication.TokenAuthentication',
+        'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
     )
 }
+
+JWT_AUTH = {
+    'JWT_EXPIRATION_DELTA': datetime.timedelta(seconds=1800),
+}
+
+# Authentication backends
+# https://docs.djangoproject.com/en/2.1/topics/auth/customizing/#specifying-authentication-backends
+
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',
+    'django_cas_ng.backends.CASBackend',
+)
+
+CAS_REDIRECT_URL = '/sso/save_user_info/'
