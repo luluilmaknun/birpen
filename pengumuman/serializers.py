@@ -47,7 +47,7 @@ class PengumumanSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Pengumuman
-        fields = ['pk', 'created_at', 'modified_at', 'tanggal_kelas', 'pembuat',
+        fields = ['pk', 'created_at', 'modified_at', 'deleted', 'tanggal_kelas', 'pembuat',
                   'nama_mata_kuliah', 'jenis_pengumuman', 'nama_dosen', 'nama_asisten',
                   'nama_ruang', 'nama_sesi', 'nama_status_pengumuman',
                   'komentar']
