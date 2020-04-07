@@ -124,6 +124,69 @@
         </tr>
       </table>
     </div>
+
+    <!-- TOMORROW -->
+    <!-- table if no data -->
+    <div class="table-div" id="table-tomorrow" v-if="tomorrow.length == 0">
+      <table>
+        <tr>
+          <th class="head-table" v-for="head in tableHead" :key="head">
+            {{ head }}
+          </th>
+        </tr>
+
+        <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+      </table>
+      <h2>Tidak ada pengumuman</h2>
+    </div>
+
+    <!-- table if there are datas -->
+    <div class="table-div" v-else>
+      <table>
+        <tr>
+          <th class="head-table" v-for="head in tableHead" :key="head">
+            {{ head }}
+          </th>
+        </tr>
+
+        <tr v-for="content in today" :key="content.pk">
+          <td>
+            {{ content.nama_mata_kuliah }}
+          </td>
+          <td>
+            {{ content.nama_dosen }}
+          </td>
+          <td>
+            {{ content.nama_sesi }}
+          </td>
+          <td>
+            {{ content.nama_status_pengumuman }}
+          </td>
+          <td>
+            <button
+            v-on:click="showModal(
+              content.pk,
+              content.pembuat,
+              content.timestamp,
+              content.nama_mata_kuliah,
+              content.jenis_pengumuman,
+              content.nama_dosen,
+              content.nama_ruang,
+              content.nama_sesi,
+              content.nama_status_pengumuman,
+              content.komentar)" class="detail-button">
+              Detail
+            </button>
+          </td>
+        </tr>
+      </table>
+    </div>
   </div>
 </template>
 
@@ -239,6 +302,12 @@ export default {
 }
 .table-div {
   width: 85%;
+}
+#table-tomorrow {
+  margin-top: 100px;
+}
+#table-tomorrow h2 {
+  color: black;
 }
 .table-div table {
   border-radius: 1em;
