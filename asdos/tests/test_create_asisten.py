@@ -9,6 +9,7 @@ from sso_ui.models import Admin, AsistenDosen
 
 User = get_user_model()
 
+
 class CreateAsistenTest(TestCase):
     def setUp(self):
         self.client = APIClient()
