@@ -9,6 +9,7 @@ from rest_framework.status import (
 )
 
 from sso_ui.models import AsistenDosen
+from .permissions import IsPrivelegesToAccessAsdos
 
 
 @api_view(["GET"])
@@ -21,13 +22,8 @@ def asdos_placeholder_views(_):
 
 @csrf_exempt
 @api_view(["POST"])
-@permission_classes((IsAuthenticated,))
+@permission_classes((IsAuthenticated, IsPrivelegesToAccessAsdos))
 def create_asisten(request):
-    if (request.user.is_dosen() or request.user.is_admin()) is False:
-        return Response({
-            'detail': 'You are not allowed to assign as asisten.',
-            'success': False,
-        }, status=HTTP_400_BAD_REQUEST)
 
     asisten = AsistenDosen()
 
