@@ -34,8 +34,10 @@ UnitTestDjango:
     - pip install -r requirements_dev.txt
   when: on_success
   script:
+    - cp -r public/ dist/
     - python3 run_lint.py
-    - coverage run --include='landing_page/*,pengumuman/*,permohonan_surat/*,asdos/*' manage.py test
+    - python3 manage.py makemigrations rest_framework_jwt
+    - coverage run --include='landing_page/*,pengumuman/*,permohonan_surat/*,asdos/*,sso_ui/*' manage.py test
     - coverage report -m
     - coverage xml
   artifacts:

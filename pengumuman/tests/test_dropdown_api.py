@@ -1,20 +1,28 @@
+from django.contrib.auth import get_user_model
 from django.test import TestCase
 
 from rest_framework.test import APIRequestFactory
 from rest_framework.test import force_authenticate
 
 from pengumuman.models import MataKuliah, JenisPengumuman, Ruang, \
-    Sesi, StatusPengumuman, User
+    Sesi, StatusPengumuman
+
 from pengumuman.views import dropdown_pengumuman
+
+from sso_ui.models import Admin
+
+User = get_user_model()
 
 
 class DropdownApiTest(TestCase):
     def setUp(self):
-        User.objects.create(username='julia.ningrum', name='julia ningrum',
-                            npm='1204893059', password='admin', user_type=User.ADMIN)
+        user_admin = User.objects.create(username='julia.ningrum',
+                                         password='admin')
+        Admin.objects.create(username=user_admin.username)
+
+
         User.objects.create(username='yusuf.tri',
-                            name='yusuf tri a.', npm='1701837382',
-                            password='mahasiswa', user_type=User.MAHASISWA)
+                            password='mahasiswa')
 
     def test_request_as_admin(self):
         factory = APIRequestFactory()
