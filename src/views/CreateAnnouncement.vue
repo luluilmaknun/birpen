@@ -120,10 +120,10 @@ export default {
   },
   data: function() {
     return {
-      role: '',
-      is_admin: false,
-      is_asdos: false,
-      pembuat: '',
+      role: localStorage.getItem('role'),
+      is_admin: localStorage.getItem('is_admin'),
+      is_asdos: localStorage.getItem('is_asdos'),
+      pembuat: localStorage.getItem('username'),
       jenis_pengumuman: '',
       tanggal_kelas: '',
       nama_mata_kuliah: '',
@@ -145,10 +145,6 @@ export default {
     };
   },
   created: function() {
-    this.pembuat = localStorage.getItem('username');
-    this.role = localStorage.getItem('role');
-    this.is_admin = localStorage.getItem('is_admin');
-    this.is_asdos = localStorage.getItem('is_asdos');
     this.fetchData();
 
     if (this.edit) {
