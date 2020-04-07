@@ -4,7 +4,7 @@
     name="detail-modal"
     :pivotX="0.0"
     :pivotY="0.3"
-    :height="800"
+    :height="750"
     :width="1000"
     >
     <div class="modal-container">
@@ -24,7 +24,7 @@
 
           <div id="right">
             <p>{{ modaldetail[0].pembuat }}</p>
-            <p>{{ modaldetail[0].timestamp }}</p>
+            <p>{{ modaldetail[0].created_at }}</p>
             <p>{{ modaldetail[0].nama_mata_kuliah }}</p>
             <p>{{ modaldetail[0].jenis_pengumuman }}</p>
             <p>{{ modaldetail[0].nama_dosen }}</p>
@@ -51,7 +51,7 @@
 
           <div id="right">
             <p>{{ modaldetail[0].pembuat }}</p>
-            <p>{{ modaldetail[0].timestamp }}</p>
+            <p>{{ modaldetail[0].created_at }}</p>
             <p>{{ modaldetail[0].nama_mata_kuliah }}</p>
             <p>{{ modaldetail[0].jenis_pengumuman }}</p>
             <p>{{ modaldetail[0].nama_dosen }}</p>
@@ -233,7 +233,7 @@ export default {
         {
           pk: 999,
           pembuat: '',
-          timestamp: '',
+          created_at: '',
           nama_mata_kuliah: '',
           jenis_pengumuman: '',
           nama_dosen: '',
@@ -272,18 +272,18 @@ export default {
           this.$set(this.tomorrow, i, this.response.pengumuman_tomo[i]);
         }
 
-        // console.log(this.today);
-        // console.log(this.tomorrow);
+        console.log(this.today);
+        console.log(this.tomorrow);
       });
     },
     showModal(pk, pembuat, created, matkul, jenis, dosen, asisten,
         ruang, sesi, status, komentar) {
       const data = this.modaldetail[0];
-      // console.log(data);
+      console.log(data);
       this.$modal.show('detail-modal');
       data.pk = pk;
       data.pembuat = pembuat;
-      data.timestamp = created;
+      data.created_at = created;
       data.nama_mata_kuliah = matkul;
       data.nama_dosen = dosen;
       data.nama_asisten = asisten;
