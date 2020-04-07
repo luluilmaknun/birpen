@@ -9,7 +9,7 @@ from rest_framework.status import (
 )
 
 from sso_ui.models import AsistenDosen
-from .permissions import IsPrivelegesToAccessAsdos
+from .permissions import IsPrivilegesToAccessAsdos
 
 
 @api_view(["GET"])
@@ -22,7 +22,7 @@ def asdos_placeholder_views(_):
 
 @csrf_exempt
 @api_view(["POST"])
-@permission_classes((IsAuthenticated, IsPrivelegesToAccessAsdos))
+@permission_classes((IsAuthenticated, IsPrivilegesToAccessAsdos))
 def create_asisten(request):
 
     asisten = AsistenDosen()
