@@ -62,51 +62,75 @@
       <FilterComponent/>
     </div>
 
-    <table>
-      <tr>
-        <th class="head-table" v-for="head in tableHead" :key="head">
-          {{ head }}
-        </th>
-      </tr>
+    <!-- TODAY -->
+    <!-- table if no data -->
+    <div class="table-div" v-if="today.length == 0">
+      <table>
+        <tr>
+          <th class="head-table" v-for="head in tableHead" :key="head">
+            {{ head }}
+          </th>
+        </tr>
 
-      <tr v-for="content in tableData" :key="content.pk">
-        <td>
-          {{ content.nama_mata_kuliah }}
-        </td>
-        <td>
-          {{ content.nama_dosen }}
-        </td>
-        <td>
-          {{ content.sesi }}
-        </td>
-        <td>
-          {{ content.nama_status_pengumuman }}
-        </td>
-        <td>
-          <button
-          v-on:click="showModal(
-            content.pk,
-            content.pembuat,
-            content.timestamp,
-            content.nama_mata_kuliah,
-            content.jenis_pengumuman,
-            content.nama_dosen,
-            content.nama_ruang,
-            content.sesi,
-            content.nama_status_pengumuman,
-            content.komentar)" class="detail-button">
-            Detail
-          </button>
-        </td>
-      </tr>
-    </table>
+        <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+      </table>
+      <h2>Tidak ada pengumuman</h2>
+    </div>
+
+    <!-- table if there are datas -->
+    <div class="table-div" v-else>
+      <table>
+        <tr>
+          <th class="head-table" v-for="head in tableHead" :key="head">
+            {{ head }}
+          </th>
+        </tr>
+
+        <tr v-for="content in today" :key="content.pk">
+          <td>
+            {{ content.nama_mata_kuliah }}
+          </td>
+          <td>
+            {{ content.nama_dosen }}
+          </td>
+          <td>
+            {{ content.nama_sesi }}
+          </td>
+          <td>
+            {{ content.nama_status_pengumuman }}
+          </td>
+          <td>
+            <button
+            v-on:click="showModal(
+              content.pk,
+              content.pembuat,
+              content.timestamp,
+              content.nama_mata_kuliah,
+              content.jenis_pengumuman,
+              content.nama_dosen,
+              content.nama_ruang,
+              content.nama_sesi,
+              content.nama_status_pengumuman,
+              content.komentar)" class="detail-button">
+              Detail
+            </button>
+          </td>
+        </tr>
+      </table>
+    </div>
   </div>
 </template>
 
 <script>
 import DeleteButton from '@/components/delete';
 import FilterComponent from '@/components/date-picker';
-import announcementData from '@/services/pengumumanDataService';
+import announcementDataDefaultApi from '@/services/pengumumanDataService';
 
 export default {
   data: function() {
@@ -130,43 +154,11 @@ export default {
         'Mata Kuliah', 'Dosen', 'Sesi', 'Status', 'Aksi',
       ],
       tableData: [
-        {
-          'pk': 1,
-          'pembuat': 'Ardho',
-          'timestamp': '18/07/2020 08:33:02',
-          'nama_mata_kuliah': 'PPL-A',
-          'jenis_pengumuman': 'Asistensi',
-          'nama_dosen': 'Ahmad Fauzan A.I',
-          'nama_ruang': '1203',
-          'sesi': '08.00 - 10.30',
-          'nama_status_pengumuman': 'Terlambat',
-          'komentar': 'Saya ketiduran',
-        },
-        {
-          'pk': 2,
-          'pembuat': 'Nafis',
-          'timestamp': '18/07/2020 08:33:01',
-          'nama_mata_kuliah': 'Alin',
-          'jenis_pengumuman': 'Perkuliahan',
-          'nama_dosen': 'Lulu',
-          'nama_ruang': '2203',
-          'sesi': '10.00 - 12.30',
-          'nama_status_pengumuman': 'Dibatalkan',
-          'komentar': 'Macet',
-        },
-        {
-          'pk': 3,
-          'pembuat': 'Juli',
-          'timestamp': '18/07/2020 08:33:00',
-          'nama_mata_kuliah': 'POK',
-          'jenis_pengumuman': 'Perkuliahan',
-          'nama_dosen': 'Ardho',
-          'nama_ruang': '1203',
-          'sesi': '08.00 - 10.30',
-          'nama_status_pengumuman': 'Terlambat',
-          'komentar': 'Saya ketiduran',
-        },
+
       ],
+      response: {},
+      today: [],
+      tomorrow: [],
     };
   },
   created: function() {
@@ -174,8 +166,19 @@ export default {
   },
   methods: {
     fetchData: function() {
-      announcementData.fetch().then((d) => {
+      announcementDataDefaultApi.fetch().then((d) => {
         // TODO GET ANNOUNCEMENTS IN DEFAULT
+        this.response = d.data;
+        // console.log(this.response.pengumuman_today[1]);
+        for (let i = 0; i < this.response.pengumuman_today.length; i++) {
+          this.$set(this.today, i, this.response.pengumuman_today[i]);
+        }
+
+        for (let i = 0; i < this.response.pengumuman_tomo.length; i++) {
+          this.$set(this.tomorrow, i, this.response.pengumuman_tomo[i]);
+        }
+
+        console.log(this.today);
       });
     },
     showModal(pk, pembuat, timestamp, matkul, jenis, dosen,
@@ -234,12 +237,15 @@ export default {
   border-color: greenyellow;
   background-color: greenyellow;
 }
-table {
+.table-div {
+  width: 85%;
+}
+.table-div table {
   border-radius: 1em;
   text-align: center;
   overflow: hidden;
   border-collapse: collapse;
-  width: 85%;
+  width: 100%;
 }
 th, td {
   padding-left: 1.5em;
