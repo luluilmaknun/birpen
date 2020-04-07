@@ -37,6 +37,11 @@ export default new Router({
       name: 'create-pengumuman',
       component: CreateAnnouncement,
       beforeEnter: (to, from, next) => {
+        if (!localStorage.getItem('token')) {
+          next('/login');
+        }
+        next();
+
         const role = localStorage.getItem('role');
         const isAsdos = localStorage.getItem('is_asdos');
         const isAdmin = localStorage.getItem('is_admin');
