@@ -15,8 +15,15 @@ export default {
   },
   methods: {
     refreshToken: function() {
+      const token = localStorage.token;
+
+      if (typeof(token) === 'undefined'
+        || token === null || token === '') {
+        return;
+      }
+
       const params = {
-        token: localStorage.token,
+        token: token,
       };
 
       return axios.post('/sso/refresh-token/', params)
