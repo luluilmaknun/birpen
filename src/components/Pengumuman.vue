@@ -23,15 +23,15 @@
           </div>
 
           <div id="right">
-            <p>{{ tempdetail[0].pembuat }}</p>
-            <p>{{ tempdetail[0].timestamp }}</p>
-            <p>{{ tempdetail[0].nama_mata_kuliah }}</p>
-            <p>{{ tempdetail[0].jenis_pengumuman }}</p>
-            <p>{{ tempdetail[0].nama_dosen }}</p>
-            <p>{{ tempdetail[0].nama_ruang }}</p>
-            <p>{{ tempdetail[0].sesi }}</p>
-            <p>{{ tempdetail[0].nama_status_pengumuman }}</p>
-            <p>{{ tempdetail[0].komentar }}</p>
+            <p>{{ modaldetail[0].pembuat }}</p>
+            <p>{{ modaldetail[0].timestamp }}</p>
+            <p>{{ modaldetail[0].nama_mata_kuliah }}</p>
+            <p>{{ modaldetail[0].jenis_pengumuman }}</p>
+            <p>{{ modaldetail[0].nama_dosen }}</p>
+            <p>{{ modaldetail[0].nama_ruang }}</p>
+            <p>{{ modaldetail[0].sesi }}</p>
+            <p>{{ modaldetail[0].nama_status_pengumuman }}</p>
+            <p>{{ modaldetail[0].komentar }}</p>
           </div>
         </div>
 
@@ -110,7 +110,7 @@
             v-on:click="showModal(
               content.pk,
               content.pembuat,
-              content.timestamp,
+              content.created_at,
               content.nama_mata_kuliah,
               content.jenis_pengumuman,
               content.nama_dosen,
@@ -177,6 +177,7 @@
               content.nama_mata_kuliah,
               content.jenis_pengumuman,
               content.nama_dosen,
+              content.nama_asisten,
               content.nama_ruang,
               content.nama_sesi,
               content.nama_status_pengumuman,
@@ -199,7 +200,7 @@ export default {
   data: function() {
     return {
       // TEST DATA SECTION
-      tempdetail: [
+      modaldetail: [
         {
           pk: 999,
           pembuat: '',
@@ -207,6 +208,7 @@ export default {
           nama_mata_kuliah: '',
           jenis_pengumuman: '',
           nama_dosen: '',
+          nama_asisten:'',
           nama_ruang: '',
           sesi: '',
           nama_status_pengumuman: '',
@@ -244,13 +246,14 @@ export default {
         console.log(this.today);
       });
     },
-    showModal(pk, pembuat, timestamp, matkul, jenis, dosen,
+    showModal(pk, pembuat, created_at, matkul, jenis, dosen, asisten,
         ruang, sesi, status, komentar) {
-      const data = this.tempdetail[0];
+      const data = this.modaldetail[0];
+      console.log(data);
       this.$modal.show('detail-modal');
       data.pk = pk;
       data.pembuat = pembuat;
-      data.timestamp = timestamp;
+      data.timestamp = created_at;
       data.nama_mata_kuliah = matkul;
       data.nama_dosen = dosen;
       data.nama_ruang = ruang;
@@ -262,6 +265,10 @@ export default {
     closeModal() {
       this.$modal.hide('detail-modal');
     },
+    getTodayDate() {
+      var date = new Date();
+      return date;
+    }
   },
   components: {
     DeleteButton,
