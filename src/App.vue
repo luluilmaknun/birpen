@@ -24,7 +24,7 @@ export default {
       axios.post('/sso/refresh-token/', params)
           .then(function(response) {
             localStorage.setItem('token', response.data.token);
-            if (self.$route.path === '/login') {
+            if (self.$route.name === 'login') {
               self.$router.push('/');
             }
           })
@@ -35,7 +35,7 @@ export default {
               && token !== null && token !== '') {
               window.location.href = '/sso/logout/?next=/login';
             }
-            if (self.$route.path !== '/' && self.$route.path !== '/login') {
+            if (self.$route.name !== 'home' && self.$route.name !== 'login') {
               self.$router.push('/login');
             }
           });
