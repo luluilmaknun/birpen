@@ -8,7 +8,7 @@ import EditAnnouncement from '@/views/EditAnnouncement.vue';
 
 Vue.use(Router);
 
-export default new Router({
+const router = new Router({
   mode: 'history',
   routes: [
     {
@@ -20,27 +20,62 @@ export default new Router({
       path: '/surat',
       name: 'surat',
       component: null,
+      meta: {
+        requiresAuth: true,
+      },
     },
     {
       path: '/pengumuman',
       name: 'pengumuman',
       component: Delete,
+      meta: {
+        requiresAuth: true,
+      },
     },
     {
       path: '/pengumuman/create',
       name: 'create-pengumuman',
       component: CreateAnnouncement,
+      meta: {
+        requiresAuth: true,
+      },
     },
     {
       path: '/pengumuman/:pk_key/edit',
       name: 'edit-pengumuman',
       component: EditAnnouncement,
       props: true,
+      meta: {
+        requiresAuth: true,
+      },
     },
     {
       path: '/login',
       name: 'login',
       component: Login,
+      meta: {
+        guest: true,
+      },
     },
   ],
 });
+
+router.beforeEach((to, from, next) => {
+  if (to.matched.some((record) => record.meta.requiresAuth)) {
+    if (localStorage.getItem('token') == null) {
+      next({name: 'login'});
+    } else {
+      next();
+    }
+  } else if (to.matched.some((record) => record.meta.guest)) {
+    if (localStorage.getItem('token') == null) {
+      next();
+    } else {
+      next({name: 'home'});
+    }
+  } else {
+    next();
+  }
+});
+
+export default router;
