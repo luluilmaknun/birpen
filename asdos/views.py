@@ -22,6 +22,7 @@ def asdos_placeholder_views(_):
 
     return Response({"success": True, "result": result}, status=200)
 
+
 @csrf_exempt
 @api_view(["POST"])
 @permission_classes((IsAuthenticated, IsPrivilegedToAccessAsdos,))
