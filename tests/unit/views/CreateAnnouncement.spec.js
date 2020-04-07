@@ -4,14 +4,7 @@ import dropdownApi from '@/services/dropdownDataServices';
 import announcementApi from '@/services/announcementServices';
 
 describe('Tes Elemen Form', () => {
-  const wrapper = shallowMount(CreateAnnouncement, {
-    'mocks': {
-      $session: {
-        get: jest.fn().mockReturnValueOnce('admin').mockReturnValueOnce(4),
-      },
-    },
-  },
-  );
+  const wrapper = shallowMount(CreateAnnouncement);
 
   it('Buat Pengumuman page name : CreateAnnouncement', () =>{
     expect(wrapper.name()).toEqual('CreateAnnouncement');
@@ -79,12 +72,8 @@ describe('Tes create data function', () => {
           'nama_sesi': 'Sesi 2 (11.00 - 13.30)',
           'nama_ruang': '3111',
           'nama_status_pengumuman': 'Terlambat',
+          'is_admin': 'true',
         };
-      },
-      'mocks': {
-        $session: {
-          get: jest.fn().mockReturnValueOnce('admin').mockReturnValueOnce(4),
-        },
       },
     });
     vm = wrapper.vm;
@@ -159,12 +148,8 @@ describe('Tes create data function', () => {
           'nama_sesi': 'Sesi 2 (11.00 - 13.30)',
           'nama_ruang': '3111',
           'nama_status_pengumuman': 'Terlambat',
+          'is_admin': 'true',
         };
-      },
-      'mocks': {
-        $session: {
-          get: jest.fn().mockReturnValueOnce('admin').mockReturnValueOnce(4),
-        },
       },
     });
     const vm = wrapper.vm;
@@ -182,11 +167,6 @@ describe('Edit function', () => {
     wrapper = shallowMount(CreateAnnouncement, {
       'propsData': {
         edit: true,
-      },
-      'mocks': {
-        $session: {
-          get: jest.fn().mockReturnValueOnce('admin').mockReturnValueOnce(4),
-        },
       },
     });
     vm = wrapper.vm;
@@ -270,12 +250,8 @@ describe('Edit function', () => {
           'nama_sesi': 'Sesi 2 (11.00 - 13.30)',
           'nama_ruang': '3111',
           'nama_status_pengumuman': 'Terlambat',
+          'is_admin': 'true',
         };
-      },
-      'mocks': {
-        $session: {
-          get: jest.fn().mockReturnValueOnce('admin').mockReturnValueOnce(4),
-        },
       },
     });
     const vm = wrapper.vm;
@@ -309,27 +285,16 @@ describe('Edit function', () => {
       'propsData': {
         edit: true,
       },
-      'mocks': {
-        $session: {
-          get: jest.fn().mockReturnValueOnce('admin').mockReturnValueOnce(4),
-        },
-      },
     });
     const vm = wrapper.vm;
 
     vm.editData(1);
   });
 
-  it('Test security access non-admin success', () => {
+  it('Test security access non-admin success asistensi', () => {
     const wrapper = shallowMount(CreateAnnouncement, {
       'propsData': {
         edit: true,
-      },
-      'mocks': {
-        $session: {
-          get: jest.fn().mockReturnValueOnce('lulu.ilmaknun')
-              .mockReturnValueOnce(2),
-        },
       },
     });
     const vm = wrapper.vm;
@@ -356,7 +321,70 @@ describe('Edit function', () => {
     vm.editData(1);
   });
 
-  it('Test security access non-admin denied', () => {
+  it('Test security access non-admin success non-asistensi', () => {
+    const localStorageMock = {
+      data: {
+        username: 'lulu.ilmaknun',
+        role: 'mahasiswa',
+        is_admin: 'false',
+        is_asdos: 'false',
+      },
+      length: 4,
+      getItem(name) {
+        return this.data[name];
+      },
+    };
+
+    Object.defineProperty(window, 'localStorage', {
+      value: localStorageMock,
+    });
+
+    const wrapper = shallowMount(CreateAnnouncement, {
+      'propsData': {
+        edit: true,
+      },
+    });
+    const vm = wrapper.vm;
+
+    announcementApi.getAnnouncement = jest.fn(() => Promise.resolve({
+      status: 200,
+      data: {
+        pengumuman: {
+          'pk': '1',
+          'pembuat': 'lulu.ilmaknun',
+          'nama_mata_kuliah': 'Aljabar Linier',
+          'jenis_pengumuman': 'Perkuliahan',
+          'nama_dosen': 'Lulu Ilmaknun',
+          'tanggal_kelas': '2200-03-30',
+          'nama_ruang': '3111',
+          'nama_sesi': 'Sesi 1 (08.00 - 10.30)',
+          'nama_status_pengumuman': 'Terlambat',
+          'komentar': 'lol',
+        },
+      },
+    }));
+
+    vm.editData(1);
+  });
+
+  it('Test security access non-admin denied asistensi', () => {
+    const localStorageMock = {
+      data: {
+        username: 'lulu.ilmaknun',
+        role: 'mahasiswa',
+        is_admin: 'false',
+        is_asdos: 'false',
+      },
+      length: 4,
+      getItem(name) {
+        return this.data[name];
+      },
+    };
+
+    Object.defineProperty(window, 'localStorage', {
+      value: localStorageMock,
+    });
+
     announcementApi.getAnnouncement = jest.fn(() => Promise.resolve({
       status: 200,
       data: {
@@ -381,10 +409,6 @@ describe('Edit function', () => {
         edit: true,
       },
       'mocks': {
-        $session: {
-          get: jest.fn().mockReturnValueOnce('lulu.ilmaknun')
-              .mockReturnValueOnce(2),
-        },
         $router: {
           push: jest.fn(),
         },
