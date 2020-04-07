@@ -36,12 +36,12 @@ class DeleteApiTest(TestCase):
         Admin.objects.create(username=self.admin.username)
 
         self.asisten_1 = User.objects.create(username='yusuf.tri1',
-                                           password='asdos')
+                                             password='asdos')
         self.token_asisten_1 = jwt_encode_handler(jwt_payload_handler(self.asisten_1))
         AsistenDosen.objects.create(username=self.asisten_1.username)
 
         self.asisten_2 = User.objects.create(username='yusuf.tri2',
-                                           password='asdos')
+                                             password='asdos')
         self.token_asisten_2 = jwt_encode_handler(jwt_payload_handler(self.asisten_2))
         AsistenDosen.objects.create(username=self.asisten_2.username)
 
