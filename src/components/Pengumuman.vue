@@ -114,6 +114,7 @@
               content.nama_mata_kuliah,
               content.jenis_pengumuman,
               content.nama_dosen,
+              content.nama_asisten,
               content.nama_ruang,
               content.nama_sesi,
               content.nama_status_pengumuman,
@@ -173,7 +174,7 @@
             v-on:click="showModal(
               content.pk,
               content.pembuat,
-              content.timestamp,
+              content.created_at,
               content.nama_mata_kuliah,
               content.jenis_pengumuman,
               content.nama_dosen,
@@ -244,12 +245,13 @@ export default {
         }
 
         console.log(this.today);
+        console.log(this.tomorrow);
       });
     },
     showModal(pk, pembuat, created_at, matkul, jenis, dosen, asisten,
         ruang, sesi, status, komentar) {
       const data = this.modaldetail[0];
-      // console.log(data);
+      console.log(data);
       this.$modal.show('detail-modal');
       data.pk = pk;
       data.pembuat = pembuat;
