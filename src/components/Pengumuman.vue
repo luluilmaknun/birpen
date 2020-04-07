@@ -4,15 +4,15 @@
     name="detail-modal"
     :pivotX="0.0"
     :pivotY="0.3"
-    :height="700"
+    :height="800"
     :width="1000"
     >
     <div class="modal-container">
       <h1 style="margin-bottom:20px">Detail</h1>
-        <div v-if=" modaldetail[0].nama_asisten == '' " class="detail-container">
+        <div v-if="modaldetail[0].nama_asisten == ''" class="detail-container">
           <div id="left">
             <p>Dibuat oleh:</p>
-            <p>Timestamp:</p>
+            <p>Waktu dibuat:</p>
             <p>Mata kuliah:</p>
             <p>Jenis:</p>
             <p>Dosen:</p>
@@ -38,7 +38,7 @@
         <div v-else class="detail-container">
           <div id="left">
             <p>Dibuat oleh:</p>
-            <p>Timestamp:</p>
+            <p>Waktu dibuat:</p>
             <p>Mata kuliah:</p>
             <p>Jenis:</p>
             <p>Dosen:</p>
@@ -237,7 +237,7 @@ export default {
           nama_mata_kuliah: '',
           jenis_pengumuman: '',
           nama_dosen: '',
-          nama_asisten:'',
+          nama_asisten: '',
           nama_ruang: '',
           sesi: '',
           nama_status_pengumuman: '',
@@ -276,14 +276,14 @@ export default {
         console.log(this.tomorrow);
       });
     },
-    showModal(pk, pembuat, created_at, matkul, jenis, dosen, asisten,
+    showModal(pk, pembuat, created, matkul, jenis, dosen, asisten,
         ruang, sesi, status, komentar) {
       const data = this.modaldetail[0];
       console.log(data);
       this.$modal.show('detail-modal');
       data.pk = pk;
       data.pembuat = pembuat;
-      data.timestamp = created_at;
+      data.timestamp = created;
       data.nama_mata_kuliah = matkul;
       data.nama_dosen = dosen;
       data.nama_asisten = asisten;
@@ -297,9 +297,9 @@ export default {
       this.$modal.hide('detail-modal');
     },
     getTodayDate() {
-      var date = new Date();
+      const date = new Date();
       return date;
-    }
+    },
   },
   components: {
     DeleteButton,
