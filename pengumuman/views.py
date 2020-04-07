@@ -28,7 +28,7 @@ def pengumuman_placeholder_views(_):
 
 @csrf_exempt
 @api_view(["POST"])
-@permission_classes((IsPrivilegedToCreateAnnouncemment,))
+@permission_classes((IsAuthenticated, IsPrivilegedToCreateAnnouncemment,))
 def create_pengumuman(request):
     ''' asumsi post buat pengumuman nerima atribut
         atribut yang dipost = atribut pengumuman
