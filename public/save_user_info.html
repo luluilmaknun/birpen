@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <link rel="icon" href="/static/favicon.ico?v=1">
+    <title>FEB | Biro Pendidikan Online</title>
+  </head>
+  <body>
+  </div>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script>
+      localStorage.setItem("token", "{{ token }}");
+      localStorage.setItem("username", "{{ username }}");
+      localStorage.setItem("role", "{{ role }}");
+      localStorage.setItem("is_admin", "{{ is_admin }}" === "True");
+      localStorage.setItem("is_asdos", "{{ is_asdos }}" === "True");
+      window.location.replace("/");
+  </script>
+  </body>
+</html>
+
+
