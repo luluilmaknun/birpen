@@ -64,11 +64,11 @@ class CreateApiTest(TestCase):
 
 
     def test_cant_create(self):
-        self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + self.token_1)
+        self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + self.token_2)
         response = self.client.post('/api/pengumuman/create/',
                                     data=urlencode(MultiValueDict(self.invalid_data)),
                                     content_type='application/x-www-form-urlencoded')
-        self.assertEqual(response.status_code, 403)
+        self.assertEqual(response.status_code, 400)
 
     def test_can_create(self):
         self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + self.token_2)
