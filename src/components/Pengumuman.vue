@@ -9,7 +9,7 @@
     >
     <div class="modal-container">
       <h1 style="margin-bottom:20px">Detail</h1>
-        <div class="detail-container">
+        <div v-if=" modaldetail[0].nama_asisten == '' " class="detail-container">
           <div id="left">
             <p>Dibuat oleh:</p>
             <p>Timestamp:</p>
@@ -28,6 +28,34 @@
             <p>{{ modaldetail[0].nama_mata_kuliah }}</p>
             <p>{{ modaldetail[0].jenis_pengumuman }}</p>
             <p>{{ modaldetail[0].nama_dosen }}</p>
+            <p>{{ modaldetail[0].nama_ruang }}</p>
+            <p>{{ modaldetail[0].sesi }}</p>
+            <p>{{ modaldetail[0].nama_status_pengumuman }}</p>
+            <p>{{ modaldetail[0].komentar }}</p>
+          </div>
+        </div>
+
+        <div v-else class="detail-container">
+          <div id="left">
+            <p>Dibuat oleh:</p>
+            <p>Timestamp:</p>
+            <p>Mata kuliah:</p>
+            <p>Jenis:</p>
+            <p>Dosen:</p>
+            <p>Asisten:</p>
+            <p>Ruang:</p>
+            <p>Sesi:</p>
+            <p>Status:</p>
+            <p>Komentar:</p>
+          </div>
+
+          <div id="right">
+            <p>{{ modaldetail[0].pembuat }}</p>
+            <p>{{ modaldetail[0].timestamp }}</p>
+            <p>{{ modaldetail[0].nama_mata_kuliah }}</p>
+            <p>{{ modaldetail[0].jenis_pengumuman }}</p>
+            <p>{{ modaldetail[0].nama_dosen }}</p>
+            <p>{{ modaldetail[0].nama_asisten }}</p>
             <p>{{ modaldetail[0].nama_ruang }}</p>
             <p>{{ modaldetail[0].sesi }}</p>
             <p>{{ modaldetail[0].nama_status_pengumuman }}</p>
