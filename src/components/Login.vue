@@ -66,7 +66,6 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: fit-content;
 }
 input {
   padding: 15px;
