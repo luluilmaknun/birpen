@@ -34,19 +34,19 @@ export default {
       axios({'method': 'DELETE', 'url': urlTarget,
         'headers':
       {
-        "content-type": "application/x-www-form-urlencoded" ,
-        "authorization": "Token " + localStorage.getItem('token')
-      }}).then (
-        (response) => {
-        this.response = response.data;
-        window.location.pathname='/pengumuman';
-      },
-      error => {
-        this.error=error;
-      });
-    }
-  }
-}
+        'content-type': 'application/x-www-form-urlencoded',
+        'authorization': 'Bearer ' + sessionStorage.getItem('token'),
+      }}).then(
+          (response) => {
+            this.response = response.data;
+            window.location.pathname='/pengumuman';
+          },
+          (error) => {
+            this.error=error;
+          });
+    },
+  },
+};
 </script>
 
 <style>

@@ -46,13 +46,13 @@ class DeleteApiTest(TestCase):
 
     def test_no_announcement_found(self):
         self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + self.token_1)
-        response = self.client.post('/api/pengumuman/{}/delete/'.format('999'))
+        response = self.client.delete('/api/pengumuman/{}/delete/'.format('999'))
 
         self.assertEqual(response.data['detail'], 'Pengumuman does not exist.')
 
     def test_not_owner_of_announcement(self):
         self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + self.token_1)
-        response = self.client.post('/api/pengumuman/{}/delete/'.format(self.pengumuman_pk))
+        response = self.client.delete('/api/pengumuman/{}/delete/'.format(self.pengumuman_pk))
 
         self.assertEqual(response.data['detail'], 'You are not the owner of the announcement.')
 
@@ -60,7 +60,7 @@ class DeleteApiTest(TestCase):
         before_delete_count = Pengumuman.objects.all().count()
 
         self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + self.token_2)
-        response = self.client.post('/api/pengumuman/{}/delete/'.format(self.pengumuman_pk))
+        response = self.client.delete('/api/pengumuman/{}/delete/'.format(self.pengumuman_pk))
 
         self.assertEqual(before_delete_count, Pengumuman.objects.all().count()+1)
         self.assertEqual(response.status_code, 200)

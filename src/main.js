@@ -15,7 +15,7 @@ Vue.use(VueModal);
 Vue.config.productionTip = false;
 
 // Vue.use(VueRouter);
-
+Vue.use(VueModal);
 const vue = new Vue({
   router,
   render: (h) => h(App),
