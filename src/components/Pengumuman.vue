@@ -272,18 +272,18 @@ export default {
           this.$set(this.tomorrow, i, this.response.pengumuman_tomo[i]);
         }
 
-        console.log(this.today);
-        console.log(this.tomorrow);
+        // console.log(this.today);
+        // console.log(this.tomorrow);
       });
     },
     showModal(pk, pembuat, created, matkul, jenis, dosen, asisten,
         ruang, sesi, status, komentar) {
       const data = this.modaldetail[0];
-      console.log(data);
+      // console.log(data);
       this.$modal.show('detail-modal');
       data.pk = pk;
       data.pembuat = pembuat;
-      data.created_at = created;
+      data.created_at = this.modifyCreatedTime(created);
       data.nama_mata_kuliah = matkul;
       data.nama_dosen = dosen;
       data.nama_asisten = asisten;
@@ -299,6 +299,19 @@ export default {
     getTodayDate() {
       const date = new Date();
       return date;
+    },
+    modifyCreatedTime(time) {
+      const datetime = time;
+      const timestampList = datetime.split('T');
+      const timeList = timestampList[1].split(':');
+
+      // Date and time
+      const second = timeList[2].split('.')[0];
+      const createdTime = timeList[0] + ':' + timeList[1] + ':' + second;
+      const date = timestampList[0];
+      const result = date + '  ' + createdTime;
+      // console.log(second);
+      return result;
     },
   },
   components: {
