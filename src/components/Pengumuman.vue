@@ -272,14 +272,14 @@ export default {
           this.$set(this.tomorrow, i, this.response.pengumuman_tomo[i]);
         }
 
-        console.log(this.today);
-        console.log(this.tomorrow);
+        // console.log(this.today);
+        // console.log(this.tomorrow);
       });
     },
     showModal(pk, pembuat, created, matkul, jenis, dosen, asisten,
         ruang, sesi, status, komentar) {
       const data = this.modaldetail[0];
-      console.log(data);
+      // console.log(data);
       this.$modal.show('detail-modal');
       data.pk = pk;
       data.pembuat = pembuat;
