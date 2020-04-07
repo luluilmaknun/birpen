@@ -13,6 +13,7 @@ from rest_framework.status import (
 
 from .models import Pengumuman, MataKuliah, JenisPengumuman, \
     Ruang, Sesi, StatusPengumuman
+from .permissions import IsPrivilegedToCreateAnnouncemment
 from .serializers import PengumumanSerializer
 
 PENGUMUMAN_NOT_FOUND_MESSAGE = 'Pengumuman does not exist.'
@@ -27,7 +28,7 @@ def pengumuman_placeholder_views(_):
 
 @csrf_exempt
 @api_view(["POST"])
-@permission_classes((IsAuthenticated,))
+@permission_classes((IsPrivilegedToCreateAnnouncemment,))
 def create_pengumuman(request):
     ''' asumsi post buat pengumuman nerima atribut
         atribut yang dipost = atribut pengumuman
