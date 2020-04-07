@@ -1,7 +1,7 @@
 from rest_framework import permissions
 
 
-class IsPrivelegedToAccessAsdos(permissions.BasePermission):
+class IsPrivilegedToAccessAsdos(permissions.BasePermission):
     """
     Permission class to access asdos
     """
