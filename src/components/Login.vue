@@ -25,7 +25,8 @@
       </div>
     </div>
     <div class="bottom-container">
-      <a class="bottom-buttons" :href="`/sso/login`"
+      <a class="bottom-buttons"
+      :href="`/sso/login/?next=%2Fsso%2Fsave_user_info`"
       id="sso-link">
         Login with<br>SSO
       </a>
