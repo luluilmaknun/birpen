@@ -41,7 +41,7 @@ export default {
           });
     },
   },
-  beforeMount() {
+  created: function() {
     this.refreshToken();
   },
   watch: {
