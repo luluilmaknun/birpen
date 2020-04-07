@@ -26,7 +26,7 @@ def asdos_placeholder_views(_):
 @api_view(["DELETE"])
 @permission_classes((IsAuthenticated, IsPrivilegedToAccessAsdos))
 def delete_asdos(request):
-    username = request.GET["username"]
+    username = request.data.get('username')
 
     try:
         asisten = AsistenDosen.objects.get(username=username)
