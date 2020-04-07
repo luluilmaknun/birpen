@@ -19,34 +19,22 @@ export default {
         token: localStorage.token,
       };
 
-      const self = this;
-
-      axios.post('/sso/refresh-token/', params)
+      return axios.post('/sso/refresh-token/', params)
           .then(function(response) {
             localStorage.setItem('token', response.data.token);
-            if (self.$route.name === 'login') {
-              self.$router.push('/');
-            }
           })
           .catch(function(error) {
-            const token = localStorage.token;
             localStorage.clear();
-            if (typeof(token) !== 'undefined'
-              && token !== null && token !== '') {
-              window.location.href = '/sso/logout/?next=/login';
-            }
-            if (self.$route.name !== 'home' && self.$route.name !== 'login') {
-              self.$router.push('/login');
-            }
+            window.location.replace('/sso/logout/?next=/login');
           });
     },
   },
   created: function() {
-    this.refreshToken();
+    return this.refreshToken();
   },
   watch: {
     '$route': function(to, from) {
-      this.refreshToken();
+      return this.refreshToken();
     },
   },
 };
