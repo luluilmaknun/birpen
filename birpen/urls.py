@@ -36,6 +36,6 @@ urlpatterns = [
 
     path('sso/', include('sso_ui.urls')),
 
-    re_path(r'^.*$', TemplateView.as_view(template_name="index.html")),
+    re_path(r'^.*/$', TemplateView.as_view(template_name="index.html")),
 
 ]
