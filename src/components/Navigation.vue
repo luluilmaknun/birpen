@@ -78,7 +78,7 @@ export default {
         localStorage.getItem('username') !== null,
       is_staff:
         localStorage.getItem('is_admin') === 'true' ||
-        localStorage.getItem('is_asdos') === 'true',
+        localStorage.getItem('role') === 'staff',
     };
   },
 };
