@@ -29,5 +29,20 @@ export default new Router({
       name: 'login',
       component: Login,
     },
+    {
+      path: '/sso/logout',
+      name: 'logout',
+      component: null,
+    },
+    {
+      path: '/register',
+      name: 'register',
+      component: null,
+    },
+    {
+      path: '/asisten',
+      name: 'asisten',
+      component: null,
+    },
   ],
 });

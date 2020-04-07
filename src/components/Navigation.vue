@@ -22,7 +22,7 @@
 
       <label v-if="is_authenticated === false">
         <router-link class="nav-elem"
-        ref="buatAkun-button" :to="{ name: 'buat-akun' }">
+        ref="register-button" :to="{ name: 'register' }">
         Buat Akun</router-link>
         <router-link class="nav-elem" id="login-button"
         ref="login" :to="{ name: 'login' }">
