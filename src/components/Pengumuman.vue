@@ -147,7 +147,7 @@
     </div>
 
     <!-- table if there are datas -->
-    <div class="table-div" v-else>
+    <div class="table-div" id="table-tomorrow" v-else>
       <table>
         <tr>
           <th class="head-table" v-for="head in tableHead" :key="head">
@@ -155,7 +155,7 @@
           </th>
         </tr>
 
-        <tr v-for="content in today" :key="content.pk">
+        <tr v-for="content in tomorrow" :key="content.pk">
           <td>
             {{ content.nama_mata_kuliah }}
           </td>
@@ -249,13 +249,14 @@ export default {
     showModal(pk, pembuat, created_at, matkul, jenis, dosen, asisten,
         ruang, sesi, status, komentar) {
       const data = this.modaldetail[0];
-      console.log(data);
+      // console.log(data);
       this.$modal.show('detail-modal');
       data.pk = pk;
       data.pembuat = pembuat;
       data.timestamp = created_at;
       data.nama_mata_kuliah = matkul;
       data.nama_dosen = dosen;
+      data.nama_asisten = asisten;
       data.nama_ruang = ruang;
       data.sesi = sesi;
       data.jenis_pengumuman = jenis;
