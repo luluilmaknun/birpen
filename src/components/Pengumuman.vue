@@ -11,6 +11,7 @@
       <h1 style="margin-bottom:20px">Detail</h1>
         <div v-if="modaldetail[0].nama_asisten == ''" class="detail-container">
           <div id="left">
+            <p>ID:</p>
             <p>Dibuat oleh:</p>
             <p>Waktu dibuat:</p>
             <p>Mata kuliah:</p>
@@ -23,6 +24,7 @@
           </div>
 
           <div id="right">
+            <p id="pk">{{ modaldetail[0].pk }}</p>
             <p>{{ modaldetail[0].pembuat }}</p>
             <p>{{ modaldetail[0].created_at }}</p>
             <p>{{ modaldetail[0].nama_mata_kuliah }}</p>
@@ -37,6 +39,7 @@
 
         <div v-else class="detail-container">
           <div id="left">
+            <p>ID:</p>
             <p>Dibuat oleh:</p>
             <p>Waktu dibuat:</p>
             <p>Mata kuliah:</p>
@@ -50,6 +53,7 @@
           </div>
 
           <div id="right">
+            <p id="pk">{{ modaldetail[0].pk }}</p>
             <p>{{ modaldetail[0].pembuat }}</p>
             <p>{{ modaldetail[0].created_at }}</p>
             <p>{{ modaldetail[0].nama_mata_kuliah }}</p>
@@ -263,7 +267,6 @@ export default {
       announcementDataDefaultApi.fetch().then((d) => {
         // TODO GET ANNOUNCEMENTS IN DEFAULT
         this.response = d.data;
-        // console.log(this.response.pengumuman_today[1]);
         for (let i = 0; i < this.response.pengumuman_today.length; i++) {
           this.$set(this.today, i, this.response.pengumuman_today[i]);
         }
@@ -271,15 +274,11 @@ export default {
         for (let i = 0; i < this.response.pengumuman_tomo.length; i++) {
           this.$set(this.tomorrow, i, this.response.pengumuman_tomo[i]);
         }
-
-        // console.log(this.today);
-        // console.log(this.tomorrow);
       });
     },
     showModal(pk, pembuat, created, matkul, jenis, dosen, asisten,
         ruang, sesi, status, komentar) {
       const data = this.modaldetail[0];
-      // console.log(data);
       this.$modal.show('detail-modal');
       data.pk = pk;
       data.pembuat = pembuat;
@@ -310,7 +309,6 @@ export default {
       const createdTime = timeList[0] + ':' + timeList[1] + ':' + second;
       const date = timestampList[0];
       const result = date + '  ' + createdTime;
-      // console.log(second);
       return result;
     },
   },
