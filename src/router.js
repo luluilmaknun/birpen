@@ -65,7 +65,19 @@ router.beforeEach((to, from, next) => {
     if (localStorage.getItem('token') == null) {
       next({name: 'login'});
     } else {
-      next();
+      if (to.name == 'create-pengumuman') {
+        const role = localStorage.getItem('role');
+        const isAsdos = localStorage.getItem('is_asdos');
+        const isAdmin = localStorage.getItem('is_admin');
+        if (role == 'mahasiswa') {
+          if (isAsdos == 'false' && isAdmin == 'false') {
+            next({name: 'pengumuman'});
+          }
+        }
+        next();
+      } else {
+        next();
+      }
     }
   } else if (to.matched.some((record) => record.meta.guest)) {
     if (localStorage.getItem('token') == null) {
