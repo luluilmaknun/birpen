@@ -97,6 +97,7 @@
     <!-- TODAY -->
     <!-- table if no data -->
     <div class="table-div" id="table-today" v-if="today.length == 0">
+      <p class="today-tomorrow-date">{{ todayDate }}</p>
       <table>
         <tr>
           <th class="head-table" v-for="head in tableHead" :key="head">
@@ -117,6 +118,7 @@
 
     <!-- table if there are datas -->
     <div class="table-div" v-else>
+      <p class="today-tomorrow-date">{{ todayDate }}</p>
       <table>
         <tr>
           <th class="head-table" v-for="head in tableHead" :key="head">
@@ -161,6 +163,7 @@
     <!-- TOMORROW -->
     <!-- table if no data -->
     <div class="table-div" id="table-tomorrow" v-if="tomorrow.length == 0">
+      <p class="today-tomorrow-date">{{ tomorrowDate }}</p>
       <table>
         <tr>
           <th class="head-table" v-for="head in tableHead" :key="head">
@@ -181,6 +184,7 @@
 
     <!-- table if there are datas -->
     <div class="table-div" id="table-tomorrow" v-else>
+      <p class="today-tomorrow-date">{{ tomorrowDate }}</p>
       <table>
         <tr>
           <th class="head-table" v-for="head in tableHead" :key="head">
@@ -254,10 +258,13 @@ export default {
       response: {},
       today: [],
       tomorrow: [],
+      todayDate: '',
+      tomorrowDate: '',
     };
   },
   created: function() {
     this.fetchData();
+    this.getTodayTomorrowDate();
   },
   methods: {
     fetchData: function() {
@@ -292,9 +299,27 @@ export default {
     closeModal() {
       this.$modal.hide('detail-modal');
     },
-    getTodayDate: function() {
-      const date = new Date();
-      this.todayDate = date;
+    getTodayTomorrowDate: function() {
+      const mlist = ["January", "February", "March", "April", "May", "June", "July",
+      "August", "September", "October", "November", "December"];
+      const currentDay = new Date();
+
+      let date = currentDay.getDate();
+      let month = currentDay.getMonth();
+      let year = currentDay.getFullYear();
+      this.todayDate = date + " " + mlist[month] + " " + year;
+      console.log(this.todayDate);
+      
+      // next day
+      const nextDay = new Date(currentDay);
+      nextDay.setDate(currentDay.getDate() + 1);
+      date = nextDay.getDate();
+      month = nextDay.getMonth();
+      year = nextDay.getFullYear();
+      this.tomorrowDate = date + " " + mlist[month] + " " + year;
+      console.log(this.tomorrowDate);
+
+      
     },
     modifyCreatedTime(time) {
       const datetime = time;
@@ -345,6 +370,11 @@ export default {
 .create-filter-section .create-announcement-button:hover {
   border-color: greenyellow;
   background-color: greenyellow;
+}
+.today-tomorrow-date {
+  margin-bottom: 15px;
+  font-size: 15pt;
+  font-weight: bolder;
 }
 .table-div {
   width: 85%;
