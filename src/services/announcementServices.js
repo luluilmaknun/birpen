@@ -11,6 +11,6 @@ export default {
     return api.post('pengumuman/create/', request);
   },
   getAnnouncementDefault() {
-    return api.get('/pengumuman/get-pengumuman');
+    return api.get('pengumuman/get-pengumuman');
   },
 };
