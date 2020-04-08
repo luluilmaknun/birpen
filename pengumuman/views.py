@@ -1,17 +1,21 @@
-from datetime import datetime
+from datetime import datetime, timedelta, date
 
+from django.contrib.auth import authenticate
 from django.core.exceptions import ObjectDoesNotExist
+from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
+from rest_framework.authtoken.models import Token
 from rest_framework.decorators import api_view, permission_classes
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.status import (
     HTTP_400_BAD_REQUEST,
+    HTTP_404_NOT_FOUND,
     HTTP_200_OK,
     HTTP_403_FORBIDDEN,
 )
 
-from .models import Pengumuman, MataKuliah, JenisPengumuman, \
+from .models import User, Pengumuman, MataKuliah, JenisPengumuman, \
     Ruang, Sesi, StatusPengumuman
 from .permissions import IsPrivilegedToCreateAnnouncemment
 from .serializers import PengumumanSerializer
@@ -67,6 +71,23 @@ def create_pengumuman(request):
         "success": True,
         "pengumuman": PengumumanSerializer(pengumuman).data
     }, status=HTTP_200_OK)
+
+@api_view(["GET"])
+@permission_classes((IsAuthenticated,))
+def get_pengumuman_default(request):
+    curr_date = date.today()
+    tomo_date = curr_date + timedelta(days=1)
+    # if user is admin, return all include soft delete
+    if request.user.user_type == User.ADMIN:
+        filter_today = Pengumuman.all_objects.filter(tanggal_kelas__date=curr_date)
+        filter_tomo = Pengumuman.all_objects.filter(tanggal_kelas__date=tomo_date)
+    else:
+        filter_today = Pengumuman.objects.filter(tanggal_kelas__date=curr_date)
+        filter_tomo = Pengumuman.objects.filter(tanggal_kelas__date=tomo_date)
+    pengumuman_today = (PengumumanSerializer(x).data for x in filter_today)
+    pengumuman_tomo = (PengumumanSerializer(x).data for x in filter_tomo)
+    return Response({"pengumuman_today": pengumuman_today,
+                     "pengumuman_tomo": pengumuman_tomo}, status=200)
 
 @api_view(["GET"])
 @permission_classes((IsAuthenticated,))
