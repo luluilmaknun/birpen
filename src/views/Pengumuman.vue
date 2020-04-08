@@ -1,4 +1,3 @@
-
 <template>
   <div>
     <modal
@@ -271,7 +270,6 @@ export default {
     fetchData: function() {
       announcementApi.getAnnouncementDefault().then((d) => {
         this.response = d.data;
-
         for (let i = 0; i < this.response.pengumuman_today.length; i++) {
           this.$set(this.today, i, this.response.pengumuman_today[i]);
         }
