@@ -78,7 +78,7 @@ def get_pengumuman_default(request):
     curr_date = date.today()
     tomo_date = curr_date + timedelta(days=1)
     # if user is admin, return all include soft delete
-    if request.user.user_type == User.ADMIN:
+    if request.user.is_admin():
         filter_today = Pengumuman.all_objects.filter(tanggal_kelas__date=curr_date)
         filter_tomo = Pengumuman.all_objects.filter(tanggal_kelas__date=tomo_date)
     else:

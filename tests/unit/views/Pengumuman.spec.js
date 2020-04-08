@@ -7,7 +7,7 @@ describe('test tabel', () => {
   let wrapper; let vm;
 
   const pengumumanToday = [
-    Object {
+    {
       'pk': 0,
       'deleted': null,
       'created_at': '2020-04-08T12:31:04.026691+07:00',
