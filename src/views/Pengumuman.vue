@@ -86,10 +86,10 @@
     </h1>
 
     <div class="create-filter-section">
-      <router-link :to="{ name: 'create-pengumuman' }"
+      <a :href="'/pengumuman/create'"
       class="create-announcement-button">
         BUAT PENGUMUMAN
-      </router-link>
+      </a>
       <div class="create-filter-spreader"></div>
       <FilterComponent/>
     </div>
@@ -450,7 +450,7 @@ tr:nth-child(odd) {
 .modal-button-container {
   display: flex;
   flex-direction: row;
-  margin-top: 150px;
+  margin-top: 140px;
   align-items: center;
   align-content: center;
 }
@@ -483,6 +483,8 @@ tr:nth-child(odd) {
   color: white;
   margin-left: 10px;
   margin-right: 10px;
+  text-decoration: none;
+  font-weight: bolder;
 }
 .modal-button-container .edit-button:hover {
   color: #7584D1;
