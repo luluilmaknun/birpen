@@ -37,6 +37,8 @@
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
   data: function() {
     return {
@@ -46,7 +48,24 @@ export default {
   },
   methods: {
     login() {
-      // TODO LOGIN
+      const request = {};
+
+      request['username'] = this.username;
+      request['password'] = this.password;
+
+      axios.post('/sso/obtain-user-info/', request)
+          .then((response) => {
+            localStorage.setItem('token', response.data.token);
+            localStorage.setItem('is_admin', response.data.is_admin);
+            localStorage.setItem('is_asdos', response.data.is_asdos);
+            localStorage.setItem('role', response.data.role);
+
+            this.$router.push('/');
+          })
+          .catch((error) => {
+            localStorage.clear();
+            window.location.replace('/sso/logout/?next=/login');
+          });
     },
   },
 };
