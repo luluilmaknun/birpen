@@ -57,6 +57,21 @@ const router = new Router({
         guest: true,
       },
     },
+    {
+      path: '/sso/logout',
+      name: 'logout',
+      component: null,
+    },
+    {
+      path: '/register',
+      name: 'register',
+      component: null,
+    },
+    {
+      path: '/asisten',
+      name: 'asisten',
+      component: null,
+    },
   ],
 });
 
