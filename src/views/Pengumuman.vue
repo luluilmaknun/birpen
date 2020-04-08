@@ -231,7 +231,7 @@
 <script>
 import DeleteButton from '@/components/delete';
 import FilterComponent from '@/components/date-picker';
-import announcementDataDefaultApi from '@/services/pengumumanDataService';
+import announcementApi from '@/services/announcementServices';
 
 export default {
   data: function() {
@@ -268,8 +268,7 @@ export default {
   },
   methods: {
     fetchData: function() {
-      announcementDataDefaultApi.fetch().then((d) => {
-        // TODO GET ANNOUNCEMENTS IN DEFAULT
+      announcementApi.getAnnouncementDefault().then((d) => {
         this.response = d.data;
         for (let i = 0; i < this.response.pengumuman_today.length; i++) {
           this.$set(this.today, i, this.response.pengumuman_today[i]);
