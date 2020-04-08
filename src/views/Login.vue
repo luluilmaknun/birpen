@@ -20,6 +20,10 @@
         v-model="password" placeholder="password">
       </div>
       <!-- LOGIN -->
+      <span style="text-align:center;color:red"
+        v-if="message_seen">
+        {{ message }}
+      </span>
       <div class="login-class">
         <button class="login-button" v-on:click="login()">Masuk</button>
       </div>
@@ -44,6 +48,8 @@ export default {
     return {
       username: '',
       password: '',
+      message: 'Username/Password salah',
+      message_seen: false,
     };
   },
   methods: {
@@ -63,8 +69,7 @@ export default {
             this.$router.push('/');
           })
           .catch((error) => {
-            localStorage.clear();
-            window.location.replace('/sso/logout/?next=/login');
+            this.message_seen = true;
           });
     },
   },
