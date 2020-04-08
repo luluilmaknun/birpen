@@ -72,7 +72,6 @@ describe('Tes create data function', () => {
           'nama_sesi': 'Sesi 2 (11.00 - 13.30)',
           'nama_ruang': '3111',
           'nama_status_pengumuman': 'Terlambat',
-          'is_admin': 'true',
         };
       },
     });
@@ -148,7 +147,6 @@ describe('Tes create data function', () => {
           'nama_sesi': 'Sesi 2 (11.00 - 13.30)',
           'nama_ruang': '3111',
           'nama_status_pengumuman': 'Terlambat',
-          'is_admin': 'true',
         };
       },
     });
@@ -250,7 +248,6 @@ describe('Edit function', () => {
           'nama_sesi': 'Sesi 2 (11.00 - 13.30)',
           'nama_ruang': '3111',
           'nama_status_pengumuman': 'Terlambat',
-          'is_admin': 'true',
         };
       },
     });
