@@ -300,8 +300,8 @@ export default {
       this.$modal.hide('detail-modal');
     },
     getTodayTomorrowDate: function() {
-      const mlist = ['January', 'February', 'March', 'April', 'May', 'June', 
-      'July', 'August', 'September', 'October', 'November', 'December'];
+      const mlist = ['January', 'February', 'March', 'April', 'May', 'June',
+        'July', 'August', 'September', 'October', 'November', 'December'];
       const currentDay = new Date();
 
       let date = currentDay.getDate();
