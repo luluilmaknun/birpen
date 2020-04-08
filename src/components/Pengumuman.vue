@@ -300,26 +300,22 @@ export default {
       this.$modal.hide('detail-modal');
     },
     getTodayTomorrowDate: function() {
-      const mlist = ["January", "February", "March", "April", "May", "June", "July",
-      "August", "September", "October", "November", "December"];
+      const mlist = ['January', 'February', 'March', 'April', 'May', 'June', 
+      'July', 'August', 'September', 'October', 'November', 'December'];
       const currentDay = new Date();
 
       let date = currentDay.getDate();
       let month = currentDay.getMonth();
       let year = currentDay.getFullYear();
-      this.todayDate = date + " " + mlist[month] + " " + year;
-      console.log(this.todayDate);
-      
+      this.todayDate = date + ' ' + mlist[month] + ' ' + year;
+
       // next day
       const nextDay = new Date(currentDay);
       nextDay.setDate(currentDay.getDate() + 1);
       date = nextDay.getDate();
       month = nextDay.getMonth();
       year = nextDay.getFullYear();
-      this.tomorrowDate = date + " " + mlist[month] + " " + year;
-      console.log(this.tomorrowDate);
-
-      
+      this.tomorrowDate = date + ' ' + mlist[month] + ' ' + year;
     },
     modifyCreatedTime(time) {
       const datetime = time;
