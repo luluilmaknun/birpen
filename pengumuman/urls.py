@@ -4,7 +4,6 @@ from .views import pengumuman_placeholder_views, edit_pengumuman, dropdown_pengu
     filter_pengumuman, delete_pengumuman, read_pengumuman_by_pk, create_pengumuman, \
     get_pengumuman_default
 
-
 urlpatterns = [
     path('', pengumuman_placeholder_views, name='pengumuman_placeholder_views'),
     path('get-pengumuman', get_pengumuman_default, name='get_pengumuman'),
@@ -14,4 +13,5 @@ urlpatterns = [
     path('dropdown/', dropdown_pengumuman, name='dropdown_pengumuman'),
     path('<str:key>/delete/', delete_pengumuman, name='delete_pengumuman'),
     path('<str:key>/', read_pengumuman_by_pk, name='read_pengumuman_by_pk'),
+    path('get-pengumuman', get_pengumuman_default, name='get_pengumuman'),
 ]

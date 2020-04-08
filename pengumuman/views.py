@@ -1,17 +1,21 @@
 from datetime import datetime, timedelta, date
 
+from django.contrib.auth import authenticate
 from django.core.exceptions import ObjectDoesNotExist
+from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
+from rest_framework.authtoken.models import Token
 from rest_framework.decorators import api_view, permission_classes
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.status import (
     HTTP_400_BAD_REQUEST,
+    HTTP_404_NOT_FOUND,
     HTTP_200_OK,
     HTTP_403_FORBIDDEN,
 )
 
-from .models import Pengumuman, MataKuliah, JenisPengumuman, \
+from .models import User, Pengumuman, MataKuliah, JenisPengumuman, \
     Ruang, Sesi, StatusPengumuman
 from .permissions import IsPrivilegedToCreateAnnouncemment
 from .serializers import PengumumanSerializer
