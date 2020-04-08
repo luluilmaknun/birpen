@@ -6,43 +6,47 @@
     <div class="modal-container">
         <h1 id="title-in-pop">Tambah Asisten</h1><br>
         <p id="desc-in-pop">Masukan user SSO Asisten</p><br>
-        <input class="input" type="text" id="sso_username"/>
+        <p id="error-message">{{ error_message }}</p>
+        <input class="input" type="text" id="sso_username"
+          v-model="sso_username"/>
         <div class="modal-buttons">
-        <button v-on:click="post_tambah_asisten" class="yellow-black-btn"
+        <button v-on:click="click_tambah" class="yellow-black-btn"
           id="tambah">TAMBAH</button>
         </div>
     </div>
     </modal>
-    <button v-on:click="show" class="yellow-black-btn" id="tambah_asisten">
+    <button v-on:click="click_tambah_asisten" class="yellow-black-btn"
+      id="tambah_asisten">
       TAMBAH ASISTEN</button>
   </div>
 </template>
 
 <script>
+import asistenServices from '@/services/asistenServices';
 
-// import axios from 'axios';
 export default {
-  name: 'tambah-asisten',
+  name: 'asisten',
+  data: function() {
+    return {
+      'sso_username': '',
+      'error_message': '',
+    };
+  },
   methods: {
-    show() {
+    click_tambah_asisten: function() {
       this.$modal.show('pop-box');
     },
-    // TO DO
-    post_tambah_asisten() {
-      this.$modal.hide('pop-box');
-    //   const urlTarget = ''; // TO DO: API Tambah asisten
-    //   axios({
-    //     'method': 'POST',
-    //     'url': urlTarget,
-    //     'headers': {
-    //       'content-type': 'application/x-www-form-urlencoded',
-    //       'authorization': 'Token ' + sessionStorage.getItem('token'),
-    //     }}).then((response) => {
-    //     this.response = response.data;
-    //     window.location.pathname=''; // TO DO: Pages daftar asisten
-    //   }, (error) => {
-    //     this.error=error;
-    //   });
+    click_tambah: function() {
+      asistenServices.createAsisten({
+        username: this.sso_username,
+      }).then((result) => {
+        this.$router.go({
+          path: '/',
+          force: true,
+        });
+      }).catch((error) => {
+        this.error_message = error.response.data.detail;
+      });
     },
   },
 };
@@ -91,6 +95,13 @@ export default {
   color:black;
   font-size: 15pt;
   font-weight: lighter;
+}
+
+#error-message {
+  color: red;
+  font-size: 10pt;
+  font-weight: lighter;
+  margin-bottom: 10pt;
 }
 
 input[type=text], select {
