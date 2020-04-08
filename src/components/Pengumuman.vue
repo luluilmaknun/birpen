@@ -11,6 +11,7 @@
       <h1 style="margin-bottom:20px">Detail</h1>
         <div v-if="modaldetail[0].nama_asisten == ''" class="detail-container">
           <div id="left">
+            <p>ID:</p>
             <p>Dibuat oleh:</p>
             <p>Waktu dibuat:</p>
             <p>Mata kuliah:</p>
@@ -23,6 +24,7 @@
           </div>
 
           <div id="right">
+            <p id="pk">{{ modaldetail[0].pk }}</p>
             <p>{{ modaldetail[0].pembuat }}</p>
             <p>{{ modaldetail[0].created_at }}</p>
             <p>{{ modaldetail[0].nama_mata_kuliah }}</p>
@@ -37,6 +39,7 @@
 
         <div v-else class="detail-container">
           <div id="left">
+            <p>ID:</p>
             <p>Dibuat oleh:</p>
             <p>Waktu dibuat:</p>
             <p>Mata kuliah:</p>
@@ -50,6 +53,7 @@
           </div>
 
           <div id="right">
+            <p id="pk">{{ modaldetail[0].pk }}</p>
             <p>{{ modaldetail[0].pembuat }}</p>
             <p>{{ modaldetail[0].created_at }}</p>
             <p>{{ modaldetail[0].nama_mata_kuliah }}</p>
@@ -92,7 +96,7 @@
 
     <!-- TODAY -->
     <!-- table if no data -->
-    <div class="table-div" v-if="today.length == 0">
+    <div class="table-div" id="table-today" v-if="today.length == 0">
       <table>
         <tr>
           <th class="head-table" v-for="head in tableHead" :key="head">
@@ -146,7 +150,7 @@
               content.nama_ruang,
               content.nama_sesi,
               content.nama_status_pengumuman,
-              content.komentar)" class="detail-button">
+              content.komentar)" class="detail-button" id="detail-btn">
               Detail
             </button>
           </td>
@@ -210,7 +214,7 @@
               content.nama_ruang,
               content.nama_sesi,
               content.nama_status_pengumuman,
-              content.komentar)" class="detail-button">
+              content.komentar)" class="detail-button" id="detail-btn">
               Detail
             </button>
           </td>
@@ -247,9 +251,6 @@ export default {
       tableHead: [
         'Mata Kuliah', 'Dosen', 'Sesi', 'Status', 'Aksi',
       ],
-      tableData: [
-
-      ],
       response: {},
       today: [],
       tomorrow: [],
@@ -263,7 +264,6 @@ export default {
       announcementDataDefaultApi.fetch().then((d) => {
         // TODO GET ANNOUNCEMENTS IN DEFAULT
         this.response = d.data;
-        // console.log(this.response.pengumuman_today[1]);
         for (let i = 0; i < this.response.pengumuman_today.length; i++) {
           this.$set(this.today, i, this.response.pengumuman_today[i]);
         }
@@ -271,15 +271,11 @@ export default {
         for (let i = 0; i < this.response.pengumuman_tomo.length; i++) {
           this.$set(this.tomorrow, i, this.response.pengumuman_tomo[i]);
         }
-
-        // console.log(this.today);
-        // console.log(this.tomorrow);
       });
     },
     showModal(pk, pembuat, created, matkul, jenis, dosen, asisten,
         ruang, sesi, status, komentar) {
       const data = this.modaldetail[0];
-      // console.log(data);
       this.$modal.show('detail-modal');
       data.pk = pk;
       data.pembuat = pembuat;
@@ -296,9 +292,9 @@ export default {
     closeModal() {
       this.$modal.hide('detail-modal');
     },
-    getTodayDate() {
+    getTodayDate: function() {
       const date = new Date();
-      return date;
+      this.todayDate = date;
     },
     modifyCreatedTime(time) {
       const datetime = time;
@@ -310,7 +306,6 @@ export default {
       const createdTime = timeList[0] + ':' + timeList[1] + ':' + second;
       const date = timestampList[0];
       const result = date + '  ' + createdTime;
-      // console.log(second);
       return result;
     },
   },
@@ -353,12 +348,16 @@ export default {
 }
 .table-div {
   width: 85%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.table-div h2 {
+  color: black;
+  font-size: 15pt;
 }
 #table-tomorrow {
   margin-top: 100px;
-}
-#table-tomorrow h2 {
-  color: black;
 }
 .table-div table {
   border-radius: 1em;
