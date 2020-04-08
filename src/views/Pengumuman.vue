@@ -127,16 +127,16 @@
         </tr>
 
         <tr v-for="content in today" :key="content.pk">
-          <td id="nama_mata_kuliah">
+          <td id="nama_mata_kuliah_today">
             {{ content.nama_mata_kuliah }}
           </td>
-          <td id="nama_dosen">
+          <td id="nama_dosen_today">
             {{ content.nama_dosen }}
           </td>
-          <td id="nama_sesi">
+          <td id="nama_sesi_today">
             {{ content.nama_sesi }}
           </td>
-          <td id="nama_status_pengumuman">
+          <td id="nama_status_pengumuman_today">
             {{ content.nama_status_pengumuman }}
           </td>
           <td>
@@ -193,16 +193,16 @@
         </tr>
 
         <tr v-for="content in tomorrow" :key="content.pk">
-          <td id="nama_mata_kuliah">
+          <td id="nama_mata_kuliah_tomorrow">
             {{ content.nama_mata_kuliah }}
           </td>
-          <td id="nama_dosen">
+          <td id="nama_dosen_tomorrow">
             {{ content.nama_dosen }}
           </td>
-          <td id="nama_sesi">
+          <td id="nama_sesi_tomorrow">
             {{ content.nama_sesi }}
           </td>
-          <td id="nama_status_pengumuman">
+          <td id="nama_status_pengumuman_tomorrow">
             {{ content.nama_status_pengumuman }}
           </td>
           <td>
