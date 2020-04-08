@@ -1,3 +1,4 @@
+
 <template>
   <div>
     <modal
@@ -7,7 +8,7 @@
     :height="750"
     :width="1000"
     >
-    <div class="modal-container">
+    <div v-for="detail in modaldetail" :key="detail.pk" class="modal-container">
       <h1 style="margin-bottom:20px">Detail</h1>
         <div v-if="modaldetail[0].nama_asisten == ''" class="detail-container">
           <div id="left">
@@ -24,16 +25,16 @@
           </div>
 
           <div id="right">
-            <p id="pk">{{ modaldetail[0].pk }}</p>
-            <p>{{ modaldetail[0].pembuat }}</p>
-            <p>{{ modaldetail[0].created_at }}</p>
-            <p>{{ modaldetail[0].nama_mata_kuliah }}</p>
-            <p>{{ modaldetail[0].jenis_pengumuman }}</p>
-            <p>{{ modaldetail[0].nama_dosen }}</p>
-            <p>{{ modaldetail[0].nama_ruang }}</p>
-            <p>{{ modaldetail[0].sesi }}</p>
-            <p>{{ modaldetail[0].nama_status_pengumuman }}</p>
-            <p>{{ modaldetail[0].komentar }}</p>
+            <p id="pk">{{ detail.pk }}</p>
+            <p>{{ detail.pembuat }}</p>
+            <p>{{ detail.created_at }}</p>
+            <p>{{ detail.nama_mata_kuliah }}</p>
+            <p>{{ detail.jenis_pengumuman }}</p>
+            <p>{{ detail.nama_dosen }}</p>
+            <p>{{ detail.nama_ruang }}</p>
+            <p>{{ detail.sesi }}</p>
+            <p>{{ detail.nama_status_pengumuman }}</p>
+            <p>{{ detail.komentar }}</p>
           </div>
         </div>
 
@@ -53,24 +54,24 @@
           </div>
 
           <div id="right">
-            <p id="pk">{{ modaldetail[0].pk }}</p>
-            <p>{{ modaldetail[0].pembuat }}</p>
-            <p>{{ modaldetail[0].created_at }}</p>
-            <p>{{ modaldetail[0].nama_mata_kuliah }}</p>
-            <p>{{ modaldetail[0].jenis_pengumuman }}</p>
-            <p>{{ modaldetail[0].nama_dosen }}</p>
-            <p>{{ modaldetail[0].nama_asisten }}</p>
-            <p>{{ modaldetail[0].nama_ruang }}</p>
-            <p>{{ modaldetail[0].sesi }}</p>
-            <p>{{ modaldetail[0].nama_status_pengumuman }}</p>
-            <p>{{ modaldetail[0].komentar }}</p>
+            <p id="pk">{{ detail.pk }}</p>
+            <p>{{ detail.pembuat }}</p>
+            <p>{{ detail.created_at }}</p>
+            <p>{{ detail.nama_mata_kuliah }}</p>
+            <p>{{ detail.jenis_pengumuman }}</p>
+            <p>{{ detail.nama_dosen }}</p>
+            <p>{{ detail.nama_asisten }}</p>
+            <p>{{ detail.nama_ruang }}</p>
+            <p>{{ detail.sesi }}</p>
+            <p>{{ detail.nama_status_pengumuman }}</p>
+            <p>{{ detail.komentar }}</p>
           </div>
         </div>
 
         <div class="modal-button-container">
-          <button class="edit-button">
+          <a :href="'pengumuman/' + detail.pk + '/edit/'" class="edit-button">
             Ubah
-          </button>
+          </a>
           <DeleteButton class="delete-button"/>
           <div class="spreader-button" />
           <button class="close-modal" v-on:click="closeModal()">
@@ -127,16 +128,16 @@
         </tr>
 
         <tr v-for="content in today" :key="content.pk">
-          <td>
+          <td id="nama_mata_kuliah">
             {{ content.nama_mata_kuliah }}
           </td>
-          <td>
+          <td id="nama_dosen">
             {{ content.nama_dosen }}
           </td>
-          <td>
+          <td id="nama_sesi">
             {{ content.nama_sesi }}
           </td>
-          <td>
+          <td id="nama_status_pengumuman">
             {{ content.nama_status_pengumuman }}
           </td>
           <td>
@@ -193,16 +194,16 @@
         </tr>
 
         <tr v-for="content in tomorrow" :key="content.pk">
-          <td>
+          <td id="nama_mata_kuliah">
             {{ content.nama_mata_kuliah }}
           </td>
-          <td>
+          <td id="nama_dosen">
             {{ content.nama_dosen }}
           </td>
-          <td>
+          <td id="nama_sesi">
             {{ content.nama_sesi }}
           </td>
-          <td>
+          <td id="nama_status_pengumuman">
             {{ content.nama_status_pengumuman }}
           </td>
           <td>
@@ -270,6 +271,7 @@ export default {
     fetchData: function() {
       announcementApi.getAnnouncementDefault().then((d) => {
         this.response = d.data;
+
         for (let i = 0; i < this.response.pengumuman_today.length; i++) {
           this.$set(this.today, i, this.response.pengumuman_today[i]);
         }
@@ -382,7 +384,8 @@ export default {
   font-size: 15pt;
 }
 #table-tomorrow {
-  margin-top: 100px;
+  margin-top: 80px;
+  margin-bottom: 100px;
 }
 .table-div table {
   border-radius: 1em;
@@ -475,6 +478,9 @@ tr:nth-child(odd) {
 .modal-button-container .edit-button {
   background-color: #7584D1;
   border-style: solid;
+  padding: 5px 15px;
+  font-size: 20pt;
+  border-radius: 1000px;
   border-color: #7584D1;
   color: white;
   margin-left: 10px;
