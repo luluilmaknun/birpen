@@ -7,7 +7,7 @@
     :height="750"
     :width="1000"
     >
-    <div class="modal-container">
+    <div v-for="detail in modaldetail" :key="detail.pk" class="modal-container">
       <h1 style="margin-bottom:20px">Detail</h1>
         <div v-if="modaldetail[0].nama_asisten == ''" class="detail-container">
           <div id="left">
@@ -24,16 +24,16 @@
           </div>
 
           <div id="right">
-            <p id="pk">{{ modaldetail[0].pk }}</p>
-            <p>{{ modaldetail[0].pembuat }}</p>
-            <p>{{ modaldetail[0].created_at }}</p>
-            <p>{{ modaldetail[0].nama_mata_kuliah }}</p>
-            <p>{{ modaldetail[0].jenis_pengumuman }}</p>
-            <p>{{ modaldetail[0].nama_dosen }}</p>
-            <p>{{ modaldetail[0].nama_ruang }}</p>
-            <p>{{ modaldetail[0].sesi }}</p>
-            <p>{{ modaldetail[0].nama_status_pengumuman }}</p>
-            <p>{{ modaldetail[0].komentar }}</p>
+            <p id="pk">{{ detail.pk }}</p>
+            <p>{{ detail.pembuat }}</p>
+            <p>{{ detail.created_at }}</p>
+            <p>{{ detail.nama_mata_kuliah }}</p>
+            <p>{{ detail.jenis_pengumuman }}</p>
+            <p>{{ detail.nama_dosen }}</p>
+            <p>{{ detail.nama_ruang }}</p>
+            <p>{{ detail.sesi }}</p>
+            <p>{{ detail.nama_status_pengumuman }}</p>
+            <p>{{ detail.komentar }}</p>
           </div>
         </div>
 
@@ -53,24 +53,24 @@
           </div>
 
           <div id="right">
-            <p id="pk">{{ modaldetail[0].pk }}</p>
-            <p>{{ modaldetail[0].pembuat }}</p>
-            <p>{{ modaldetail[0].created_at }}</p>
-            <p>{{ modaldetail[0].nama_mata_kuliah }}</p>
-            <p>{{ modaldetail[0].jenis_pengumuman }}</p>
-            <p>{{ modaldetail[0].nama_dosen }}</p>
-            <p>{{ modaldetail[0].nama_asisten }}</p>
-            <p>{{ modaldetail[0].nama_ruang }}</p>
-            <p>{{ modaldetail[0].sesi }}</p>
-            <p>{{ modaldetail[0].nama_status_pengumuman }}</p>
-            <p>{{ modaldetail[0].komentar }}</p>
+            <p id="pk">{{ detail.pk }}</p>
+            <p>{{ detail.pembuat }}</p>
+            <p>{{ detail.created_at }}</p>
+            <p>{{ detail.nama_mata_kuliah }}</p>
+            <p>{{ detail.jenis_pengumuman }}</p>
+            <p>{{ detail.nama_dosen }}</p>
+            <p>{{ detail.nama_asisten }}</p>
+            <p>{{ detail.nama_ruang }}</p>
+            <p>{{ detail.sesi }}</p>
+            <p>{{ detail.nama_status_pengumuman }}</p>
+            <p>{{ detail.komentar }}</p>
           </div>
         </div>
 
         <div class="modal-button-container">
-          <button class="edit-button">
+          <a :href="'pengumuman/' + detail.pk + '/edit/'" class="edit-button">
             Ubah
-          </button>
+          </a>
           <DeleteButton class="delete-button"/>
           <div class="spreader-button" />
           <button class="close-modal" v-on:click="closeModal()">
