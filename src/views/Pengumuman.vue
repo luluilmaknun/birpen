@@ -256,6 +256,7 @@ export default {
         'Mata Kuliah', 'Dosen', 'Sesi', 'Status', 'Aksi',
       ],
       response: {},
+      filteredResponse: {},
       today: [],
       tomorrow: [],
       todayDate: '',
@@ -268,16 +269,29 @@ export default {
   },
   methods: {
     fetchData: function() {
-      announcementApi.getAnnouncementDefault().then((d) => {
-        this.response = d.data;
-        for (let i = 0; i < this.response.pengumuman_today.length; i++) {
-          this.$set(this.today, i, this.response.pengumuman_today[i]);
-        }
+      const currentURL = window.location.href;
+      const arrayURL = currentURL.split('/');
 
-        for (let i = 0; i < this.response.pengumuman_tomo.length; i++) {
-          this.$set(this.tomorrow, i, this.response.pengumuman_tomo[i]);
-        }
-      });
+      // IF URL HAS TANGGAL
+      if (arrayURL.length == 5) {
+        const arrayFilter = arrayURL[4].split('=');
+        const dateFilter = arrayFilter[1];
+
+        announcementApi.getAnnouncementFiltered(dateFilter).then((d) => {
+          this.response = d.data;
+        });
+      } else {
+        announcementApi.getAnnouncementDefault().then((d) => {
+          this.response = d.data;
+          for (let i = 0; i < this.response.pengumuman_today.length; i++) {
+            this.$set(this.today, i, this.response.pengumuman_today[i]);
+          }
+
+          for (let i = 0; i < this.response.pengumuman_tomo.length; i++) {
+            this.$set(this.tomorrow, i, this.response.pengumuman_tomo[i]);
+          }
+        });
+      }
     },
     showModal(pk, pembuat, created, matkul, jenis, dosen, asisten,
         ruang, sesi, status, komentar) {
