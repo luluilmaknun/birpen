@@ -1,54 +1,31 @@
 import {shallowMount} from '@vue/test-utils';
 import Pengumuman from '@/views/Pengumuman';
 
-import getAnnouncementDefaultApi from '@/services/announcementServices';
+import announcementApi from '@/services/announcementServices';
 
-describe('test tabel', () => {
+describe('test tabel exists all', () => {
   let wrapper; let vm;
 
   beforeEach(() => {
     wrapper = shallowMount(Pengumuman);
     vm = wrapper.vm;
     announcementApi.getAnnouncementDefault = jest.fn(
-        () => Promise.resolve({
+        (d) => Promise.resolve({
           status: 200,
           data: {
-            pengumuman_today: {
-              'pk': 0,
-              'deleted': null,
-              'created_at': '2020-04-08T12:31:04.026691+07:00',
-              'modified_at': '2020-04-08T12:31:04.026691+07:00',
-              'tanggal_kelas': '2020-04-0',
-              'pembuat': 'dosen',
-              'nama_mata_kuliah': 'Analisis Numerik',
-              'jenis_pengumuman': 'Perkuliahan',
-              'nama_dosen': 'Lulu Ilmaknun S.Kom',
-              'nama_asisten': 'Yusuf Tri Ardho',
-              'nama_ruang': '2211',
-              'nama_sesi': 'Sesi 2 (11.00 - 13.30)',
-              'nama_status_pengumuman': 'Terlambat',
-              'komentar': 'Saya ada urusan mendadak',
-            },
+            pengumuman_today: [],
+            pengumuman_tomo: [],
           },
         }));
     vm.fetchData();
   });
 
-  it('tes elemen table', () => {
-    expect(wrapper.find('#nama_dosen').element.value)
-        .toBe('Lulu Ilmaknun S.Kom');
-  });
-
   it('Tes tabel today', () => {
     expect(vm.today.length).toBe(0);
-    // VUE GA BISA NGETES V-IF BIND ELEMENT JADI YANG DITES
-    // ISI KONDISI DARI VARIABLE CONDITIONNYA AJA
   });
 
   it('Tes table tomorrow', () => {
     expect(vm.tomorrow.length).toBe(0);
-    // VUE GA BISA NGETES V-IF BIND ELEMENT JADI YANG DITES
-    // ISI KONDISI DARI VARIABLE CONDITIONNYA AJA
   });
 });
 
@@ -62,15 +39,15 @@ describe('test tabel exists all', () => {
       'created_at': '2020-04-08T12:31:04.026691+07:00',
       'modified_at': '2020-04-08T12:31:04.026691+07:00',
       'tanggal_kelas': '2020-04-30',
-      'pembuat': 'dosen',
-      'nama_mata_kuliah': 'Analisis Numerik',
-      'jenis_pengumuman': 'Perkuliahan',
-      'nama_dosen': 'Lulu Ilmaknun S.Kom',
-      'nama_asisten': 'Yusuf Tri Ardho',
-      'nama_ruang': '2211',
-      'nama_sesi': 'Sesi 2 (11.00 - 13.30)',
-      'nama_status_pengumuman': 'Terlambat',
-      'komentar': 'Saya ada urusan mendadak',
+      'pembuat': 'asdos',
+      'nama_mata_kuliah': 'Struktur Data dan Algoritma',
+      'jenis_pengumuman': 'Asistensi',
+      'nama_dosen': 'Athallah',
+      'nama_asisten': 'Annafis',
+      'nama_ruang': '3111',
+      'nama_sesi': 'Sesi 4 (17.00 - 19.30)',
+      'nama_status_pengumuman': 'Dibatalkan',
+      'komentar': 'Corona',
     },
   ];
 
@@ -107,21 +84,39 @@ describe('test tabel exists all', () => {
     vm.fetchData();
   });
 
-  it('tes elemen table', () => {
-    expect(wrapper.find('#nama_dosen').text())
+  it('tes elemen table today', () => {
+    expect(wrapper.find('#nama_dosen_today').text())
+        .toBe('Athallah');
+
+    expect(wrapper.find('#nama_mata_kuliah_today').text())
+        .toBe('Struktur Data dan Algoritma');
+
+    expect(wrapper.find('#nama_sesi_today').text())
+        .toBe('Sesi 4 (17.00 - 19.30)');
+
+    expect(wrapper.find('#nama_status_pengumuman_today').text())
+        .toBe('Dibatalkan');
+  });
+
+  it('tes elemen table tomorrow', () => {
+    expect(wrapper.find('#nama_dosen_tomorrow').text())
         .toBe('Lulu Ilmaknun S.Kom');
-    // LANJUTIN GAN
+
+    expect(wrapper.find('#nama_mata_kuliah_tomorrow').text())
+        .toBe('Analisis Numerik');
+
+    expect(wrapper.find('#nama_sesi_tomorrow').text())
+        .toBe('Sesi 2 (11.00 - 13.30)');
+
+    expect(wrapper.find('#nama_status_pengumuman_tomorrow').text())
+        .toBe('Terlambat');
   });
 
   it('Tes tabel today', () => {
     expect(vm.today.length).toBe(1);
-    // VUE GA BISA NGETES V-IF BIND ELEMENT JADI YANG DITES
-    // ISI KONDISI DARI VARIABLE CONDITIONNYA AJA
   });
 
   it('Tes table tomorrow', () => {
     expect(vm.tomorrow.length).toBe(1);
-    // VUE GA BISA NGETES V-IF BIND ELEMENT JADI YANG DITES
-    // ISI KONDISI DARI VARIABLE CONDITIONNYA AJA
   });
 });
