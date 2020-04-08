@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 import Home from '@/Home.vue';
-import Pengumuman from './components/Pengumuman.vue';
+import Pengumuman from '@/views/Pengumuman.vue';
 import CreateAnnouncement from '@/views/CreateAnnouncement.vue';
 import EditAnnouncement from '@/views/EditAnnouncement.vue';
 
