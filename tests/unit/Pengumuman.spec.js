@@ -1,5 +1,5 @@
 import {shallowMount} from '@vue/test-utils';
-import Pengumuman from '@/components/Pengumuman';
+import Pengumuman from '@/views/Pengumuman';
 
 import getAnnouncementDefaultApi from '@/services/announcementServices';
 
