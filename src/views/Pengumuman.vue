@@ -383,7 +383,8 @@ export default {
   font-size: 15pt;
 }
 #table-tomorrow {
-  margin-top: 100px;
+  margin-top: 80px;
+  margin-bottom: 100px;
 }
 .table-div table {
   border-radius: 1em;
@@ -476,6 +477,9 @@ tr:nth-child(odd) {
 .modal-button-container .edit-button {
   background-color: #7584D1;
   border-style: solid;
+  padding: 5px 15px;
+  font-size: 20pt;
+  border-radius: 1000px;
   border-color: #7584D1;
   color: white;
   margin-left: 10px;
