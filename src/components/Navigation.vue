@@ -11,7 +11,7 @@
       ref="pengumuman-button" :to="{ name: 'pengumuman' }">
       Pengumuman</router-link>
 
-      <label v-if="is_authenticated && is_staff">
+      <label v-if="is_authenticated && is_admin_or_dosen">
             <router-link class="nav-elem"
             ref="asisten-button" :to="{ name: 'asisten' }">
             Asisten</router-link>
@@ -75,8 +75,8 @@ export default {
       mobileView: false,
       username: localStorage.getItem('username'),
       is_authenticated:
-        localStorage.getItem('username') !== null,
-      is_staff:
+        (localStorage.getItem('token') ? true : false),
+      is_admin_or_dosen:
         localStorage.getItem('is_admin') === 'true' ||
         localStorage.getItem('role') === 'staff',
     };
