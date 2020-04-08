@@ -1,5 +1,5 @@
 import {shallowMount} from '@vue/test-utils';
-import Login from '@/components/Login.vue';
+import Login from '@/views/Login.vue';
 
 describe('Tes login page', () => {
   const wrapper = shallowMount(Login);
