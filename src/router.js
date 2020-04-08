@@ -5,6 +5,7 @@ import Delete from '@/components/delete.vue';
 import Login from '@/components/Login.vue';
 import CreateAnnouncement from '@/views/CreateAnnouncement.vue';
 import EditAnnouncement from '@/views/EditAnnouncement.vue';
+import AsdosPage from '@/views/AsdosPage.vue';
 
 Vue.use(Router);
 
@@ -42,5 +43,10 @@ export default new Router({
       name: 'login',
       component: Login,
     },
+    {
+      path: '/asdos',
+      name: 'asdos',
+      component: AsdosPage,
+    }
   ],
 });
