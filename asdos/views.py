@@ -11,6 +11,8 @@ from rest_framework.status import (
 from sso_ui.models import AsistenDosen
 from .permissions import IsPrivilegedToAccessAsdos
 
+ASDOS_NOT_FOUND_MESSAGE = 'Asisten does not exist.'
+
 
 @api_view(["GET"])
 def asdos_placeholder_views(_):
@@ -19,6 +21,7 @@ def asdos_placeholder_views(_):
     }
 
     return Response({"success": True, "result": result}, status=200)
+
 
 @csrf_exempt
 @api_view(["POST"])
@@ -48,5 +51,25 @@ def create_asisten(request):
 
     return Response({
         "detail": 'Valid data.',
+        "success": True,
+    }, status=HTTP_200_OK)
+
+
+@csrf_exempt
+@api_view(["DELETE"])
+@permission_classes((IsAuthenticated, IsPrivilegedToAccessAsdos))
+def delete_asdos(request):
+    username = request.data.get('username')
+
+    try:
+        asisten = AsistenDosen.objects.get(username=username)
+    except AsistenDosen.DoesNotExist:
+        return Response({
+            'detail': ASDOS_NOT_FOUND_MESSAGE
+        }, status=HTTP_400_BAD_REQUEST)
+
+    asisten.delete()
+
+    return Response({
         "success": True,
     }, status=HTTP_200_OK)
