@@ -46,7 +46,7 @@ describe('test tabel', () => {
   });
 
   it('Tes table tomorrow', () => {
-    expect(vm.today.length).toBe(0);
+    expect(vm.tomorrow.length).toBe(0);
     // VUE GA BISA NGETES V-IF BIND ELEMENT JADI YANG DITES
     // ISI KONDISI DARI VARIABLE CONDITIONNYA AJA
   });
@@ -120,7 +120,7 @@ describe('test tabel exists all', () => {
   });
 
   it('Tes table tomorrow', () => {
-    expect(vm.today.length).toBe(1);
+    expect(vm.tomorrow.length).toBe(1);
     // VUE GA BISA NGETES V-IF BIND ELEMENT JADI YANG DITES
     // ISI KONDISI DARI VARIABLE CONDITIONNYA AJA
   });
