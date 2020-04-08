@@ -6,10 +6,43 @@
 </template>
 
 <script>
+import axios from 'axios';
 import Navigation from './components/Navigation';
+
 export default {
   components: {
     'NavigateBar': Navigation,
+  },
+  methods: {
+    refreshToken: function() {
+      const token = localStorage.token;
+
+      if (typeof(token) === 'undefined'
+        || token === null || token === '') {
+        return;
+      }
+
+      const params = {
+        token: token,
+      };
+
+      return axios.post('/sso/refresh-token/', params)
+          .then(function(response) {
+            localStorage.setItem('token', response.data.token);
+          })
+          .catch(function(error) {
+            localStorage.clear();
+            window.location.replace('/sso/logout/?next=/login');
+          });
+    },
+  },
+  created: function() {
+    return this.refreshToken();
+  },
+  watch: {
+    '$route': function(to, from) {
+      return this.refreshToken();
+    },
   },
 };
 </script>

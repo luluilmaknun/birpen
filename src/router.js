@@ -8,7 +8,7 @@ import EditAnnouncement from '@/views/EditAnnouncement.vue';
 
 Vue.use(Router);
 
-export default new Router({
+const router = new Router({
   mode: 'history',
   routes: [
     {
@@ -20,37 +20,24 @@ export default new Router({
       path: '/surat',
       name: 'surat',
       component: null,
+      meta: {
+        requiresAuth: true,
+      },
     },
     {
       path: '/pengumuman',
       name: 'pengumuman',
       component: Delete,
-      beforeEnter: (to, from, next) => {
-        if (!localStorage.getItem('token')) {
-          next('/sso/login/');
-        }
-        next();
+      meta: {
+        requiresAuth: true,
       },
     },
     {
       path: '/pengumuman/create',
       name: 'create-pengumuman',
       component: CreateAnnouncement,
-      beforeEnter: (to, from, next) => {
-        if (!localStorage.getItem('token')) {
-          next('/login');
-        }
-        next();
-
-        const role = localStorage.getItem('role');
-        const isAsdos = localStorage.getItem('is_asdos');
-        const isAdmin = localStorage.getItem('is_admin');
-        if (role == 'mahasiswa') {
-          if (isAsdos == 'false' && isAdmin == 'false') {
-            next('/pengumuman');
-          }
-        }
-        next();
+      meta: {
+        requiresAuth: true,
       },
     },
     {
@@ -58,17 +45,17 @@ export default new Router({
       name: 'edit-pengumuman',
       component: EditAnnouncement,
       props: true,
-      beforeEnter: (to, from, next) => {
-        if (!localStorage.getItem('token')) {
-          next('/sso/login/');
-        }
-        next();
+      meta: {
+        requiresAuth: true,
       },
     },
     {
       path: '/login',
       name: 'login',
       component: Login,
+      meta: {
+        guest: true,
+      },
     },
     {
       path: '/buatakun',
@@ -77,3 +64,23 @@ export default new Router({
     },
   ],
 });
+
+router.beforeEach((to, from, next) => {
+  if (to.matched.some((record) => record.meta.requiresAuth)) {
+    if (localStorage.getItem('token') == null) {
+      next({name: 'login'});
+    } else {
+      next();
+    }
+  } else if (to.matched.some((record) => record.meta.guest)) {
+    if (localStorage.getItem('token') == null) {
+      next();
+    } else {
+      next({name: 'home'});
+    }
+  } else {
+    next();
+  }
+});
+
+export default router;
