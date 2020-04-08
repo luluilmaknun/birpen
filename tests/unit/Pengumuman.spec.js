@@ -1,7 +1,7 @@
 import {shallowMount} from '@vue/test-utils';
 import Pengumuman from '@/components/Pengumuman';
 
-import getAnnouncementDefaultApi from '@/services/pengumumanDataService';
+import getAnnouncementDefaultApi from '@/services/announcementServices';
 
 describe('test tabel', () => {
   const wrapper = shallowMount(Pengumuman, {
