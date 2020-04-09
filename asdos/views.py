@@ -9,18 +9,25 @@ from rest_framework.status import (
 )
 
 from sso_ui.models import AsistenDosen
+
+from .serializers import AsistenDosenSerializer
 from .permissions import IsPrivilegedToAccessAsdos
 
 ASDOS_NOT_FOUND_MESSAGE = 'Asisten does not exist.'
 
 
 @api_view(["GET"])
-def asdos_placeholder_views(_):
-    result = {
-        "message": "asdos placeholder message"
-    }
+@permission_classes((IsAuthenticated, IsPrivilegedToAccessAsdos))
+def read_all_asdos(request):
+    all_asisten_dosen = AsistenDosen.objects.all()
 
-    return Response({"success": True, "result": result}, status=200)
+    all_asisten_dosen_serialized = (AsistenDosenSerializer(asisten_dosen).data \
+        for asisten_dosen in all_asisten_dosen)
+
+    return Response({
+        "success": True,
+        "asisten_dosen": all_asisten_dosen_serialized
+    }, status=HTTP_200_OK)
 
 
 @csrf_exempt

@@ -59,5 +59,31 @@
             "study_program": "Ilmu Komputer",
             "educational_program": "S1 Reguler"
         }
+    },
+    {
+        "model": "sso_ui.profile",
+        "pk": 6,
+        "fields": {
+            "user": 6,
+            "org_code": "01.00.12.01",
+            "role": "mahasiswa",
+            "npm": "1706079214",
+            "faculty": "Ilmu Komputer",
+            "study_program": "Ilmu Komputer",
+            "educational_program": "S1 Reguler"
+        }
+    },
+    {
+        "model": "sso_ui.profile",
+        "pk": 7,
+        "fields": {
+            "user": 7,
+            "org_code": "01.00.12.01",
+            "role": "mahasiswa",
+            "npm": "1706079214",
+            "faculty": "Ilmu Komputer",
+            "study_program": "Ilmu Komputer",
+            "educational_program": "S1 Reguler"
+        }
     }
 ]
