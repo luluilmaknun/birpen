@@ -6,7 +6,7 @@
     </h1>
 
     <div class="create-asisten-div">
-      <button class="create-asisten-button">
+      <button :href="'/asdos/create-asisten/'" class="create-asisten-button">
         Tambah Asisten
       </button>
     </div>
