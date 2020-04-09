@@ -1,5 +1,5 @@
 <template>
-  <div id="create-announcement">
+  <div id="create-announcement" class="page-container">
     <h2 class="title" style="color: black">Buat Pengumuman</h2>
     <br>
     <br>

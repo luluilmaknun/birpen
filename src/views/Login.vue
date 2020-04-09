@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div id="login-page" class="page-container" style="padding-top:0px!important">
     <h1>Masuk</h1>
     <div class="login-container">
       <!--
@@ -52,8 +52,11 @@ export default {
 </script>
 
 <style>
-.container {
-  margin-top: 50px;
+#login-page {
+  paddding: 0 !important;
+  height: 100%;
+  display: flex;
+  justify-content: center;
 }
 .login-container {
   padding: 20px;
