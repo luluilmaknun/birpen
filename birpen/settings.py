@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'landing_page',
     'pengumuman',
     'permohonan_surat',
+    'asdos',
     'safedelete',
     'django_cas_ng',
     'sso_ui.apps.SSOUIConfig',
