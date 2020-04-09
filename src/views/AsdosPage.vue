@@ -6,9 +6,7 @@
     </h1>
 
     <div class="create-asisten-div">
-      <button :href="'/asdos/create-asisten/'" class="create-asisten-button">
-        Tambah Asisten
-      </button>
+      <CreateAsisten/>
     </div>
     <!-- TABLE SECTION -->
     <div class="table-div">
@@ -43,6 +41,7 @@
 </template>
 
 <script>
+import CreateAsisten from '@/components/tambah-asisten';
 export default {
   name: 'AsdosPage',
   data: function() {
@@ -75,6 +74,9 @@ export default {
   methods: {
 
   },
+  components: {
+    CreateAsisten,
+  },
 };
 </script>
 
@@ -95,6 +97,7 @@ export default {
   border-style: none;
   background-color: #FFDD00;
   border-radius: 1000px;
+  text-decoration: none;
 }
 /* TABLE SECTION */
 .table-div {
