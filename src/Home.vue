@@ -50,7 +50,7 @@ h2.title_home {
   font-size: 40px;
   line-height: 44px;
   color: black;
-  margin-top: 100px;
+  margin-top: 5%;
 }
 .home {
  padding: 2%;

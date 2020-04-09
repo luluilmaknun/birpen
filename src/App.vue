@@ -28,6 +28,7 @@ export default {
   display:flex;
   flex-direction: column;
   align-items: center;
+  padding-top: 100px !important;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   /* color: #2c3e50; */
