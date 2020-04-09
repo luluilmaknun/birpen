@@ -76,8 +76,10 @@ const router = new Router({
 });
 
 router.beforeEach((to, from, next) => {
+  const token = localStorage.token;
   if (to.matched.some((record) => record.meta.requiresAuth)) {
-    if (localStorage.getItem('token') == null) {
+    if (typeof(token) === 'undefined'
+        || token === null || token === '') {
       next({name: 'login'});
     } else {
       if (to.name == 'create-pengumuman') {
@@ -95,7 +97,8 @@ router.beforeEach((to, from, next) => {
       }
     }
   } else if (to.matched.some((record) => record.meta.guest)) {
-    if (localStorage.getItem('token') == null) {
+    if (typeof(token) === 'undefined'
+        || token === null || token === '') {
       next();
     } else {
       next({name: 'home'});
