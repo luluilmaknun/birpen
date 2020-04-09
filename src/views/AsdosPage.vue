@@ -29,7 +29,7 @@
           </td>
           <td>
             <button
-            v-on:click="showModal()" class="remove-button" id="remove-btn">
+            v-on:click="" class="remove-button" id="remove-btn">
               Hapus
             </button>
           </td>
@@ -41,7 +41,9 @@
 </template>
 
 <script>
+import assistenServices from '@/services/asistenServices';
 import CreateAsisten from '@/components/tambah-asisten';
+
 export default {
   name: 'AsdosPage',
   data: function() {
@@ -69,10 +71,16 @@ export default {
           'nama_role': 'Asisten',
         },
       ],
+      response: {},
     };
   },
+  created: function() {
+    this.fetchAsdos();
+  },
   methods: {
-
+    fetchAsdos: function() {
+      
+    }
   },
   components: {
     CreateAsisten,
@@ -127,5 +135,19 @@ th {
 }
 tr:nth-child(odd) {
   background-color: #D3D3D3;
+}
+.remove-button {
+  background: none;
+  border-style: solid;
+  font-weight: bolder;
+  padding: 5px 10px;
+  color: white;
+  border-color: red;
+  background-color: red;
+  border-radius: 1000px;
+}
+.remove-button:hover {
+  background-color: white;
+  color: red;
 }
 </style>
