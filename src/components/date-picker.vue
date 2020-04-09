@@ -10,7 +10,7 @@
       <div v-show="show">
       </div>
       <button>
-        <a :href="'/?tanggal='+date">Filter</a>
+        <a :href="'/pengumuman/?tanggal='+date">Filter</a>
       </button>
     </div>
   </div>
@@ -22,7 +22,7 @@ import 'vue-date-pick/dist/vueDatePick.css';
 
 export default {
   components: {DatePick},
-  data() {
+  data: function() {
     return {
       date: '',
       show: false,
