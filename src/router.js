@@ -50,7 +50,7 @@ export default new Router({
       component: AsdosPage,
     },
     {
-      path: 'create-asisten',
+      path: '/asdos/create-asisten',
       name: 'asisten',
       component: CreateAsisten,
     },
