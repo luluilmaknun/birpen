@@ -1,9 +1,9 @@
 from django.urls import path
-from .views import asdos_placeholder_views, create_asisten, delete_asdos
+from .views import read_all_asdos, create_asisten, delete_asdos
 
 
 urlpatterns = [
-    path('', asdos_placeholder_views, name='asdos_placeholder_views'),
+    path('', read_all_asdos, name='read_all_asdos'),
     path('create-asisten/', create_asisten, name='create-asisten'),
     path('delete/', delete_asdos, name='delete_asdos'),
 ]
