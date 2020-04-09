@@ -6,6 +6,7 @@ import Login from '@/views/Login.vue';
 import CreateAnnouncement from '@/views/CreateAnnouncement.vue';
 import EditAnnouncement from '@/views/EditAnnouncement.vue';
 import AsdosPage from '@/views/AsdosPage.vue';
+import CreateAsisten from '@/components/tambah-asisten.vue';
 
 Vue.use(Router);
 
@@ -47,6 +48,11 @@ export default new Router({
       path: '/asdos',
       name: 'asdos',
       component: AsdosPage,
+    },
+    {
+      path: 'create-asisten',
+      name: 'asisten',
+      component: CreateAsisten,
     },
   ],
 });
