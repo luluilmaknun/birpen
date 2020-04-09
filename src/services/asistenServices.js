@@ -7,4 +7,7 @@ export default {
   deleteAsisten(request) {
     return api.delete('asdos/delete/', request);
   },
+  getAsisten() {
+    return api.get('asdos/')
+  }
 };

@@ -17,7 +17,7 @@
           </th>
         </tr>
 
-        <tr v-for="asisten in listAsdos" :key="asisten.username">
+        <tr v-for="asisten in listAsisten" :key="asisten.username">
           <td id="username">
             {{ asisten.username }}
           </td>
