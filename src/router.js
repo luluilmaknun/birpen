@@ -71,7 +71,7 @@ const router = new Router({
     {
       path: '/asisten',
       name: 'asisten',
-      component: null,
+      component: AsdosPage,
     },
     {
       path: '/asdos',
