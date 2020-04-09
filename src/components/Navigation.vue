@@ -90,6 +90,9 @@ export default {
   display: none;
 }
 .nav-container {
+  box-sizing: border-box;
+  position: absolute;
+  width: 100%;
   padding: 20px 20px;
   display: flex;
   flex-direction: row;
