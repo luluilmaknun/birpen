@@ -10,4 +10,10 @@ export default {
   createAnnouncement(request) {
     return api.post('pengumuman/create/', request);
   },
+  getAnnouncementDefault() {
+    return api.get('pengumuman/get-pengumuman');
+  },
+  getAnnouncementFiltered(tanggal) {
+    return api.get('pengumuman/?tanggal='+tanggal);
+  },
 };
