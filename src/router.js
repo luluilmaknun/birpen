@@ -1,12 +1,7 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 import Home from '@/Home.vue';
-<<<<<<< HEAD
 import Login from '@/components/Login.vue';
-=======
-import Delete from '@/components/delete.vue';
-import Login from '@/views/Login.vue';
->>>>>>> e9e104bf8fef9762e8996c0064d263c0b247073b
 import CreateAnnouncement from '@/views/CreateAnnouncement.vue';
 import EditAnnouncement from '@/views/EditAnnouncement.vue';
 import Pengumuman from '@/views/Pengumuman.vue';
@@ -32,11 +27,7 @@ const router = new Router({
     {
       path: '/pengumuman',
       name: 'pengumuman',
-<<<<<<< HEAD
       component: Pengumuman,
-=======
-      component: Delete,
->>>>>>> e9e104bf8fef9762e8996c0064d263c0b247073b
       meta: {
         requiresAuth: true,
       },
