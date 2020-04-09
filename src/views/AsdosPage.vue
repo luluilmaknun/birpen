@@ -17,21 +17,15 @@
           </th>
         </tr>
 
-        <tr v-for="asisten in listAsdos" :key="asisten.pk">
-          <td id="nama_asisten">
-            {{ asisten.nama_asisten }}
-          </td>
-          <td id="user_name">
-            {{ asisten.user_name }}
-          </td>
-          <td id="nama_role">
-            {{ asisten.nama_role }}
+        <tr v-for="asisten in listAsdos" :key="asisten.username">
+          <td id="username">
+            {{ asisten.username }}
           </td>
           <td>
             <button
             class="remove-button"
             id="remove-btn"
-            v-on:click="this.deleteAsdos(asisten.user_name)">
+            v-on:click="this.deleteAsdos(asisten.username)">
               Hapus
             </button>
           </td>
@@ -51,32 +45,24 @@ export default {
   data: function() {
     return {
       tableHead: [
-        'Nama Asisten', 'User name', 'Role', 'Aksi',
+        'User name', 'Aksi',
       ],
       listAsdos: [
         {
           'pk': 0,
-          'nama_asisten': 'Alya Zahra',
-          'user_name': 'alya.zahra',
-          'nama_role': 'Asisten',
+          'username': 'alya.zahra',
         },
         {
           'pk': 1,
-          'nama_asisten': 'Athallah Annafis',
-          'user_name': 'athallah.annafis',
-          'nama_role': 'Asisten',
+          'username': 'athallah.annafis',
         },
         {
           'pk': 2,
-          'nama_asisten': 'Ahmad Fauzan',
-          'user_name': 'ahmad.fauzan',
-          'nama_role': 'Asisten',
+          'username': 'ahmad.fauzan',
         },
         {
-          'pk': 4,
-          'nama_asisten': 'asdos',
-          'user_name': 'asdos',
-          'nama_role': 'Asisten',
+          'pk': 3,
+          'username': 'asdos',
         },
       ],
       response: {},
