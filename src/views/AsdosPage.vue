@@ -25,7 +25,7 @@
             <button
             class="remove-button"
             id="remove-btn"
-            v-on:click="this.deleteAsdos(asisten.username)">
+            v-on:click="deleteAsdos(asisten.username)">
               Hapus
             </button>
           </td>
@@ -37,7 +37,7 @@
 </template>
 
 <script>
-import assistenServices from '@/services/asistenServices';
+import asistenServices from '@/services/asistenServices';
 import CreateAsisten from '@/components/tambah-asisten';
 
 export default {
@@ -54,7 +54,7 @@ export default {
         },
         {
           'pk': 1,
-          'username': 'athallah.annafis',
+          'username': 'ichlassul.affan',
         },
         {
           'pk': 2,
@@ -73,14 +73,14 @@ export default {
   },
   methods: {
     fetchAsdos: function() {
-      assistenServices.getAsisten().then((d) => {
+      asistenServices.getAsisten().then((d) => {
         this.response = d.data;
         // TODO get asdos to this.response
       });
     },
     deleteAsdos: function(name) {
-      assistenServices.deleteAsiten({
-        username: name,
+      asistenServices.deleteAsisten({
+        username: 'ichlassul.affan',
       }).then((result) => {
         this.$router.go({
           path: '/asdos',

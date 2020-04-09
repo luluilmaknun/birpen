@@ -5,6 +5,6 @@ export default {
     return api.post('asdos/create-asisten/', request);
   },
   deleteAsisten(request) {
-    return api.post('asdos/delete/', request);
+    return api.delete('asdos/delete/', request);
   },
 };
