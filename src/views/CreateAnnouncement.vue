@@ -1,6 +1,7 @@
 <template>
-  <div id="create-announcement">
-    <h2 class="title" style="color: black">Buat Pengumuman</h2>
+  <div id="create-announcement" class="page-container">
+    <h2 v-if="edit" class="title" style="color: black">Edit Pengumuman</h2>
+    <h2 v-else class="title" style="color: black">Buat Pengumuman</h2>
     <br>
     <br>
     <form class="vue-form" @submit.prevent="postData()">
@@ -298,6 +299,7 @@ form.vue-form input, form.vue-form select, form.vue-form textarea {
   font-size: 30px;
   font-family: 'Montserrat', sans-serif;
   border: 0;
+  box-sizing: border-box;
 }
 form.vue-form input, form.vue-form select {
   height: 55px;

@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div id="login-page" class="page-container" style="padding-top:0px!important">
     <h1>Masuk</h1>
     <div class="login-container">
       <!--
@@ -65,6 +65,7 @@ export default {
             localStorage.setItem('is_admin', response.data.is_admin);
             localStorage.setItem('is_asdos', response.data.is_asdos);
             localStorage.setItem('role', response.data.role);
+            localStorage.setItem('username', this.username);
 
             this.$router.push('/');
           })
@@ -77,8 +78,11 @@ export default {
 </script>
 
 <style>
-.container {
-  margin-top: 50px;
+#login-page {
+  paddding: 0 !important;
+  height: 100%;
+  display: flex;
+  justify-content: center;
 }
 .login-container {
   padding: 20px;
@@ -90,6 +94,7 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
+  width: fit-content;
 }
 input {
   padding: 15px;
