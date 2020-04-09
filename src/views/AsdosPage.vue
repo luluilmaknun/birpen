@@ -29,7 +29,9 @@
           </td>
           <td>
             <button
-            class="remove-button" id="remove-btn">
+            class="remove-button"
+            id="remove-btn"
+            v-on:click="this.deleteAsdos(asisten.user_name)">
               Hapus
             </button>
           </td>
@@ -70,6 +72,12 @@ export default {
           'user_name': 'ahmad.fauzan',
           'nama_role': 'Asisten',
         },
+        {
+          'pk': 4,
+          'nama_asisten': 'asdos',
+          'user_name': 'asdos',
+          'nama_role': 'Asisten',
+        },
       ],
       response: {},
     };
@@ -82,6 +90,11 @@ export default {
       assistenServices.getAsisten().then((d) => {
         this.response = d.data;
         // TODO get asdos to this.response
+      });
+    },
+    deleteAsdos: function(name) {
+      assistenServices.deleteAsiten({
+        username: name,
       });
     },
   },
