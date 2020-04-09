@@ -1,7 +1,7 @@
 import axios from 'axios';
 import Cookies from 'js-cookie';
 
-const token = sessionStorage.token;
+const token = localStorage.token;
 
 export default axios.create({
   baseURL: '/api',
