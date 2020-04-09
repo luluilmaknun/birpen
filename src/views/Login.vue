@@ -20,12 +20,17 @@
         v-model="password" placeholder="password">
       </div>
       <!-- LOGIN -->
+      <span style="text-align:center;color:red"
+        v-if="message_seen">
+        {{ message }}
+      </span>
       <div class="login-class">
         <button class="login-button" v-on:click="login()">Masuk</button>
       </div>
     </div>
     <div class="bottom-container">
-      <a class="bottom-buttons" :href="`/sso/login`"
+      <a class="bottom-buttons"
+      :href="`/sso/login/?next=%2Fsso%2Fsave_user_info`"
       id="sso-link">
         Login with<br>SSO
       </a>
@@ -36,16 +41,36 @@
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
   data: function() {
     return {
       username: '',
       password: '',
+      message: 'Username/Password salah',
+      message_seen: false,
     };
   },
   methods: {
     login() {
-      // TODO LOGIN
+      const request = {};
+
+      request['username'] = this.username;
+      request['password'] = this.password;
+
+      axios.post('/sso/obtain-user-info/', request)
+          .then((response) => {
+            localStorage.setItem('token', response.data.token);
+            localStorage.setItem('is_admin', response.data.is_admin);
+            localStorage.setItem('is_asdos', response.data.is_asdos);
+            localStorage.setItem('role', response.data.role);
+
+            this.$router.push('/');
+          })
+          .catch((error) => {
+            this.message_seen = true;
+          });
     },
   },
 };
@@ -65,7 +90,6 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: fit-content;
 }
 input {
   padding: 15px;
