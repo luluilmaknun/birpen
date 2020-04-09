@@ -8,6 +8,6 @@ export default {
     return api.delete('asdos/delete/', request);
   },
   getAsisten() {
-    return api.get('asdos/')
-  }
+    return api.get('asdos/');
+  },
 };

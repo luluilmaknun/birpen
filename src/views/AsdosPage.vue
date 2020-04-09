@@ -76,15 +76,13 @@ export default {
     fetchAsdos: function() {
       asistenServices.getAsisten().then((d) => {
         this.response = d.data;
-        console.log(this.response);
         // TODO get asdos to this.response
         for (let i = 0; i < this.response.asisten_dosen.length; i++) {
-            this.$set(this.listAsisten, i, this.response.asisten_dosen[i]);
+          this.$set(this.listAsisten, i, this.response.asisten_dosen[i]);
         }
       });
     },
     deleteAsdos: function(name) {
-      console.log(name);
       asistenServices.deleteAsisten({
         username: name,
       }).then((result) => {
