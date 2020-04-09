@@ -5,6 +5,7 @@ import Delete from '@/components/delete.vue';
 import Login from '@/views/Login.vue';
 import CreateAnnouncement from '@/views/CreateAnnouncement.vue';
 import EditAnnouncement from '@/views/EditAnnouncement.vue';
+import AsdosPage from '@/views/AsdosPage.vue';
 
 Vue.use(Router);
 
@@ -70,7 +71,12 @@ const router = new Router({
     {
       path: '/asisten',
       name: 'asisten',
-      component: null,
+      component: AsdosPage,
+    },
+    {
+      path: '/asdos',
+      name: 'asdos',
+      component: AsdosPage,
     },
   ],
 });
