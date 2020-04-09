@@ -29,7 +29,7 @@
           </td>
           <td>
             <button
-            v-on:click="" class="remove-button" id="remove-btn">
+            class="remove-button" id="remove-btn">
               Hapus
             </button>
           </td>
@@ -79,8 +79,11 @@ export default {
   },
   methods: {
     fetchAsdos: function() {
-      
-    }
+      assistenServices.getAsisten().then((d) => {
+        this.response = d.data;
+        // TODO get asdos to this.response
+      });
+    },
   },
   components: {
     CreateAsisten,
