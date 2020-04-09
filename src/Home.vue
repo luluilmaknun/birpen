@@ -47,7 +47,7 @@ h2.title_home {
   font-family: 'Montserrat', sans-serif;
   font-style: normal;
   font-weight: bold;
-  font-size: 40px;
+  font-size: 50px;
   line-height: 44px;
   color: black;
   margin-top: 5%;
@@ -67,7 +67,7 @@ h2.title_home {
   width: 100%;
 }
 .home-button-image {
-  width: 30%;
+  width: 40%;
   height: auto;
   margin: 25px;
 }
