@@ -120,8 +120,10 @@ export default {
   },
   data: function() {
     return {
-      role: '',
-      pembuat: '',
+      role: localStorage.getItem('role'),
+      is_admin: localStorage.getItem('is_admin'),
+      is_asdos: localStorage.getItem('is_asdos'),
+      pembuat: localStorage.getItem('username'),
       jenis_pengumuman: '',
       tanggal_kelas: '',
       nama_mata_kuliah: '',
@@ -143,8 +145,6 @@ export default {
     };
   },
   created: function() {
-    this.pembuat = this.$session.get('username');
-    this.role = this.$session.get('role');
     this.fetchData();
 
     if (this.edit) {
@@ -184,7 +184,7 @@ export default {
       announcementApi.getAnnouncement(pk).then((d) => {
         const data = d.data.pengumuman;
 
-        if (this.role != 4 && this.pembuat != data['pembuat']) {
+        if (this.is_admin == 'false' && this.pembuat != data['pembuat']) {
           this.$router.push('/pengumuman');
         }
 

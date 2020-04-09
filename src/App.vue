@@ -6,16 +6,49 @@
 </template>
 
 <script>
+import axios from 'axios';
 import Navigation from './components/Navigation';
+
 export default {
   components: {
     'NavigateBar': Navigation,
+  },
+  methods: {
+    refreshToken: function() {
+      const token = localStorage.token;
+
+      if (typeof(token) === 'undefined'
+        || token === null || token === '') {
+        return;
+      }
+
+      const params = {
+        token: token,
+      };
+
+      return axios.post('/sso/refresh-token/', params)
+          .then(function(response) {
+            localStorage.setItem('token', response.data.token);
+          })
+          .catch(function(error) {
+            localStorage.clear();
+            window.location.replace('/sso/logout/?next=/login');
+          });
+    },
+  },
+  created: function() {
+    return this.refreshToken();
+  },
+  watch: {
+    '$route': function(to, from) {
+      return this.refreshToken();
+    },
   },
 };
 </script>
 
 <style>
-@import url('https://fonts.googleapis.com/css?family=Montserrat&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100;400;500;700&display=swap');
 * {
   margin: 0 auto;
   -webkit-transition: 0.25s;
