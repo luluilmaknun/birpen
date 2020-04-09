@@ -1,7 +1,12 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 import Home from '@/Home.vue';
+<<<<<<< HEAD
 import Login from '@/components/Login.vue';
+=======
+import Delete from '@/components/delete.vue';
+import Login from '@/views/Login.vue';
+>>>>>>> e9e104bf8fef9762e8996c0064d263c0b247073b
 import CreateAnnouncement from '@/views/CreateAnnouncement.vue';
 import EditAnnouncement from '@/views/EditAnnouncement.vue';
 import Pengumuman from '@/views/Pengumuman.vue';
@@ -27,7 +32,11 @@ const router = new Router({
     {
       path: '/pengumuman',
       name: 'pengumuman',
+<<<<<<< HEAD
       component: Pengumuman,
+=======
+      component: Delete,
+>>>>>>> e9e104bf8fef9762e8996c0064d263c0b247073b
       meta: {
         requiresAuth: true,
       },
@@ -58,22 +67,47 @@ const router = new Router({
       },
     },
     {
-      path: '/buatakun',
-      name: 'buatakun',
+      path: '/sso/logout',
+      name: 'logout',
+      component: null,
+    },
+    {
+      path: '/register',
+      name: 'register',
+      component: null,
+    },
+    {
+      path: '/asisten',
+      name: 'asisten',
       component: null,
     },
   ],
 });
 
 router.beforeEach((to, from, next) => {
+  const token = localStorage.token;
   if (to.matched.some((record) => record.meta.requiresAuth)) {
-    if (localStorage.getItem('token') == null) {
+    if (typeof(token) === 'undefined'
+        || token === null || token === '') {
       next({name: 'login'});
     } else {
-      next();
+      if (to.name == 'create-pengumuman') {
+        const role = localStorage.getItem('role');
+        const isAsdos = localStorage.getItem('is_asdos');
+        const isAdmin = localStorage.getItem('is_admin');
+        if (role == 'mahasiswa') {
+          if (isAsdos == 'false' && isAdmin == 'false') {
+            next({name: 'pengumuman'});
+          }
+        }
+        next();
+      } else {
+        next();
+      }
     }
   } else if (to.matched.some((record) => record.meta.guest)) {
-    if (localStorage.getItem('token') == null) {
+    if (typeof(token) === 'undefined'
+        || token === null || token === '') {
       next();
     } else {
       next({name: 'home'});
