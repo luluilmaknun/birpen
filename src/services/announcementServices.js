@@ -15,5 +15,5 @@ export default {
   },
   getAnnouncementFiltered(tanggal) {
     return api.get('pengumuman/?tanggal='+tanggal);
-  }
+  },
 };
