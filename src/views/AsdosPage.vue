@@ -81,6 +81,11 @@ export default {
     deleteAsdos: function(name) {
       assistenServices.deleteAsiten({
         username: name,
+      }).then((result) => {
+        this.$router.go({
+          path: '/asdos',
+          force: true,
+        });
       });
     },
   },
