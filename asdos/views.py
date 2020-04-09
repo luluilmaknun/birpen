@@ -67,6 +67,8 @@ def create_asisten(request):
 @permission_classes((IsAuthenticated, IsPrivilegedToAccessAsdos))
 def delete_asdos(request):
     username = request.data.get('username')
+    print(username)
+    print(request)
 
     try:
         asisten = AsistenDosen.objects.get(username=username)

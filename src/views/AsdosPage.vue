@@ -50,7 +50,7 @@ export default {
       listAsdos: [
         {
           'pk': 0,
-          'username': 'alya.zahra',
+          'username': 'athallah.annafis',
         },
         {
           'pk': 1,
@@ -66,6 +66,7 @@ export default {
         },
       ],
       response: {},
+      listAsisten: [],
     };
   },
   created: function() {
@@ -75,12 +76,17 @@ export default {
     fetchAsdos: function() {
       asistenServices.getAsisten().then((d) => {
         this.response = d.data;
+        console.log(this.response);
         // TODO get asdos to this.response
+        for (let i = 0; i < this.response.asisten_dosen.length; i++) {
+            this.$set(this.listAsisten, i, this.response.asisten_dosen[i]);
+        }
       });
     },
     deleteAsdos: function(name) {
+      console.log(name);
       asistenServices.deleteAsisten({
-        username: 'ichlassul.affan',
+        username: name,
       }).then((result) => {
         this.$router.go({
           path: '/asdos',
