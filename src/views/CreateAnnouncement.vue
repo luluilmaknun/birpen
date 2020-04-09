@@ -1,6 +1,7 @@
 <template>
   <div id="create-announcement" class="page-container">
-    <h2 class="title" style="color: black">Buat Pengumuman</h2>
+    <h2 v-if="edit" class="title" style="color: black">Edit Pengumuman</h2>
+    <h2 v-else class="title" style="color: black">Buat Pengumuman</h2>
     <br>
     <br>
     <form class="vue-form" @submit.prevent="postData()">

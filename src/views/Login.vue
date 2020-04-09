@@ -65,6 +65,7 @@ export default {
             localStorage.setItem('is_admin', response.data.is_admin);
             localStorage.setItem('is_asdos', response.data.is_asdos);
             localStorage.setItem('role', response.data.role);
+            localStorage.setItem('username', this.username);
 
             this.$router.push('/');
           })
