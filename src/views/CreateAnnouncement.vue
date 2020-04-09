@@ -298,6 +298,7 @@ form.vue-form input, form.vue-form select, form.vue-form textarea {
   font-size: 30px;
   font-family: 'Montserrat', sans-serif;
   border: 0;
+  box-sizing: border-box;
 }
 form.vue-form input, form.vue-form select {
   height: 55px;
