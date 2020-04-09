@@ -2,6 +2,10 @@ import Vue from 'vue';
 import Router from 'vue-router';
 import Home from '@/Home.vue';
 import Delete from '@/components/delete.vue';
+<<<<<<< HEAD
+=======
+import Login from '@/components/Login.vue';
+>>>>>>> c6465f5f2f779f0fb0a29e2be10f00e69353045f
 import CreateAnnouncement from '@/views/CreateAnnouncement.vue';
 import EditAnnouncement from '@/views/EditAnnouncement.vue';
 
@@ -36,5 +40,13 @@ export default new Router({
       component: EditAnnouncement,
       props: true,
     },
+<<<<<<< HEAD
+=======
+    {
+      path: '/login',
+      name: 'login',
+      component: Login,
+    },
+>>>>>>> c6465f5f2f779f0fb0a29e2be10f00e69353045f
   ],
 });
