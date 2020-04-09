@@ -4,6 +4,7 @@ import Home from '@/Home.vue';
 import Login from '@/components/Login.vue';
 import CreateAnnouncement from '@/views/CreateAnnouncement.vue';
 import EditAnnouncement from '@/views/EditAnnouncement.vue';
+import AsdosPage from '@/views/AsdosPage.vue';
 import Pengumuman from '@/views/Pengumuman.vue';
 
 Vue.use(Router);
@@ -70,7 +71,12 @@ const router = new Router({
     {
       path: '/asisten',
       name: 'asisten',
-      component: null,
+      component: AsdosPage,
+    },
+    {
+      path: '/asdos',
+      name: 'asdos',
+      component: AsdosPage,
     },
   ],
 });

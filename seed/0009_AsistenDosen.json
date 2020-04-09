@@ -5,5 +5,19 @@
         "fields": {
           "username": "asdos"
         }
+    },
+    {
+      "model": "sso_ui.asistendosen",
+      "pk": 2,
+      "fields": {
+        "username": "ichlassul.affan"
+      }
+    },
+    {
+      "model": "sso_ui.asistendosen",
+      "pk": 3,
+      "fields": {
+        "username": "agas.yanpratama"
+      }
     }
 ]

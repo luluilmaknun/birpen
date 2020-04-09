@@ -26,6 +26,10 @@ urlpatterns = [
         'api/permohonan-surat/',
         include(('permohonan_surat.urls', 'permohonan_surat'),
                 namespace='permohonan_surat')),
+    path(
+        'api/asdos/',
+        include(('asdos.urls', 'asdos'),
+                namespace='asdos')),
 
     # http://localhost:8000/api/admin/
     path('api/admin/', admin.site.urls),
