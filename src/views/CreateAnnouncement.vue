@@ -1,5 +1,5 @@
 <template>
-  <div id="create-announcement">
+  <div id="create-announcement" class="page-container">
     <h2 class="title" style="color: black">Buat Pengumuman</h2>
     <br>
     <br>
@@ -298,6 +298,7 @@ form.vue-form input, form.vue-form select, form.vue-form textarea {
   font-size: 30px;
   font-family: 'Montserrat', sans-serif;
   border: 0;
+  box-sizing: border-box;
 }
 form.vue-form input, form.vue-form select {
   height: 55px;
