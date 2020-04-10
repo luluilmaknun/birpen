@@ -18,7 +18,7 @@ const router = new Router({
       component: Home,
     },
     {
-      path: '/surat',
+      path: '/surat/',
       name: 'surat',
       component: null,
       meta: {
@@ -26,7 +26,7 @@ const router = new Router({
       },
     },
     {
-      path: '/pengumuman',
+      path: '/pengumuman/',
       name: 'pengumuman',
       component: Pengumuman,
       meta: {
@@ -34,7 +34,7 @@ const router = new Router({
       },
     },
     {
-      path: '/pengumuman/create',
+      path: '/pengumuman/create/',
       name: 'create-pengumuman',
       component: CreateAnnouncement,
       meta: {
@@ -42,7 +42,7 @@ const router = new Router({
       },
     },
     {
-      path: '/pengumuman/:pk_key/edit',
+      path: '/pengumuman/:pk_key/edit/',
       name: 'edit-pengumuman',
       component: EditAnnouncement,
       props: true,
@@ -51,7 +51,7 @@ const router = new Router({
       },
     },
     {
-      path: '/login',
+      path: '/login/',
       name: 'login',
       component: Login,
       meta: {
@@ -59,22 +59,22 @@ const router = new Router({
       },
     },
     {
-      path: '/sso/logout',
+      path: '/sso/logout/',
       name: 'logout',
       component: null,
     },
     {
-      path: '/register',
+      path: '/register/',
       name: 'register',
       component: null,
     },
     {
-      path: '/asisten',
+      path: '/asisten/',
       name: 'asisten',
       component: AsdosPage,
     },
     {
-      path: '/asdos',
+      path: '/asdos/',
       name: 'asdos',
       component: AsdosPage,
     },
