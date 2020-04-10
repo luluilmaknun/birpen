@@ -33,26 +33,26 @@ class ReadAllPengumumanTest(TestCase):
 
 
     def test_request_without_authentication(self):
-        response = self.client.get('/api/asdos/'.format(10000))
+        response = self.client.get('/api/asdos/')
 
         self.assertEqual(response.status_code, 401)
 
 
     def test_request_not_privileged(self):
         self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + self.token_3)
-        response = self.client.get('/api/asdos/'.format(10000))
+        response = self.client.get('/api/asdos/')
 
         self.assertEqual(response.status_code, 403)
 
 
     def test_request_as_admin(self):
         self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + self.token_1)
-        response = self.client.get('/api/asdos/'.format(10000))
+        response = self.client.get('/api/asdos/')
 
         self.assertEqual(response.status_code, 200)
 
     def test_request_as_dosen(self):
         self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + self.token_2)
-        response = self.client.get('/api/asdos/'.format(10000))
+        response = self.client.get('/api/asdos/')
 
         self.assertEqual(response.status_code, 200)
