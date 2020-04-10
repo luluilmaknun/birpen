@@ -85,7 +85,8 @@
       Pengumuman
     </h1>
 
-    <div class="create-filter-section">
+    <div class="create-filter-section"
+    v-if='!isMahasiswa'>
       <a :href="'/pengumuman/create'"
       class="create-announcement-button">
         BUAT PENGUMUMAN
@@ -106,11 +107,7 @@
         </tr>
 
         <tr>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
+          <td class="head-table" v-for="head in tableHead" :key="head"/>
         </tr>
       </table>
       <h2>Tidak ada pengumuman</h2>
@@ -127,6 +124,9 @@
         </tr>
 
         <tr v-for="content in today" :key="content.pk">
+          <td v-if='isMahasiswa'>
+            {{ content.pembuat }}
+          </td>
           <td id="nama_mata_kuliah_today">
             {{ content.nama_mata_kuliah }}
           </td>
@@ -139,7 +139,10 @@
           <td id="nama_status_pengumuman_today">
             {{ content.nama_status_pengumuman }}
           </td>
-          <td>
+          <td v-if='isMahasiswa'>
+            {{ content.komentar }}
+          </td>
+          <td v-if='!isMahasiswa'>
             <button
             v-on:click="showModal(
               content.pk,
@@ -172,11 +175,7 @@
         </tr>
 
         <tr>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
+          <td class="head-table" v-for="head in tableHead" :key="head"/>
         </tr>
       </table>
       <h2>Tidak ada pengumuman</h2>
@@ -193,6 +192,9 @@
         </tr>
 
         <tr v-for="content in tomorrow" :key="content.pk">
+          <td v-if='isMahasiswa'>
+            {{ content.pembuat }}
+          </td>
           <td id="nama_mata_kuliah_tomorrow">
             {{ content.nama_mata_kuliah }}
           </td>
@@ -205,7 +207,10 @@
           <td id="nama_status_pengumuman_tomorrow">
             {{ content.nama_status_pengumuman }}
           </td>
-          <td>
+          <td v-if='isMahasiswa'>
+            {{ content.komentar }}
+          </td>
+          <td v-if='!isMahasiswa'>
             <button
             v-on:click="showModal(
               content.pk,
@@ -235,8 +240,13 @@ import announcementApi from '@/services/announcementServices';
 
 export default {
   data: function() {
+    const isMahasiswa =
+      localStorage.getItem('is_admin') === 'false' &&
+      localStorage.getItem('is_asdos') === 'false' &&
+      localStorage.getItem('role') === 'mahasiswa';
     return {
       // TEST DATA SECTION
+      isMahasiswa: isMahasiswa,
       modaldetail: [
         {
           pk: 999,
@@ -252,9 +262,9 @@ export default {
           komentar: '',
         },
       ],
-      tableHead: [
-        'Mata Kuliah', 'Dosen', 'Sesi', 'Status', 'Aksi',
-      ],
+      tableHead: (isMahasiswa ?
+        ['Dibuat Oleh', 'Mata Kuliah', 'Dosen', 'Sesi', 'Status', 'Komentar'] :
+        ['Mata Kuliah', 'Dosen', 'Sesi', 'Status', 'Aksi']),
       response: {},
       filteredResponse: {},
       today: [],
