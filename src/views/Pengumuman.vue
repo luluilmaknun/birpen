@@ -85,12 +85,12 @@
       Pengumuman
     </h1>
 
-    <div class="create-filter-section"
-    v-if='!isMahasiswa'>
+    <div class="create-filter-section">
       <a :href="'/pengumuman/create'"
-      class="create-announcement-button">
+      class="create-announcement-button"
+      v-if='!isMahasiswa'>
         BUAT PENGUMUMAN
-      </a>
+      </a><a v-else/>
       <div class="create-filter-spreader"></div>
       <FilterComponent/>
     </div>
