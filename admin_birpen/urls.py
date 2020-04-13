@@ -1,7 +1,7 @@
 from django.urls import path
+from .views import read_all_admin
 
-from .views import admin_placeholder_views
 
 urlpatterns = [
-    path('', admin_placeholder_views, name='admin_placeholder_views'),
+    path('', read_all_admin, name='read_all_asdos'),
 ]
