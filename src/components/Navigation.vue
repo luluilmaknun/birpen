@@ -7,9 +7,9 @@
       <router-link class="nav-elem"
       ref="surat-button" :to="{ name: 'surat' }">
       Surat</router-link>
-      <router-link class="nav-elem"
-      ref="pengumuman-button" :to="{ path: '/pengumuman/' }">
-      Pengumuman</router-link>
+      <a class="nav-elem" ref="pengumuman-button" :href="/pengumuman/">
+        Pengumuman
+      </a>
 
       <label v-if="is_authenticated && is_admin_or_dosen">
             <router-link class="nav-elem"
