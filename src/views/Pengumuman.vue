@@ -271,9 +271,11 @@ export default {
     fetchData: function() {
       const currentURL = window.location.href;
       const arrayURL = currentURL.split('/');
+      const last = arrayURL[4];
 
       // IF URL HAS TANGGAL
-      if (arrayURL.length == 5) {
+      if (last.includes('tanggal')) {
+        // PERFORM RENDER FILTERED
         const arrayFilter = arrayURL[4].split('=');
         const dateFilter = arrayFilter[1];
 
