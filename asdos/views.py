@@ -8,8 +8,7 @@ from rest_framework.status import (
     HTTP_200_OK,
 )
 
-from sso_ui.models import AsistenDosen
-
+from .models import AsistenDosen
 from .serializers import AsistenDosenSerializer
 from .permissions import IsPrivilegedToAccessAsdos
 
