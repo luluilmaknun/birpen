@@ -6,7 +6,8 @@ from django.utils.http import urlencode
 from rest_framework.test import APIClient
 from rest_framework_jwt.settings import api_settings
 
-from sso_ui.models import Admin, AsistenDosen
+from asdos.models import AsistenDosen
+from admin_birpen.models import Admin
 
 User = get_user_model()
 
