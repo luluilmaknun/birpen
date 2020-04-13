@@ -1,5 +1,5 @@
 from django.core.exceptions import ObjectDoesNotExist
-from django.db.utils import DataError
+from django.db.utils import DataError, IntegrityError
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
@@ -43,17 +43,17 @@ def create_asisten(request):
         if asisten.username is None or asisten.username == '':
             raise ValueError
 
-        if (AsistenDosen.objects.filter(username=asisten.username).exists()) is True:
-            return Response({
-                'detail': asisten.username + ' is already registered as asisten.',
-                'success': False,
-            }, status=HTTP_400_BAD_REQUEST)
-
         asisten.save()
 
     except (ObjectDoesNotExist, ValueError, TypeError, DataError):
         return Response({
             'detail': 'Invalid username.',
+            'success': False,
+        }, status=HTTP_400_BAD_REQUEST)
+
+    except IntegrityError:
+        return Response({
+            'detail': asisten.username + ' is already registered as asisten.',
             'success': False,
         }, status=HTTP_400_BAD_REQUEST)
 
