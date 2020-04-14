@@ -269,6 +269,20 @@ export default {
   },
   methods: {
     fetchData: function() {
+      const currentURL = window.location.href;
+      const arr = currentURL.split('/');
+      const date = arr[4];
+      if (date == '') {
+        this.fetchPengumuman();
+      } else {
+        this.fetchFilteredPengumuman();
+      }
+    },
+    fetchFilteredPengumuman: function() {
+      // TODO: filtering
+      this.response = {};
+    },
+    fetchPengumuman: function() {
       announcementApi.getAnnouncementDefault().then((d) => {
         this.response = d.data;
         for (let i = 0; i < this.response.pengumuman_today.length; i++) {
