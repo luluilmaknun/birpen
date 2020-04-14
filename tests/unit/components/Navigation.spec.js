@@ -1,4 +1,4 @@
-import {shallowMount, createLocalVue} from '@vue/test-utils';
+import {shallowMount} from '@vue/test-utils';
 import Navigation from '@/components/Navigation.vue';
 
 describe('Tes base navbar', () => {
@@ -26,29 +26,5 @@ describe('Tes base navbar', () => {
     const button = wrapper.find({ref: 'surat-button'});
     expect(button.exists()).toBe(true);
     expect(wrapper.html()).toContain('Surat');
-  });
-
-  it('test user telah login', () => {
-    const localVue = createLocalVue();
-    localStorage.setItem('token', '5e8u4Ht0k3n');
-
-    const wrapper = shallowMount(Navigation, {
-      localVue,
-    });
-
-    const vm = wrapper.vm;
-    expect(vm.is_authenticated).toBe(true);
-    localStorage.clear();
-  });
-
-  it('test user belum login', () => {
-    const localVue = createLocalVue();
-
-    const wrapper = shallowMount(Navigation, {
-      localVue,
-    });
-
-    const vm = wrapper.vm;
-    expect(vm.is_authenticated).toBe(false);
   });
 });
