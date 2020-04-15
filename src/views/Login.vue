@@ -79,7 +79,7 @@ export default {
 
 <style>
 #login-page {
-  paddding: 0 !important;
+  padding: 0 !important;
   height: 100%;
   display: flex;
   justify-content: center;
@@ -94,7 +94,6 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: fit-content;
 }
 input {
   padding: 15px;

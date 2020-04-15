@@ -98,9 +98,10 @@
     <!-- table if no data -->
     <div class="table-div" id="table-today" v-if="today.length == 0">
       <p class="today-tomorrow-date">{{ todayDate }}</p>
-      <table>
+      <table aria-hidden="true">
         <tr>
-          <th class="head-table" v-for="head in tableHead" :key="head">
+          <th id="table-header" class="head-table"
+            v-for="head in tableHead" :key="head">
             {{ head }}
           </th>
         </tr>
@@ -119,9 +120,10 @@
     <!-- table if there are datas -->
     <div class="table-div" v-else>
       <p class="today-tomorrow-date">{{ todayDate }}</p>
-      <table>
+      <table aria-hidden="true">
         <tr>
-          <th class="head-table" v-for="head in tableHead" :key="head">
+          <th id="table-header" class="head-table"
+            v-for="head in tableHead" :key="head">
             {{ head }}
           </th>
         </tr>
@@ -164,9 +166,10 @@
     <!-- table if no data -->
     <div class="table-div" id="table-tomorrow" v-if="tomorrow.length == 0">
       <p class="today-tomorrow-date">{{ tomorrowDate }}</p>
-      <table>
+      <table aria-hidden="true">
         <tr>
-          <th class="head-table" v-for="head in tableHead" :key="head">
+          <th id="table-header" class="head-table"
+            v-for="head in tableHead" :key="head">
             {{ head }}
           </th>
         </tr>
@@ -185,9 +188,10 @@
     <!-- table if there are datas -->
     <div class="table-div" id="table-tomorrow" v-else>
       <p class="today-tomorrow-date">{{ tomorrowDate }}</p>
-      <table>
+      <table aria-hidden="true">
         <tr>
-          <th class="head-table" v-for="head in tableHead" :key="head">
+          <th id="table-header" class="head-table"
+            v-for="head in tableHead" :key="head">
             {{ head }}
           </th>
         </tr>
@@ -448,6 +452,7 @@ tr:nth-child(odd) {
   display:flex;
   flex-direction: row;
   line-height: 30pt;
+  justify-content: center;
 }
 .detail-container #left {
   margin-right: 20px;
@@ -455,11 +460,6 @@ tr:nth-child(odd) {
 }
 .detail-container #right {
   margin-right: 500px;
-}
-.detail-container {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
 }
 .modal-button-container {
   display: flex;
