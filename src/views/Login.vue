@@ -73,7 +73,7 @@ export default {
             localStorage.setItem('role', response.data.role);
             localStorage.setItem('username', this.username);
 
-            this.$router.push('/');
+            window.location.replace('/');
           })
           .catch((error) => {
             this.message_seen = true;
