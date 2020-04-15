@@ -1,7 +1,7 @@
 from django.contrib.auth import get_user_model
 from django.test import TestCase
 
-from sso_ui.models import AsistenDosen
+from asdos.models import AsistenDosen
 from admin_birpen.models import Admin
 
 User = get_user_model()
