@@ -69,11 +69,13 @@
 
         <div class="modal-button-container">
           <a :href="'pengumuman/' + detail.pk + '/edit/'" class="edit-button"
-          v-if='isAdmin || ((isAsdos || isDosen) && (username === detail.pembuat))'>
+          v-if='isAdmin ||
+          ((isAsdos || isDosen) && (username === detail.pembuat))'>
             Ubah
           </a>
           <DeleteButton class="delete-button"
-          v-if='isAdmin || ((isAsdos || isDosen) && (username === detail.pembuat))'/>
+          v-if='isAdmin ||
+          ((isAsdos || isDosen) && (username === detail.pembuat))'/>
           <div class="spreader-button" />
           <button class="close-modal" v-on:click="closeModal()">
             Tutup
@@ -251,7 +253,7 @@ export default {
         },
       ],
       tableHead: [
-        'Mata Kuliah', 'Dosen', 'Sesi', 'Status', 'Aksi'
+        'Mata Kuliah', 'Dosen', 'Sesi', 'Status', 'Aksi',
       ],
       response: {},
       filteredResponse: {},
