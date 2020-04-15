@@ -102,7 +102,7 @@ class CreateAsistenTest(TestCase):
 
         response = self.client.post('/api/asdos/create-asisten/',
                                     data=urlencode(MultiValueDict({
-                                        'username': 'a'*33
+                                        'username': 'a'*151
                                     })),
                                     content_type='application/x-www-form-urlencoded')
         self.assertEqual(response.status_code, 400)

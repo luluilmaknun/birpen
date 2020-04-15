@@ -9,6 +9,8 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django_cas_ng.signals import cas_user_authenticated
 
+from asdos.models import AsistenDosen
+
 LANG = settings.SSO_UI_ORG_DETAIL_LANG
 ORG_CODE = {}
 with open(settings.SSO_UI_ORG_DETAIL_FILE_PATH, 'r') as ORG_CODE_FILE:
@@ -43,14 +45,6 @@ class Admin(models.Model):
 
     class Meta:
         verbose_name = 'admin'
-        verbose_name_plural = verbose_name
-
-
-class AsistenDosen(models.Model):
-    username = models.CharField(max_length=150, unique=True)
-
-    class Meta:
-        verbose_name = 'asisten dosen'
         verbose_name_plural = verbose_name
 
 
