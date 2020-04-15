@@ -1,3 +1,4 @@
+from django.db.utils import IntegrityError, DataError
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
@@ -36,6 +37,31 @@ def delete_admin(_, username):
         }, status=HTTP_400_BAD_REQUEST)
 
     admin.delete()
+
+    return Response({
+        "success": True,
+    }, status=HTTP_200_OK)
+
+@api_view(["POST"])
+@permission_classes((IsAuthenticated, IsPrivilegedToAccessAdmin,))
+def create_admin(request):
+    username = request.data.get("username")
+
+    if username is None or username == '':
+        return Response({
+            "detail": "Username not provided."
+        }, status=HTTP_400_BAD_REQUEST)
+
+    try:
+        Admin.objects.create(username=username)
+    except IntegrityError:
+        return Response({
+            "detail": "Admin already exists."
+        }, status=HTTP_400_BAD_REQUEST)
+    except DataError:
+        return Response({
+            "detail": "Invalid username."
+        }, status=HTTP_400_BAD_REQUEST)
 
     return Response({
         "success": True,
