@@ -31,9 +31,11 @@
 
       <label v-if="is_authenticated">
         <a id="username">{{ username }}</a>
-        <router-link class="nav-elem" id="logout-button"
-        ref="logout" :to="{ name: 'logout' }">
-        Logout</router-link>
+        <a class="nav-elem"
+        :href="`/sso/logout/?next=%2Fsso%2Fsave_user_info`"
+        id="logout-button">
+        Logout
+        </a>
       </label>
     </div>
 
