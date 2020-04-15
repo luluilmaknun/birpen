@@ -68,10 +68,12 @@
         </div>
 
         <div class="modal-button-container">
-          <a :href="'pengumuman/' + detail.pk + '/edit/'" class="edit-button">
+          <a :href="'pengumuman/' + detail.pk + '/edit/'" class="edit-button"
+          v-if='isAdmin || ((isAsdos || isDosen) && (username === detail.pembuat))'>
             Ubah
           </a>
-          <DeleteButton class="delete-button"/>
+          <DeleteButton class="delete-button"
+          v-if='isAdmin || ((isAsdos || isDosen) && (username === detail.pembuat))'/>
           <div class="spreader-button" />
           <button class="close-modal" v-on:click="closeModal()">
             Tutup
@@ -88,7 +90,7 @@
     <div class="create-filter-section">
       <a :href="'/pengumuman/create'"
       class="create-announcement-button"
-      v-if='!isMahasiswa'>
+      v-if='isAdmin || isAsdos || isDosen'>
         BUAT PENGUMUMAN
       </a><a v-else/>
       <div class="create-filter-spreader"></div>
@@ -124,9 +126,6 @@
         </tr>
 
         <tr v-for="content in today" :key="content.pk">
-          <td v-if='isMahasiswa'>
-            {{ content.pembuat }}
-          </td>
           <td id="nama_mata_kuliah_today">
             {{ content.nama_mata_kuliah }}
           </td>
@@ -139,10 +138,7 @@
           <td id="nama_status_pengumuman_today">
             {{ content.nama_status_pengumuman }}
           </td>
-          <td v-if='isMahasiswa'>
-            {{ content.komentar }}
-          </td>
-          <td v-if='!isMahasiswa'>
+          <td>
             <button
             v-on:click="showModal(
               content.pk,
@@ -192,9 +188,6 @@
         </tr>
 
         <tr v-for="content in tomorrow" :key="content.pk">
-          <td v-if='isMahasiswa'>
-            {{ content.pembuat }}
-          </td>
           <td id="nama_mata_kuliah_tomorrow">
             {{ content.nama_mata_kuliah }}
           </td>
@@ -207,10 +200,7 @@
           <td id="nama_status_pengumuman_tomorrow">
             {{ content.nama_status_pengumuman }}
           </td>
-          <td v-if='isMahasiswa'>
-            {{ content.komentar }}
-          </td>
-          <td v-if='!isMahasiswa'>
+          <td>
             <button
             v-on:click="showModal(
               content.pk,
@@ -240,13 +230,11 @@ import announcementApi from '@/services/announcementServices';
 
 export default {
   data: function() {
-    const isMahasiswa =
-      localStorage.getItem('is_admin') === 'false' &&
-      localStorage.getItem('is_asdos') === 'false' &&
-      localStorage.getItem('role') === 'mahasiswa';
     return {
-      // TEST DATA SECTION
-      isMahasiswa: isMahasiswa,
+      username: localStorage.getItem('username'),
+      isDosen: localStorage.getItem('role') === 'staff',
+      isAsdos: localStorage.getItem('is_asdos') === 'true',
+      isAdmin: localStorage.getItem('is_admin') === 'true',
       modaldetail: [
         {
           pk: 999,
@@ -262,9 +250,9 @@ export default {
           komentar: '',
         },
       ],
-      tableHead: (isMahasiswa ?
-        ['Dibuat Oleh', 'Mata Kuliah', 'Dosen', 'Sesi', 'Status', 'Komentar'] :
-        ['Mata Kuliah', 'Dosen', 'Sesi', 'Status', 'Aksi']),
+      tableHead: [
+        'Mata Kuliah', 'Dosen', 'Sesi', 'Status', 'Aksi'
+      ],
       response: {},
       filteredResponse: {},
       today: [],
