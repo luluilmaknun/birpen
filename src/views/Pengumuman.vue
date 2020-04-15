@@ -68,10 +68,14 @@
         </div>
 
         <div class="modal-button-container">
-          <a :href="'pengumuman/' + detail.pk + '/edit/'" class="edit-button">
+          <a :href="'pengumuman/' + detail.pk + '/edit/'" class="edit-button"
+          v-if='isAdmin ||
+          ((isAsdos || isDosen) && (username === detail.pembuat))'>
             Ubah
           </a>
-          <DeleteButton class="delete-button"/>
+          <DeleteButton class="delete-button"
+          v-if='isAdmin ||
+          ((isAsdos || isDosen) && (username === detail.pembuat))'/>
           <div class="spreader-button" />
           <button class="close-modal" v-on:click="closeModal()">
             Tutup
@@ -87,9 +91,10 @@
 
     <div class="create-filter-section">
       <a :href="'/pengumuman/create'"
-      class="create-announcement-button">
+      class="create-announcement-button"
+      v-if='isAdmin || isAsdos || isDosen'>
         BUAT PENGUMUMAN
-      </a>
+      </a><a v-else/>
       <div class="create-filter-spreader"></div>
       <FilterComponent/>
     </div>
@@ -107,11 +112,7 @@
         </tr>
 
         <tr>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
+          <td class="head-table" v-for="head in tableHead" :key="head"/>
         </tr>
       </table>
       <h2>Tidak ada pengumuman</h2>
@@ -175,11 +176,7 @@
         </tr>
 
         <tr>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
+          <td class="head-table" v-for="head in tableHead" :key="head"/>
         </tr>
       </table>
       <h2>Tidak ada pengumuman</h2>
@@ -240,7 +237,10 @@ import announcementApi from '@/services/announcementServices';
 export default {
   data: function() {
     return {
-      // TEST DATA SECTION
+      username: localStorage.getItem('username'),
+      isDosen: localStorage.getItem('role') === 'staff',
+      isAsdos: localStorage.getItem('is_asdos') === 'true',
+      isAdmin: localStorage.getItem('is_admin') === 'true',
       modaldetail: [
         {
           pk: 999,
