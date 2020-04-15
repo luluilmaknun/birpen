@@ -11,6 +11,8 @@ from rest_framework.status import (
 from .models import Admin
 from .permissions import IsPrivilegedToAccessAdmin
 
+ADMIN_NOT_FOUND_MESSAGE = "Admin does not exist."
+
 
 @api_view(["GET"])
 def admin_placeholder_views(_):
@@ -24,6 +26,22 @@ def admin_placeholder_views(_):
     }, status=HTTP_200_OK)
 
 @csrf_exempt
+@api_view(["DELETE"])
+@permission_classes((IsAuthenticated, IsPrivilegedToAccessAdmin,))
+def delete_admin(_, username):
+    try:
+        admin = Admin.objects.get(username=username)
+    except Admin.DoesNotExist:
+        return Response({
+            "detail": ADMIN_NOT_FOUND_MESSAGE
+        }, status=HTTP_400_BAD_REQUEST)
+
+    admin.delete()
+
+    return Response({
+        "success": True,
+    }, status=HTTP_200_OK)
+
 @api_view(["POST"])
 @permission_classes((IsAuthenticated, IsPrivilegedToAccessAdmin,))
 def create_admin(request):
