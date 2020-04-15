@@ -13,5 +13,4 @@ urlpatterns = [
     path('dropdown/', dropdown_pengumuman, name='dropdown_pengumuman'),
     path('<str:key>/delete/', delete_pengumuman, name='delete_pengumuman'),
     path('<str:key>/', read_pengumuman_by_pk, name='read_pengumuman_by_pk'),
-    path('get-pengumuman', get_pengumuman_default, name='get_pengumuman'),
 ]
