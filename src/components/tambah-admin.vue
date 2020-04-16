@@ -7,8 +7,8 @@
         <h1 id="title-in-pop">Tambah Admin</h1><br>
         <p id="desc-in-pop">Masukan user SSO Admin</p><br>
         <p id="error-message">{{ error_message }}</p>
-        <input class="input" type="text" id="sso_username"
-          v-model="sso_username"/>
+        <input class="input" type="text" id="admin_username"
+          v-model="admin_username"/>
         <div class="modal-buttons">
         <button v-on:click="click_tambah" class="yellow-black-btn"
           id="tambah">TAMBAH</button>
@@ -22,13 +22,13 @@
 </template>
 
 <script>
-// import adminServices from '@/services/adminServices';
+import adminServices from '@/services/adminServices';
 
 export default {
   name: 'admin',
   data: function() {
     return {
-      'sso_username': '',
+      'admin_username': '',
       'error_message': '',
     };
   },
@@ -37,6 +37,16 @@ export default {
       this.$modal.show('pop-box');
     },
     click_tambah: function() {
+      adminServices.createAdmin({
+        username: this.admin_username,
+      }).then((result) => {
+        this.$router.go({
+          path: '/',
+          force: true,
+        });
+      }).catch((error) => {
+        this.error_message = error.response.data.detail;
+      });
     },
   },
 };
