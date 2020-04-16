@@ -66,8 +66,7 @@ def create_asisten(request):
 @csrf_exempt
 @api_view(["DELETE"])
 @permission_classes((IsAuthenticated, IsPrivilegedToAccessAsdos))
-def delete_asdos(request):
-    username = request.data.get('username')
+def delete_asdos(_, username):
 
     try:
         asisten = AsistenDosen.objects.get(username=username)
