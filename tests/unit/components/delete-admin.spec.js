@@ -2,7 +2,7 @@ import {shallowMount} from '@vue/test-utils';
 import DeleteAdmin from '@/components/delete-admin.vue';
 import adminApi from '@/services/adminServices';
 
-describe('Test delete component', () => {
+describe('Test hapus component', () => {
   const wrapper = shallowMount(DeleteAdmin);
 
   it('tes tombol hapus', () => {
@@ -17,7 +17,7 @@ describe('Test delete component', () => {
     button.trigger('click');
   });
 
-  it('tes tombol tambah asisten', () => {
+  it('tes tombol konfirmasi -> hapus', () => {
     expect(wrapper.find('#hapus_conf').exists()).toBe(true);
     const button = wrapper.find('#hapus_conf');
     button.trigger('click');
@@ -47,7 +47,7 @@ describe('tes hapus admin', () => {
     vm.click_hapus_conf();
   });
 
-  it('fail hapus admin, username kosong', () => {
+  it('fail hapus admin, admin tidak ada', () => {
     wrapper = shallowMount(DeleteAdmin, {
       data() {
         return {
