@@ -10,9 +10,10 @@
     </div>
     <!-- TABLE SECTION -->
     <div class="table-div">
-      <table>
+      <table aria-hidden="true">
         <tr>
-          <th class="head-table" v-for="head in tableHead" :key="head">
+          <th id="table-header" class="head-table"
+            v-for="head in tableHead" :key="head">
             {{ head }}
           </th>
         </tr>

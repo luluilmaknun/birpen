@@ -1,20 +1,20 @@
 [
     {
-        "model": "sso_ui.asistendosen",
+        "model": "asdos.asistendosen",
         "pk": 1,
         "fields": {
           "username": "asdos"
         }
     },
     {
-      "model": "sso_ui.asistendosen",
+      "model": "asdos.asistendosen",
       "pk": 2,
       "fields": {
         "username": "ichlassul.affan"
       }
     },
     {
-      "model": "sso_ui.asistendosen",
+      "model": "asdos.asistendosen",
       "pk": 3,
       "fields": {
         "username": "agas.yanpratama"
