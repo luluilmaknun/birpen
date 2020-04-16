@@ -16,6 +16,7 @@ const router = new Router({
       path: '/',
       name: 'home',
       component: Home,
+      pathToRegexpOptions: {strict: true},
     },
     {
       path: '/surat/',
@@ -24,6 +25,7 @@ const router = new Router({
       meta: {
         requiresAuth: true,
       },
+      pathToRegexpOptions: {strict: true},
     },
     {
       path: '/pengumuman/',
@@ -32,6 +34,7 @@ const router = new Router({
       meta: {
         requiresAuth: true,
       },
+      pathToRegexpOptions: {strict: true},
     },
     {
       path: '/pengumuman/create/',
@@ -40,6 +43,7 @@ const router = new Router({
       meta: {
         requiresAuth: true,
       },
+      pathToRegexpOptions: {strict: true},
     },
     {
       path: '/pengumuman/:pk_key/edit/',
@@ -49,6 +53,7 @@ const router = new Router({
       meta: {
         requiresAuth: true,
       },
+      pathToRegexpOptions: {strict: true},
     },
     {
       path: '/login/',
@@ -57,31 +62,42 @@ const router = new Router({
       meta: {
         guest: true,
       },
+      pathToRegexpOptions: {strict: true},
     },
     {
       path: '/sso/logout/',
       name: 'logout',
       component: null,
+      pathToRegexpOptions: {strict: true},
     },
     {
       path: '/register/',
       name: 'register',
       component: null,
+      pathToRegexpOptions: {strict: true},
     },
     {
       path: '/asisten/',
       name: 'asisten',
       component: AsdosPage,
+      pathToRegexpOptions: {strict: true},
     },
     {
       path: '/asdos/',
       name: 'asdos',
       component: AsdosPage,
+      pathToRegexpOptions: {strict: true},
     },
   ],
 });
 
 router.beforeEach((to, from, next) => {
+  const withoutTrailingSlash = RegExp('^.*[^/]$');
+
+  if (withoutTrailingSlash.test(to.fullPath)) {
+    next(to.fullPath + '/');
+  }
+
   const token = localStorage.token;
   if (to.matched.some((record) => record.meta.requiresAuth)) {
     if (typeof(token) === 'undefined'
