@@ -59,11 +59,6 @@ const router = new Router({
       },
     },
     {
-      path: '/sso/logout/',
-      name: 'logout',
-      component: null,
-    },
-    {
       path: '/register/',
       name: 'register',
       component: null,
@@ -71,11 +66,6 @@ const router = new Router({
     {
       path: '/asisten/',
       name: 'asisten',
-      component: AsdosPage,
-    },
-    {
-      path: '/asdos/',
-      name: 'asdos',
       component: AsdosPage,
     },
   ],
