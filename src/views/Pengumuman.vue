@@ -261,6 +261,7 @@ export default {
       tomorrow: [],
       todayDate: '',
       tomorrowDate: '',
+      error_msg: '',
     };
   },
   created: function() {
@@ -292,6 +293,8 @@ export default {
         for (let i = 0; i < this.response.pengumuman_tomo.length; i++) {
           this.$set(this.tomorrow, i, this.response.pengumuman_tomo[i]);
         }
+      }).catch((error) => {
+        this.error_msg = error.response.data.detail;
       });
     },
     showModal(pk, pembuat, created, matkul, jenis, dosen, asisten,
