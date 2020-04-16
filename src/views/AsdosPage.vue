@@ -84,9 +84,7 @@ export default {
       });
     },
     deleteAsdos: function(name) {
-      asistenServices.deleteAsisten({
-        username: name,
-      }).then((result) => {
+      asistenServices.deleteAsisten(name).then((result) => {
         this.$router.go({
           path: '/asdos',
           force: true,
