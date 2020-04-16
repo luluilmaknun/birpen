@@ -51,7 +51,7 @@ describe('tes hapus admin', () => {
     wrapper = shallowMount(DeleteAdmin, {
       data() {
         return {
-          'admin_username': 's4y@_bkN_4dm1n',
+          'deleted_admin_username': 's4y@_bkN_4dm1n',
         };
       },
     });

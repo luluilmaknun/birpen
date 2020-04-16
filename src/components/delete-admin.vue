@@ -1,7 +1,7 @@
 <template>
   <div>
-    <modal name="pop-box"
-    :height="210"
+    <modal v-bind:name=this.deleted_admin_username
+    :height="200"
     :width="350"
     :pivotX="0.0" id = "center-div">
     <div class="modal-container">
@@ -35,10 +35,10 @@ export default {
   },
   methods: {
     click_hapus: function() {
-      this.$modal.show('pop-box');
+      this.$modal.show(this.deleted_admin_username);
     },
     click_tidak: function() {
-      this.$modal.hide('pop-box');
+      this.$modal.hide(this.deleted_admin_username);
     },
     click_hapus_conf: function() {
       adminServices.deleteAdmin(this.deleted_admin_username)
@@ -53,7 +53,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 
 .modal-buttons button {
   margin-left: 20px;
@@ -61,14 +61,14 @@ export default {
 }
 
 .modal-buttons {
-  margin-top: 15px;
+  margin-top: 20px;
   display: flex;
   flex-direction: row;
   justify-content: center;
 }
 
 .modal-container {
-  margin: 70px 70px;
+  margin: 30px 30px;
   display: flex;
   flex-direction: column;
   align-items: center;
