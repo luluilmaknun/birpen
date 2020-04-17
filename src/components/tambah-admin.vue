@@ -40,10 +40,7 @@ export default {
       adminServices.createAdmin({
         username: this.admin_username,
       }).then((result) => {
-        this.$router.go({
-          path: '/',
-          force: true,
-        });
+        this.$router.go();
       }).catch((error) => {
         this.error_message = error.response.data.detail;
       });
