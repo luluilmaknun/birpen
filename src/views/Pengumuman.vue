@@ -100,7 +100,7 @@
     </div>
 
     <!-- UNFILTERED TABLE -->
-    <div class="table-div" id="unfiltered" 
+    <div class="table-div" id="unfiltered"
     v-if="filteredAnnouncement.length == 0">
       <!-- TODAY -->
       <!-- table if no data -->
@@ -342,10 +342,9 @@ export default {
         this.response = result.data;
         for (let i = 0; i < this.response.pengumuman_response.length; i++) {
           this.$set(
-            this.filteredAnnouncement, i, this.response.pengumuman_response[i]
+              this.filteredAnnouncement, i, this.response.pengumuman_response[i]
           );
         }
-        console.log(this.filteredAnnouncement);
       });
     },
     fetchPengumuman: function() {
