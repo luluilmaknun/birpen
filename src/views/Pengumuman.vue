@@ -275,17 +275,18 @@ export default {
   methods: {
     fetchData: function() {
       const currentURL = window.location.href;
-      const arr = currentURL.split('/');
-      const date = arr[4];
-      if (date == '') {
+      const arr = currentURL.split('tanggal=');
+      const date = arr[1];
+      if (typeof(date) == 'undefined') {
         this.fetchPengumuman();
       } else {
-        this.fetchFilteredPengumuman();
+        this.fetchFilteredPengumuman(date);
       }
     },
-    fetchFilteredPengumuman: function() {
-      // TODO: filtering
-      this.response = {};
+    fetchFilteredPengumuman: function(date) {
+      announcementApi.getAnnouncementFiltered(date).then((result) => {
+        this.response = result.data;
+      });
     },
     fetchPengumuman: function() {
       announcementApi.getAnnouncementDefault().then((d) => {
