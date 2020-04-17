@@ -43,10 +43,7 @@ export default {
     click_hapus_conf: function() {
       asistenServices.deleteAsisten(this.deleted_asisten_username)
           .then((result) => {
-            this.$router.go({
-              path: '/',
-              force: true,
-            });
+            this.$router.go();
           }).catch((error) => {});
     },
   },
