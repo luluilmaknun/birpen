@@ -99,132 +99,183 @@
       <FilterComponent/>
     </div>
 
-    <!-- TODAY -->
-    <!-- table if no data -->
-    <div class="table-div" id="table-today" v-if="today.length == 0">
-      <p class="today-tomorrow-date">{{ todayDate }}</p>
-      <table aria-hidden="true">
-        <tr>
-          <th id="table-header" class="head-table"
-            v-for="head in tableHead" :key="head">
-            {{ head }}
-          </th>
-        </tr>
+    <!-- UNFILTERED TABLE -->
+    <div class="table-div" id="unfiltered" 
+    v-if="filteredAnnouncement.length == 0">
+      <!-- TODAY -->
+      <!-- table if no data -->
+      <div class="table-div" id="table-today" v-if="today.length == 0">
+        <p class="today-tomorrow-date">{{ todayDate }}</p>
+        <table aria-hidden="true">
+          <tr>
+            <th id="table-header" class="head-table"
+              v-for="head in tableHead" :key="head">
+              {{ head }}
+            </th>
+          </tr>
 
-        <tr>
-          <td class="head-table" v-for="head in tableHead" :key="head"/>
-        </tr>
-      </table>
-      <h2>Tidak ada pengumuman</h2>
+          <tr>
+            <td class="head-table" v-for="head in tableHead" :key="head"/>
+          </tr>
+        </table>
+        <h2>Tidak ada pengumuman</h2>
+      </div>
+
+      <!-- table if there are datas -->
+      <div class="table-div" v-else>
+        <p class="today-tomorrow-date">{{ todayDate }}</p>
+        <table aria-hidden="true">
+          <tr>
+            <th id="table-header" class="head-table"
+              v-for="head in tableHead" :key="head">
+              {{ head }}
+            </th>
+          </tr>
+
+          <tr v-for="content in today" :key="content.pk">
+            <td id="nama_mata_kuliah_today">
+              {{ content.nama_mata_kuliah }}
+            </td>
+            <td id="nama_dosen_today">
+              {{ content.nama_dosen }}
+            </td>
+            <td id="nama_sesi_today">
+              {{ content.nama_sesi }}
+            </td>
+            <td id="nama_status_pengumuman_today">
+              {{ content.nama_status_pengumuman }}
+            </td>
+            <td>
+              <button
+              v-on:click="showModal(
+                content.pk,
+                content.pembuat,
+                content.created_at,
+                content.nama_mata_kuliah,
+                content.jenis_pengumuman,
+                content.nama_dosen,
+                content.nama_asisten,
+                content.nama_ruang,
+                content.nama_sesi,
+                content.nama_status_pengumuman,
+                content.komentar)" class="detail-button" id="detail-btn">
+                Detail
+              </button>
+            </td>
+          </tr>
+        </table>
+      </div>
+
+      <!-- TOMORROW -->
+      <!-- table if no data -->
+      <div class="table-div" id="table-tomorrow" v-if="tomorrow.length == 0">
+        <p class="today-tomorrow-date">{{ tomorrowDate }}</p>
+        <table aria-hidden="true">
+          <tr>
+            <th id="table-header" class="head-table"
+              v-for="head in tableHead" :key="head">
+              {{ head }}
+            </th>
+          </tr>
+
+          <tr>
+            <td class="head-table" v-for="head in tableHead" :key="head"/>
+          </tr>
+        </table>
+        <h2>Tidak ada pengumuman</h2>
+      </div>
+
+      <!-- table if there are datas -->
+      <div class="table-div" id="table-tomorrow" v-else>
+        <p class="today-tomorrow-date">{{ tomorrowDate }}</p>
+        <table aria-hidden="true">
+          <tr>
+            <th id="table-header" class="head-table"
+              v-for="head in tableHead" :key="head">
+              {{ head }}
+            </th>
+          </tr>
+
+          <tr v-for="content in tomorrow" :key="content.pk">
+            <td id="nama_mata_kuliah_tomorrow">
+              {{ content.nama_mata_kuliah }}
+            </td>
+            <td id="nama_dosen_tomorrow">
+              {{ content.nama_dosen }}
+            </td>
+            <td id="nama_sesi_tomorrow">
+              {{ content.nama_sesi }}
+            </td>
+            <td id="nama_status_pengumuman_tomorrow">
+              {{ content.nama_status_pengumuman }}
+            </td>
+            <td>
+              <button
+              v-on:click="showModal(
+                content.pk,
+                content.pembuat,
+                content.created_at,
+                content.nama_mata_kuliah,
+                content.jenis_pengumuman,
+                content.nama_dosen,
+                content.nama_asisten,
+                content.nama_ruang,
+                content.nama_sesi,
+                content.nama_status_pengumuman,
+                content.komentar)" class="detail-button" id="detail-btn">
+                Detail
+              </button>
+            </td>
+          </tr>
+        </table>
+      </div>
     </div>
 
-    <!-- table if there are datas -->
+    <!-- FILTERED  -->
     <div class="table-div" v-else>
-      <p class="today-tomorrow-date">{{ todayDate }}</p>
-      <table aria-hidden="true">
-        <tr>
-          <th id="table-header" class="head-table"
-            v-for="head in tableHead" :key="head">
-            {{ head }}
-          </th>
-        </tr>
+      <div class="table-div">
+        <p class="today-tomorrow-date">{{ filterDate }}</p>
+        <table aria-hidden="true">
+          <tr>
+            <th id="table-header" class="head-table"
+              v-for="head in tableHead" :key="head">
+              {{ head }}
+            </th>
+          </tr>
 
-        <tr v-for="content in today" :key="content.pk">
-          <td id="nama_mata_kuliah_today">
-            {{ content.nama_mata_kuliah }}
-          </td>
-          <td id="nama_dosen_today">
-            {{ content.nama_dosen }}
-          </td>
-          <td id="nama_sesi_today">
-            {{ content.nama_sesi }}
-          </td>
-          <td id="nama_status_pengumuman_today">
-            {{ content.nama_status_pengumuman }}
-          </td>
-          <td>
-            <button
-            v-on:click="showModal(
-              content.pk,
-              content.pembuat,
-              content.created_at,
-              content.nama_mata_kuliah,
-              content.jenis_pengumuman,
-              content.nama_dosen,
-              content.nama_asisten,
-              content.nama_ruang,
-              content.nama_sesi,
-              content.nama_status_pengumuman,
-              content.komentar)" class="detail-button" id="detail-btn">
-              Detail
-            </button>
-          </td>
-        </tr>
-      </table>
-    </div>
-
-    <!-- TOMORROW -->
-    <!-- table if no data -->
-    <div class="table-div" id="table-tomorrow" v-if="tomorrow.length == 0">
-      <p class="today-tomorrow-date">{{ tomorrowDate }}</p>
-      <table aria-hidden="true">
-        <tr>
-          <th id="table-header" class="head-table"
-            v-for="head in tableHead" :key="head">
-            {{ head }}
-          </th>
-        </tr>
-
-        <tr>
-          <td class="head-table" v-for="head in tableHead" :key="head"/>
-        </tr>
-      </table>
-      <h2>Tidak ada pengumuman</h2>
-    </div>
-
-    <!-- table if there are datas -->
-    <div class="table-div" id="table-tomorrow" v-else>
-      <p class="today-tomorrow-date">{{ tomorrowDate }}</p>
-      <table aria-hidden="true">
-        <tr>
-          <th id="table-header" class="head-table"
-            v-for="head in tableHead" :key="head">
-            {{ head }}
-          </th>
-        </tr>
-
-        <tr v-for="content in tomorrow" :key="content.pk">
-          <td id="nama_mata_kuliah_tomorrow">
-            {{ content.nama_mata_kuliah }}
-          </td>
-          <td id="nama_dosen_tomorrow">
-            {{ content.nama_dosen }}
-          </td>
-          <td id="nama_sesi_tomorrow">
-            {{ content.nama_sesi }}
-          </td>
-          <td id="nama_status_pengumuman_tomorrow">
-            {{ content.nama_status_pengumuman }}
-          </td>
-          <td>
-            <button
-            v-on:click="showModal(
-              content.pk,
-              content.pembuat,
-              content.created_at,
-              content.nama_mata_kuliah,
-              content.jenis_pengumuman,
-              content.nama_dosen,
-              content.nama_asisten,
-              content.nama_ruang,
-              content.nama_sesi,
-              content.nama_status_pengumuman,
-              content.komentar)" class="detail-button" id="detail-btn">
-              Detail
-            </button>
-          </td>
-        </tr>
-      </table>
+          <tr v-for="content in filteredAnnouncement" :key="content.pk">
+            <td id="nama_mata_kuliah_today">
+              {{ content.nama_mata_kuliah }}
+            </td>
+            <td id="nama_dosen_today">
+              {{ content.nama_dosen }}
+            </td>
+            <td id="nama_sesi_today">
+              {{ content.nama_sesi }}
+            </td>
+            <td id="nama_status_pengumuman_today">
+              {{ content.nama_status_pengumuman }}
+            </td>
+            <td>
+              <button
+              v-on:click="showModal(
+                content.pk,
+                content.pembuat,
+                content.created_at,
+                content.nama_mata_kuliah,
+                content.jenis_pengumuman,
+                content.nama_dosen,
+                content.nama_asisten,
+                content.nama_ruang,
+                content.nama_sesi,
+                content.nama_status_pengumuman,
+                content.komentar)" class="detail-button" id="detail-btn">
+                Detail
+              </button>
+            </td>
+          </tr>
+        </table>
+      </div>
     </div>
   </div>
 </template>
@@ -263,8 +314,10 @@ export default {
       filteredResponse: {},
       today: [],
       tomorrow: [],
+      filteredAnnouncement: [],
       todayDate: '',
       tomorrowDate: '',
+      filterDate: '',
       error_msg: '',
     };
   },
@@ -284,8 +337,15 @@ export default {
       }
     },
     fetchFilteredPengumuman: function(date) {
+      this.filterDate = date;
       announcementApi.getAnnouncementFiltered(date).then((result) => {
         this.response = result.data;
+        for (let i = 0; i < this.response.pengumuman_response.length; i++) {
+          this.$set(
+            this.filteredAnnouncement, i, this.response.pengumuman_response[i]
+          );
+        }
+        console.log(this.filteredAnnouncement);
       });
     },
     fetchPengumuman: function() {
