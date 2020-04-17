@@ -1,20 +1,21 @@
 <template>
   <div>
     <modal v-bind:name=this.deleted_admin_username
-    :height="200"
-    :width="350"
-    :pivotX="0.0" id = "center-div">
+    @before-open="error_message=''"
+    height="auto"
+    :pivotX="0.0">
     <div class="modal-container">
-        <div id="warning_msg">
+        <div class="warning-msg">
           <h1 id="title-in-pop">Apakah anda yakin akan menghapus
           <strong>{{ this.deleted_admin_username }}</strong>
           sebagai admin?</h1>
+          <p id="error-message">{{ error_message }}</p>
         </div>
         <div class="modal-buttons">
-        <button v-on:click="click_hapus_conf" class="red-white-btn"
-          id="hapus_conf">Hapus</button>
-        <button v-on:click="click_tidak" class="black-white-btn"
-          id="tidak">Tidak</button>
+          <button v-on:click="click_hapus_conf" class="red-white-btn"
+            id="hapus_conf">Hapus</button>
+          <button v-on:click="click_tidak" class="black-white-btn"
+            id="tidak">Tidak</button>
         </div>
     </div>
     </modal>
@@ -30,6 +31,11 @@ import adminServices from '@/services/adminServices';
 
 export default {
   name: 'delete-admin',
+  data: function() {
+    return {
+      'error_message': 'd',
+    };
+  },
   props: {
     deleted_admin_username: String,
   },
@@ -44,7 +50,9 @@ export default {
       adminServices.deleteAdmin(this.deleted_admin_username)
           .then((result) => {
             this.$router.go();
-          }).catch((error) => {});
+          }).catch((error) => {
+            this.error_message = error.response.data.detail;
+          });
     },
   },
 };
@@ -58,7 +66,7 @@ export default {
 }
 
 .modal-buttons {
-  margin-top: 20px;
+  margin-top: 10px;
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -118,5 +126,13 @@ export default {
   font-size: 10pt;
   font-weight: bolder;
   border-style: none;
+}
+
+#error-message {
+  color: red;
+  font-size: 10pt;
+  font-weight: bold;
+  margin-top: 10pt;
+  text-align: center;
 }
 </style>
