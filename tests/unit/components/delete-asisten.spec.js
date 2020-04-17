@@ -32,6 +32,7 @@ describe('tes hapus asisten', () => {
       data() {
         return {
           'deleted_asisten_username': 'admiranda',
+          'error_message': '',
         };
       },
     });
@@ -52,6 +53,7 @@ describe('tes hapus asisten', () => {
       data() {
         return {
           'deleted_asisten_username': 's4y@_bkN_451sTen',
+          'error_message': 'Admin does not exist.',
         };
       },
     });
@@ -65,5 +67,6 @@ describe('tes hapus asisten', () => {
 
     vm = wrapper.vm;
     vm.click_hapus_conf();
+    expect(vm.error_message).toEqual('Admin does not exist.');
   });
 });
