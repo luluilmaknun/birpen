@@ -1,14 +1,15 @@
 <template>
   <div>
     <modal v-bind:name=this.deleted_asisten_username
-    :width="350"
-    :height="200"
-    :pivotX="0.0" id = "center-div">
+    @before-open="error_message=''"
+    height="auto"
+    :pivotX="0.0">
     <div class="modal-container">
         <div id="warning_msg">
           <h1 id="title-in-pop">Apakah anda yakin akan menghapus
           <strong>{{ this.deleted_asisten_username }}</strong>
           sebagai asisten?</h1>
+          <p id="error-message">{{ error_message }}</p>
         </div>
         <div class="modal-buttons">
         <button v-on:click="click_hapus_conf" class="red-white-btn"
@@ -30,6 +31,11 @@ import asistenServices from '@/services/asistenServices';
 
 export default {
   name: 'delete-asisten',
+  data: function() {
+    return {
+      'error_message': 'd',
+    };
+  },
   props: {
     deleted_asisten_username: String,
   },
@@ -44,7 +50,9 @@ export default {
       asistenServices.deleteAsisten(this.deleted_asisten_username)
           .then((result) => {
             this.$router.go();
-          }).catch((error) => {});
+          }).catch((error) => {
+            this.error_message = error.response.data.detail;
+          });
     },
   },
 };
@@ -58,7 +66,7 @@ export default {
 }
 
 .modal-buttons {
-  margin-top: 20px;
+  margin-top: 10px;
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -118,5 +126,13 @@ export default {
   font-size: 12pt;
   font-weight: bolder;
   border-style: none;
+}
+
+#error-message {
+  color: red;
+  font-size: 10pt;
+  font-weight: bold;
+  margin-top: 10pt;
+  text-align: center;
 }
 </style>
