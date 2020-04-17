@@ -291,16 +291,16 @@ export default {
     fetchPengumuman: function() {
       announcementApi.getAnnouncementDefault().then((d) => {
         this.response = d.data;
-        for (let i = 0; i < this.response.pengumuman_today.length; i++) {
-          this.$set(this.today, i, this.response.pengumuman_today[i]);
-        }
-
-        for (let i = 0; i < this.response.pengumuman_tomo.length; i++) {
-          this.$set(this.tomorrow, i, this.response.pengumuman_tomo[i]);
-        }
+        this.responseToList(this.response.pengumuman_today, this.today);
+        this.responseToList(this.response.pengumuman_tomo, this.tomorrow);
       }).catch((error) => {
         this.error_msg = error.response.data.detail;
       });
+    },
+    responseToList: function(theResponse, theList) {
+      for (let i = 0; i < theResponse.length; i++) {
+        this.$set(theList, i, theResponse[i]);
+      }
     },
     showModal(pk, pembuat, created, matkul, jenis, dosen, asisten,
         ruang, sesi, status, komentar) {
