@@ -32,6 +32,7 @@ describe('tes hapus admin', () => {
       data() {
         return {
           'deleted_admin_username': 'admiranda',
+          'error_message': '',
         };
       },
     });
@@ -52,6 +53,7 @@ describe('tes hapus admin', () => {
       data() {
         return {
           'deleted_admin_username': 's4y@_bkN_4dm1n',
+          'error_message': 'Admin does not exist.',
         };
       },
     });
@@ -65,5 +67,6 @@ describe('tes hapus admin', () => {
 
     vm = wrapper.vm;
     vm.click_hapus_conf();
+    expect(vm.error_message).toEqual('Admin does not exist.');
   });
 });
