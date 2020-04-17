@@ -1,7 +1,5 @@
 from django.contrib.auth import get_user_model
 from django.test import TestCase
-from django.utils.datastructures import MultiValueDict
-from django.utils.http import urlencode
 
 from rest_framework.test import APIClient
 from rest_framework_jwt.settings import api_settings
@@ -47,11 +45,7 @@ class DeleteApiTest(TestCase):
 
     def test_no_asisten_found(self):
         self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + self.token_admin)
-        response = self.client.delete('/api/asdos/delete/',
-                                      data=urlencode(MultiValueDict({
-                                          'username': 'lulu.ilmaknun'
-                                      })),
-                                      content_type='application/x-www-form-urlencoded')
+        response = self.client.delete('/api/asdos/lulu.ilmaknun/delete/')
 
         self.assertEqual(response.data['detail'], 'Asisten does not exist.')
 
@@ -59,11 +53,7 @@ class DeleteApiTest(TestCase):
         before_delete_count = AsistenDosen.objects.all().count()
 
         self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + self.token_mahasiswa)
-        response = self.client.delete('/api/asdos/delete/',
-                                      data=urlencode(MultiValueDict({
-                                          'username': self.asisten_1.username
-                                      })),
-                                      content_type='application/x-www-form-urlencoded')
+        response = self.client.delete('/api/asdos/' + self.asisten_1.username + '/delete/')
 
         self.assertEqual(before_delete_count, AsistenDosen.objects.all().count())
         self.assertEqual(response.status_code, 403)
@@ -72,11 +62,7 @@ class DeleteApiTest(TestCase):
         before_delete_count = AsistenDosen.objects.all().count()
 
         self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + self.token_admin)
-        response = self.client.delete('/api/asdos/delete/',
-                                      data=urlencode(MultiValueDict({
-                                          'username': self.asisten_1.username
-                                      })),
-                                      content_type='application/x-www-form-urlencoded')
+        response = self.client.delete('/api/asdos/' + self.asisten_1.username + '/delete/')
 
         self.assertEqual(before_delete_count, AsistenDosen.objects.all().count() + 1)
         self.assertEqual(response.status_code, 200)
@@ -85,11 +71,7 @@ class DeleteApiTest(TestCase):
         before_delete_count = AsistenDosen.objects.all().count()
 
         self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + self.token_dosen)
-        response = self.client.delete('/api/asdos/delete/',
-                                      data=urlencode(MultiValueDict({
-                                          'username': self.asisten_2.username
-                                      })),
-                                      content_type='application/x-www-form-urlencoded')
+        response = self.client.delete('/api/asdos/' + self.asisten_2.username + '/delete/')
 
         self.assertEqual(before_delete_count, AsistenDosen.objects.all().count() + 1)
         self.assertEqual(response.status_code, 200)

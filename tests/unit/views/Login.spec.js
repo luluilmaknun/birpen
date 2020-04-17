@@ -44,6 +44,11 @@ describe('Tes login page', () => {
     expect(button.exists()).toBe(true);
     expect(wrapper.html()).toContain('Login with<br>SSO');
   });
+
+  it('test klik enter untuk masuk', () => {
+    wrapper.find('#uname').trigger('keyup.enter');
+    wrapper.find('#pass').trigger('keyup.enter');
+  });
 });
 
 describe('Tes login non sso', () => {

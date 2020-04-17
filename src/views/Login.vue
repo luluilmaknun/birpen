@@ -11,13 +11,15 @@
       <div class="username-class">
         <h2 class="font-id" id="username-id">Username:</h2>
         <input class="username-input" v-model="username"
-        placeholder="username">
+        placeholder="username" id="uname"
+        @keyup.enter="clickMasuk">
       </div>
       <!-- PASSWORD -->
       <div class="password-class">
         <h2 class="font-id" id="password-id">Password:</h2>
         <input class="password-input" :type="'password'"
-        v-model="password" placeholder="password">
+        v-model="password" placeholder="password"
+        @keyup.enter="clickMasuk" id="pass">
       </div>
       <!-- LOGIN -->
       <span style="text-align:center;color:red"
@@ -25,7 +27,8 @@
         {{ message }}
       </span>
       <div class="login-class">
-        <button class="login-button" v-on:click="login()">Masuk</button>
+        <button class="login-button" v-on:click="login()"
+        ref="submit">Masuk</button>
       </div>
     </div>
     <div class="bottom-container">
@@ -53,6 +56,9 @@ export default {
     };
   },
   methods: {
+    clickMasuk() {
+      this.$refs.submit.click();
+    },
     login() {
       const request = {};
 
@@ -67,7 +73,7 @@ export default {
             localStorage.setItem('role', response.data.role);
             localStorage.setItem('username', this.username);
 
-            this.$router.push('/');
+            window.location.replace('/');
           })
           .catch((error) => {
             this.message_seen = true;
@@ -79,7 +85,7 @@ export default {
 
 <style>
 #login-page {
-  paddding: 0 !important;
+  padding: 0 !important;
   height: 100%;
   display: flex;
   justify-content: center;
@@ -94,7 +100,6 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: fit-content;
 }
 input {
   padding: 15px;

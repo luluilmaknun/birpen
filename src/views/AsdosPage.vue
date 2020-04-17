@@ -10,9 +10,10 @@
     </div>
     <!-- TABLE SECTION -->
     <div class="table-div">
-      <table>
+      <table aria-hidden="true">
         <tr>
-          <th class="head-table" v-for="head in tableHead" :key="head">
+          <th id="table-header" class="head-table"
+            v-for="head in tableHead" :key="head">
             {{ head }}
           </th>
         </tr>
@@ -83,9 +84,7 @@ export default {
       });
     },
     deleteAsdos: function(name) {
-      asistenServices.deleteAsisten({
-        username: name,
-      }).then((result) => {
+      asistenServices.deleteAsisten(name).then((result) => {
         this.$router.go({
           path: '/asdos',
           force: true,

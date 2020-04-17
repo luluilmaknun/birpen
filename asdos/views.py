@@ -1,4 +1,5 @@
 from django.core.exceptions import ObjectDoesNotExist
+from django.db.utils import DataError, IntegrityError
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
@@ -8,8 +9,7 @@ from rest_framework.status import (
     HTTP_200_OK,
 )
 
-from sso_ui.models import AsistenDosen
-
+from .models import AsistenDosen
 from .serializers import AsistenDosenSerializer
 from .permissions import IsPrivilegedToAccessAsdos
 
@@ -39,20 +39,21 @@ def create_asisten(request):
 
     try:
         asisten.username = request.data.get('username')
-        len_uname = len(asisten.username)
-        if asisten.username is None or len_uname <= 0 or len_uname > 32:
+
+        if asisten.username is None or asisten.username == '':
             raise ValueError
 
-        if (AsistenDosen.objects.filter(username=asisten.username).exists()) is True:
-            return Response({
-                'detail': asisten.username + ' is already registered as asisten.',
-                'success': False,
-            }, status=HTTP_400_BAD_REQUEST)
-
         asisten.save()
-    except (ObjectDoesNotExist, ValueError, TypeError):
+
+    except (ObjectDoesNotExist, ValueError, TypeError, DataError):
         return Response({
             'detail': 'Invalid username.',
+            'success': False,
+        }, status=HTTP_400_BAD_REQUEST)
+
+    except IntegrityError:
+        return Response({
+            'detail': asisten.username + ' is already registered as asisten.',
             'success': False,
         }, status=HTTP_400_BAD_REQUEST)
 
@@ -65,8 +66,7 @@ def create_asisten(request):
 @csrf_exempt
 @api_view(["DELETE"])
 @permission_classes((IsAuthenticated, IsPrivilegedToAccessAsdos))
-def delete_asdos(request):
-    username = request.data.get('username')
+def delete_asdos(_, username):
 
     try:
         asisten = AsistenDosen.objects.get(username=username)

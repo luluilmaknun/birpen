@@ -59,11 +59,6 @@ const router = new Router({
       },
     },
     {
-      path: '/sso/logout/',
-      name: 'logout',
-      component: null,
-    },
-    {
       path: '/register/',
       name: 'register',
       component: null,
@@ -72,11 +67,9 @@ const router = new Router({
       path: '/asisten/',
       name: 'asisten',
       component: AsdosPage,
-    },
-    {
-      path: '/asdos/',
-      name: 'asdos',
-      component: AsdosPage,
+      meta: {
+        requiresAuth: true,
+      },
     },
   ],
 });
@@ -88,10 +81,11 @@ router.beforeEach((to, from, next) => {
         || token === null || token === '') {
       next({name: 'login'});
     } else {
+      const role = localStorage.getItem('role');
+      const isAsdos = localStorage.getItem('is_asdos');
+      const isAdmin = localStorage.getItem('is_admin');
+
       if (to.name == 'create-pengumuman') {
-        const role = localStorage.getItem('role');
-        const isAsdos = localStorage.getItem('is_asdos');
-        const isAdmin = localStorage.getItem('is_admin');
         if (role == 'mahasiswa') {
           if (isAsdos == 'false' && isAdmin == 'false') {
             next({name: 'pengumuman'});
@@ -100,6 +94,14 @@ router.beforeEach((to, from, next) => {
         next();
       } else {
         next();
+      }
+
+      if (to.name == 'asisten') {
+        if (role == 'staff' || isAdmin == 'true') {
+          next();
+        } else {
+          next({name: 'home'});
+        }
       }
     }
   } else if (to.matched.some((record) => record.meta.guest)) {

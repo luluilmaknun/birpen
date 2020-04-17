@@ -68,10 +68,14 @@
         </div>
 
         <div class="modal-button-container">
-          <a :href="'pengumuman/' + detail.pk + '/edit/'" class="edit-button">
+          <a :href="'pengumuman/' + detail.pk + '/edit/'" class="edit-button"
+          v-if='isAdmin ||
+          ((isAsdos || isDosen) && (username === detail.pembuat))'>
             Ubah
           </a>
-          <DeleteButton class="delete-button"/>
+          <DeleteButton class="delete-button"
+          v-if='isAdmin ||
+          ((isAsdos || isDosen) && (username === detail.pembuat))'/>
           <div class="spreader-button" />
           <button class="close-modal" v-on:click="closeModal()">
             Tutup
@@ -87,9 +91,10 @@
 
     <div class="create-filter-section">
       <a :href="'/pengumuman/create'"
-      class="create-announcement-button">
+      class="create-announcement-button"
+      v-if='isAdmin || isAsdos || isDosen'>
         BUAT PENGUMUMAN
-      </a>
+      </a><a v-else/>
       <div class="create-filter-spreader"></div>
       <FilterComponent/>
     </div>
@@ -98,19 +103,16 @@
     <!-- table if no data -->
     <div class="table-div" id="table-today" v-if="today.length == 0">
       <p class="today-tomorrow-date">{{ todayDate }}</p>
-      <table>
+      <table aria-hidden="true">
         <tr>
-          <th class="head-table" v-for="head in tableHead" :key="head">
+          <th id="table-header" class="head-table"
+            v-for="head in tableHead" :key="head">
             {{ head }}
           </th>
         </tr>
 
         <tr>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
+          <td class="head-table" v-for="head in tableHead" :key="head"/>
         </tr>
       </table>
       <h2>Tidak ada pengumuman</h2>
@@ -119,9 +121,10 @@
     <!-- table if there are datas -->
     <div class="table-div" v-else>
       <p class="today-tomorrow-date">{{ todayDate }}</p>
-      <table>
+      <table aria-hidden="true">
         <tr>
-          <th class="head-table" v-for="head in tableHead" :key="head">
+          <th id="table-header" class="head-table"
+            v-for="head in tableHead" :key="head">
             {{ head }}
           </th>
         </tr>
@@ -164,19 +167,16 @@
     <!-- table if no data -->
     <div class="table-div" id="table-tomorrow" v-if="tomorrow.length == 0">
       <p class="today-tomorrow-date">{{ tomorrowDate }}</p>
-      <table>
+      <table aria-hidden="true">
         <tr>
-          <th class="head-table" v-for="head in tableHead" :key="head">
+          <th id="table-header" class="head-table"
+            v-for="head in tableHead" :key="head">
             {{ head }}
           </th>
         </tr>
 
         <tr>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
+          <td class="head-table" v-for="head in tableHead" :key="head"/>
         </tr>
       </table>
       <h2>Tidak ada pengumuman</h2>
@@ -185,9 +185,10 @@
     <!-- table if there are datas -->
     <div class="table-div" id="table-tomorrow" v-else>
       <p class="today-tomorrow-date">{{ tomorrowDate }}</p>
-      <table>
+      <table aria-hidden="true">
         <tr>
-          <th class="head-table" v-for="head in tableHead" :key="head">
+          <th id="table-header" class="head-table"
+            v-for="head in tableHead" :key="head">
             {{ head }}
           </th>
         </tr>
@@ -236,7 +237,10 @@ import announcementApi from '@/services/announcementServices';
 export default {
   data: function() {
     return {
-      // TEST DATA SECTION
+      username: localStorage.getItem('username'),
+      isDosen: localStorage.getItem('role') === 'staff',
+      isAsdos: localStorage.getItem('is_asdos') === 'true',
+      isAdmin: localStorage.getItem('is_admin') === 'true',
       modaldetail: [
         {
           pk: 999,
@@ -452,6 +456,7 @@ tr:nth-child(odd) {
   display:flex;
   flex-direction: row;
   line-height: 30pt;
+  justify-content: center;
 }
 .detail-container #left {
   margin-right: 20px;
@@ -459,11 +464,6 @@ tr:nth-child(odd) {
 }
 .detail-container #right {
   margin-right: 500px;
-}
-.detail-container {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
 }
 .modal-button-container {
   display: flex;
