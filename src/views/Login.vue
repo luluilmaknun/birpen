@@ -83,7 +83,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 #login-page {
   padding: 0 !important;
   height: 100%;
