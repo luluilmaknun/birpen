@@ -1,8 +1,9 @@
 <template>
   <div>
     <modal name="pop-box"
-    :height="350"
-    :pivotX="0.0" id = "center-div">
+    @before-open="error_message=''"
+    height="auto"
+    :pivotX="0.0">
     <div class="modal-container">
         <h1 id="title-in-pop">Tambah Asisten</h1><br>
         <p id="desc-in-pop">Masukan user SSO Asisten</p><br>
@@ -52,7 +53,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .modal-buttons button {
   margin-left: 20px;
   margin-right: 20px;
@@ -66,7 +67,7 @@ export default {
 }
 
 .modal-container {
-  margin: 70px 70px;
+  margin: 30px 30px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -100,7 +101,7 @@ export default {
 #error-message {
   color: red;
   font-size: 10pt;
-  font-weight: lighter;
+  font-weight: bold;
   margin-bottom: 10pt;
 }
 

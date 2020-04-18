@@ -10,7 +10,7 @@
         </div>
 
         <div id="button_pengumuman" class="home-button"
-            @click="goToPage('/pengumuman')">
+            @click="goToPage('/pengumuman/')">
             <img src="./assets/images/shout_1.png" class="home-button-image"
             alt="Klik untuk melihat pengumuman" />
            Pengumuman Perkuliahan

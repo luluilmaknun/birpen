@@ -186,7 +186,7 @@ export default {
         const data = d.data.pengumuman;
 
         if (this.is_admin == 'false' && this.pembuat != data['pembuat']) {
-          this.$router.push('/pengumuman');
+          this.$router.push('/pengumuman/');
         }
 
         this.pembuat = data['pembuat'];
@@ -224,14 +224,14 @@ export default {
 
         if (this.edit) {
           announcementApi.editAnnouncement(this.pk, request).then((d) => {
-            this.$router.push('/pengumuman');
+            this.$router.push('/pengumuman/');
           }).catch((error) => {
             this.message = 'Ada kendala error';
             this.message_seen = true;
           });
         } else {
           announcementApi.createAnnouncement(request).then((d) => {
-            this.$router.push('/pengumuman');
+            this.$router.push('/pengumuman/');
           }).catch((error) => {
             this.message = 'Ada kendala error';
             this.message_seen = true;
