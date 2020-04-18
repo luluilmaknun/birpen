@@ -17,7 +17,7 @@ describe('test tabel exists all', () => {
             pengumuman_tomo: [],
           },
         }));
-    vm.fetchData();
+    vm.fetchPengumuman();
   });
 
   it('Tes tabel today', () => {
@@ -81,7 +81,7 @@ describe('test tabel exists all', () => {
             pengumuman_tomo: pengumumanTomo,
           },
         }));
-    vm.fetchData();
+    vm.fetchPengumuman();
   });
 
   it('tes elemen table today', () => {

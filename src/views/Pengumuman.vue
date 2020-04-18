@@ -265,6 +265,7 @@ export default {
       tomorrow: [],
       todayDate: '',
       tomorrowDate: '',
+      error_msg: '',
     };
   },
   created: function() {
@@ -274,27 +275,31 @@ export default {
   methods: {
     fetchData: function() {
       const currentURL = window.location.href;
-      const arrayURL = currentURL.split('/');
-
-      // IF URL HAS TANGGAL
-      if (arrayURL.length == 5) {
-        const arrayFilter = arrayURL[4].split('=');
-        const dateFilter = arrayFilter[1];
-
-        announcementApi.getAnnouncementFiltered(dateFilter).then((d) => {
-          this.response = d.data;
-        });
+      const arr = currentURL.split('tanggal=');
+      const date = arr[1];
+      if (typeof(date) == 'undefined') {
+        this.fetchPengumuman();
       } else {
-        announcementApi.getAnnouncementDefault().then((d) => {
-          this.response = d.data;
-          for (let i = 0; i < this.response.pengumuman_today.length; i++) {
-            this.$set(this.today, i, this.response.pengumuman_today[i]);
-          }
-
-          for (let i = 0; i < this.response.pengumuman_tomo.length; i++) {
-            this.$set(this.tomorrow, i, this.response.pengumuman_tomo[i]);
-          }
-        });
+        this.fetchFilteredPengumuman(date);
+      }
+    },
+    fetchFilteredPengumuman: function(date) {
+      announcementApi.getAnnouncementFiltered(date).then((result) => {
+        this.response = result.data;
+      });
+    },
+    fetchPengumuman: function() {
+      announcementApi.getAnnouncementDefault().then((d) => {
+        this.response = d.data;
+        this.responseToList(this.response.pengumuman_today, this.today);
+        this.responseToList(this.response.pengumuman_tomo, this.tomorrow);
+      }).catch((error) => {
+        this.error_msg = error.response.data.detail;
+      });
+    },
+    responseToList: function(theResponse, theList) {
+      for (let i = 0; i < theResponse.length; i++) {
+        this.$set(theList, i, theResponse[i]);
       }
     },
     showModal(pk, pembuat, created, matkul, jenis, dosen, asisten,

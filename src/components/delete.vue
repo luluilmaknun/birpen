@@ -39,7 +39,7 @@ export default {
       }}).then(
           (response) => {
             this.response = response.data;
-            window.location.pathname='/pengumuman';
+            window.location.pathname='/pengumuman/';
           },
           (error) => {
             this.error=error;
