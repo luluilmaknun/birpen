@@ -1,8 +1,9 @@
 <template>
   <div>
     <modal name="pop-box"
-    :height="350"
-    :pivotX="0.0" id = "center-div">
+    @before-open="error_message=''"
+    height="auto"
+    :pivotX="0.0">
     <div class="modal-container">
         <h1 id="title-in-pop">Tambah Admin</h1><br>
         <p id="desc-in-pop">Masukan user SSO Admin</p><br>
@@ -25,7 +26,7 @@
 import adminServices from '@/services/adminServices';
 
 export default {
-  name: 'admin',
+  name: 'tambah-admin',
   data: function() {
     return {
       'admin_username': '',
@@ -97,7 +98,7 @@ export default {
 #error-message {
   color: red;
   font-size: 10pt;
-  font-weight: lighter;
+  font-weight: bold;
   margin-bottom: 10pt;
 }
 
