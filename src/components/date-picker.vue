@@ -3,14 +3,15 @@
     <div class="container">
       <date-pick
           v-model="date"
-          :inputAttributes="{readonly: true}"
-          :isDateDisabled="isFutureDate"
+          :inputAttributes="{
+            readonly: true,
+            placeholder: 'Pilih tanggal'}"
           :format="'DD-MM-YYYY'"
       ></date-pick>
       <div v-show="show">
       </div>
       <button>
-        <a :href="'/pengumuman/?tanggal='+date">Filter</a>
+        <a :href="'/pengumuman/?tanggal='+date">Cari</a>
       </button>
     </div>
   </div>
@@ -31,7 +32,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
  .container {
   display: flex;
   flex-direction: row;
