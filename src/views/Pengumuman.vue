@@ -337,7 +337,8 @@ export default {
       }
     },
     fetchFilteredPengumuman: function(date) {
-      this.filterDate = date;
+      const dateResult = this.getDateWithMonthName(date);
+      this.filterDate = dateResult;
       announcementApi.getAnnouncementFiltered(date).then((result) => {
         this.response = result.data;
         for (let i = 0; i < this.response.pengumuman_response.length; i++) {
@@ -361,6 +362,18 @@ export default {
         this.$set(theList, i, theResponse[i]);
       }
     },
+    getMonthName: function(monthNumber) {
+      const mlist = ['January', 'February', 'March', 'April', 'May', 'June',
+        'July', 'August', 'September', 'October', 'November', 'December'];
+      return mlist[monthNumber];
+    },
+    getDateWithMonthName: function(theDate) {
+      const temp = theDate.split('-'); console.log(temp[1]);
+      const day = temp[0]; const month = this.getMonthName(parseInt(temp[1]));
+      const year = temp[2];
+      const result = day + ' ' + month + ' ' + year;
+      return result;
+    },
     showModal(pk, pembuat, created, matkul, jenis, dosen, asisten,
         ruang, sesi, status, komentar) {
       const data = this.modaldetail[0];
@@ -381,14 +394,12 @@ export default {
       this.$modal.hide('detail-modal');
     },
     getTodayTomorrowDate: function() {
-      const mlist = ['January', 'February', 'March', 'April', 'May', 'June',
-        'July', 'August', 'September', 'October', 'November', 'December'];
       const currentDay = new Date();
 
       let date = currentDay.getDate();
       let month = currentDay.getMonth();
       let year = currentDay.getFullYear();
-      this.todayDate = date + ' ' + mlist[month] + ' ' + year;
+      this.todayDate = date + ' ' + this.getMonthName(month) + ' ' + year;
 
       // next day
       const nextDay = new Date(currentDay);
@@ -396,7 +407,7 @@ export default {
       date = nextDay.getDate();
       month = nextDay.getMonth();
       year = nextDay.getFullYear();
-      this.tomorrowDate = date + ' ' + mlist[month] + ' ' + year;
+      this.tomorrowDate = date + ' ' + this.getMonthName(month) + ' ' + year;
     },
     modifyCreatedTime(time) {
       const datetime = time;
