@@ -14,6 +14,6 @@ export default {
     return api.get('pengumuman/get-pengumuman');
   },
   getAnnouncementFiltered(tanggal) {
-    return api.get('pengumuman/?tanggal='+tanggal);
+    return api.get('pengumuman/filter-pengumuman?tanggal='+tanggal);
   },
 };
