@@ -33,7 +33,7 @@ export default {
   name: 'delete-asisten',
   data: function() {
     return {
-      'error_message': 'd',
+      'error_message': '',
     };
   },
   props: {
