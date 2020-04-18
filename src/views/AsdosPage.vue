@@ -23,12 +23,7 @@
             {{ asisten.username }}
           </td>
           <td>
-            <button
-            class="remove-button"
-            id="remove-btn"
-            v-on:click="deleteAsdos(asisten.username)">
-              Hapus
-            </button>
+            <DeleteAsisten :deleted_asisten_username="asisten.username"/>
           </td>
         </tr>
       </table>
@@ -40,6 +35,7 @@
 <script>
 import asistenServices from '@/services/asistenServices';
 import CreateAsisten from '@/components/tambah-asisten';
+import DeleteAsisten from '@/components/delete-asisten';
 
 export default {
   name: 'AsdosPage',
@@ -83,17 +79,9 @@ export default {
         }
       });
     },
-    deleteAsdos: function(name) {
-      asistenServices.deleteAsisten(name).then((result) => {
-        this.$router.go({
-          path: '/asdos',
-          force: true,
-        });
-      });
-    },
   },
   components: {
-    CreateAsisten,
+    CreateAsisten, DeleteAsisten,
   },
 };
 </script>
