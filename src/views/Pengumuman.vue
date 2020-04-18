@@ -100,8 +100,8 @@
     </div>
 
     <!-- UNFILTERED TABLE -->
-    <div class="table-div" id="unfiltered"
-    v-if="filteredAnnouncement.length == 0">
+    <div class="table-div" id="unfiltered-table"
+    v-if="!isFiltered">
       <!-- TODAY -->
       <!-- table if no data -->
       <div class="table-div" id="table-today" v-if="today.length == 0">
@@ -231,9 +231,29 @@
       </div>
     </div>
 
-    <!-- FILTERED  -->
-    <div class="table-div" v-else>
-      <div class="table-div">
+    <!-- FILTERED TABLE  -->
+    <div class="table-div" id="filtered-table" v-else>
+      <!-- if there is no data -->
+      <div class="table-div" v-if="filteredAnnouncement.length == 0">
+        <p class="today-tomorrow-date">{{ filterDate }}</p>
+        <table aria-hidden="true">
+          <tr>
+            <th id="table-header" class="head-table"
+              v-for="head in tableHead" :key="head">
+              {{ head }}
+            </th>
+          </tr>
+
+          <tr>
+            <td class="head-table" v-for="head in tableHead" :key="head"/>
+          </tr>
+        </table>
+        <h2>Tidak ada pengumuman</h2>
+      </div>
+
+
+      <!-- if there are datas -->
+      <div class="table-div" v-else>
         <p class="today-tomorrow-date">{{ filterDate }}</p>
         <table aria-hidden="true">
           <tr>
@@ -244,16 +264,16 @@
           </tr>
 
           <tr v-for="content in filteredAnnouncement" :key="content.pk">
-            <td id="nama_mata_kuliah_today">
+            <td id="nama_mata_kuliah_filtered">
               {{ content.nama_mata_kuliah }}
             </td>
-            <td id="nama_dosen_today">
+            <td id="nama_dosen_filtered">
               {{ content.nama_dosen }}
             </td>
-            <td id="nama_sesi_today">
+            <td id="nama_sesi_filtered">
               {{ content.nama_sesi }}
             </td>
-            <td id="nama_status_pengumuman_today">
+            <td id="nama_status_pengumuman_filtered">
               {{ content.nama_status_pengumuman }}
             </td>
             <td>
@@ -277,6 +297,7 @@
         </table>
       </div>
     </div>
+
   </div>
 </template>
 
@@ -315,6 +336,7 @@ export default {
       today: [],
       tomorrow: [],
       filteredAnnouncement: [],
+      isFiltered: false,
       todayDate: '',
       tomorrowDate: '',
       filterDate: '',
@@ -331,8 +353,10 @@ export default {
       const arr = currentURL.split('tanggal=');
       const date = arr[1];
       if (typeof(date) == 'undefined') {
+        this.isFiltered = false;
         this.fetchPengumuman();
       } else {
+        this.isFiltered = true;
         this.fetchFilteredPengumuman(date);
       }
     },
@@ -368,7 +392,7 @@ export default {
       return mlist[monthNumber];
     },
     getDateWithMonthName: function(theDate) {
-      const temp = theDate.split('-'); console.log(temp[1]);
+      const temp = theDate.split('-');
       const day = temp[0]; const month = this.getMonthName(parseInt(temp[1]));
       const year = temp[2];
       const result = day + ' ' + month + ' ' + year;
