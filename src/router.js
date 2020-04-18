@@ -83,10 +83,11 @@ const router = new Router({
 });
 
 router.beforeEach((to, from, next) => {
+  const [url, param] = to.fullPath.split('?');
   const withoutTrailingSlash = RegExp('^.*[^/]$');
 
-  if (withoutTrailingSlash.test(to.fullPath)) {
-    next(to.fullPath + '/');
+  if (withoutTrailingSlash.test(url)) {
+    next(to.fullPath + '/' + param);
   }
 
   const token = localStorage.token;
