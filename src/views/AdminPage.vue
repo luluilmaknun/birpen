@@ -92,8 +92,8 @@ export default {
   width: 100%;
 }
 th, td {
-  padding-left: 1.5em;
-  padding-right: 1.5em;
+  padding-left: 1em;
+  padding-right: 1em;
   padding-top: 0.75em;
   padding-bottom: 0.75em;
 }
@@ -105,5 +105,10 @@ th {
 }
 tr:nth-child(odd) {
   background-color: #D3D3D3;
+}
+@media only screen and (max-width: 539px) {
+  .table-div {
+    width: 75%;
+  }
 }
 </style>
