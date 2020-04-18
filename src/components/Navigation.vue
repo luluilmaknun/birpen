@@ -8,9 +8,8 @@
       ref="surat-button" :to="{ name: 'surat' }">
       Surat</router-link>
       <router-link class="nav-elem"
-      ref="pengumuman-button" :to=" { name: 'pengumuman' } ">
-        Pengumuman
-      </router-link>
+      ref="pengumuman-button" :to="{ name: 'pengumuman' }">
+      Pengumuman</router-link>
 
       <label v-if="is_authenticated && is_admin_or_dosen">
             <router-link class="nav-elem"
