@@ -69,13 +69,15 @@
 
         <div class="modal-button-container">
           <a :href="'/pengumuman/' + detail.pk + '/edit/'" class="edit-button"
-          v-if='isAdmin ||
-          ((isAsdos || isDosen) && (username === detail.pembuat))'>
+          v-if='(isAdmin ||
+          ((isAsdos || isDosen) && (username === detail.pembuat))) &&
+          detail.deleted == null'>
             Ubah
           </a>
           <DeleteButton class="delete-button"
-          v-if='isAdmin ||
-          ((isAsdos || isDosen) && (username === detail.pembuat))'/>
+          v-if='(isAdmin ||
+          ((isAsdos || isDosen) && (username === detail.pembuat))) &&
+          detail.deleted == null'/>
           <div class="spreader-button" />
           <button class="close-modal" v-on:click="closeModal()">
             Tutup
