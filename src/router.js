@@ -33,6 +33,7 @@ const router = new Router({
       component: Pengumuman,
       meta: {
         requiresAuth: true,
+        requiresPrivilegeToAccessPengumuman: true,
       },
       pathToRegexpOptions: {strict: true},
     },
@@ -42,6 +43,7 @@ const router = new Router({
       component: CreateAnnouncement,
       meta: {
         requiresAuth: true,
+        requiresPrivilegeToAccessPengumuman: true,
       },
       pathToRegexpOptions: {strict: true},
     },
@@ -52,6 +54,7 @@ const router = new Router({
       props: true,
       meta: {
         requiresAuth: true,
+        requiresPrivilegeToAccessPengumuman: true,
       },
       pathToRegexpOptions: {strict: true},
     },
@@ -76,6 +79,7 @@ const router = new Router({
       component: AsdosPage,
       meta: {
         requiresAuth: true,
+        requiresPrivilegeToAccessAsisten: true,
       },
       pathToRegexpOptions: {strict: true},
     },
@@ -115,6 +119,13 @@ router.beforeEach((to, from, next) => {
   const role = localStorage.getItem('role');
   const isAsdos = localStorage.getItem('is_asdos');
   const isAdmin = localStorage.getItem('is_admin');
+
+  if (to.matched.some((record) => record.meta.requiresPrivilegeToAccessPengumuman)) {
+    if (role != 'mahasiswa' && role != 'staff' && isAsdos == 'false' && isAdmin == 'false') {
+      next({name: 'home'});
+      return;
+    }
+  }
 
   if (to.name == 'create-pengumuman') {
     if (role != 'staff' && isAsdos == 'false' && isAdmin == 'false'){
