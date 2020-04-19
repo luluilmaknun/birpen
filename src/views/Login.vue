@@ -96,7 +96,7 @@ export default {
   border-radius: 20px;
   margin-top: 20px;
   line-height: 30pt;
-  width: 400px;
+  min-width: fit-content;
   display: flex;
   flex-direction: column;
   align-items: center;
