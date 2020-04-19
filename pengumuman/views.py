@@ -131,7 +131,7 @@ def edit_pengumuman(request, key):
 
     try:
         pengumuman.tanggal_kelas = datetime.strptime(request.data.get('tanggal_kelas'),
-                                                     '%Y-%m-%d')
+                                                     '%Y-%m-%d') + timedelta(hours=7)
         pengumuman.nama_mata_kuliah = \
             MataKuliah.objects.get(nama=request.data.get('nama_mata_kuliah'))
         pengumuman.jenis_pengumuman = \
