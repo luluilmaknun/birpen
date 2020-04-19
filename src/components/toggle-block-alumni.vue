@@ -7,8 +7,8 @@
     <div class="modal-container">
         <div class="warning-msg">
           <h1 id="desc-modal">Apakah anda yakin akan
-            <d v-if="is_blocked">memblokir</d>
-            <d v-else>membatalkan blokir pada</d>
+            <d v-if="is_blocked">membatalkan blokir pada</d>
+            <d v-else>memblokir</d>
           <b>&nbsp;{{ this.alumni_username }}</b>
           sebagai alumni?</h1>
           <p id="error-message">{{ error_message }}</p>
@@ -31,8 +31,8 @@
       <button class="block-button" id="block-btn"
       @click="open_modal">Blokir</button>
     </div><div v-else>
-      <button class="unblock-button" id="unblock-btn"
-      @click="open_modal">Batalkan blokir</button>
+      <button class="block-button" id="block-btn"
+      @click="open_modal">Blokir</button>
     </div>
 
   </div>

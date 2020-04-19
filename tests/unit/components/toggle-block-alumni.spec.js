@@ -6,8 +6,8 @@ describe('tes component', () => {
   const wrapper = shallowMount(ToggleBlockAlumni);
 
   it('tes klik tombol trigger fungsi open modal', () => {
-    expect(wrapper.find('#unblock-btn').exists()).toBe(true);
-    const blokirButton = wrapper.find('#unblock-btn');
+    expect(wrapper.find('#block-btn').exists()).toBe(true);
+    const blokirButton = wrapper.find('#block-btn');
     blokirButton.trigger('click');
   });
 
