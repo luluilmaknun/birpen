@@ -37,7 +37,7 @@ UnitTestDjango:
     - cp -r public/ dist/
     - python3 run_lint.py
     - python3 manage.py makemigrations rest_framework_jwt
-    - coverage run --include='landing_page/*,pengumuman/*,permohonan_surat/*,asdos/*,sso_ui/*' manage.py test
+    - coverage run --include='landing_page/*,pengumuman/*,permohonan_surat/*,asdos/*,admin_birpen/*,sso_ui/*' manage.py test
     - coverage report -m
     - coverage xml
   artifacts:
