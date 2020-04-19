@@ -552,7 +552,7 @@ export default {
       }
     },
     fetchFilteredPengumuman: function(date) {
-      const dateResult = this.getDateWithMonthName(date);
+      const dateResult = this.getFilteredDate(date);
       this.filterDate = dateResult;
       announcementApi.getAnnouncementFiltered(date).then((result) => {
         this.response = result.data;
@@ -577,14 +577,22 @@ export default {
         this.$set(theList, i, theResponse[i]);
       }
     },
-    getMonthName: function(monthNumber) {
+    // Get month name from Date() (Month number is 0 based)
+    getMonthNameZeroBased: function(monthNumber) {
       const mlist = ['January', 'February', 'March', 'April', 'May', 'June',
         'July', 'August', 'September', 'October', 'November', 'December'];
       return mlist[monthNumber];
     },
-    getDateWithMonthName: function(theDate) {
+    // Get month name from url (Month number is 1 based)
+    getMonthNameOneBased: function(monthNumber) {
+      const mlist = ['January', 'February', 'March', 'April', 'May', 'June',
+        'July', 'August', 'September', 'October', 'November', 'December'];
+      return mlist[monthNumber-1];
+    },
+    getFilteredDate: function(theDate) {
       const temp = theDate.split('-');
-      const day = temp[0]; const month = this.getMonthName(parseInt(temp[1]));
+      const day = temp[0]; 
+      const month = this.getMonthNameOneBased(parseInt(temp[1]));
       const year = temp[2];
       const result = day + ' ' + month + ' ' + year;
       return result;
@@ -615,15 +623,14 @@ export default {
       let date = currentDay.getDate();
       let month = currentDay.getMonth();
       let year = currentDay.getFullYear();
-      this.todayDate = date + ' ' + this.getMonthName(month) + ' ' + year;
+      this.todayDate = date + ' ' + this.getMonthNameZeroBased(month) + ' ' + year;
 
-      // next day
       const nextDay = new Date(currentDay);
       nextDay.setDate(currentDay.getDate() + 1);
       date = nextDay.getDate();
       month = nextDay.getMonth();
       year = nextDay.getFullYear();
-      this.tomorrowDate = date + ' ' + this.getMonthName(month) + ' ' + year;
+      this.tomorrowDate = date + ' ' + this.getMonthNameZeroBased(month) + ' ' + year;
     },
     modifyDateTime: function(time) {
       const datetime = String(time);
