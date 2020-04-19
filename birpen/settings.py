@@ -53,6 +53,7 @@ INSTALLED_APPS = [
     'django_cas_ng',
     'sso_ui.apps.SSOUIConfig',
     'rest_framework_jwt',
+    'alumni',
 ]
 
 MIDDLEWARE = [
