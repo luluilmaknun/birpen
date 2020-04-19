@@ -11,11 +11,18 @@
       ref="pengumuman-button" :to="{ name: 'pengumuman' }">
       Pengumuman</router-link>
 
-      <label v-if="is_authenticated && is_admin_or_dosen">
+      <label v-if="is_authenticated && (is_admin || is_dosen)">
             <router-link class="nav-elem"
             ref="asisten-button" :to="{ name: 'asisten' }">
             Asisten</router-link>
           </label>
+
+      <label v-if="is_authenticated && is_admin">
+        <router-link class="nav-elem"
+          ref="asisten-button" :to="{ name: 'admin' }">
+          Admin
+        </router-link>
+      </label>
     </div>
 
     <div class="nav-elem-container-right" id="desktop-nav">
@@ -79,8 +86,9 @@ export default {
       username: localStorage.getItem('username'),
       is_authenticated:
         (localStorage.getItem('token') ? true : false),
-      is_admin_or_dosen:
-        localStorage.getItem('is_admin') === 'true' ||
+      is_admin:
+        localStorage.getItem('is_admin') === 'true',
+      is_dosen:
         localStorage.getItem('role') === 'staff',
     };
   },
@@ -125,6 +133,7 @@ h2 {
 }
 .nav-elem:hover {
   color: black;
+  background-color: white;
   border-radius: 100px;
   padding-top: 5px;
   padding-bottom: 5px;

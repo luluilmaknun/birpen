@@ -6,6 +6,7 @@ import CreateAnnouncement from '@/views/CreateAnnouncement.vue';
 import EditAnnouncement from '@/views/EditAnnouncement.vue';
 import AsdosPage from '@/views/AsdosPage.vue';
 import Pengumuman from '@/views/Pengumuman.vue';
+import AdminPage from '@/views/AdminPage.vue';
 
 Vue.use(Router);
 
@@ -83,6 +84,15 @@ const router = new Router({
       },
       pathToRegexpOptions: {strict: true},
     },
+    {
+      path: '/admin/',
+      name: 'admin',
+      component: AdminPage,
+      meta: {
+        requiresAuth: true,
+      },
+      pathToRegexpOptions: {strict: true},
+    },
   ],
 });
 
@@ -138,6 +148,13 @@ router.beforeEach((to, from, next) => {
 
   if (to.name == 'asisten') {
     if (role != 'staff' && isAdmin == 'false') {
+      next({name: 'home'});
+      return;
+    }
+  }
+
+  if (to.name == 'admin') {
+    if (isAdmin == 'false') {
       next({name: 'home'});
       return;
     }

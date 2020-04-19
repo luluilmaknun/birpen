@@ -9,6 +9,7 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django_cas_ng.signals import cas_user_authenticated
 
+from admin_birpen.models import Admin
 from asdos.models import AsistenDosen
 
 LANG = settings.SSO_UI_ORG_DETAIL_LANG
@@ -45,14 +46,6 @@ class User(AbstractUser):
             return False
 
         return profile.role == 'mahasiswa'
-
-
-class Admin(models.Model):
-    username = models.CharField(max_length=150, unique=True)
-
-    class Meta:
-        verbose_name = 'admin'
-        verbose_name_plural = verbose_name
 
 
 class Profile(models.Model):
