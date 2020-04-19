@@ -6,6 +6,7 @@ import CreateAnnouncement from '@/views/CreateAnnouncement.vue';
 import EditAnnouncement from '@/views/EditAnnouncement.vue';
 import AsdosPage from '@/views/AsdosPage.vue';
 import Pengumuman from '@/views/Pengumuman.vue';
+import Register from '@/views/Register.vue';
 
 Vue.use(Router);
 
@@ -70,7 +71,7 @@ const router = new Router({
     {
       path: '/register/',
       name: 'register',
-      component: null,
+      component: Register,
       pathToRegexpOptions: {strict: true},
     },
     {

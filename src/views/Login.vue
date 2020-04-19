@@ -38,7 +38,11 @@
         Login with<br>SSO
       </a>
       <p>Tidak punya akun?</p>
-      <button class="bottom-buttons" id="buat-akun">Buat Akun</button>
+      <a class="bottom-buttons"
+      :href="`/register/`"
+      id="buat-akun">
+        Buat Akun
+      </a>
     </div>
   </div>
 </template>
@@ -146,12 +150,10 @@ input {
   margin-left: 10px;
   margin-right: 10px;
 }
-#sso-link {
+.bottom-buttons {
   color: black;
   font-weight: bolder;
   text-decoration: none;
-}
-.bottom-buttons {
   background: none;
   border-style: solid;
   border-color: #FFDD00;
