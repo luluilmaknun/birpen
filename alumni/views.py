@@ -26,19 +26,20 @@ def register(request):
 
     username = request.data.get('username')
     password = request.data.get('password')
+    email = request.data.get('email')
 
     try:
-        if username is None or username == '' or \
-            password is None or password == '':
+        if is_empty(username) or is_empty(password) or \
+            is_empty(email):
             raise ValueError
 
-        user = User.objects.create(username=username)
+        user = User.objects.create(username=username, email=email)
         user.set_password(password)
         user.save()
 
     except (DataError, ValueError):
         return Response({
-            'detail': 'Invalid username or password.',
+            'detail': 'Invalid username, email, or password.',
             'success': False,
         }, status=HTTP_400_BAD_REQUEST)
 
@@ -54,3 +55,6 @@ def register(request):
     return Response({
         "success": True,
     }, status=HTTP_200_OK)
+
+def is_empty(field):
+    return field is None or field == ''
