@@ -1,7 +1,7 @@
 import api from '@/services/api';
 
 export default {
-  toggleBlockAlumni(request) {
-    return api.patch('alumni/blacklist/', request);
+  toggleBlockAlumni(username, request) {
+    return api.patch('alumni/'+username+'/blacklist/', request);
   },
 };

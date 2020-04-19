@@ -60,9 +60,8 @@ export default {
       this.$modal.hide(this.alumni_username);
     },
     toggle_alumni: function() {
-      alumniServices.toggleBlockAlumni({
-        username: this.alumni_username,
-        blacklist: this.is_blocked,
+      alumniServices.toggleBlockAlumni(this.alumni_username, {
+        is_blocked: !this.is_blocked,
       }).then((result) => {
         this.$router.go();
       }).catch((error) => {
