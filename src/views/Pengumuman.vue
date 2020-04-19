@@ -68,7 +68,7 @@
         </div>
 
         <div class="modal-button-container">
-          <a :href="'pengumuman/' + detail.pk + '/edit/'" class="edit-button"
+          <a :href="'/pengumuman/' + detail.pk + '/edit/'" class="edit-button"
           v-if='isAdmin ||
           ((isAsdos || isDosen) && (username === detail.pembuat))'>
             Ubah
@@ -145,7 +145,13 @@
             <td id="nama_status_pengumuman_today">
               {{ content.nama_status_pengumuman }}
             </td>
-            <td>
+            <td v-if="isAdmin && content.deleted != null">
+              <p class="deleted-info">
+                Telah dihapus pada <br>
+                {{ modifyDateTime(String(content.deleted)) }}
+              </p>
+            </td>
+            <td v-else>
               <button
               v-on:click="showModal(
                 content.pk,
@@ -209,7 +215,13 @@
             <td id="nama_status_pengumuman_tomorrow">
               {{ content.nama_status_pengumuman }}
             </td>
-            <td>
+            <td v-if="(isAdmin && content.deleted != null)">
+              <p class="deleted-info">
+                Telah dihapus pada <br>
+                {{ modifyDateTime(String(content.deleted)) }}
+              </p>
+            </td>
+            <td v-else>
               <button
               v-on:click="showModal(
                 content.pk,
@@ -276,7 +288,13 @@
             <td id="nama_status_pengumuman_filtered">
               {{ content.nama_status_pengumuman }}
             </td>
-            <td>
+            <td v-if="isAdmin && content.deleted != null">
+              <p class="deleted-info">
+                Telah dihapus pada <br>
+                {{ modifyDateTime(String(content.deleted)) }}
+              </p>
+            </td>
+            <td v-else>
               <button
               v-on:click="showModal(
                 content.pk,
@@ -404,7 +422,7 @@ export default {
       this.$modal.show('detail-modal');
       data.pk = pk;
       data.pembuat = pembuat;
-      data.created_at = this.modifyCreatedTime(created);
+      data.created_at = this.modifyDateTime(created);
       data.nama_mata_kuliah = matkul;
       data.nama_dosen = dosen;
       data.nama_asisten = asisten;
@@ -433,8 +451,8 @@ export default {
       year = nextDay.getFullYear();
       this.tomorrowDate = date + ' ' + this.getMonthName(month) + ' ' + year;
     },
-    modifyCreatedTime(time) {
-      const datetime = time;
+    modifyDateTime: function(time) {
+      const datetime = String(time);
       const timestampList = datetime.split('T');
       const timeList = timestampList[1].split(':');
 
@@ -609,5 +627,8 @@ tr:nth-child(odd) {
 .spreader-button {
   margin-left: 200px;
   margin-right: 200px;
+}
+.deleted-info {
+  color: red;
 }
 </style>
