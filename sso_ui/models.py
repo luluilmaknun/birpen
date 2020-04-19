@@ -24,6 +24,13 @@ class User(AbstractUser):
     def is_asdos(self):
         return AsistenDosen.objects.filter(username=self.username).exists()
 
+    def is_alumni(self):
+        try:
+            profile = self.profile
+        except ObjectDoesNotExist:
+            return False
+        return profile.role == 'alumni'
+
     def is_dosen(self):
         try:
             profile = self.profile

@@ -34,6 +34,11 @@ class UserModelTest(TestCase):
         self.user_dosen.profile.role = 'staff'
         self.user_dosen.profile.save()
 
+        self.user_alumni = User.objects.create(username='agas.yanpratama',
+                                               password='agas')
+        self.user_alumni.profile.role = 'alumni'
+        self.user_alumni.profile.save()
+
     def test_is_admin_return_true_for_admin(self):
         self.assertTrue(self.user_admin.is_admin())
 
@@ -63,3 +68,12 @@ class UserModelTest(TestCase):
 
     def test_is_dosen_return_false_if_no_profile(self):
         self.assertFalse(self.user_without_profile.is_dosen())
+
+    def test_is_alumni_return_true_for_alumni(self):
+        self.assertTrue(self.user_alumni.is_alumni())
+
+    def test_is_alumni_return_false_for_non_alumni(self):
+        self.assertFalse(self.user.is_alumni())
+
+    def test_is_alumni_return_false_if_no_profile(self):
+        self.assertFalse(self.user_without_profile.is_alumni())
