@@ -102,20 +102,31 @@
     <!-- UNFILTERED TABLE -->
     <div class="table-div" id="unfiltered-table"
     v-if="!isFiltered">
-      <!-- TODAY -->
-      <!-- table if no data -->
+      <!-- TODAY if no data -->
       <div class="table-div" id="table-today" v-if="today.length == 0">
         <p class="today-tomorrow-date">{{ todayDate }}</p>
-        <table aria-hidden="true">
+        <!-- TODAY ADMIN -->
+        <table v-if="isAdmin" aria-hidden="true">
+          <tr>
+            <th id="table-header" class="head-table"
+              v-for="head in adminHead" :key="head">
+              {{ head }}
+            </th>
+          </tr>
+          <tr>
+            <td/>
+          </tr>
+        </table>
+        <!-- TODAY NON ADMIN -->
+        <table v-else aria-hidden="true">
           <tr>
             <th id="table-header" class="head-table"
               v-for="head in tableHead" :key="head">
               {{ head }}
             </th>
           </tr>
-
           <tr>
-            <td class="head-table" v-for="head in tableHead" :key="head"/>
+            <td/>
           </tr>
         </table>
         <h2>Tidak ada pengumuman</h2>
@@ -124,7 +135,56 @@
       <!-- table if there are datas -->
       <div class="table-div" v-else>
         <p class="today-tomorrow-date">{{ todayDate }}</p>
-        <table aria-hidden="true">
+        <!-- TODAY ADMIN -->
+        <table v-if="isAdmin" aria-hidden="true">
+          <tr>
+            <th id="table-header" class="head-table"
+              v-for="head in adminHead" :key="head">
+              {{ head }}
+            </th>
+          </tr>
+
+          <tr v-for="content in today" :key="content.pk">
+            <td id="nama_mata_kuliah_today">
+              {{ content.nama_mata_kuliah }}
+            </td>
+            <td id="nama_dosen_today">
+              {{ content.nama_dosen }}
+            </td>
+            <td id="nama_sesi_today">
+              {{ content.nama_sesi }}
+            </td>
+            <td id="nama_status_pengumuman_today">
+              {{ content.nama_status_pengumuman }}
+            </td>
+            <td id="action">
+              <button
+              v-on:click="showModal(
+                content.pk,
+                content.pembuat,
+                content.created_at,
+                content.nama_mata_kuliah,
+                content.jenis_pengumuman,
+                content.nama_dosen,
+                content.nama_asisten,
+                content.nama_ruang,
+                content.nama_sesi,
+                content.nama_status_pengumuman,
+                content.komentar,
+                content.deleted)" class="detail-button" id="detail-btn">
+                Detail
+              </button>
+            </td>
+            <td id="deleted_info">
+              <p v-if="content.deleted != null" class="deleted-info">
+                {{ modifyDateTime(String(content.deleted)) }}
+              </p>
+              <p v-else class="not-deleted-info">Not Deleted</p>
+            </td>
+          </tr>
+        </table>
+        <!-- TODAY NON ADMIN -->
+        <table v-else aria-hidden="true">
           <tr>
             <th id="table-header" class="head-table"
               v-for="head in tableHead" :key="head">
@@ -145,13 +205,7 @@
             <td id="nama_status_pengumuman_today">
               {{ content.nama_status_pengumuman }}
             </td>
-            <td v-if="isAdmin && content.deleted != null">
-              <p class="deleted-info">
-                Telah dihapus pada <br>
-                {{ modifyDateTime(String(content.deleted)) }}
-              </p>
-            </td>
-            <td v-else>
+            <td id="action">
               <button
               v-on:click="showModal(
                 content.pk,
@@ -164,7 +218,8 @@
                 content.nama_ruang,
                 content.nama_sesi,
                 content.nama_status_pengumuman,
-                content.komentar)" class="detail-button" id="detail-btn">
+                content.komentar,
+                content.deleted)" class="detail-button" id="detail-btn">
                 Detail
               </button>
             </td>
@@ -176,16 +231,28 @@
       <!-- table if no data -->
       <div class="table-div" id="table-tomorrow" v-if="tomorrow.length == 0">
         <p class="today-tomorrow-date">{{ tomorrowDate }}</p>
-        <table aria-hidden="true">
+        <!-- TOMORROW ADMIN -->
+        <table v-if="isAdmin" aria-hidden="true">
+          <tr>
+            <th id="table-header" class="head-table"
+              v-for="head in adminHead" :key="head">
+              {{ head }}
+            </th>
+          </tr>
+          <tr>
+            <td/>
+          </tr>
+        </table>
+        <!-- TOMORROW NON ADMIN -->
+        <table v-else aria-hidden="true">
           <tr>
             <th id="table-header" class="head-table"
               v-for="head in tableHead" :key="head">
               {{ head }}
             </th>
           </tr>
-
           <tr>
-            <td class="head-table" v-for="head in tableHead" :key="head"/>
+            <td/>
           </tr>
         </table>
         <h2>Tidak ada pengumuman</h2>
@@ -194,7 +261,56 @@
       <!-- table if there are datas -->
       <div class="table-div" id="table-tomorrow" v-else>
         <p class="today-tomorrow-date">{{ tomorrowDate }}</p>
-        <table aria-hidden="true">
+        <!-- TOMORROW ADMIN -->
+        <table v-if="isAdmin" aria-hidden="true">
+          <tr>
+            <th id="table-header" class="head-table"
+              v-for="head in adminHead" :key="head">
+              {{ head }}
+            </th>
+          </tr>
+
+          <tr v-for="content in tomorrow" :key="content.pk">
+            <td id="nama_mata_kuliah_tomorrow">
+              {{ content.nama_mata_kuliah }}
+            </td>
+            <td id="nama_dosen_tomorrow">
+              {{ content.nama_dosen }}
+            </td>
+            <td id="nama_sesi_tomorrow">
+              {{ content.nama_sesi }}
+            </td>
+            <td id="nama_status_pengumuman_tomorrow">
+              {{ content.nama_status_pengumuman }}
+            </td>
+            <td id="action">
+              <button
+              v-on:click="showModal(
+                content.pk,
+                content.pembuat,
+                content.created_at,
+                content.nama_mata_kuliah,
+                content.jenis_pengumuman,
+                content.nama_dosen,
+                content.nama_asisten,
+                content.nama_ruang,
+                content.nama_sesi,
+                content.nama_status_pengumuman,
+                content.komentar,
+                content.deleted)" class="detail-button" id="detail-btn">
+                Detail
+              </button>
+            </td>
+            <td id="deleted_info">
+              <p v-if="content.deleted != null" class="deleted-info">
+                {{ modifyDateTime(String(content.deleted)) }}
+              </p>
+              <p v-else class="not-deleted-info">Not Deleted</p>
+            </td>
+          </tr>
+        </table>
+        <!-- TOMORROW NON ADMIN -->
+        <table v-else aria-hidden="true">
           <tr>
             <th id="table-header" class="head-table"
               v-for="head in tableHead" :key="head">
@@ -215,13 +331,7 @@
             <td id="nama_status_pengumuman_tomorrow">
               {{ content.nama_status_pengumuman }}
             </td>
-            <td v-if="(isAdmin && content.deleted != null)">
-              <p class="deleted-info">
-                Telah dihapus pada <br>
-                {{ modifyDateTime(String(content.deleted)) }}
-              </p>
-            </td>
-            <td v-else>
+            <td id="action">
               <button
               v-on:click="showModal(
                 content.pk,
@@ -234,7 +344,8 @@
                 content.nama_ruang,
                 content.nama_sesi,
                 content.nama_status_pengumuman,
-                content.komentar)" class="detail-button" id="detail-btn">
+                content.komentar,
+                content.deleted)" class="detail-button" id="detail-btn">
                 Detail
               </button>
             </td>
@@ -248,16 +359,28 @@
       <!-- if there is no data -->
       <div class="table-div" v-if="filteredAnnouncement.length == 0">
         <p class="today-tomorrow-date">{{ filterDate }}</p>
-        <table aria-hidden="true">
+        <!-- FILTERED ADMIN -->
+        <table v-if="isAdmin" aria-hidden="true">
+          <tr>
+            <th id="table-header" class="head-table"
+              v-for="head in adminHead" :key="head">
+              {{ head }}
+            </th>
+          </tr>
+          <tr>
+            <td/>
+          </tr>
+        </table>
+        <!-- FILTERED NON ADMIN -->
+        <table v-else aria-hidden="true">
           <tr>
             <th id="table-header" class="head-table"
               v-for="head in tableHead" :key="head">
               {{ head }}
             </th>
           </tr>
-
           <tr>
-            <td class="head-table" v-for="head in tableHead" :key="head"/>
+            <td/>
           </tr>
         </table>
         <h2>Tidak ada pengumuman</h2>
@@ -267,7 +390,56 @@
       <!-- if there are datas -->
       <div class="table-div" v-else>
         <p class="today-tomorrow-date">{{ filterDate }}</p>
-        <table aria-hidden="true">
+        <!-- FILTERED ADMIN -->
+        <table v-if="isAdmin" aria-hidden="true">
+          <tr>
+            <th id="table-header" class="head-table"
+              v-for="head in adminHead" :key="head">
+              {{ head }}
+            </th>
+          </tr>
+
+          <tr v-for="content in filteredAnnouncement" :key="content.pk">
+            <td id="nama_mata_kuliah_filtered">
+              {{ content.nama_mata_kuliah }}
+            </td>
+            <td id="nama_dosen_filtered">
+              {{ content.nama_dosen }}
+            </td>
+            <td id="nama_sesi_filtered">
+              {{ content.nama_sesi }}
+            </td>
+            <td id="nama_status_pengumuman_filtered">
+              {{ content.nama_status_pengumuman }}
+            </td>
+            <td id="action">
+              <button
+              v-on:click="showModal(
+                content.pk,
+                content.pembuat,
+                content.created_at,
+                content.nama_mata_kuliah,
+                content.jenis_pengumuman,
+                content.nama_dosen,
+                content.nama_asisten,
+                content.nama_ruang,
+                content.nama_sesi,
+                content.nama_status_pengumuman,
+                content.komentar,
+                content.deleted)" class="detail-button" id="detail-btn">
+                Detail
+              </button>
+            </td>
+            <td id="deleted_info">
+              <p v-if="content.deleted != null" class="deleted-info">
+                {{ modifyDateTime(String(content.deleted)) }}
+              </p>
+              <p v-else class="not-deleted-info">Not Deleted</p>
+            </td>
+          </tr>
+        </table>
+        <!-- FILTERED NON ADMIN -->
+        <table v-else aria-hidden="true">
           <tr>
             <th id="table-header" class="head-table"
               v-for="head in tableHead" :key="head">
@@ -288,13 +460,7 @@
             <td id="nama_status_pengumuman_filtered">
               {{ content.nama_status_pengumuman }}
             </td>
-            <td v-if="isAdmin && content.deleted != null">
-              <p class="deleted-info">
-                Telah dihapus pada <br>
-                {{ modifyDateTime(String(content.deleted)) }}
-              </p>
-            </td>
-            <td v-else>
+            <td id="action">
               <button
               v-on:click="showModal(
                 content.pk,
@@ -307,7 +473,8 @@
                 content.nama_ruang,
                 content.nama_sesi,
                 content.nama_status_pengumuman,
-                content.komentar)" class="detail-button" id="detail-btn">
+                content.komentar,
+                content.deleted)" class="detail-button" id="detail-btn">
                 Detail
               </button>
             </td>
@@ -334,6 +501,7 @@ export default {
       modaldetail: [
         {
           pk: 999,
+          deleted: null,
           pembuat: '',
           created_at: '',
           nama_mata_kuliah: '',
@@ -348,6 +516,9 @@ export default {
       ],
       tableHead: [
         'Mata Kuliah', 'Dosen', 'Sesi', 'Status', 'Aksi',
+      ],
+      adminHead: [
+        'Mata Kuliah', 'Dosen', 'Sesi', 'Status', 'Aksi', 'Deleted Time',
       ],
       response: {},
       filteredResponse: {},
@@ -417,10 +588,11 @@ export default {
       return result;
     },
     showModal(pk, pembuat, created, matkul, jenis, dosen, asisten,
-        ruang, sesi, status, komentar) {
+        ruang, sesi, status, komentar, deleted) {
       const data = this.modaldetail[0];
       this.$modal.show('detail-modal');
       data.pk = pk;
+      data.deleted = deleted
       data.pembuat = pembuat;
       data.created_at = this.modifyDateTime(created);
       data.nama_mata_kuliah = matkul;
@@ -630,5 +802,10 @@ tr:nth-child(odd) {
 }
 .deleted-info {
   color: red;
+  font-weight: bolder;
+}
+.not-deleted-info {
+  color: green;
+  font-weight: bolder;
 }
 </style>
