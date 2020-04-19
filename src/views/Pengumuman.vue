@@ -543,7 +543,7 @@ export default {
       const currentURL = window.location.href;
       const arr = currentURL.split('tanggal=');
       const date = arr[1];
-      if (typeof(date) == 'undefined') {
+      if (typeof(date) == 'undefined' || date == '') {
         this.isFiltered = false;
         this.fetchPengumuman();
       } else {
