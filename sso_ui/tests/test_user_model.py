@@ -2,7 +2,7 @@ from django.contrib.auth import get_user_model
 from django.test import TestCase
 
 from asdos.models import AsistenDosen
-from sso_ui.models import Admin
+from admin_birpen.models import Admin
 
 User = get_user_model()
 
