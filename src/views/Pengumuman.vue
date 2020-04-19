@@ -591,7 +591,7 @@ export default {
     },
     getFilteredDate: function(theDate) {
       const temp = theDate.split('-');
-      const day = temp[0]; 
+      const day = temp[0];
       const month = this.getMonthNameOneBased(parseInt(temp[1]));
       const year = temp[2];
       const result = day + ' ' + month + ' ' + year;
@@ -602,7 +602,7 @@ export default {
       const data = this.modaldetail[0];
       this.$modal.show('detail-modal');
       data.pk = pk;
-      data.deleted = deleted
+      data.deleted = deleted;
       data.pembuat = pembuat;
       data.created_at = this.modifyDateTime(created);
       data.nama_mata_kuliah = matkul;
@@ -623,14 +623,16 @@ export default {
       let date = currentDay.getDate();
       let month = currentDay.getMonth();
       let year = currentDay.getFullYear();
-      this.todayDate = date + ' ' + this.getMonthNameZeroBased(month) + ' ' + year;
+      this.todayDate = date + ' ' +
+      this.getMonthNameZeroBased(month) + ' ' + year;
 
       const nextDay = new Date(currentDay);
       nextDay.setDate(currentDay.getDate() + 1);
       date = nextDay.getDate();
       month = nextDay.getMonth();
       year = nextDay.getFullYear();
-      this.tomorrowDate = date + ' ' + this.getMonthNameZeroBased(month) + ' ' + year;
+      this.tomorrowDate = date + ' ' +
+      this.getMonthNameZeroBased(month) + ' ' + year;
     },
     modifyDateTime: function(time) {
       const datetime = String(time);
