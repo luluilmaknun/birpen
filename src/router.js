@@ -114,31 +114,33 @@ router.beforeEach((to, from, next) => {
       next({name: 'home'});
       return;
     }
-  } 
+  }
 
   const role = localStorage.getItem('role');
   const isAsdos = localStorage.getItem('is_asdos');
   const isAdmin = localStorage.getItem('is_admin');
 
-  if (to.matched.some((record) => record.meta.requiresPrivilegeToAccessPengumuman)) {
-    if (role != 'mahasiswa' && role != 'staff' && isAsdos == 'false' && isAdmin == 'false') {
+  if (to.matched.some(
+      (record) => record.meta.requiresPrivilegeToAccessPengumuman)) {
+    if (role != 'mahasiswa' && role != 'staff'
+        && isAsdos == 'false' && isAdmin == 'false') {
       next({name: 'home'});
       return;
     }
   }
 
   if (to.name == 'create-pengumuman') {
-    if (role != 'staff' && isAsdos == 'false' && isAdmin == 'false'){
+    if (role != 'staff' && isAsdos == 'false' && isAdmin == 'false') {
       next({name: 'pengumuman'});
       return;
     }
-  } 
+  }
 
   if (to.name == 'asisten') {
     if (role != 'staff' && isAdmin == 'false') {
       next({name: 'home'});
       return;
-    } 
+    }
   }
 
   next();
