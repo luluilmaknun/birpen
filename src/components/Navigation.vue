@@ -125,6 +125,7 @@ h2 {
 }
 .nav-elem:hover {
   color: black;
+  background-color: white;
   border-radius: 100px;
   padding-top: 5px;
   padding-bottom: 5px;
