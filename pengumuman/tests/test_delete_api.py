@@ -20,6 +20,8 @@ class DeleteApiTest(TestCase):
         self.client = APIClient()
 
         user_1 = User.objects.create(username='athallah.annafis', password='mahasiswa')
+        user_1.profile.role = 'mahasiswa'
+        user_1.save()
         self.token_1 = jwt_encode_handler(jwt_payload_handler(user_1))
 
         user_2 = User.objects.create(username='julia.ningrum', password='admin')
