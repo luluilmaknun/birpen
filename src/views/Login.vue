@@ -151,8 +151,6 @@ input {
   margin-right: 10px;
 }
 .bottom-buttons {
-  color: black;
-  font-weight: bolder;
   text-decoration: none;
   background: none;
   border-style: solid;
