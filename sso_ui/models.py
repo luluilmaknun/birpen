@@ -19,11 +19,23 @@ with open(settings.SSO_UI_ORG_DETAIL_FILE_PATH, 'r') as ORG_CODE_FILE:
 
 
 class User(AbstractUser):
+    blocked = models.BooleanField(default=False, blank=False, null=False)
+
+    def is_blocked(self):
+        return self.blocked
+
     def is_admin(self):
         return Admin.objects.filter(username=self.username).exists()
 
     def is_asdos(self):
         return AsistenDosen.objects.filter(username=self.username).exists()
+
+    def is_alumni(self):
+        try:
+            profile = self.profile
+        except ObjectDoesNotExist:
+            return False
+        return profile.role == 'alumni'
 
     def is_dosen(self):
         try:

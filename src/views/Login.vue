@@ -2,11 +2,6 @@
   <div id="login-page" class="page-container" style="padding-top:0px!important">
     <h1>Masuk</h1>
     <div class="login-container">
-      <!--
-        v-model -> Value yang di-passing ke variabel "username" dan "password"
-        di dalam <script>, bisa dipakai untuk keperluan backend-nya. Lebih
-        jelasnya lihat console.log ketika klik "Masuk"
-       -->
       <!-- USERNAME -->
       <div class="username-class">
         <h2 class="font-id" id="username-id">Username:</h2>
@@ -37,8 +32,12 @@
       id="sso-link">
         Login with<br>SSO
       </a>
-      <p>Tidak punya akun?</p>
-      <button class="bottom-buttons" id="buat-akun">Buat Akun</button>
+      <p>Tidak punya sso?</p>
+      <a class="bottom-buttons"
+      :href="`/register/`"
+      id="buat-akun">
+        Buat Akun<br> Alumni
+      </a>
     </div>
   </div>
 </template>
@@ -96,7 +95,7 @@ export default {
   border-radius: 20px;
   margin-top: 20px;
   line-height: 30pt;
-  width: 400px;
+  min-width: fit-content;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -146,12 +145,8 @@ input {
   margin-left: 10px;
   margin-right: 10px;
 }
-#sso-link {
-  color: black;
-  font-weight: bolder;
-  text-decoration: none;
-}
 .bottom-buttons {
+  text-decoration: none;
   background: none;
   border-style: solid;
   border-color: #FFDD00;
