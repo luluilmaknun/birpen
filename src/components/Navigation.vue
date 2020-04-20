@@ -133,7 +133,10 @@ export default {
   font-size: 20pt;
   color: white;
   background: none;
-  border-style: none;
+  border-top: 3px solid transparent;
+  border-left: none;
+  border-right: none;
+  border-bottom: none;
 }
 #admin-dropdown-div:hover .admin-dropdown-container{
   display: flex;
@@ -142,7 +145,7 @@ export default {
   padding: 3px;
 }
 #admin-dropdown-div:hover #button-admin {
-  text-decoration: underline;
+  border-top: 3px solid white;
 }
 #dropdown-img {
   height: 20px;
