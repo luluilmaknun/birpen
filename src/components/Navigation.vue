@@ -93,7 +93,6 @@ export default {
   data() {
     return {
       mobileView: false,
-      adminActionList: false,
       username: localStorage.getItem('username'),
       is_authenticated:
         (localStorage.getItem('token') ? true : false),
