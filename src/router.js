@@ -8,6 +8,7 @@ import AsdosPage from '@/views/AsdosPage.vue';
 import Pengumuman from '@/views/Pengumuman.vue';
 import AdminPage from '@/views/AdminPage.vue';
 import Register from '@/views/Register.vue';
+import AlumniPage from '@/views/AlumniPage.vue';
 
 Vue.use(Router);
 
@@ -94,6 +95,15 @@ const router = new Router({
       },
       pathToRegexpOptions: {strict: true},
     },
+    {
+      path: '/alumni/',
+      name: 'alumni',
+      component: AlumniPage,
+      meta: {
+        requiresAuth: true,
+      },
+      pathToRegexpOptions: {strict: true},
+    },
   ],
 });
 
@@ -155,6 +165,13 @@ router.beforeEach((to, from, next) => {
   }
 
   if (to.name == 'admin') {
+    if (isAdmin == 'false') {
+      next({name: 'home'});
+      return;
+    }
+  }
+
+  if (to.name == 'alumni') {
     if (isAdmin == 'false') {
       next({name: 'home'});
       return;
