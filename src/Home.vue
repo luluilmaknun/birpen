@@ -41,7 +41,7 @@ body, html {
   box-sizing: border-box;
 }
 #app {
-  height: 80%;
+  height: 100%;
 }
 h2.title_home {
   font-family: 'Montserrat', sans-serif;
