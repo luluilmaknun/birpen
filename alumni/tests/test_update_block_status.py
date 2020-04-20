@@ -42,25 +42,25 @@ class RegisterAlumniTest(TestCase):
         self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + self.token_non_admin)
         response = self.client.patch('/api/alumni/' + self.alumni.username + '/block/',
                                      data=urlencode(MultiValueDict({
-                                         'is_blocked': True,
+                                         'blocked': True,
                                      })),
                                      content_type='application/x-www-form-urlencoded')
         self.assertEqual(response.data['detail'],
                          'You do not have permission to perform this action.')
         self.assertEqual(response.status_code, 403)
 
-    def test_invalid_data_no_is_blocked(self):
+    def test_invalid_data_no_blocked(self):
         self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + self.token_admin)
         response = self.client.patch('/api/alumni/' + self.alumni.username + '/block/',
                                      content_type='application/x-www-form-urlencoded')
         self.assertEqual(response.data['detail'], 'Invalid data.')
         self.assertEqual(response.status_code, 400)
 
-    def test_invalid_data_is_blocked_not_boolean(self):
+    def test_invalid_data_blocked_not_boolean(self):
         self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + self.token_admin)
         response = self.client.patch('/api/alumni/' + self.alumni.username + '/block/',
                                      data=urlencode(MultiValueDict({
-                                         'is_blocked': 'not_boolean',
+                                         'blocked': 'not_boolean',
                                      })),
                                      content_type='application/x-www-form-urlencoded')
         self.assertEqual(response.data['detail'], 'Invalid data.')
@@ -84,7 +84,7 @@ class RegisterAlumniTest(TestCase):
         self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + self.token_admin)
         response = self.client.patch('/api/alumni/' + self.alumni.username + '/block/',
                                      data=urlencode(MultiValueDict({
-                                         'is_blocked': True,
+                                         'blocked': True,
                                      })),
                                      content_type='application/x-www-form-urlencoded')
         self.assertEqual(response.data['success'], True)
@@ -94,7 +94,7 @@ class RegisterAlumniTest(TestCase):
         self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + self.token_admin)
         response = self.client.patch('/api/alumni/' + self.alumni.username + '/block/',
                                      data=urlencode(MultiValueDict({
-                                         'is_blocked': False,
+                                         'blocked': False,
                                      })),
                                      content_type='application/x-www-form-urlencoded')
         self.assertEqual(response.data['success'], True)

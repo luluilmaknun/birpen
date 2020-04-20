@@ -13,6 +13,10 @@ class LoginTest(TestCase):
         user.set_password('mahasiswa')
         user.save()
 
+        blocked_user = User.objects.create(username='yusuf.tri71', blocked=True)
+        blocked_user.set_password('blocked_user')
+        blocked_user.save()
+
     def test_post_login_success(self):
         client = APIClient()
         response = client.post('/sso/obtain-user-info/',
@@ -51,3 +55,15 @@ class LoginTest(TestCase):
 
         self.assertEqual(response.status_code, 401)
         self.assertEqual(response.data['detail'], 'Invalid credentials.')
+
+    def test_user_has_been_blocked(self):
+        client = APIClient()
+        response = client.post('/sso/obtain-user-info/',
+                               data=urlencode(MultiValueDict({
+                                   'username': 'yusuf.tri71',
+                                   'password': 'blocked_user',
+                               })),
+                               content_type='application/x-www-form-urlencoded')
+
+        self.assertEqual(response.status_code, 403)
+        self.assertEqual(response.data['detail'], 'Account has been blocked by administrator.')
