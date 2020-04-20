@@ -155,7 +155,7 @@ export default {
   display: none;
 }
 .nav-container {
-  box-sizing: border-box;
+  position: absolute;
   width: 100%;
   padding: 10 10;
   display: flex;
