@@ -28,8 +28,8 @@
     </modal>
 
     <div v-if="is_blocked">
-      <button class="block-button" id="block-btn"
-      @click="open_modal">Blokir</button>
+      <button class="block-button" id="unblock-btn"
+      @click="open_modal">Batalkan blokir</button>
     </div><div v-else>
       <button class="block-button" id="block-btn"
       @click="open_modal">Blokir</button>
