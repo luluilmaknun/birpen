@@ -8,6 +8,6 @@ export default {
     return api.patch('alumni/'+username+'/block/', request);
   },
   fetchAlumni() {
-    return api.get('alumni/')
+    return api.get('alumni/');
   },
 };
