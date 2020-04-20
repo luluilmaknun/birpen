@@ -19,7 +19,7 @@ with open(settings.SSO_UI_ORG_DETAIL_FILE_PATH, 'r') as ORG_CODE_FILE:
 
 
 class User(AbstractUser):
-    is_blocked = models.BooleanField(default=False, blank=False, null=False)
+    blocked = models.BooleanField(default=False, blank=False, null=False)
 
     def is_admin(self):
         return Admin.objects.filter(username=self.username).exists()

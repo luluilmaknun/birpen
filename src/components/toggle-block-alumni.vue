@@ -7,14 +7,14 @@
     <div class="modal-container">
         <div class="warning-msg">
           <h1 id="desc-modal">Apakah anda yakin akan
-            <d v-if="is_blocked">membatalkan blokir pada</d>
+            <d v-if="blocked">membatalkan blokir pada</d>
             <d v-else>memblokir</d>
           <b>&nbsp;{{ this.alumni_username }}</b>
           sebagai alumni?</h1>
           <p id="error-message">{{ error_message }}</p>
         </div>
         <div class="modal-buttons">
-          <div v-if="is_blocked">
+          <div v-if="blocked">
             <button @click="toggle_alumni" class="unblock-button"
               id="block-conf">Batalkan blokir</button>
           </div><div v-else>
@@ -27,7 +27,7 @@
     </div>
     </modal>
 
-    <div v-if="is_blocked">
+    <div v-if="blocked">
       <button class="unblock-button" id="unblock-btn"
       @click="open_modal">Batalkan blokir</button>
     </div><div v-else>
@@ -50,7 +50,7 @@ export default {
   },
   props: {
     alumni_username: String,
-    is_blocked: Boolean,
+    blocked: Boolean,
   },
   methods: {
     open_modal: function() {
@@ -61,7 +61,7 @@ export default {
     },
     toggle_alumni: function() {
       alumniServices.toggleBlockAlumni(this.alumni_username, {
-        is_blocked: !this.is_blocked,
+        blocked: !this.blocked,
       }).then((result) => {
         this.$router.go();
       }).catch((error) => {

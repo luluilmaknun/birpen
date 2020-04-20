@@ -72,14 +72,14 @@ def is_empty(field):
 @permission_classes((IsAuthenticated, IsPrivilegedToAccessAlumni))
 def update_block_status(request, username):
 
-    is_blocked = request.data.get('is_blocked')
+    blocked = request.data.get('blocked')
 
     try:
         user = User.objects.get(username=username)
         if not user.is_alumni():
             raise ObjectDoesNotExist
 
-        user.is_blocked = is_blocked
+        user.blocked = blocked
         user.save()
 
     except ObjectDoesNotExist:
