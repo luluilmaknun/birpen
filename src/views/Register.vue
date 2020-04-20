@@ -207,4 +207,9 @@ input {
   font-weight: bolder;
   border-style: none;
 }
+@media only screen and (max-width: 539px) {
+  input {
+    width: 250px;
+  }
+}
 </style>
