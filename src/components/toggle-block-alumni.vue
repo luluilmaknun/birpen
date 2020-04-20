@@ -16,10 +16,10 @@
         <div class="modal-buttons">
           <div v-if="is_blocked">
             <button @click="toggle_alumni" class="block-button"
-              id="block-conf">Blokir</button>
+              id="block-conf">Batalkan blokir</button>
           </div><div v-else>
             <button @click="toggle_alumni" class="unblock-button"
-              id="unblock-conf">Batalkan blokir</button>
+              id="unblock-conf">Blokir</button>
           </div>
         <button @click="close_modal" class="tidak-btn"
           id="tidak-btn">Tidak</button>
