@@ -13,14 +13,6 @@ from .permissions import IsPrivilegedToAccessAlumni
 
 User = get_user_model()
 
-@api_view(["GET"])
-def alumni_placeholder_views(_):
-    result = {
-        "message": "alumni placeholder message"
-    }
-
-    return Response({"success": True, "result": result}, status=HTTP_200_OK)
-
 @csrf_exempt
 @api_view(["POST"])
 @permission_classes((AllowAny,))
