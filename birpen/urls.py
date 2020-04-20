@@ -32,6 +32,11 @@ urlpatterns = [
                 namespace='asdos')),
 
     path(
+        'api/admin_birpen/',
+        include(('admin_birpen.urls', 'admin_birpen'),
+                namespace='admin_birpen')),
+
+    path(
         'api/alumni/',
         include(('alumni.urls', 'alumni'),
                 namespace='alumni')),

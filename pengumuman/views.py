@@ -13,7 +13,8 @@ from rest_framework.status import (
 
 from .models import Pengumuman, MataKuliah, JenisPengumuman, \
     Ruang, Sesi, StatusPengumuman
-from .permissions import IsPrivilegedToCreateAnnouncemment
+from .permissions import IsPrivilegedToCreateAnnouncemment, \
+    IsPrivilegedToAccessAnnouncemment
 from .serializers import PengumumanSerializer
 
 PENGUMUMAN_NOT_FOUND_MESSAGE = 'Pengumuman does not exist.'
@@ -73,7 +74,7 @@ def create_pengumuman(request):
     }, status=HTTP_200_OK)
 
 @api_view(["GET"])
-@permission_classes((IsAuthenticated,))
+@permission_classes((IsAuthenticated, IsPrivilegedToAccessAnnouncemment,))
 def get_pengumuman_default(request):
     curr_date = date.today()
     tomo_date = curr_date + timedelta(days=1)
@@ -91,7 +92,7 @@ def get_pengumuman_default(request):
                      "pengumuman_tomo": pengumuman_tomo}, status=200)
 
 @api_view(["GET"])
-@permission_classes((IsAuthenticated,))
+@permission_classes((IsAuthenticated, IsPrivilegedToAccessAnnouncemment,))
 def filter_pengumuman(request):
     pengumuman_request = request.GET["tanggal"]
     try:
@@ -111,7 +112,7 @@ def filter_pengumuman(request):
 
 @csrf_exempt
 @api_view(["PUT"])
-@permission_classes((IsAuthenticated,))
+@permission_classes((IsAuthenticated, IsPrivilegedToAccessAnnouncemment,))
 def edit_pengumuman(request, key):
     try:
         pengumuman = Pengumuman.objects.get(pk=key)
@@ -131,7 +132,7 @@ def edit_pengumuman(request, key):
 
     try:
         pengumuman.tanggal_kelas = datetime.strptime(request.data.get('tanggal_kelas'),
-                                                     '%Y-%m-%d')
+                                                     '%Y-%m-%d') + timedelta(hours=7)
         pengumuman.nama_mata_kuliah = \
             MataKuliah.objects.get(nama=request.data.get('nama_mata_kuliah'))
         pengumuman.jenis_pengumuman = \
@@ -154,7 +155,7 @@ def edit_pengumuman(request, key):
 
 @csrf_exempt
 @api_view(["GET"])
-@permission_classes((IsAuthenticated,))
+@permission_classes((IsAuthenticated, IsPrivilegedToAccessAnnouncemment,))
 def dropdown_pengumuman(request):
     response = {}
     DROPDOWN = {
@@ -172,7 +173,7 @@ def dropdown_pengumuman(request):
 
 @csrf_exempt
 @api_view(["DELETE"])
-@permission_classes((IsAuthenticated,))
+@permission_classes((IsAuthenticated, IsPrivilegedToAccessAnnouncemment,))
 def delete_pengumuman(request, key):
     try:
         pengumuman = Pengumuman.objects.get(pk=key)
@@ -195,7 +196,7 @@ def delete_pengumuman(request, key):
 
 @csrf_exempt
 @api_view(["GET"])
-@permission_classes((IsAuthenticated,))
+@permission_classes((IsAuthenticated, IsPrivilegedToAccessAnnouncemment,))
 def read_pengumuman_by_pk(request, key):
     try:
         if not request.user.is_admin():

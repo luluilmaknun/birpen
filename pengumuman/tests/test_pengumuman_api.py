@@ -23,6 +23,8 @@ class PengumumanApiTest(TestCase):
 
         user_1 = User.objects.create(username='athallah.annafis',
                                      password='mahasiswa')
+        user_1.profile.role = 'mahasiswa'
+        user_1.save()
         self.token_1 = jwt_encode_handler(jwt_payload_handler(user_1))
 
         user_2 = User.objects.create(username='julia.ningrum',
@@ -32,6 +34,8 @@ class PengumumanApiTest(TestCase):
 
         user_3 = User.objects.create(username='yusuf.tri',
                                      password='mahasiswa')
+        user_3.profile.role = 'mahasiswa'
+        user_3.save()
         self.token_3 = jwt_encode_handler(jwt_payload_handler(user_3))
 
         tanggal_kelas = "2016-11-16T22:31:18.130822+00:00"
