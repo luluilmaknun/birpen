@@ -71,6 +71,14 @@ describe('Tes login non sso', () => {
   const vm = wrapper.vm;
 
   it('test berhasil', () => {
+    global.window = Object.create(window);
+    const url = 'http://birpen.com';
+    Object.defineProperty(window, 'location', {
+      value: {
+        href: url,
+      },
+    });
     vm.login();
+    expect(window.location.href).toEqual(url);
   });
 });
