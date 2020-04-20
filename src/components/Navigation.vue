@@ -10,7 +10,7 @@
       <router-link class="nav-elem"
       ref="pengumuman-button" :to="{ name: 'pengumuman' }">
       Pengumuman</router-link>
-      <label v-if="is_dosen || is_admin">
+      <label v-if="is_dosen">
         <router-link class="nav-elem"
         ref="asisten-button" :to="{ name: 'asisten' }">
         Asisten</router-link>
@@ -19,7 +19,7 @@
       <!-- DROPDOWN -->
       <div v-if="is_admin" id="admin-dropdown-div">
         <button id="button-admin">
-          Admin actions
+          Manajemen Pengguna
           <img id="dropdown-img"
           src="./../assets/images/white-arrow-png-41944.png"
           alt="Klik untuk opsi lebih lanjut" />
@@ -32,6 +32,9 @@
           <router-link class="nav-elem" id="admin-dropdown-elem"
           ref="asisten-button" :to="{ name: 'admin' }">
           Admin</router-link>
+          <router-link class="nav-elem" id="admin-dropdown-elem"
+          ref="asisten-button" :to="{ name: 'asisten' }">
+          Asisten</router-link>
         </div>
       </div>
     </div>
@@ -112,6 +115,10 @@ export default {
   width: fit-content;
   margin-left: 10px;
   margin-right: 10px;
+  width: 400px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 .admin-dropdown-container {
   background-color: rgb(194, 194, 194);
@@ -122,7 +129,8 @@ export default {
   display: none;
   /* IMPORTANT FOR DROPDOWN NAVBAR */
   position: absolute;
-  width: 200px;
+  width: 300px;
+  margin-top: 40px;
 }
 #admin-dropdown-elem {
   text-decoration: none;
