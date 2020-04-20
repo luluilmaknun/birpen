@@ -37,11 +37,11 @@
       id="sso-link">
         Login with<br>SSO
       </a>
-      <p>Tidak punya akun?</p>
+      <p>Tidak punya sso?</p>
       <a class="bottom-buttons"
       :href="`/register/`"
       id="buat-akun">
-        Buat Akun
+        Buat Akun<br> Alumni
       </a>
     </div>
   </div>

@@ -2,7 +2,7 @@
   <div id="register-page" class="page-container"
     style="padding-top:0px!important">
 
-    <h1>Buat Akun Baru</h1>
+    <h1>Buat Akun Alumni</h1>
 
     <div class="register-container">
 
