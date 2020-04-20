@@ -100,7 +100,6 @@ export default {
         localStorage.getItem('is_admin') === 'true',
       is_dosen:
         localStorage.getItem('role') === 'staff',
-      is_admin: localStorage.getItem('is_admin') === 'true',
     };
   },
 };
