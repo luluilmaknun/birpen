@@ -10,16 +10,22 @@ from rest_framework.status import (
     HTTP_400_BAD_REQUEST
 )
 from .permissions import IsPrivilegedToAccessAlumni
+from .serializers import AlumniSerializer
 
 User = get_user_model()
 
 @api_view(["GET"])
-def alumni_placeholder_views(_):
-    result = {
-        "message": "alumni placeholder message"
-    }
+@permission_classes((IsAuthenticated, IsPrivilegedToAccessAlumni))
+def read_all_alumni(_):
+    all_alumni = User.objects.filter(profile__role='alumni')
 
-    return Response({"success": True, "result": result}, status=HTTP_200_OK)
+    all_alumni_serialized = (AlumniSerializer(alumni).data \
+        for alumni in all_alumni)
+
+    return Response({
+        "success": True,
+        "alumni": all_alumni_serialized
+    }, status=HTTP_200_OK)
 
 @csrf_exempt
 @api_view(["POST"])
