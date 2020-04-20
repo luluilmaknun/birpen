@@ -3,7 +3,11 @@ import Register from '@/views/Register.vue';
 import alumniApi from '@/services/alumniServices';
 
 describe('Tes register page', () => {
-  const wrapper = shallowMount(Register);
+  const wrapper = shallowMount(Register, {
+    mocks: {
+      $refs: {submit: {click: jest.fn()}},
+    },
+  });
 
   it('apakah ada field username', () => {
     const field = wrapper.find('.username-input');
@@ -34,9 +38,10 @@ describe('Tes register page', () => {
     wrapper.find('#username').trigger('keyup.enter');
     wrapper.find('#password').trigger('keyup.enter');
     wrapper.find('#email').trigger('keyup.enter');
+    wrapper.vm.clickRegister();
   });
 
-  it('test klik enter untuk masuk - input valid', () => {
+  it('test pre-register - input valid', () => {
     const wrapper = shallowMount(Register, {
       data() {
         return {
@@ -45,8 +50,15 @@ describe('Tes register page', () => {
           'password': 'lulusgan',
         };
       },
+      mocks: {
+        $modal: {
+          show: jest.fn(),
+        },
+      },
     });
-    wrapper.find('#email').trigger('keyup.enter');
+
+    wrapper.vm.preRegister();
+    expect(wrapper.vm.error).toBe(false);
   });
 
   alumniApi.registerAlumni = jest.fn((response) => Promise.resolve({
@@ -56,15 +68,15 @@ describe('Tes register page', () => {
     },
   }));
 
-  it('test klik enter untuk masuk - input kosong', () => {
+  it('test pre-register - input kosong', () => {
     const wrapper = shallowMount(Register);
 
-    wrapper.vm.register();
-    expect(wrapper.vm.message_seen).toBe(true);
+    wrapper.vm.preRegister();
+    expect(wrapper.vm.error).toBe(true);
     expect(wrapper.vm.error_message).toBe('Isi semua data terlebih dahulu');
   });
 
-  it('test klik enter untuk masuk - email tidak valid', () => {
+  it('test pre-register - email tidak valid', () => {
     const wrapper = shallowMount(Register, {
       data() {
         return {
@@ -75,8 +87,8 @@ describe('Tes register page', () => {
       },
     });
 
-    wrapper.vm.register();
-    expect(wrapper.vm.message_seen).toBe(true);
+    wrapper.vm.preRegister();
+    expect(wrapper.vm.error).toBe(true);
     expect(wrapper.vm.error_message)
         .toBe('Masukkan alamat email yang valid');
   });
@@ -120,9 +132,21 @@ describe('Tes register', () => {
 
   beforeEach(() => {
     wrapper = shallowMount(Register, {
+      data() {
+        return {
+          error: false,
+          username: 'admin',
+          password: 'admin',
+          email: 'lulu@gmail.com',
+        };
+      },
       mocks: {
         $modal: {
           show: jest.fn(),
+          hide: jest.fn(),
+        },
+        $router: {
+          push: jest.fn(),
         },
       },
     });
@@ -135,7 +159,16 @@ describe('Tes register', () => {
     };
   });
 
-  it('test berhasil', () => {
+  it('test gagal register', () => {
+    wrapper.setData({error: true});
+    vm.register();
+  });
+
+  it('test berhasil register', () => {
+    vm.register();
+  });
+
+  it('test berhasil processRegister', () => {
     alumniApi.registerAlumni = jest.fn((_) => Promise.resolve({
       status: 200,
       data: {
@@ -149,7 +182,7 @@ describe('Tes register', () => {
     });
   });
 
-  it('test error', () => {
+  it('test error processRegister', () => {
     const error = new Error('error');
 
     error.response = {

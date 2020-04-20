@@ -11,7 +11,7 @@
         <h2 class="font-id" id="username-id">Username:</h2>
         <input class="username-input" v-model="username"
         placeholder="username" id="username"
-        @keyup.enter="clickRegister">
+        @keyup.enter="preRegister()">
       </div>
 
       <!-- EMAIL -->
@@ -19,7 +19,7 @@
         <h2 class="font-id" id="email-id">Email:</h2>
         <input class="email-input" v-model="email"
         placeholder="email" id="email" type="email"
-        @keyup.enter="clickRegister">
+        @keyup.enter="preRegister()">
       </div>
 
       <!-- PASSWORD -->
@@ -27,26 +27,52 @@
         <h2 class="font-id" id="password-id">Password:</h2>
         <input class="password-input" :type="'password'"
         v-model="password" placeholder="password"
-        @keyup.enter="clickRegister" id="password">
+        @keyup.enter="preRegister()" id="password">
       </div>
 
       <!-- LOGIN -->
       <span style="text-align:center;color:red"
-        v-if="message_seen">
+        v-if="error">
         {{ error_message }}
       </span>
 
       <div class="register-button-container">
-        <button class="register-button" v-on:click="register()"
+        <button class="register-button"
+        v-on:click="preRegister()"
         ref="submit">DAFTAR</button>
       </div>
+
+      <modal name="register-confirmation"
+        @before-open="error_message=''"
+        height="auto"
+        :pivotX="0.0">
+        <div class="modal-container">
+          <h3>Pastikan semua data sudah benar. Apakah anda yakin?</h3>
+            <div class="modal-buttons">
+            <button v-on:click="register()" class="yellow-black-btn">
+              Daftar
+            </button>
+            <button v-on:click="closeModal('register-confirmation')"
+              class="black-white-btn">
+              Tutup
+            </button>
+          </div>
+        </div>
+      </modal>
     </div>
 
     <modal name="register-popup"
     @before-open="error_message=''"
     height="auto"
     :pivotX="0.0">
-    <div class="modal-container">
+    <div v-if="success_regis" class="modal-container">
+      <h3>
+        Berhasil membuat Akun! <br>
+        Menuju halaman login...
+      </h3>
+    </div>
+
+    <div v-else class="modal-container">
       <h3>{{ modal_message }}</h3>
       <div class="modal-buttons">
         <button v-on:click="goToPage('login')" class="yellow-black-btn">
@@ -73,7 +99,8 @@ export default {
       password: '',
       error_message: '',
       modal_message: '',
-      message_seen: false,
+      error: undefined,
+      success_regis: false,
     };
   },
   methods: {
@@ -87,36 +114,47 @@ export default {
     clickRegister() {
       this.$refs.submit.click();
     },
-    register() {
-      const request = {};
-
+    preRegister() {
       if (!this.username ||
          !this.email ||
          !this.password) {
         this.error_message = 'Isi semua data terlebih dahulu';
-        this.message_seen = true;
+        this.error = true;
       } else {
         if (this.validateEmail(this.email)) {
-          request['username'] = this.username;
-          request['password'] = this.password;
-          request['email'] = this.email;
-
-          this.processRegister(request);
+          this.error = false;
+          this.showModal('register-confirmation');
         } else {
           this.error_message = 'Masukkan alamat email yang valid';
-          this.message_seen = true;
+          this.error = true;
         }
+      }
+    },
+    register() {
+      const request = {};
+
+      if (this.error == false) {
+        request['username'] = this.username;
+        request['password'] = this.password;
+        request['email'] = this.email;
+
+        this.processRegister(request);
       }
     },
     processRegister(request) {
       alumniApi.registerAlumni(request)
           .then((response) => {
-            this.modal_message = 'Berhasil membuat akun';
+            this.success_regis = response.data.success;
+            this.closeModal('register-confirmation');
+            this.showModal('register-popup');
+            setTimeout(() => this.goToPage('login'), 3000);
           })
           .catch((error) => {
             this.modal_message = error.response.data.detail;
+            this.success_regis = error.response.data.success;
           });
 
+      this.closeModal('register-confirmation');
       this.showModal('register-popup');
     },
     validateEmail(email) {
@@ -206,6 +244,9 @@ input {
   font-size: 12pt;
   font-weight: bolder;
   border-style: none;
+}
+.modal-container {
+  text-align: center;
 }
 @media only screen and (max-width: 539px) {
   input {
