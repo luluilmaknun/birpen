@@ -61,7 +61,7 @@ export default {
   display:flex;
   flex-direction: column;
   align-items: center;
-  padding-top: 100px !important;
+  margin-top: 20px !important;
   box-sizing: border-box;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
