@@ -2,11 +2,6 @@
   <div id="login-page" class="page-container" style="padding-top:0px!important">
     <h1>Masuk</h1>
     <div class="login-container">
-      <!--
-        v-model -> Value yang di-passing ke variabel "username" dan "password"
-        di dalam <script>, bisa dipakai untuk keperluan backend-nya. Lebih
-        jelasnya lihat console.log ketika klik "Masuk"
-       -->
       <!-- USERNAME -->
       <div class="username-class">
         <h2 class="font-id" id="username-id">Username:</h2>
@@ -100,7 +95,7 @@ export default {
   border-radius: 20px;
   margin-top: 20px;
   line-height: 30pt;
-  width: 400px;
+  min-width: fit-content;
   display: flex;
   flex-direction: column;
   align-items: center;
