@@ -101,6 +101,7 @@ export default {
       modal_message: '',
       error: undefined,
       success_regis: false,
+      re_email: /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/,
     };
   },
   methods: {
@@ -158,8 +159,7 @@ export default {
       this.showModal('register-popup');
     },
     validateEmail(email) {
-      const re = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
-      return re.test(email);
+      return this.re_email.test(email);
     },
     goToPage(link) {
       this.$router.push({name: link});
