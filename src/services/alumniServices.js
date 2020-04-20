@@ -7,4 +7,7 @@ export default {
   toggleBlockAlumni(username, request) {
     return api.patch('alumni/'+username+'/block/', request);
   },
+  fetchAlumni() {
+    return api.get('alumni/');
+  },
 };
