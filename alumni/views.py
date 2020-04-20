@@ -1,13 +1,15 @@
 from django.contrib.auth import get_user_model
+from django.core.exceptions import ObjectDoesNotExist, ValidationError
 from django.db.utils import DataError, IntegrityError
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.decorators import api_view, permission_classes
-from rest_framework.permissions import AllowAny
+from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.status import (
     HTTP_200_OK,
     HTTP_400_BAD_REQUEST
 )
+from .permissions import IsPrivilegedToAccessAlumni
 
 User = get_user_model()
 
@@ -58,3 +60,32 @@ def register(request):
 
 def is_empty(field):
     return field is None or field == ''
+
+@csrf_exempt
+@api_view(["PATCH"])
+@permission_classes((IsAuthenticated, IsPrivilegedToAccessAlumni))
+def update_block_status(request, username):
+
+    is_blocked = request.data.get('is_blocked')
+
+    try:
+        user = User.objects.get(username=username)
+        if not user.is_alumni():
+            raise ObjectDoesNotExist
+
+        user.is_blocked = is_blocked
+        user.save()
+
+    except ObjectDoesNotExist:
+        return Response({
+            'detail': 'Alumni does not exist.'
+        }, status=HTTP_400_BAD_REQUEST)
+
+    except (ValidationError, IntegrityError):
+        return Response({
+            'detail': 'Invalid data.'
+        }, status=HTTP_400_BAD_REQUEST)
+
+    return Response({
+        "success": True,
+    }, status=HTTP_200_OK)
