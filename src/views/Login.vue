@@ -81,7 +81,7 @@ export default {
 <style scoped>
 #login-page {
   padding: 0 !important;
-  height: 100%;
+  height: 80%;
   display: flex;
   justify-content: center;
 }
