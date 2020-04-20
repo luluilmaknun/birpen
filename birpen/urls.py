@@ -36,6 +36,11 @@ urlpatterns = [
         include(('admin_birpen.urls', 'admin_birpen'),
                 namespace='admin_birpen')),
 
+    path(
+        'api/alumni/',
+        include(('alumni.urls', 'alumni'),
+                namespace='alumni')),
+
     # http://localhost:8000/api/admin/
     path('api/admin/', admin.site.urls),
 
