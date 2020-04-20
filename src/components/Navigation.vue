@@ -10,7 +10,13 @@
       <router-link class="nav-elem"
       ref="pengumuman-button" :to="{ name: 'pengumuman' }">
       Pengumuman</router-link>
+      <label v-if="is_dosen || is_admin">
+        <router-link class="nav-elem"
+        ref="asisten-button" :to="{ name: 'asisten' }">
+        Asisten</router-link>
+      </label>
 
+      <!-- DROPDOWN -->
       <div v-if="is_admin" id="admin-dropdown-div">
         <button id="button-admin">
           Admin actions
@@ -19,20 +25,15 @@
           alt="Klik untuk opsi lebih lanjut" />
         </button>
 
-        <div class="admin-dropdown-content">
-            <router-link class="nav-elem" id="admin-dropdown-elem"
-            ref="asisten-button" :to="{ name: 'asisten' }">
-            Asisten</router-link>
-            <router-link class="nav-elem" id="admin-dropdown-elem"
-            ref="asisten-button" :to="{ name: 'admin' }">
-            Admin</router-link>
+        <div class="admin-dropdown-container">
+          <router-link class="nav-elem" id="admin-dropdown-elem"
+          ref="asisten-button" :to="{ name: 'alumni' }">
+          Alumni</router-link>
+          <router-link class="nav-elem" id="admin-dropdown-elem"
+          ref="asisten-button" :to="{ name: 'admin' }">
+          Admin</router-link>
         </div>
       </div>
-      <label v-else-if="is_dosen">
-        <router-link class="nav-elem" id="admin-dropdown-elem"
-        ref="asisten-button" :to="{ name: 'asisten' }">
-        Asisten</router-link>
-      </label>
     </div>
 
     <div class="nav-elem-container-right" id="desktop-nav">
@@ -109,12 +110,15 @@ export default {
 /* DROPDOWN ADMIN */
 #admin-dropdown-div {
   width: fit-content;
+  margin-left: 10px;
+  margin-right: 10px;
 }
-.admin-dropdown-content {
+.admin-dropdown-container {
   background-color: rgb(194, 194, 194);
   border-style: solid;
   border-color: black;
   background-color: black;
+  border-radius: 10px;
   display: none;
   /* IMPORTANT FOR DROPDOWN NAVBAR */
   position: absolute;
@@ -131,11 +135,14 @@ export default {
   background: none;
   border-style: none;
 }
-#admin-dropdown-div:hover .admin-dropdown-content{
+#admin-dropdown-div:hover .admin-dropdown-container{
   display: flex;
   flex-direction: column;
   justify-items: center;
   padding: 3px;
+}
+#admin-dropdown-div:hover #button-admin {
+  text-decoration: underline;
 }
 #dropdown-img {
   height: 20px;
