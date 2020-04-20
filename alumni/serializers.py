@@ -7,4 +7,4 @@ class AlumniSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ['pk', 'username', 'email', 'is_blocked']
+        fields = ['pk', 'username', 'email', 'blocked']
