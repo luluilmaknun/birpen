@@ -31,8 +31,10 @@ class LihatPengumumanTest(TestCase):
         Admin.objects.create(username=user.username)
         self.token_1 = jwt_encode_handler(jwt_payload_handler(user))
 
-        User.objects.create(username='yusuf.tri',
-                            password='mahasiswa')
+        user_mahasiswa = User.objects.create(username='yusuf.tri',
+                                             password='mahasiswa')
+        user_mahasiswa.profile.role = 'mahasiswa'
+        user_mahasiswa.save()
 
         Pengumuman.objects.create(tanggal_kelas=tanggal_kelas, pembuat=user,
                                   nama_mata_kuliah=mata_kuliah, jenis_pengumuman=jenis_pengumuman,

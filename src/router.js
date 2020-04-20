@@ -6,6 +6,9 @@ import CreateAnnouncement from '@/views/CreateAnnouncement.vue';
 import EditAnnouncement from '@/views/EditAnnouncement.vue';
 import AsdosPage from '@/views/AsdosPage.vue';
 import Pengumuman from '@/views/Pengumuman.vue';
+import AdminPage from '@/views/AdminPage.vue';
+import Register from '@/views/Register.vue';
+import AlumniPage from '@/views/AlumniPage.vue';
 
 Vue.use(Router);
 
@@ -33,6 +36,7 @@ const router = new Router({
       component: Pengumuman,
       meta: {
         requiresAuth: true,
+        requiresPrivilegeToAccessPengumuman: true,
       },
       pathToRegexpOptions: {strict: true},
     },
@@ -42,6 +46,7 @@ const router = new Router({
       component: CreateAnnouncement,
       meta: {
         requiresAuth: true,
+        requiresPrivilegeToAccessPengumuman: true,
       },
       pathToRegexpOptions: {strict: true},
     },
@@ -52,6 +57,7 @@ const router = new Router({
       props: true,
       meta: {
         requiresAuth: true,
+        requiresPrivilegeToAccessPengumuman: true,
       },
       pathToRegexpOptions: {strict: true},
     },
@@ -67,13 +73,32 @@ const router = new Router({
     {
       path: '/register/',
       name: 'register',
-      component: null,
+      component: Register,
       pathToRegexpOptions: {strict: true},
     },
     {
       path: '/asisten/',
       name: 'asisten',
       component: AsdosPage,
+      meta: {
+        requiresAuth: true,
+        requiresPrivilegeToAccessAsisten: true,
+      },
+      pathToRegexpOptions: {strict: true},
+    },
+    {
+      path: '/admin/',
+      name: 'admin',
+      component: AdminPage,
+      meta: {
+        requiresAuth: true,
+      },
+      pathToRegexpOptions: {strict: true},
+    },
+    {
+      path: '/alumni/',
+      name: 'alumni',
+      component: AlumniPage,
       meta: {
         requiresAuth: true,
       },
@@ -92,6 +117,7 @@ router.beforeEach((to, from, next) => {
       nextUrl += '?' + param;
     }
     next(nextUrl);
+    return;
   }
 
   const token = localStorage.token;
@@ -99,40 +125,60 @@ router.beforeEach((to, from, next) => {
     if (typeof(token) === 'undefined'
         || token === null || token === '') {
       next({name: 'login'});
-    } else {
-      const role = localStorage.getItem('role');
-      const isAsdos = localStorage.getItem('is_asdos');
-      const isAdmin = localStorage.getItem('is_admin');
-
-      if (to.name == 'create-pengumuman') {
-        if (role == 'mahasiswa') {
-          if (isAsdos == 'false' && isAdmin == 'false') {
-            next({name: 'pengumuman'});
-          }
-        }
-        next();
-      } else {
-        next();
-      }
-
-      if (to.name == 'asisten') {
-        if (role == 'staff' || isAdmin == 'true') {
-          next();
-        } else {
-          next({name: 'home'});
-        }
-      }
+      return;
     }
-  } else if (to.matched.some((record) => record.meta.guest)) {
-    if (typeof(token) === 'undefined'
-        || token === null || token === '') {
-      next();
-    } else {
-      next({name: 'home'});
-    }
-  } else {
-    next();
   }
+
+  if (to.matched.some((record) => record.meta.guest)) {
+    if (typeof(token) !== 'undefined'
+        && token !== null && token !== '') {
+      next({name: 'home'});
+      return;
+    }
+  }
+
+  const role = localStorage.getItem('role');
+  const isAsdos = localStorage.getItem('is_asdos');
+  const isAdmin = localStorage.getItem('is_admin');
+
+  if (to.matched.some(
+      (record) => record.meta.requiresPrivilegeToAccessPengumuman)) {
+    if (role != 'mahasiswa' && role != 'staff'
+        && isAsdos == 'false' && isAdmin == 'false') {
+      next({name: 'home'});
+      return;
+    }
+  }
+
+  if (to.name == 'create-pengumuman') {
+    if (role != 'staff' && isAsdos == 'false' && isAdmin == 'false') {
+      next({name: 'pengumuman'});
+      return;
+    }
+  }
+
+  if (to.name == 'asisten') {
+    if (role != 'staff' && isAdmin == 'false') {
+      next({name: 'home'});
+      return;
+    }
+  }
+
+  if (to.name == 'admin') {
+    if (isAdmin == 'false') {
+      next({name: 'home'});
+      return;
+    }
+  }
+
+  if (to.name == 'alumni') {
+    if (isAdmin == 'false') {
+      next({name: 'home'});
+      return;
+    }
+  }
+
+  next();
 });
 
 export default router;

@@ -10,12 +10,33 @@
       <router-link class="nav-elem"
       ref="pengumuman-button" :to="{ name: 'pengumuman' }">
       Pengumuman</router-link>
+      <label v-if="is_dosen">
+        <router-link class="nav-elem"
+        ref="asisten-button" :to="{ name: 'asisten' }">
+        Asisten</router-link>
+      </label>
 
-      <label v-if="is_authenticated && is_admin_or_dosen">
-            <router-link class="nav-elem"
-            ref="asisten-button" :to="{ name: 'asisten' }">
-            Asisten</router-link>
-          </label>
+      <!-- DROPDOWN -->
+      <div v-if="is_admin" id="admin-dropdown-div">
+        <button id="button-admin">
+          Manajemen Pengguna
+          <img id="dropdown-img"
+          src="./../assets/images/white-arrow-png-41944.png"
+          alt="Klik untuk opsi lebih lanjut" />
+        </button>
+
+        <div class="admin-dropdown-container">
+          <router-link class="nav-elem" id="admin-dropdown-elem"
+          ref="asisten-button" :to="{ name: 'alumni' }">
+          Alumni</router-link>
+          <router-link class="nav-elem" id="admin-dropdown-elem"
+          ref="asisten-button" :to="{ name: 'admin' }">
+          Admin</router-link>
+          <router-link class="nav-elem" id="admin-dropdown-elem"
+          ref="asisten-button" :to="{ name: 'asisten' }">
+          Asisten</router-link>
+        </div>
+      </div>
     </div>
 
     <div class="nav-elem-container-right" id="desktop-nav">
@@ -79,8 +100,9 @@ export default {
       username: localStorage.getItem('username'),
       is_authenticated:
         (localStorage.getItem('token') ? true : false),
-      is_admin_or_dosen:
-        localStorage.getItem('is_admin') === 'true' ||
+      is_admin:
+        localStorage.getItem('is_admin') === 'true',
+      is_dosen:
         localStorage.getItem('role') === 'staff',
     };
   },
@@ -88,14 +110,65 @@ export default {
 </script>
 
 <style scoped>
+/* DROPDOWN ADMIN */
+#admin-dropdown-div {
+  width: fit-content;
+  margin-left: 10px;
+  margin-right: 10px;
+  width: 400px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.admin-dropdown-container {
+  background-color: rgb(194, 194, 194);
+  border-style: solid;
+  border-color: black;
+  background-color: black;
+  border-radius: 10px;
+  display: none;
+  /* IMPORTANT FOR DROPDOWN NAVBAR */
+  position: absolute;
+  width: 300px;
+  margin-top: 40px;
+}
+#admin-dropdown-elem {
+  text-decoration: none;
+  padding: 5px;
+}
+#button-admin {
+  padding: 5px;
+  font-size: 20pt;
+  color: white;
+  background: none;
+  border-top: 3px solid transparent;
+  border-left: none;
+  border-right: none;
+  border-bottom: none;
+}
+#admin-dropdown-div:hover .admin-dropdown-container{
+  display: flex;
+  flex-direction: column;
+  justify-items: center;
+  padding: 3px;
+}
+#admin-dropdown-div:hover #button-admin {
+  border-top: 3px solid white;
+}
+#dropdown-img {
+  height: 20px;
+  width: 20px;
+}
+
+
+/* Navbar */
 .nav-700px {
   display: none;
 }
 .nav-container {
-  box-sizing: border-box;
   position: absolute;
   width: 100%;
-  padding: 20px 20px;
+  padding: 10 10;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -109,12 +182,16 @@ h2 {
 }
 .nav-elem-container-left {
   font-weight:900;
+  display: flex;
+  flex-direction: row;
+  align-content: center;
+  align-items: center;
 }
 #nav-dropdown {
   display: none;
 }
 .nav-elem {
-  padding:20px 20px;
+  padding:10px 10px;
   text-decoration: none;
   margin-left: 10px;
   margin-right: 10px;

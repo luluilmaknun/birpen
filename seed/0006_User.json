@@ -124,5 +124,59 @@
             "groups": [],
             "user_permissions": []
         }
+    },
+    {
+        "model": "sso_ui.user",
+        "pk": 8,
+        "fields": {
+            "password": "pbkdf2_sha256$180000$ZwSWpRJrBvax$hcwXq+cx+daMJwFLeYZCO8/F+MI1zN/ayPTxYf1XFDQ=",
+            "last_login": null,
+            "is_superuser": true,
+            "username": "magnus.alvarez",
+            "first_name": "Magnus",
+            "last_name": "Alvarez",
+            "email": "magnus.alvarez@ui.ac.id",
+            "is_staff": true,
+            "is_active": true,
+            "date_joined": "2020-03-02T06:07:07Z",
+            "groups": [],
+            "user_permissions": []
+        }
+    },
+    {
+        "model": "sso_ui.user",
+        "pk": 9,
+        "fields": {
+            "password": "pbkdf2_sha256$180000$ZwSWpRJrBvax$hcwXq+cx+daMJwFLeYZCO8/F+MI1zN/ayPTxYf1XFDQ=",
+            "last_login": null,
+            "is_superuser": true,
+            "username": "magna.alamna",
+            "first_name": "Magna",
+            "last_name": "Alamna",
+            "email": "magnaalamna@ui.ac.id",
+            "is_staff": true,
+            "is_active": true,
+            "date_joined": "2020-03-02T06:07:07Z",
+            "groups": [],
+            "user_permissions": []
+        }
+    }, 
+    {
+        "model": "sso_ui.user",
+        "pk": 10,
+        "fields": {
+            "password": "pbkdf2_sha256$180000$ZwSWpRJrBvax$hcwXq+cx+daMJwFLeYZCO8/F+MI1zN/ayPTxYf1XFDQ=",
+            "last_login": null,
+            "is_superuser": true,
+            "username": "sheryl.alamna",
+            "first_name": "Sheryl",
+            "last_name": "Alamna",
+            "email": "sherylalamna@ui.ac.id",
+            "is_staff": true,
+            "is_active": true,
+            "date_joined": "2020-03-02T06:07:07Z",
+            "groups": [],
+            "user_permissions": []
+        }
     }
 ]
