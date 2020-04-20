@@ -2,10 +2,11 @@ import {shallowMount} from '@vue/test-utils';
 import AlumniPage from '@/views/AlumniPage';
 import alumniApi from '@/services/alumniServices';
 
-describe('tes alumni page', () => {
-  const wrapper = shallowMount(AlumniPage);
+describe('tes fetch alumni di alumni page', () => {
+  let wrapper; let vm;
 
-  it('tes fetch alumni', () => {
+  beforeEach(() => {
+    wrapper = shallowMount(AlumniPage);
     alumniApi.fetchAlumni = jest.fn(() => Promise.resolve({
       status: 200,
       data: {
@@ -22,12 +23,16 @@ describe('tes alumni page', () => {
             email: 'aisyah_soleh@gmail.com',
             is_blacklist: false,
           },
+
         ],
       },
     }));
 
-    const vm = wrapper.vm;
+    vm = wrapper.vm;
     vm.fetchAlumni();
+  });
+
+  it('tes fetch alumni sukses', () => {
     expect(vm.listAlumni.length).toBe(2);
   });
 });
