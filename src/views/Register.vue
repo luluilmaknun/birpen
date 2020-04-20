@@ -52,7 +52,8 @@
         <button v-on:click="goToPage('login')" class="yellow-black-btn">
           Login
         </button>
-        <button v-on:click="closeModal()" class="black-white-btn">
+        <button v-on:click="closeModal('register-popup')"
+          class="black-white-btn">
           Tutup
         </button>
       </div>
@@ -80,6 +81,7 @@ export default {
       this.$modal.show(modalName);
     },
     closeModal(modalName) {
+      this.modal_message= '';
       this.$modal.hide(modalName);
     },
     clickRegister() {
