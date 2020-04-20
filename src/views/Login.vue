@@ -32,8 +32,12 @@
       id="sso-link">
         Login with<br>SSO
       </a>
-      <p>Tidak punya akun?</p>
-      <button class="bottom-buttons" id="buat-akun">Buat Akun</button>
+      <p>Tidak punya sso?</p>
+      <a class="bottom-buttons"
+      :href="`/register/`"
+      id="buat-akun">
+        Buat Akun<br> Alumni
+      </a>
     </div>
   </div>
 </template>
@@ -141,12 +145,8 @@ input {
   margin-left: 10px;
   margin-right: 10px;
 }
-#sso-link {
-  color: black;
-  font-weight: bolder;
-  text-decoration: none;
-}
 .bottom-buttons {
+  text-decoration: none;
   background: none;
   border-style: solid;
   border-color: #FFDD00;
