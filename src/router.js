@@ -6,6 +6,7 @@ import CreateAnnouncement from '@/views/CreateAnnouncement.vue';
 import EditAnnouncement from '@/views/EditAnnouncement.vue';
 import AsdosPage from '@/views/AsdosPage.vue';
 import Pengumuman from '@/views/Pengumuman.vue';
+import MainMenuSurat from '@/views/MainMenuSurat.vue';
 import AdminPage from '@/views/AdminPage.vue';
 import Register from '@/views/Register.vue';
 import AlumniPage from '@/views/AlumniPage.vue';
@@ -24,6 +25,30 @@ const router = new Router({
     {
       path: '/surat/',
       name: 'surat',
+      component: MainMenuSurat,
+      meta: {
+        requiresAuth: true,
+      },
+    },
+    {
+      path: '/surat/sidang/',
+      name: 'sidang-akhir',
+      component: null,
+      meta: {
+        requiresAuth: true,
+      },
+    },
+    {
+      path: '/surat/pemesanan/',
+      name: 'pemesanan-dokumen',
+      component: null,
+      meta: {
+        requiresAuth: true,
+      },
+    },
+    {
+      path: '/surat/tracking/',
+      name: 'tracking-surat',
       component: null,
       meta: {
         requiresAuth: true,
