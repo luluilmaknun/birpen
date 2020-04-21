@@ -26,7 +26,7 @@ describe('tes toggle blokir', () => {
       data() {
         return {
           'alumni_username': 'muhammad.reza',
-          'is_blocked': false,
+          'blocked': false,
           'error_message': '',
         };
       },
@@ -48,7 +48,7 @@ describe('tes toggle blokir', () => {
       data() {
         return {
           'alumni_username': 'muhammad.reza',
-          'is_blocked': false,
+          'blocked': false,
           'error_message': 'Alumni tidak ada.',
         };
       },

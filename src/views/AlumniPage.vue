@@ -22,13 +22,13 @@
               {{ alumni.email }}
           </td>
           <td id="status">
-              <div v-if="alumni.is_blocked">Diblokir</div>
+              <div v-if="alumni.blocked">Diblokir</div>
               <div v-else>Aktif</div>
           </td>
           <td>
             <ToggleBlockAlumni
             :alumni_username="alumni.username"
-            :is_blocked="alumni.is_blocked"/>
+            :blocked="alumni.blocked"/>
           </td>
         </tr>
       </table>
