@@ -81,8 +81,10 @@ def get_pengumuman_default(request):
 
     # if user is admin, return all include soft delete
     if request.user.is_admin():
-        filter_today = Pengumuman.all_objects.filter(tanggal_kelas__date=curr_date)
-        filter_tomo = Pengumuman.all_objects.filter(tanggal_kelas__date=tomo_date)
+        filter_today = Pengumuman.all_objects.filter(tanggal_kelas__date=curr_date) \
+                       .order_by('tanggal_kelas')
+        filter_tomo = Pengumuman.all_objects.filter(tanggal_kelas__date=tomo_date) \
+                       .order_by('tanggal_kelas')
     else:
         filter_today = Pengumuman.objects.filter(tanggal_kelas__date=curr_date)
         filter_tomo = Pengumuman.objects.filter(tanggal_kelas__date=tomo_date)
@@ -104,9 +106,11 @@ def filter_pengumuman(request):
 
     # if user is admin, return all include soft delete
     if request.user.is_admin():
-        filter_date = Pengumuman.all_objects.filter(tanggal_kelas__date=pengumuman_date)
+        filter_date = Pengumuman.all_objects.filter(tanggal_kelas__date=pengumuman_date) \
+                      .order_by('tanggal_kelas')
     else:
-        filter_date = Pengumuman.objects.filter(tanggal_kelas__date=pengumuman_date)
+        filter_date = Pengumuman.objects.filter(tanggal_kelas__date=pengumuman_date) \
+                      .order_by('tanggal_kelas')
     pengumuman_response = (PengumumanSerializer(x).data for x in filter_date)
     return Response({"pengumuman_response": pengumuman_response}, status=HTTP_200_OK)
 
@@ -166,7 +170,7 @@ def dropdown_pengumuman(request):
         StatusPengumuman: 'status_pengumuman'
     }
     for data, key in DROPDOWN.items():
-        all_obj = data.objects.all()
+        all_obj = data.objects.all().order_by('nama')
         response[key] = [_.nama for _ in all_obj]
 
     return Response(response)

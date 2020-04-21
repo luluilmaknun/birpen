@@ -17,7 +17,7 @@ User = get_user_model()
 @api_view(["GET"])
 @permission_classes((IsAuthenticated, IsPrivilegedToAccessAlumni))
 def read_all_alumni(_):
-    all_alumni = User.objects.filter(profile__role='alumni')
+    all_alumni = User.objects.filter(profile__role='alumni').order_by('username')
 
     all_alumni_serialized = (AlumniSerializer(alumni).data \
         for alumni in all_alumni)

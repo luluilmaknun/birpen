@@ -19,7 +19,7 @@ ASDOS_NOT_FOUND_MESSAGE = 'Asisten does not exist.'
 @api_view(["GET"])
 @permission_classes((IsAuthenticated, IsPrivilegedToAccessAsdos))
 def read_all_asdos(request):
-    all_asisten_dosen = AsistenDosen.objects.all()
+    all_asisten_dosen = AsistenDosen.objects.all().order_by('username')
 
     all_asisten_dosen_serialized = (AsistenDosenSerializer(asisten_dosen).data \
         for asisten_dosen in all_asisten_dosen)

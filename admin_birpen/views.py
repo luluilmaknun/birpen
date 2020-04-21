@@ -18,7 +18,7 @@ ADMIN_NOT_FOUND_MESSAGE = "Admin does not exist."
 @api_view(["GET"])
 @permission_classes((IsAuthenticated, IsPrivilegedToAccessAdmin,))
 def read_all_admin(_):
-    all_admin = Admin.objects.all()
+    all_admin = Admin.objects.all().order_by('username')
 
     all_admin_serialized = (AdminSerializer(admin).data \
         for admin in all_admin)
