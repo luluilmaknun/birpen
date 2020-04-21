@@ -44,6 +44,11 @@ describe('Tes login page', () => {
     expect(button.exists()).toBe(true);
     expect(wrapper.html()).toContain('Login with<br>SSO');
   });
+
+  it('test klik enter untuk masuk', () => {
+    wrapper.find('#uname').trigger('keyup.enter');
+    wrapper.find('#pass').trigger('keyup.enter');
+  });
 });
 
 describe('Tes login non sso', () => {
@@ -66,6 +71,14 @@ describe('Tes login non sso', () => {
   const vm = wrapper.vm;
 
   it('test berhasil', () => {
+    global.window = Object.create(window);
+    const url = 'http://birpen.com';
+    Object.defineProperty(window, 'location', {
+      value: {
+        href: url,
+      },
+    });
     vm.login();
+    expect(window.location.href).toEqual(url);
   });
 });

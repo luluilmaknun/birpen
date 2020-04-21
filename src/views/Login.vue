@@ -2,22 +2,19 @@
   <div id="login-page" class="page-container" style="padding-top:0px!important">
     <h1>Masuk</h1>
     <div class="login-container">
-      <!--
-        v-model -> Value yang di-passing ke variabel "username" dan "password"
-        di dalam <script>, bisa dipakai untuk keperluan backend-nya. Lebih
-        jelasnya lihat console.log ketika klik "Masuk"
-       -->
       <!-- USERNAME -->
       <div class="username-class">
         <h2 class="font-id" id="username-id">Username:</h2>
         <input class="username-input" v-model="username"
-        placeholder="username">
+        placeholder="username" id="uname"
+        @keyup.enter="clickMasuk">
       </div>
       <!-- PASSWORD -->
       <div class="password-class">
         <h2 class="font-id" id="password-id">Password:</h2>
         <input class="password-input" :type="'password'"
-        v-model="password" placeholder="password">
+        v-model="password" placeholder="password"
+        @keyup.enter="clickMasuk" id="pass">
       </div>
       <!-- LOGIN -->
       <span style="text-align:center;color:red"
@@ -25,7 +22,8 @@
         {{ message }}
       </span>
       <div class="login-class">
-        <button class="login-button" v-on:click="login()">Masuk</button>
+        <button class="login-button" v-on:click="login()"
+        ref="submit">Masuk</button>
       </div>
     </div>
     <div class="bottom-container">
@@ -34,8 +32,12 @@
       id="sso-link">
         Login with<br>SSO
       </a>
-      <p>Tidak punya akun?</p>
-      <button class="bottom-buttons" id="buat-akun">Buat Akun</button>
+      <p>Tidak punya sso?</p>
+      <a class="bottom-buttons"
+      :href="`/register/`"
+      id="buat-akun">
+        Buat Akun<br> Alumni
+      </a>
     </div>
   </div>
 </template>
@@ -53,6 +55,9 @@ export default {
     };
   },
   methods: {
+    clickMasuk() {
+      this.$refs.submit.click();
+    },
     login() {
       const request = {};
 
@@ -67,7 +72,7 @@ export default {
             localStorage.setItem('role', response.data.role);
             localStorage.setItem('username', this.username);
 
-            this.$router.push('/');
+            window.location.replace('/');
           })
           .catch((error) => {
             this.message_seen = true;
@@ -77,7 +82,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 #login-page {
   padding: 0 !important;
   height: 100%;
@@ -90,7 +95,7 @@ export default {
   border-radius: 20px;
   margin-top: 20px;
   line-height: 30pt;
-  width: 400px;
+  min-width: fit-content;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -140,12 +145,8 @@ input {
   margin-left: 10px;
   margin-right: 10px;
 }
-#sso-link {
-  color: black;
-  font-weight: bolder;
-  text-decoration: none;
-}
 .bottom-buttons {
+  text-decoration: none;
   background: none;
   border-style: solid;
   border-color: #FFDD00;

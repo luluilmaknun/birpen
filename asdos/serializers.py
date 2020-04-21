@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from sso_ui.models import AsistenDosen
+from asdos.models import AsistenDosen
 
 
 class AsistenDosenSerializer(serializers.ModelSerializer):

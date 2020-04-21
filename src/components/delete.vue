@@ -39,7 +39,7 @@ export default {
       }}).then(
           (response) => {
             this.response = response.data;
-            window.location.pathname='/pengumuman';
+            window.location.pathname='/pengumuman/';
           },
           (error) => {
             this.error=error;
@@ -53,6 +53,8 @@ export default {
 .modal-buttons button {
   margin-left: 20px;
   margin-right: 20px;
+  font-weight: bolder;
+  border-style: none;
 }
 .modal-buttons {
   margin-top: 40px;
@@ -66,122 +68,46 @@ export default {
   flex-direction: column;
   align-items: center;
 }
-.nav-700px {
-  display: none;
-}
-.nav-container {
-  padding: 20px 20px;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  background-color: black;
-  flex-wrap: wrap;
-}
 h2 {
   font-size: 26pt;
   color: white;
 }
-.nav-elem-container-left {
-  font-weight: bolder;
-}
-#nav-dropdown {
-  display: none;
-}
-.nav-elem {
-  padding:20px 20px;
-  text-decoration: none;
-  margin-left: 10px;
-  margin-right: 10px;
-  font-weight: normal;
-  font-size: 20pt;
-  color: white;
-}
-.nav-elem:hover {
-  background-color: white;
-  color: black;
-}
 #hapus-btn {
   color:white;
   background-color: #E63946;
+  border-color: #E63946;
   border-radius: 100px;
+  border-style: solid;
   padding-left: 15px;
   padding-right: 15px;
   padding-top: 5px;
   padding-bottom: 5px;
   font-size: 20pt;
+  font-weight: bolder;
+}
+#hapus-btn:hover {
+  color: #E63946;
+  background-color: white;
 }
 #blue-btn {
   color:white;
   background-color: #7584D1;
+  border-color: #7584D1;
   border-radius: 100px;
   padding-left: 15px;
   padding-right: 15px;
   padding-top: 5px;
   padding-bottom: 5px;
   font-size: 20pt;
+  border-style: solid;
 }
-
+#blue-btn:hover {
+  color: #7584D1;
+  background-color: white;
+}
 #center-div {
   display:flex;
   justify-content: center;
   align-items: center;
-}
-
-#login-button:hover {
-  background-color: white;
-}
-.dropdown-button {
-  display: none;
-}
-@media only screen and (max-width:700px) {
-  #dropdown-img {
-    width: 10px;
-    height: 10px;
-  }
-  .nav-700px {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-  .toggle-dropdown {
-    background: none;
-    border-style: none;
-    color: white;
-    margin-top: 5px;
-  }
-  #desktop-nav {
-    display: none;
-  }
-  .nav-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-  .nav-elem-container-right {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-  .nav-elem {
-    padding: 10px 10px;
-    font-size: 10pt;
-    margin-top: 5px;
-    width: fit-content;
-  }
-  .nav-elem-container-left h2 {
-    font-size: 15pt;
-  }
-  .dropdown-button {
-    display: flex;
-  }
-  #login-button {
-    padding-left: 10px;
-    padding-right: 10px;
-    padding-top: 3px;
-    padding-bottom: 3px;
-    font-size: 10pt;
-    margin-top: 10px;
-  }
 }
 </style>

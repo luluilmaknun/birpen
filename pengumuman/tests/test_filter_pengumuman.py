@@ -25,8 +25,11 @@ class FilterPengumumanTest(TestCase):
         user = User.objects.create(username='julia.ningrum', password='admin')
         Admin.objects.create(username=user.username)
 
-        User.objects.create(username='yusuf.tri',
-                            password='mahasiswa')
+        user_mahasiswa = User.objects.create(username='yusuf.tri',
+                                             password='mahasiswa')
+        user_mahasiswa.profile.role = 'mahasiswa'
+        user_mahasiswa.save()
+
         Pengumuman.objects.create(tanggal_kelas=tanggal_kelas, pembuat=user,
                                   nama_mata_kuliah=mata_kuliah, jenis_pengumuman=jenis_pengumuman,
                                   nama_dosen="Dosen S.kom", nama_asisten="Asistennya",

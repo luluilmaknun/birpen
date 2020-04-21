@@ -13,7 +13,8 @@ from rest_framework.status import (
 
 from .models import Pengumuman, MataKuliah, JenisPengumuman, \
     Ruang, Sesi, StatusPengumuman
-from .permissions import IsPrivilegedToCreateAnnouncemment
+from .permissions import IsPrivilegedToCreateAnnouncemment, \
+    IsPrivilegedToAccessAnnouncemment
 from .serializers import PengumumanSerializer
 
 PENGUMUMAN_NOT_FOUND_MESSAGE = 'Pengumuman does not exist.'
@@ -35,6 +36,10 @@ def create_pengumuman(request):
 
         asumsi bentuk tanggal kelas: y-m-d
         asumsi tiap atribut gak ada nama yang sama
+
+        django membaca tanggal dalam UTC
+        mengembalikan GMT ketika mengambil dari database
+        sehingga tanggal kelas perlu diubah dalam UTC
     '''
     pengumuman = Pengumuman()
     try:
@@ -43,7 +48,7 @@ def create_pengumuman(request):
         pengumuman.nama_asisten = request.data.get('nama_asisten')
         pengumuman.komentar = request.data.get('komentar')
         pengumuman.tanggal_kelas = datetime.strptime(
-            request.data.get('tanggal_kelas'), '%Y-%m-%d')
+            request.data.get('tanggal_kelas'), '%Y-%m-%d') + timedelta(hours=7)
         pengumuman.nama_mata_kuliah = MataKuliah.objects.get(
             nama=request.data.get('nama_mata_kuliah'))
         pengumuman.jenis_pengumuman = JenisPengumuman.objects.get(
@@ -69,15 +74,17 @@ def create_pengumuman(request):
     }, status=HTTP_200_OK)
 
 @api_view(["GET"])
-@permission_classes((IsAuthenticated,))
+@permission_classes((IsAuthenticated, IsPrivilegedToAccessAnnouncemment,))
 def get_pengumuman_default(request):
     curr_date = date.today()
     tomo_date = curr_date + timedelta(days=1)
 
     # if user is admin, return all include soft delete
     if request.user.is_admin():
-        filter_today = Pengumuman.all_objects.filter(tanggal_kelas__date=curr_date)
-        filter_tomo = Pengumuman.all_objects.filter(tanggal_kelas__date=tomo_date)
+        filter_today = Pengumuman.all_objects.filter(tanggal_kelas__date=curr_date) \
+                       .order_by('tanggal_kelas')
+        filter_tomo = Pengumuman.all_objects.filter(tanggal_kelas__date=tomo_date) \
+                       .order_by('tanggal_kelas')
     else:
         filter_today = Pengumuman.objects.filter(tanggal_kelas__date=curr_date)
         filter_tomo = Pengumuman.objects.filter(tanggal_kelas__date=tomo_date)
@@ -87,7 +94,7 @@ def get_pengumuman_default(request):
                      "pengumuman_tomo": pengumuman_tomo}, status=200)
 
 @api_view(["GET"])
-@permission_classes((IsAuthenticated,))
+@permission_classes((IsAuthenticated, IsPrivilegedToAccessAnnouncemment,))
 def filter_pengumuman(request):
     pengumuman_request = request.GET["tanggal"]
     try:
@@ -99,15 +106,17 @@ def filter_pengumuman(request):
 
     # if user is admin, return all include soft delete
     if request.user.is_admin():
-        filter_date = Pengumuman.all_objects.filter(tanggal_kelas__date=pengumuman_date)
+        filter_date = Pengumuman.all_objects.filter(tanggal_kelas__date=pengumuman_date) \
+                      .order_by('tanggal_kelas')
     else:
-        filter_date = Pengumuman.objects.filter(tanggal_kelas__date=pengumuman_date)
+        filter_date = Pengumuman.objects.filter(tanggal_kelas__date=pengumuman_date) \
+                      .order_by('tanggal_kelas')
     pengumuman_response = (PengumumanSerializer(x).data for x in filter_date)
     return Response({"pengumuman_response": pengumuman_response}, status=HTTP_200_OK)
 
 @csrf_exempt
 @api_view(["PUT"])
-@permission_classes((IsAuthenticated,))
+@permission_classes((IsAuthenticated, IsPrivilegedToAccessAnnouncemment,))
 def edit_pengumuman(request, key):
     try:
         pengumuman = Pengumuman.objects.get(pk=key)
@@ -127,7 +136,7 @@ def edit_pengumuman(request, key):
 
     try:
         pengumuman.tanggal_kelas = datetime.strptime(request.data.get('tanggal_kelas'),
-                                                     '%Y-%m-%d')
+                                                     '%Y-%m-%d') + timedelta(hours=7)
         pengumuman.nama_mata_kuliah = \
             MataKuliah.objects.get(nama=request.data.get('nama_mata_kuliah'))
         pengumuman.jenis_pengumuman = \
@@ -150,7 +159,7 @@ def edit_pengumuman(request, key):
 
 @csrf_exempt
 @api_view(["GET"])
-@permission_classes((IsAuthenticated,))
+@permission_classes((IsAuthenticated, IsPrivilegedToAccessAnnouncemment,))
 def dropdown_pengumuman(request):
     response = {}
     DROPDOWN = {
@@ -161,14 +170,14 @@ def dropdown_pengumuman(request):
         StatusPengumuman: 'status_pengumuman'
     }
     for data, key in DROPDOWN.items():
-        all_obj = data.objects.all()
+        all_obj = data.objects.all().order_by('nama')
         response[key] = [_.nama for _ in all_obj]
 
     return Response(response)
 
 @csrf_exempt
 @api_view(["DELETE"])
-@permission_classes((IsAuthenticated,))
+@permission_classes((IsAuthenticated, IsPrivilegedToAccessAnnouncemment,))
 def delete_pengumuman(request, key):
     try:
         pengumuman = Pengumuman.objects.get(pk=key)
@@ -191,7 +200,7 @@ def delete_pengumuman(request, key):
 
 @csrf_exempt
 @api_view(["GET"])
-@permission_classes((IsAuthenticated,))
+@permission_classes((IsAuthenticated, IsPrivilegedToAccessAnnouncemment,))
 def read_pengumuman_by_pk(request, key):
     try:
         if not request.user.is_admin():

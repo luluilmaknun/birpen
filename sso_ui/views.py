@@ -11,6 +11,7 @@ from rest_framework.status import (
     HTTP_400_BAD_REQUEST,
     HTTP_200_OK,
     HTTP_401_UNAUTHORIZED,
+    HTTP_403_FORBIDDEN,
 )
 
 User = get_user_model()
@@ -45,6 +46,11 @@ def obtain_user_info(request):
         return Response({
             'detail': 'Invalid credentials.'
         }, status=HTTP_401_UNAUTHORIZED)
+
+    if user.is_blocked():
+        return Response({
+            'detail': 'Account has been blocked by administrator.'
+        }, status=HTTP_403_FORBIDDEN)
 
     return Response({
         'token': str(create_token(user)),
