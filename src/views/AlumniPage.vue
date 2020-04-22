@@ -82,6 +82,7 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin-bottom: 50px;
 }
 .table-div table {
   border-radius: 1em;
@@ -104,6 +105,9 @@ th {
 }
 tr:nth-child(odd) {
   background-color: #D3D3D3;
+}
+td#username {
+  word-break: break-all;
 }
 @media only screen and (max-width: 539px) {
   .table-div {

@@ -3,7 +3,7 @@
     <h2 class="title_home">Menu Utama</h2>
     <div class="home-button-container">
         <div id="button_surat" class="home-button"
-            @click="goToPage('/surat')">
+            @click="goToPage('/surat/')">
             <img src="./assets/images/mail_1.png" class="home-button-image"
             alt="Klik untuk layanan surat"/>
            Layanan Dokumen Akademik
