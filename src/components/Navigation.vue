@@ -7,9 +7,13 @@
       <router-link class="nav-elem"
       ref="surat-button" :to="{ name: 'surat' }">
       Surat</router-link>
-      <router-link class="nav-elem"
-      ref="pengumuman-button" :to="{ name: 'pengumuman' }">
-      Pengumuman</router-link>
+
+      <span v-if="!is_alumni">
+        <router-link class="nav-elem"
+        ref="pengumuman-button" :to="{ name: 'pengumuman' }">
+        Pengumuman</router-link>
+      </span>
+
       <label v-if="is_dosen">
         <router-link class="nav-elem"
         ref="asisten-button" :to="{ name: 'asisten' }">
@@ -104,6 +108,8 @@ export default {
         localStorage.getItem('is_admin') === 'true',
       is_dosen:
         localStorage.getItem('role') === 'staff',
+      is_alumni:
+        localStorage.getItem('role') === 'alumni',
     };
   },
 };
