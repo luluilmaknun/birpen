@@ -25,7 +25,7 @@ export default {
   data: function() {
     return {
       isAlumni: localStorage.getItem('role') === 'alumni',
-    }
+    };
   },
   methods: {
     goToPage(link) {
