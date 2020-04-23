@@ -10,7 +10,7 @@ const router = new VueRouter();
 
 jest.mock('axios', () => {
   return {
-    post: jest.fn(() => Promise.resolve({data: {}})),
+    get: jest.fn(() => Promise.resolve({data: {}})),
   };
 });
 
@@ -47,8 +47,11 @@ describe('Test Refresh Token', () => {
     return {
       status: 200,
       data: {
-        pk: '100121',
         token: 'VBfaXaAslFFaazaAA',
+        username: 'username',
+        role: 'mahasiswa',
+        is_admin: false,
+        is_asdos: false,
       },
     };
   });
@@ -57,8 +60,7 @@ describe('Test Refresh Token', () => {
     return {
       status: 400,
       data: {
-        pk: '100121',
-        token: 'VBfaXaAslFFaazaAA',
+        detail: 'Error decoding token.',
       },
     };
   });
@@ -69,11 +71,11 @@ describe('Test Refresh Token', () => {
 
     const data = mockResponseDataSuccess();
 
-    axios.post.mockImplementationOnce(() => {
+    axios.get.mockImplementationOnce(() => {
       return Promise.resolve(data);
     });
 
-    await expect(wrapper.vm.refreshToken()).resolves.toBe(undefined);
+    await expect(wrapper.vm.refreshData()).resolves.toBe(undefined);
     expect(localStorage.setItem).toHaveBeenCalled();
   });
 
@@ -83,11 +85,11 @@ describe('Test Refresh Token', () => {
 
     const data = mockResponseDataFail();
 
-    axios.post.mockRejectedValueOnce(() => {
+    axios.get.mockRejectedValueOnce(() => {
       return Promise.reject(data);
     });
 
-    await expect(wrapper.vm.refreshToken()).resolves.toBe(undefined);
+    await expect(wrapper.vm.refreshData()).resolves.toBe(undefined);
     expect(localStorage.clear).toHaveBeenCalled();
   });
 });
