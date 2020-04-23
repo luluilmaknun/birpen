@@ -41,6 +41,10 @@ def register(request):
             is_empty(email):
             raise ValueError
 
+        #Alumni's username must start with @ character
+        if username[0] != '@':
+            raise ValueError
+
         user = User.objects.create(username=username, email=email)
         user.set_password(password)
         user.save()
