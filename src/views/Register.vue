@@ -9,6 +9,7 @@
       <!-- USERNAME -->
       <div id="username-input-container">
         <h2 class="font-id" id="username-id">Username:</h2>
+        <input class="disabled-username-input" placeholder="@" disabled/>
         <input class="username-input" v-model="username"
         placeholder="username" id="username"
         @keyup.enter="preRegister()">
@@ -149,7 +150,7 @@ export default {
       const request = {};
 
       if (this.error == false) {
-        request['username'] = this.username;
+        request['username'] = '@' + this.username;
         request['password'] = this.password;
         request['email'] = this.email;
 
@@ -213,6 +214,17 @@ input {
 .font-id {
   font-size: 13pt;
   font-weight: bold;
+}
+.disabled-username-input {
+  width: 20px;
+  /* margin-right: 10px; */
+  border-top-right-radius: 0px;
+  border-bottom-right-radius: 0px;
+}
+.username-input {
+  width: 350px;
+  border-top-left-radius: 0px;
+  border-bottom-left-radius: 0px;
 }
 #password-input-container,
 #email-input-container {
