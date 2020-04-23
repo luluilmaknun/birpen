@@ -26,8 +26,8 @@ export default {
   data: function() {
     return {
       isAlumni: localStorage.getItem('role') === 'alumni',
-      isAsdos: localStorage.getItem('is_asdos'),
-      isAdmin: localStorage.getItem('is_admin'),
+      isAsdos: localStorage.getItem('is_asdos') === 'true',
+      isAdmin: localStorage.getItem('is_admin') === 'true',
     };
   },
   methods: {

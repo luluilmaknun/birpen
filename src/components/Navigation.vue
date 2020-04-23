@@ -112,7 +112,7 @@ export default {
       is_alumni:
         localStorage.getItem('role') === 'alumni',
       is_asdos:
-        localStorage.getItem('is_asdos'),
+        localStorage.getItem('is_asdos') === 'true',
     };
   },
 };
