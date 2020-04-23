@@ -48,6 +48,7 @@ describe('Tes register page', () => {
           'username': 'luulz',
           'email': 'lulu@gmail.com',
           'password': 'lulusgan',
+          'confirm_password': 'lulusgan',
         };
       },
       mocks: {
@@ -83,6 +84,7 @@ describe('Tes register page', () => {
           'username': 'luulz',
           'email': 'luluaja',
           'password': 'lulusgan',
+          'confirm_password': 'lulusgan',
         };
       },
     });
@@ -91,6 +93,22 @@ describe('Tes register page', () => {
     expect(wrapper.vm.error).toBe(true);
     expect(wrapper.vm.error_message)
         .toBe('Masukkan alamat email yang valid');
+  });
+
+  it('test pre-register - konfirmasi password tidak sesuai', () => {
+    const wrapper = shallowMount(Register, {
+      data() {
+        return {
+          'username': 'luulz',
+          'email': 'luluaja@ppl.com',
+          'password': 'lulusgan',
+          'confirm_password': 'semogalulusgan',
+        };
+      },
+    });
+    wrapper.vm.preRegister();
+    expect(wrapper.vm.error).toBe(true);
+    expect(wrapper.vm.error_message).toBe('Konfirmasi password tidak sesuai');
   });
 });
 
@@ -105,6 +123,18 @@ describe('Tes validasi email', () => {
   it('Tes gagal', () => {
     expect(vm.validateEmail('lulululu.com'))
         .toBe(false);
+  });
+});
+
+describe('Tes konfirmasi password', () => {
+  const vm = shallowMount(Register).vm;
+
+  it('Test konfirmasi password sesuai', () => {
+    expect(vm.validatePassword('lulusgan', 'galulusgan')).toBe(false);
+  });
+
+  it('Test konfirmasi password sesuai', () => {
+    expect(vm.validatePassword('lulusgan', 'lulusgan')).toBe(true);
   });
 });
 
