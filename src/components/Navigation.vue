@@ -8,7 +8,8 @@
       ref="surat-button" :to="{ name: 'surat' }">
       Surat</router-link>
 
-      <span v-if="!is_alumni">
+      <span
+      v-if="!is_alumni || (is_alumni && (is_asdos || is_admin))">
         <router-link class="nav-elem"
         ref="pengumuman-button" :to="{ name: 'pengumuman' }">
         Pengumuman</router-link>
@@ -110,6 +111,8 @@ export default {
         localStorage.getItem('role') === 'staff',
       is_alumni:
         localStorage.getItem('role') === 'alumni',
+      is_asdos:
+        localStorage.getItem('is_asdos'),
     };
   },
 };

@@ -9,7 +9,8 @@
            Layanan Dokumen Akademik
         </div>
 
-        <div v-if="!isAlumni" id="button_pengumuman" class="home-button"
+        <div v-if="!isAlumni || (isAlumni && (isAsdos || isAdmin))"
+            id="button_pengumuman" class="home-button"
             @click="goToPage('/pengumuman/')">
             <img src="./assets/images/shout_1.png" class="home-button-image"
             alt="Klik untuk melihat pengumuman" />
@@ -25,6 +26,8 @@ export default {
   data: function() {
     return {
       isAlumni: localStorage.getItem('role') === 'alumni',
+      isAsdos: localStorage.getItem('is_asdos'),
+      isAdmin: localStorage.getItem('is_admin'),
     };
   },
   methods: {
