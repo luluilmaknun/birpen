@@ -14,7 +14,7 @@ export default {
     'NavigateBar': Navigation,
   },
   methods: {
-    refreshToken: function() {
+    refreshData: function() {
       const token = localStorage.token;
 
       if (typeof(token) === 'undefined'
@@ -22,13 +22,17 @@ export default {
         return;
       }
 
-      const params = {
-        token: token,
-      };
-
-      return axios.post('/sso/refresh-token/', params)
+      return axios.get('/sso/refresh-data/', {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+        },
+      })
           .then(function(response) {
             localStorage.setItem('token', response.data.token);
+            localStorage.setItem('username', response.data.username);
+            localStorage.setItem('role', response.data.role);
+            localStorage.setItem('is_admin', response.data.is_admin);
+            localStorage.setItem('is_asdos', response.data.is_asdos);
           })
           .catch(function(error) {
             localStorage.clear();
@@ -37,11 +41,11 @@ export default {
     },
   },
   created: function() {
-    return this.refreshToken();
+    return this.refreshData();
   },
   watch: {
     '$route': function(to, from) {
-      return this.refreshToken();
+      return this.refreshData();
     },
   },
 };

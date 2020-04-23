@@ -5,7 +5,7 @@ from django.contrib.auth import authenticate, get_user_model
 
 from rest_framework_jwt.settings import api_settings
 from rest_framework.decorators import api_view, permission_classes
-from rest_framework.permissions import AllowAny
+from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.status import (
     HTTP_400_BAD_REQUEST,
@@ -58,6 +58,19 @@ def obtain_user_info(request):
         'role': user.profile.role,
         'is_admin': user.is_admin(),
         'is_asdos': user.is_asdos()
+    }, status=HTTP_200_OK)
+
+@csrf_exempt
+@api_view(["GET"])
+@permission_classes((IsAuthenticated,))
+def refresh_data(request):
+
+    return Response({
+        'token': str(create_token(request.user)),
+        'username': request.user.username,
+        'role': request.user.profile.role,
+        'is_admin': request.user.is_admin(),
+        'is_asdos': request.user.is_asdos()
     }, status=HTTP_200_OK)
 
 def create_token(user):
