@@ -3,7 +3,7 @@
         "model": "admin_birpen.admin",
         "pk": 1,
         "fields": {
-          "username": "admin"
+          "username": "@admin"
         }
     },
     {

@@ -3,7 +3,7 @@
         "model": "asdos.asistendosen",
         "pk": 1,
         "fields": {
-          "username": "asdos"
+          "username": "@asdos"
         }
     },
     {
