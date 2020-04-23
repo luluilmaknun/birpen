@@ -9,7 +9,8 @@
            Layanan Dokumen Akademik
         </div>
 
-        <div id="button_pengumuman" class="home-button"
+        <div v-if="!isAlumni || (isAlumni && (isAsdos || isAdmin))"
+            id="button_pengumuman" class="home-button"
             @click="goToPage('/pengumuman/')">
             <img src="./assets/images/shout_1.png" class="home-button-image"
             alt="Klik untuk melihat pengumuman" />
@@ -22,7 +23,13 @@
 <script>
 export default {
   name: 'Home',
-
+  data: function() {
+    return {
+      isAlumni: localStorage.getItem('role') === 'alumni',
+      isAsdos: localStorage.getItem('is_asdos'),
+      isAdmin: localStorage.getItem('is_admin'),
+    };
+  },
   methods: {
     goToPage(link) {
       this.$router.push({path: link});
@@ -94,10 +101,12 @@ h2.title_home {
   background: #FFDD00;
 }
 #button_pengumuman {
-  margin-right: 10%;
+  margin-right: 5%;
+  margin-left: 5%;
 }
 #button_surat {
-  margin-left: 10%;
+  margin-left: 5%;
+  margin-right: 5%;
 }
 @media only screen and (max-width: 1600px) {
   #button_pengumuman {
