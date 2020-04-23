@@ -9,6 +9,7 @@
       <!-- USERNAME -->
       <div id="username-input-container">
         <h2 class="font-id" id="username-id">Username:</h2>
+        <input class="disabled-username-input" placeholder="@" disabled/>
         <input class="username-input" v-model="username"
         placeholder="username" id="username"
         @keyup.enter="preRegister()">
@@ -27,6 +28,14 @@
         <h2 class="font-id" id="password-id">Password:</h2>
         <input class="password-input" :type="'password'"
         v-model="password" placeholder="password"
+        @keyup.enter="preRegister()" id="password">
+      </div>
+
+      <!-- KONFIRMASI PASSWORD -->
+      <div id="password-input-container">
+        <h2 class="font-id" id="confirm-password-id">Konfirmasi Password:</h2>
+        <input class="password-input" :type="'password'"
+        v-model="confirm_password" placeholder="Konfirmasi Password"
         @keyup.enter="preRegister()" id="password">
       </div>
 
@@ -97,6 +106,7 @@ export default {
       username: '',
       email: '',
       password: '',
+      confirm_password: '',
       error_message: '',
       modal_message: '',
       error: undefined,
@@ -118,16 +128,21 @@ export default {
     preRegister() {
       if (!this.username ||
          !this.email ||
-         !this.password) {
+         !this.password ||
+         !this.confirm_password) {
         this.error_message = 'Isi semua data terlebih dahulu';
         this.error = true;
       } else {
-        if (this.validateEmail(this.email)) {
-          this.error = false;
-          this.showModal('register-confirmation');
-        } else {
+        if (!this.validateEmail(this.email)) {
           this.error_message = 'Masukkan alamat email yang valid';
           this.error = true;
+        } else if (
+          !this.validatePassword(this.password, this.confirm_password)) {
+          this.error_message = 'Konfirmasi password tidak sesuai';
+          this.error = true;
+        } else {
+          this.error = false;
+          this.showModal('register-confirmation');
         }
       }
     },
@@ -135,7 +150,7 @@ export default {
       const request = {};
 
       if (this.error == false) {
-        request['username'] = this.username;
+        request['username'] = '@' + this.username;
         request['password'] = this.password;
         request['email'] = this.email;
 
@@ -160,6 +175,10 @@ export default {
     },
     validateEmail(email) {
       return this.re_email.test(email);
+    },
+    validatePassword(thePassword, confirmPassword) {
+      if (confirmPassword != thePassword) return false;
+      return true;
     },
     goToPage(link) {
       this.$router.push({name: link});
@@ -195,6 +214,17 @@ input {
 .font-id {
   font-size: 13pt;
   font-weight: bold;
+}
+.disabled-username-input {
+  width: 20px;
+  /* margin-right: 10px; */
+  border-top-right-radius: 0px;
+  border-bottom-right-radius: 0px;
+}
+.username-input {
+  width: 350px;
+  border-top-left-radius: 0px;
+  border-bottom-left-radius: 0px;
 }
 #password-input-container,
 #email-input-container {

@@ -5,6 +5,7 @@
       <!-- USERNAME -->
       <div class="username-class">
         <h2 class="font-id" id="username-id">Username:</h2>
+        <input class="disabled-username-input" placeholder="@" disabled>
         <input class="username-input" v-model="username"
         placeholder="username" id="uname"
         @keyup.enter="clickMasuk">
@@ -61,7 +62,7 @@ export default {
     login() {
       const request = {};
 
-      request['username'] = this.username;
+      request['username'] = '@' + this.username;
       request['password'] = this.password;
 
       axios.post('/sso/obtain-user-info/', request)
@@ -105,6 +106,16 @@ input {
   border-radius: 10px;
   border-style: none;
   width: 400px;
+}
+.disabled-username-input {
+  width: 20px;
+  border-top-right-radius: 0px;
+  border-bottom-right-radius: 0px;
+}
+.username-input {
+  width: 350px;
+  border-top-left-radius: 0px;
+  border-bottom-left-radius: 0px;
 }
 .font-id {
   font-size: 13pt;
