@@ -14,12 +14,14 @@ from rest_framework.status import (
     HTTP_403_FORBIDDEN,
 )
 
+from .permissions import IsNotBlocked
+
 User = get_user_model()
 
 def save_user_info(request):
     response = {'token' : '', 'username':'', 'role':'', 'is_admin':'', 'is_asdos':''}
 
-    if request.user.is_authenticated:
+    if request.user.is_authenticated and not request.user.is_blocked():
         response['token'] = str(create_token(request.user))
         response['username'] = request.user.username
         response['role'] = request.user.profile.role
@@ -62,7 +64,7 @@ def obtain_user_info(request):
 
 @csrf_exempt
 @api_view(["GET"])
-@permission_classes((IsAuthenticated,))
+@permission_classes((IsAuthenticated, IsNotBlocked))
 def refresh_data(request):
 
     return Response({

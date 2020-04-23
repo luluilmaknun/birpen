@@ -23,3 +23,13 @@ class isAsdos(permissions.BasePermission):
     """
     def has_permission(self, request, view):
         return request.user.is_asdos()
+
+class IsNotBlocked(permissions.BasePermission):
+    """
+    Permission class for not blocked user
+    """
+
+    message = 'Account has been blocked by administrator.'
+
+    def has_permission(self, request, view):
+        return not request.user.is_blocked()
