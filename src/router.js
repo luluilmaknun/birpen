@@ -10,6 +10,7 @@ import MainMenuSurat from '@/views/MainMenuSurat.vue';
 import AdminPage from '@/views/AdminPage.vue';
 import Register from '@/views/Register.vue';
 import AlumniPage from '@/views/AlumniPage.vue';
+import TrackingPesanan from '@/views/TrackingPesanan.vue';
 
 Vue.use(Router);
 
@@ -49,7 +50,7 @@ const router = new Router({
     {
       path: '/surat/tracking/',
       name: 'tracking-surat',
-      component: null,
+      component: TrackingPesanan,
       meta: {
         requiresAuth: true,
       },
