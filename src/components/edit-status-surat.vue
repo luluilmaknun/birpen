@@ -116,13 +116,6 @@ export default {
   align-items: center;
 }
 
-#desc-modal {
-  color:black;
-  font-size: 13pt;
-  font-weight: 500;
-  text-align: center;
-}
-
 .edit-status-button {
   background: none;
   border-style: solid;
