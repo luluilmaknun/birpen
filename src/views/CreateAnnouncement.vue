@@ -4,7 +4,7 @@
     <h2 v-else class="title" style="color: black">Buat Pengumuman</h2>
     <br>
     <br>
-    <form class="vue-form" @submit.prevent="postData()">
+    <form class="vue-form" @submit.prevent="validateData()">
       <div>
         <label class="label" for="pembuat" style="display: inline">
           Dibuat oleh:
@@ -141,15 +141,15 @@ export default {
       daftar_nama_status_pengumuman: [],
 
       response: {},
-      message: '',
-      message_seen: false,
+      error_message: '',
+      error_message_seen: false,
     };
   },
   created: function() {
     this.fetchData();
 
     if (this.edit) {
-      this.editData(this.pk);
+      this.getAnnouncementData(this.pk);
     }
   },
   methods: {
@@ -181,7 +181,7 @@ export default {
         }
       });
     },
-    editData: function(pk) {
+    getAnnouncementData: function(pk) {
       announcementApi.getAnnouncement(pk).then((d) => {
         const data = d.data.pengumuman;
 
@@ -204,7 +204,7 @@ export default {
         }
       });
     },
-    postData: function() {
+    validateData: function() {
       const request = {};
 
       const jamKelas = this.nama_sesi.match(/[0-2][0-9].[0-9][0-9]/)[0];
@@ -223,24 +223,30 @@ export default {
         request['komentar'] = this.komentar;
 
         if (this.edit) {
-          announcementApi.editAnnouncement(this.pk, request).then((d) => {
-            this.$router.push('/pengumuman/');
-          }).catch((error) => {
-            this.message = 'Ada kendala error';
-            this.message_seen = true;
-          });
+          this.editAnnouncement(this.pk, request);
         } else {
-          announcementApi.createAnnouncement(request).then((d) => {
-            this.$router.push('/pengumuman/');
-          }).catch((error) => {
-            this.message = 'Ada kendala error';
-            this.message_seen = true;
-          });
+          this.createAnnouncement(request);
         }
       } else {
-        this.message = 'Kelas sudah lampau';
-        this.message_seen = true;
+        this.error_message = 'Kelas sudah lampau';
+        this.error_message_seen = true;
       }
+    },
+    editAnnouncement: function(pk, request) {
+      announcementApi.editAnnouncement(pk, request).then((d) => {
+        this.$router.push('/pengumuman/');
+      }).catch((error) => {
+        this.error_message = 'Ada kendala error';
+        this.error_message_seen = true;
+      });
+    },
+    createAnnouncement: function(request) {
+      announcementApi.createAnnouncement(request).then((d) => {
+        this.$router.push('/pengumuman/');
+      }).catch((error) => {
+        this.error_message = 'Ada kendala error';
+        this.error_message_seen = true;
+      });
     },
   },
 };
