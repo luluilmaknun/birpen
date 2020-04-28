@@ -50,7 +50,12 @@ class PesananSuratAkademik(models.Model):
     pesanan = models.ForeignKey(Pesanan, on_delete=models.CASCADE)
     surat_akademik = models.ForeignKey(SuratAkademik, on_delete=models.CASCADE)
     status_surat = models.ForeignKey(StatusSurat, on_delete=models.CASCADE)
+    jumlah = models.PositiveIntegerField(null=False, blank=False, default=0)
 
     class Meta:
         verbose_name = 'pesanan surat akademik'
         verbose_name_plural = verbose_name
+        constraints = [
+            models.UniqueConstraint(fields=['pesanan', 'surat_akademik'],
+                                    name='Unique combination pesanan and surat_akademik')
+        ]
