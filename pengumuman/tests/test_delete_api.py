@@ -50,13 +50,13 @@ class DeleteApiTest(TestCase):
         self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + self.token_1)
         response = self.client.delete('/api/pengumuman/{}/delete/'.format('999'))
 
-        self.assertEqual(response.data['detail'], 'Pengumuman does not exist.')
+        self.assertEqual(response.data['detail'], 'Data Pengumuman tidak ditemukan')
 
     def test_not_owner_of_announcement(self):
         self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + self.token_1)
         response = self.client.delete('/api/pengumuman/{}/delete/'.format(self.pengumuman_pk))
 
-        self.assertEqual(response.data['detail'], 'You are not the owner of the announcement.')
+        self.assertEqual(response.data['detail'], 'Tidak punya wewenang untuk menghapus')
 
     def test_success_delete(self):
         before_delete_count = Pengumuman.objects.all().count()

@@ -17,7 +17,7 @@ from .permissions import IsPrivilegedToCreateAnnouncemment, \
     IsPrivilegedToAccessAnnouncemment
 from .serializers import PengumumanSerializer
 
-PENGUMUMAN_NOT_FOUND_MESSAGE = 'Pengumuman does not exist.'
+PENGUMUMAN_NOT_FOUND_MESSAGE = 'Data Pengumuman tidak ditemukan'
 
 @api_view(["GET"])
 def pengumuman_placeholder_views(_):
@@ -61,14 +61,14 @@ def create_pengumuman(request):
             nama=request.data.get('nama_status_pengumuman'))
     except (ObjectDoesNotExist, ValueError, TypeError):
         return Response({
-            'detail': 'Invalid data.',
+            'detail': 'Data tidak valid',
             "success": False,
         }, status=HTTP_400_BAD_REQUEST)
 
     pengumuman.save()
 
     return Response({
-        "detail": 'Valid data.',
+        "detail": 'Data valid',
         "success": True,
         "pengumuman": PengumumanSerializer(pengumuman).data
     }, status=HTTP_200_OK)
@@ -127,7 +127,7 @@ def edit_pengumuman(request, key):
 
     if not request.user.is_admin() and pengumuman.pembuat != request.user:
         return Response({
-            'detail': 'Not enough privileges.'
+            'detail': 'Tidak punya wewenang untuk mengubah'
         }, status=HTTP_403_FORBIDDEN)
 
     pengumuman.nama_dosen = request.data.get('nama_dosen')
@@ -147,7 +147,7 @@ def edit_pengumuman(request, key):
             StatusPengumuman.objects.get(nama=request.data.get('nama_status_pengumuman'))
     except (ObjectDoesNotExist, ValueError, TypeError):
         return Response({
-            'detail': 'Invalid data.'
+            'detail': 'Data tidak valid'
         }, status=HTTP_400_BAD_REQUEST)
 
     pengumuman.save()
@@ -188,7 +188,7 @@ def delete_pengumuman(request, key):
 
     if pengumuman.pembuat != request.user and not request.user.is_admin():
         return Response({
-            'detail': 'You are not the owner of the announcement.'
+            'detail': 'Tidak punya wewenang untuk menghapus'
         }, status=HTTP_403_FORBIDDEN)
 
     pengumuman.delete()
