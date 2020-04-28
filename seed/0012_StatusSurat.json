@@ -1,0 +1,37 @@
+[
+    {
+        "model":"permohonan_surat.statussurat",
+        "pk":1,
+        "fields":{
+            "nama":"Sedang diproses"
+        }
+    },
+    {
+        "model":"permohonan_surat.statussurat",
+        "pk":2,
+        "fields":{
+            "nama":"Menunggu paraf manajer pendidikan"
+        }
+    },
+    {
+        "model":"permohonan_surat.statussurat",
+        "pk":3,
+        "fields":{
+            "nama":"Menunggu tanda tangan WD 1"
+        }
+    },
+    {
+        "model":"permohonan_surat.statussurat",
+        "pk":4,
+        "fields":{
+            "nama":"Menunggu tanda tangan dekan"
+        }
+    },
+    {
+        "model":"permohonan_surat.statussurat",
+        "pk":5,
+        "fields":{
+            "nama":"Bisa diambil"
+        }
+    }
+]
