@@ -219,14 +219,14 @@ describe('Tes register', () => {
       status: 400,
       data: {
         success: false,
-        detail: 'Username is already exist.',
+        detail: 'Username sudah terdaftar',
       },
     };
     alumniApi.registerAlumni = jest.fn(() => Promise.reject(error));
 
     vm.processRegister(request);
     vm.$nextTick(() => {
-      expect(vm.modal_message).toBe('Username is already exist.');
+      expect(vm.modal_message).toBe('Username sudah terdaftar');
     });
   });
 
