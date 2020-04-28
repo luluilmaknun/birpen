@@ -22,7 +22,7 @@ class RegisterAlumniTest(TestCase):
                                         'email': 'sample_email'
                                     })),
                                     content_type='application/x-www-form-urlencoded')
-        self.assertEqual(response.data['detail'], 'Invalid username, email, or password.')
+        self.assertEqual(response.data['detail'], 'Username, email, atau password tidak valid')
         self.assertEqual(response.status_code, 400)
 
     def test_invalid_data_no_password(self):
@@ -32,7 +32,7 @@ class RegisterAlumniTest(TestCase):
                                         'email': 'sample_email'
                                     })),
                                     content_type='application/x-www-form-urlencoded')
-        self.assertEqual(response.data['detail'], 'Invalid username, email, or password.')
+        self.assertEqual(response.data['detail'], 'Username, email, atau password tidak valid')
         self.assertEqual(response.status_code, 400)
 
     def test_invalid_data_no_email(self):
@@ -42,7 +42,7 @@ class RegisterAlumniTest(TestCase):
                                         'password': 'sample_password',
                                     })),
                                     content_type='application/x-www-form-urlencoded')
-        self.assertEqual(response.data['detail'], 'Invalid username, email, or password.')
+        self.assertEqual(response.data['detail'], 'Username, email, atau password tidak valid')
         self.assertEqual(response.status_code, 400)
 
     def test_invalid_data_blank_password(self):
@@ -53,7 +53,7 @@ class RegisterAlumniTest(TestCase):
                                         'email': 'sample_email'
                                     })),
                                     content_type='application/x-www-form-urlencoded')
-        self.assertEqual(response.data['detail'], 'Invalid username, email, or password.')
+        self.assertEqual(response.data['detail'], 'Username, email, atau password tidak valid')
         self.assertEqual(response.status_code, 400)
 
     def test_invalid_data_blank_username(self):
@@ -64,7 +64,7 @@ class RegisterAlumniTest(TestCase):
                                         'email': 'sample_email'
                                     })),
                                     content_type='application/x-www-form-urlencoded')
-        self.assertEqual(response.data['detail'], 'Invalid username, email, or password.')
+        self.assertEqual(response.data['detail'], 'Username, email, atau password tidak valid')
         self.assertEqual(response.status_code, 400)
 
     def test_invalid_data_blank_email(self):
@@ -75,7 +75,7 @@ class RegisterAlumniTest(TestCase):
                                         'email': ''
                                     })),
                                     content_type='application/x-www-form-urlencoded')
-        self.assertEqual(response.data['detail'], 'Invalid username, email, or password.')
+        self.assertEqual(response.data['detail'], 'Username, email, atau password tidak valid')
         self.assertEqual(response.status_code, 400)
 
     def test_invalid_data_long_username(self):
@@ -86,7 +86,7 @@ class RegisterAlumniTest(TestCase):
                                         'email': 'sample_email'
                                     })),
                                     content_type='application/x-www-form-urlencoded')
-        self.assertEqual(response.data['detail'], 'Invalid username, email, or password.')
+        self.assertEqual(response.data['detail'], 'Username, email, atau password tidak valid')
         self.assertEqual(response.status_code, 400)
 
     def test_register_registered_asisten(self):
@@ -97,7 +97,7 @@ class RegisterAlumniTest(TestCase):
                                         'email': 'sample_email'
                                     })),
                                     content_type='application/x-www-form-urlencoded')
-        self.assertEqual(response.data['detail'], 'Username is already registered.')
+        self.assertEqual(response.data['detail'], 'Username sudah terdaftar')
         self.assertEqual(response.status_code, 400)
 
     def test_username_prefix_invalid(self):
@@ -109,7 +109,7 @@ class RegisterAlumniTest(TestCase):
                                     })),
                                     content_type='application/x-www-form-urlencoded')
         self.assertEqual(response.status_code, 400)
-        self.assertEqual(response.data['detail'], 'Invalid username, email, or password.')
+        self.assertEqual(response.data['detail'], 'Username, email, atau password tidak valid')
 
     def test_success_register_asisten(self):
         response = self.client.post('/api/alumni/register/',
