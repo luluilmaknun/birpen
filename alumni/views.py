@@ -1,3 +1,4 @@
+from re import match
 from django.contrib.auth import get_user_model
 from django.core.exceptions import ObjectDoesNotExist, ValidationError
 from django.db.utils import DataError, IntegrityError
@@ -9,7 +10,6 @@ from rest_framework.status import (
     HTTP_200_OK,
     HTTP_400_BAD_REQUEST
 )
-from re import match
 from .permissions import IsPrivilegedToAccessAlumni
 from .serializers import AlumniSerializer
 
