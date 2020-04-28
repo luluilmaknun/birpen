@@ -12,7 +12,7 @@ from .models import Admin
 from .serializers import AdminSerializer
 from .permissions import IsPrivilegedToAccessAdmin
 
-ADMIN_NOT_FOUND_MESSAGE = "Admin does not exist."
+ADMIN_NOT_FOUND_MESSAGE = "Data Admin tidak ditemukan"
 
 
 @api_view(["GET"])
@@ -52,18 +52,18 @@ def create_admin(request):
 
     if username is None or username == '':
         return Response({
-            "detail": "Username not provided."
+            "detail": "Kolom username kosong"
         }, status=HTTP_400_BAD_REQUEST)
 
     try:
         Admin.objects.create(username=username)
     except IntegrityError:
         return Response({
-            "detail": "Admin already exists."
+            "detail": "Admin sudah terdaftar"
         }, status=HTTP_400_BAD_REQUEST)
     except DataError:
         return Response({
-            "detail": "Invalid username."
+            "detail": "Username tidak valid"
         }, status=HTTP_400_BAD_REQUEST)
 
     return Response({
