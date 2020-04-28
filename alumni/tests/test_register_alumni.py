@@ -53,7 +53,7 @@ class RegisterAlumniTest(TestCase):
                                         'email': 'sample_email'
                                     })),
                                     content_type='application/x-www-form-urlencoded')
-        self.assertEqual(response.data['detail'], 'Invalid username, email, or password.')
+        self.assertEqual(response.data['detail'], 'Username, email, atau password tidak valid')
         self.assertEqual(response.status_code, 400)
 
     def test_invalid_data_blank_password(self):
