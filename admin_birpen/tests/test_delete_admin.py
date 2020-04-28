@@ -49,7 +49,7 @@ class DeleteAdminTest(TestCase):
         response = self.client.delete('/api/admin_birpen/alya.zahra/delete/',
                                       content_type='application/x-www-form-urlencoded')
 
-        self.assertEqual(response.data['detail'], 'Admin does not exist.')
+        self.assertEqual(response.data['detail'], 'Data Admin tidak ditemukan')
 
     def test_mahasiswa_cant_delete_admin(self):
         before_delete_count = Admin.objects.all().count()
