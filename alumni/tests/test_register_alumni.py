@@ -19,7 +19,7 @@ class RegisterAlumniTest(TestCase):
         response = self.client.post('/api/alumni/register/',
                                     data=urlencode(MultiValueDict({
                                         'password': 'sample_password',
-                                        'email': 'sample_email'
+                                        'email': 'sample_email@gmail.com'
                                     })),
                                     content_type='application/x-www-form-urlencoded')
         self.assertEqual(response.data['detail'], 'Invalid username, email, or password.')
@@ -29,7 +29,7 @@ class RegisterAlumniTest(TestCase):
         response = self.client.post('/api/alumni/register/',
                                     data=urlencode(MultiValueDict({
                                         'username': '@sample_username',
-                                        'email': 'sample_email'
+                                        'email': 'sample_email@gmail.com'
                                     })),
                                     content_type='application/x-www-form-urlencoded')
         self.assertEqual(response.data['detail'], 'Invalid username, email, or password.')
@@ -50,7 +50,7 @@ class RegisterAlumniTest(TestCase):
                                     data=urlencode(MultiValueDict({
                                         'username': '@sample_username',
                                         'password': '',
-                                        'email': 'sample_email'
+                                        'email': 'sample_email@gmail.com'
                                     })),
                                     content_type='application/x-www-form-urlencoded')
         self.assertEqual(response.data['detail'], 'Invalid username, email, or password.')
@@ -61,7 +61,7 @@ class RegisterAlumniTest(TestCase):
                                     data=urlencode(MultiValueDict({
                                         'username': '',
                                         'password': 'sample_password',
-                                        'email': 'sample_email'
+                                        'email': 'sample_email@gmail.com'
                                     })),
                                     content_type='application/x-www-form-urlencoded')
         self.assertEqual(response.data['detail'], 'Invalid username, email, or password.')
@@ -83,7 +83,7 @@ class RegisterAlumniTest(TestCase):
                                     data=urlencode(MultiValueDict({
                                         'username': 'a'*151,
                                         'password': 'sample_password',
-                                        'email': 'sample_email'
+                                        'email': 'sample_email@gmail.com'
                                     })),
                                     content_type='application/x-www-form-urlencoded')
         self.assertEqual(response.data['detail'], 'Invalid username, email, or password.')
@@ -94,7 +94,7 @@ class RegisterAlumniTest(TestCase):
                                     data=urlencode(MultiValueDict({
                                         'username': self.alumni.username,
                                         'password': 'sample_password',
-                                        'email': 'sample_email'
+                                        'email': 'sample_email@gmail.com'
                                     })),
                                     content_type='application/x-www-form-urlencoded')
         self.assertEqual(response.data['detail'], 'Username is already registered.')
@@ -105,7 +105,7 @@ class RegisterAlumniTest(TestCase):
                                     data=urlencode(MultiValueDict({
                                         'username': 'sample_username',
                                         'password': 'sample_password',
-                                        'email': 'sample_email'
+                                        'email': 'sample_email@gmail.com'
                                     })),
                                     content_type='application/x-www-form-urlencoded')
         self.assertEqual(response.status_code, 400)
@@ -116,7 +116,7 @@ class RegisterAlumniTest(TestCase):
                                     data=urlencode(MultiValueDict({
                                         'username': '@sample_username',
                                         'password': 'sample_password',
-                                        'email': 'sample_email'
+                                        'email': 'sample_email@gmail.com'
                                     })),
                                     content_type='application/x-www-form-urlencoded')
         self.assertEqual(response.data['success'], True)
