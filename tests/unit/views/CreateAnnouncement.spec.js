@@ -132,7 +132,7 @@ describe('Tes create data function', () => {
       },
     }));
 
-    vm.postData();
+    vm.validateData();
   });
 
   it('Test create data error', () => {
@@ -152,9 +152,9 @@ describe('Tes create data function', () => {
     });
     const vm = wrapper.vm;
 
-    vm.postData();
-    expect(wrapper.vm.message_seen).toBe(true);
-    expect(wrapper.vm.message).toBe('Kelas sudah lampau');
+    vm.validateData();
+    expect(wrapper.vm.error_message_seen).toBe(true);
+    expect(wrapper.vm.error_message).toBe('Kelas sudah lampau');
   });
 });
 
@@ -196,7 +196,7 @@ describe('Edit function', () => {
       },
     }));
 
-    vm.editData(1);
+    vm.getAnnouncementData(1);
   });
 
   it('Test data return', () => {
@@ -226,8 +226,8 @@ describe('Edit function', () => {
     namaDosen.element.value = 'Bukan Lulu';
     namaDosen.trigger('change');
 
-    vm.postData();
-    vm.editData(1);
+    vm.validateData();
+    vm.getAnnouncementData(1);
 
     expect(wrapper.find('#nama_dosen').element.value)
         .toBe('Bukan Lulu');
@@ -253,9 +253,9 @@ describe('Edit function', () => {
     });
     const vm = wrapper.vm;
 
-    vm.postData();
-    expect(wrapper.vm.message_seen).toBe(true);
-    expect(wrapper.vm.message).toBe('Kelas sudah lampau');
+    vm.validateData();
+    expect(wrapper.vm.error_message_seen).toBe(true);
+    expect(wrapper.vm.error_message).toBe('Kelas sudah lampau');
   });
 
   it('Test security access admin success', () => {
@@ -285,7 +285,7 @@ describe('Edit function', () => {
     });
     const vm = wrapper.vm;
 
-    vm.editData(1);
+    vm.getAnnouncementData(1);
   });
 
   it('Test security access non-admin success asistensi', () => {
@@ -315,7 +315,7 @@ describe('Edit function', () => {
       },
     }));
 
-    vm.editData(1);
+    vm.getAnnouncementData(1);
   });
 
   it('Test security access non-admin success non-asistensi', () => {
@@ -361,7 +361,7 @@ describe('Edit function', () => {
       },
     }));
 
-    vm.editData(1);
+    vm.getAnnouncementData(1);
   });
 
   it('Test security access non-admin denied asistensi', () => {
@@ -413,7 +413,7 @@ describe('Edit function', () => {
     });
     const vm = wrapper.vm;
 
-    vm.editData();
+    vm.getAnnouncementData();
     expect(wrapper.find('#nama_dosen').element.value)
         .toBe('');
   });
