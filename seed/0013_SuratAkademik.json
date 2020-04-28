@@ -1,0 +1,146 @@
+[
+    {
+        "model":"permohonan_surat.suratakademik",
+        "pk":1,
+        "fields":{
+            "jenis_dokumen":"Surat Keterangan Mahasiswa",
+            "harga_mahasiswa": 0,
+            "harga_alumni": 5000
+        }
+    },
+    {
+        "model":"permohonan_surat.suratakademik",
+        "pk":2,
+        "fields":{
+            "jenis_dokumen":"Surat Ket. Ijazah/Transkrip Hilang",
+            "harga_mahasiswa": 0,
+            "harga_alumni": 5000
+        }
+    },
+    {
+        "model":"permohonan_surat.suratakademik",
+        "pk":3,
+        "fields":{
+            "jenis_dokumen":"Daftar Nilai Semester",
+            "harga_mahasiswa": 0,
+            "harga_alumni": 20000
+        }
+    },
+    {
+        "model":"permohonan_surat.suratakademik",
+        "pk":4,
+        "fields":{
+            "jenis_dokumen":"Denda Pengambilan Ijazah/Transkrip Lewat Batas Waktu",
+            "harga_mahasiswa": 20000,
+            "harga_alumni": 20000
+        }
+    },
+    {
+        "model":"permohonan_surat.suratakademik",
+        "pk":5,
+        "fields":{
+            "jenis_dokumen":"Cetak/Denda: FRS/IRS",
+            "harga_mahasiswa": 50000,
+            "harga_alumni": 50000
+        }
+    },
+    {
+        "model":"permohonan_surat.suratakademik",
+        "pk":6,
+        "fields":{
+            "jenis_dokumen":"Legalisasi Surat Keterangan Lulus (SKL)",
+            "harga_mahasiswa": 5000,
+            "harga_alumni": 5000
+        }
+    },
+    {
+        "model":"permohonan_surat.suratakademik",
+        "pk":7,
+        "fields":{
+            "jenis_dokumen":"Legalisasi Ijazah Asli",
+            "harga_mahasiswa": 5000,
+            "harga_alumni": 5000
+        }
+    },
+    {
+        "model":"permohonan_surat.suratakademik",
+        "pk":8,
+        "fields":{
+            "jenis_dokumen":"Legalisasi Transkrip Nilai",
+            "harga_mahasiswa": 5000,
+            "harga_alumni": 5000
+        }
+    },
+    {
+        "model":"permohonan_surat.suratakademik",
+        "pk":9,
+        "fields":{
+            "jenis_dokumen":"Legalisasi Piagam Cum Laude",
+            "harga_mahasiswa": 5000,
+            "harga_alumni": 5000
+        }
+    },
+    {
+        "model":"permohonan_surat.suratakademik",
+        "pk":10,
+        "fields":{
+            "jenis_dokumen":"Terjemahan Ijazah Asli",
+            "harga_mahasiswa": 20000,
+            "harga_alumni": 20000
+        }
+    },
+    {
+        "model":"permohonan_surat.suratakademik",
+        "pk":11,
+        "fields":{
+            "jenis_dokumen":"Terjemahan Surat Keterangan Lulus (SKL)",
+            "harga_mahasiswa": 0,
+            "harga_alumni": 0
+        }
+    },
+    {
+        "model":"permohonan_surat.suratakademik",
+        "pk":12,
+        "fields":{
+            "jenis_dokumen":"Legalisasi Terjemahan Surat Keterangan Lulus",
+            "harga_mahasiswa": 5000,
+            "harga_alumni": 5000
+        }
+    },
+    {
+        "model":"permohonan_surat.suratakademik",
+        "pk":13,
+        "fields":{
+            "jenis_dokumen":"Legalisasi Akreditasi Program Studi",
+            "harga_mahasiswa": 0,
+            "harga_alumni": 5000
+        }
+    },
+    {
+        "model":"permohonan_surat.suratakademik",
+        "pk":14,
+        "fields":{
+            "jenis_dokumen":"Legalisasi Akreditasi Institusi",
+            "harga_mahasiswa": 0,
+            "harga_alumni": 5000
+        }
+    },
+    {
+        "model":"permohonan_surat.suratakademik",
+        "pk":15,
+        "fields":{
+            "jenis_dokumen":"Legalisasi Akreditasi Program Profesi & Spesialis",
+            "harga_mahasiswa": 0,
+            "harga_alumni": 5000
+        }
+    },
+    {
+        "model":"permohonan_surat.suratakademik",
+        "pk":16,
+        "fields":{
+            "jenis_dokumen":"Legalisasi Surat Ket. Ijazah/Transkrip Hilang",
+            "harga_mahasiswa": 0,
+            "harga_alumni": 5000
+        }
+    }
+]
