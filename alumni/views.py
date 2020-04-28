@@ -1,3 +1,4 @@
+from re import match
 from django.contrib.auth import get_user_model
 from django.core.exceptions import ObjectDoesNotExist, ValidationError
 from django.db.utils import DataError, IntegrityError
@@ -13,6 +14,7 @@ from .permissions import IsPrivilegedToAccessAlumni
 from .serializers import AlumniSerializer
 
 User = get_user_model()
+EMAIL_REGEX = r"^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$"
 
 @api_view(["GET"])
 @permission_classes((IsAuthenticated, IsPrivilegedToAccessAlumni))
@@ -43,6 +45,9 @@ def register(request):
 
         #Alumni's username must start with @ character
         if username[0] != '@':
+            raise ValueError
+
+        if not match(EMAIL_REGEX, email):
             raise ValueError
 
         user = User.objects.create(username=username, email=email)
