@@ -24,25 +24,41 @@ class PesananSuratAkademikTest(TestCase):
 
         PesananSuratAkademik.objects.create(pesanan=self.pesanan,
                                             surat_akademik=self.surat_akademik,
-                                            status_surat=self.status_surat)
+                                            status_surat=self.status_surat,
+                                            jumlah=1)
 
         count = PesananSuratAkademik.objects.all().count()
         self.assertEqual(count, initial_count + 1)
+
+    def test_unique_combination_pesanan_and_surat_akademik(self):
+        PesananSuratAkademik.objects.create(pesanan=self.pesanan,
+                                            surat_akademik=self.surat_akademik,
+                                            status_surat=self.status_surat,
+                                            jumlah=1)
+
+        with self.assertRaises(IntegrityError):
+            PesananSuratAkademik.objects.create(pesanan=self.pesanan,
+                                                surat_akademik=self.surat_akademik,
+                                                status_surat=self.status_surat,
+                                                jumlah=1)
 
     def test_model_not_create_without_pesanan(self):
         with self.assertRaises(IntegrityError):
             PesananSuratAkademik.objects.create(pesanan=None,
                                                 surat_akademik=self.surat_akademik,
-                                                status_surat=self.status_surat)
+                                                status_surat=self.status_surat,
+                                                jumlah=1)
 
     def test_model_not_create_without_surat_akademik(self):
         with self.assertRaises(IntegrityError):
             PesananSuratAkademik.objects.create(pesanan=self.pesanan,
                                                 surat_akademik=None,
-                                                status_surat=self.status_surat)
+                                                status_surat=self.status_surat,
+                                                jumlah=1)
 
     def test_model_not_create_without_status_surat(self):
         with self.assertRaises(IntegrityError):
             PesananSuratAkademik.objects.create(pesanan=self.pesanan,
                                                 surat_akademik=self.surat_akademik,
-                                                status_surat=None)
+                                                status_surat=None,
+                                                jumlah=1)
