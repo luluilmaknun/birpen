@@ -157,29 +157,22 @@ export default {
       dropdownApi.fetch().then((d) => {
         this.response = d.data;
 
-        for (let i = 0; i < this.response.jenis_pengumuman.length; i++) {
-          this.$set(this.daftar_jenis_pengumuman, i,
-              this.response.jenis_pengumuman[i]);
-        }
-
-        for (let i = 0; i < this.response.mata_kuliah.length; i++) {
-          this.$set(this.daftar_mata_kuliah, i, this.response.mata_kuliah[i]);
-        }
-
-        for (let i = 0; i < this.response.ruang.length; i++) {
-          this.$set(this.daftar_nama_ruang, i, this.response.ruang[i]);
-        }
-
-        for (let i = 0; i < this.response.sesi.length; i++) {
-          this.daftar_nama_sesi[i] = this.response.sesi[i];
-          this.$set(this.daftar_nama_sesi, i, this.response.sesi[i]);
-        }
-
-        for (let i = 0; i < this.response.status_pengumuman.length; i++) {
-          this.$set(this.daftar_nama_status_pengumuman, i,
-              this.response.status_pengumuman[i]);
-        }
+        this.setData(this.daftar_jenis_pengumuman,
+            this.response.jenis_pengumuman);
+        this.setData(this.daftar_mata_kuliah,
+            this.response.mata_kuliah);
+        this.setData(this.daftar_nama_ruang,
+            this.response.ruang);
+        this.setData(this.daftar_nama_sesi,
+            this.response.sesi);
+        this.setData(this.daftar_nama_status_pengumuman,
+            this.response.status_pengumuman);
       });
+    },
+    setData: function(target, source) {
+      for (let i = 0; i < source.length; i++) {
+        this.$set(target, i, source[i]);
+      }
     },
     getAnnouncementData: function(pk) {
       announcementApi.getAnnouncement(pk).then((d) => {
