@@ -45,6 +45,17 @@ class RegisterAlumniTest(TestCase):
         self.assertEqual(response.data['detail'], 'Invalid username, email, or password.')
         self.assertEqual(response.status_code, 400)
 
+    def test_invalid_data_invalid_email(self):
+        response = self.client.post('/api/alumni/register/',
+                                    data=urlencode(MultiValueDict({
+                                        'username': '@sample_username',
+                                        'password': 'sample_password',
+                                        'email': 'sample_email'
+                                    })),
+                                    content_type='application/x-www-form-urlencoded')
+        self.assertEqual(response.data['detail'], 'Invalid username, email, or password.')
+        self.assertEqual(response.status_code, 400)
+
     def test_invalid_data_blank_password(self):
         response = self.client.post('/api/alumni/register/',
                                     data=urlencode(MultiValueDict({
