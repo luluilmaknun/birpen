@@ -9,10 +9,12 @@ from rest_framework.status import (
     HTTP_200_OK,
     HTTP_400_BAD_REQUEST
 )
+from re import match
 from .permissions import IsPrivilegedToAccessAlumni
 from .serializers import AlumniSerializer
 
 User = get_user_model()
+EMAIL_REGEX = r"^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$"
 
 @api_view(["GET"])
 @permission_classes((IsAuthenticated, IsPrivilegedToAccessAlumni))
@@ -31,7 +33,6 @@ def read_all_alumni(_):
 @api_view(["POST"])
 @permission_classes((AllowAny,))
 def register(request):
-
     username = request.data.get('username')
     password = request.data.get('password')
     email = request.data.get('email')
@@ -43,6 +44,9 @@ def register(request):
 
         #Alumni's username must start with @ character
         if username[0] != '@':
+            raise ValueError
+
+        if not match(EMAIL_REGEX, email):
             raise ValueError
 
         user = User.objects.create(username=username, email=email)
