@@ -44,3 +44,13 @@ class Pesanan(models.Model):
     class Meta:
         verbose_name = 'pesanan'
         verbose_name_plural = verbose_name
+
+
+class PesananSuratAkademik(models.Model):
+    pesanan = models.ForeignKey(Pesanan, on_delete=models.CASCADE)
+    surat_akademik = models.ForeignKey(SuratAkademik, on_delete=models.CASCADE)
+    status_surat = models.ForeignKey(StatusSurat, on_delete=models.CASCADE)
+
+    class Meta:
+        verbose_name = 'pesanan surat akademik'
+        verbose_name_plural = verbose_name
