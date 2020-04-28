@@ -53,7 +53,7 @@ describe('tes hapus asisten', () => {
       data() {
         return {
           'deleted_asisten_username': 's4y@_bkN_451sTen',
-          'error_message': 'Admin does not exist.',
+          'error_message': 'Data Admin tidak ditemukan',
         };
       },
     });
@@ -61,12 +61,12 @@ describe('tes hapus asisten', () => {
     asistenApi.createasisten = jest.fn(() => Promise.resolve({
       status: 400,
       data: {
-        detail: 'Asisten does not exist.',
+        detail: 'Data Admin tidak ditemukan',
       },
     }));
 
     vm = wrapper.vm;
     vm.click_hapus_conf();
-    expect(vm.error_message).toEqual('Admin does not exist.');
+    expect(vm.error_message).toEqual('Data Admin tidak ditemukan');
   });
 });

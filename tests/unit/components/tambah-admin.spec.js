@@ -48,7 +48,7 @@ describe('tes tambah admin', () => {
       data() {
         return {
           'admin_username': '',
-          'error_message': 'Invalid username.',
+          'error_message': 'Username tidak valid',
         };
       },
     });
@@ -56,14 +56,14 @@ describe('tes tambah admin', () => {
     adminApi.createAdmin = jest.fn(() => Promise.resolve({
       status: 400,
       data: {
-        detail: 'Invalid username.',
+        detail: 'Username tidak valid',
       },
     }));
 
     vm = wrapper.vm;
     vm.click_tambah();
     expect(vm.admin_username).toEqual('');
-    expect(vm.error_message).toEqual('Invalid username.');
+    expect(vm.error_message).toEqual('Username tidak valid');
   });
 });
 

@@ -1,6 +1,7 @@
 import {shallowMount, createLocalVue} from '@vue/test-utils';
 import Login from '@/views/Login.vue';
 import VueRouter from 'vue-router';
+import axios from 'axios';
 
 const localVue = createLocalVue();
 localVue.use(VueRouter);
@@ -81,4 +82,24 @@ describe('Tes login non sso', () => {
     vm.login();
     expect(window.location.href).toEqual(url);
   });
+
+  it('test error', () => {
+    const error = new Error('error');
+
+    error.response = {
+      status: 400,
+      data: {
+        success: false,
+        detail: 'Username tidak ditemukan',
+      },
+    };
+
+    axios.post.mockImplementation(() => Promise.reject(error));
+
+    vm.login();
+    vm.$nextTick(() => {
+      expect(vm.message).toBe('Username tidak ditemukan');
+    });
+  });
 });
+

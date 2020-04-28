@@ -51,13 +51,13 @@ def register(request):
 
     except (DataError, ValueError):
         return Response({
-            'detail': 'Invalid username, email, or password.',
+            'detail': 'Username, email, atau password tidak valid',
             'success': False,
         }, status=HTTP_400_BAD_REQUEST)
 
     except IntegrityError:
         return Response({
-            'detail': 'Username is already registered.',
+            'detail': 'Username sudah terdaftar',
             'success': False,
         }, status=HTTP_400_BAD_REQUEST)
 
@@ -88,12 +88,12 @@ def update_block_status(request, username):
 
     except ObjectDoesNotExist:
         return Response({
-            'detail': 'Alumni does not exist.'
+            'detail': 'Data Alumni tidak ditemukan'
         }, status=HTTP_400_BAD_REQUEST)
 
     except (ValidationError, IntegrityError):
         return Response({
-            'detail': 'Invalid data.'
+            'detail': 'Data tidak valid'
         }, status=HTTP_400_BAD_REQUEST)
 
     return Response({
