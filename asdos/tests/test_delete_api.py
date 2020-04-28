@@ -48,7 +48,7 @@ class DeleteApiTest(TestCase):
         self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + self.token_admin)
         response = self.client.delete('/api/asdos/lulu.ilmaknun/delete/')
 
-        self.assertEqual(response.data['detail'], 'Asisten does not exist.')
+        self.assertEqual(response.data['detail'], 'Data Asisten tidak ditemukan')
 
     def test_mahasiswa_delete_asisten(self):
         before_delete_count = AsistenDosen.objects.all().count()
