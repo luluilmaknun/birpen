@@ -33,6 +33,7 @@ def read_all_alumni(_):
 @api_view(["POST"])
 @permission_classes((AllowAny,))
 def register(request):
+
     username = request.data.get('username')
     password = request.data.get('password')
     email = request.data.get('email')
