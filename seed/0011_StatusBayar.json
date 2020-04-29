@@ -3,14 +3,14 @@
         "model":"permohonan_surat.statusbayar",
         "pk":1,
         "fields":{
-            "nama":"Lunas"
+            "nama":"Belum Bayar"
         }
     },
     {
         "model":"permohonan_surat.statusbayar",
         "pk":2,
         "fields":{
-            "nama":"Belum Bayar"
+            "nama":"Lunas"
         }
     }
 ]
