@@ -9,7 +9,7 @@
           <h1 id="desc-modal">Apakah anda yakin akan
             <d v-if="blocked">membatalkan blokir pada</d>
             <d v-else>memblokir</d>
-          <b>&nbsp;{{ this.alumni_username }}</b>
+          <strong>&nbsp;{{ this.alumni_username }}</strong>
           sebagai alumni?</h1>
           <p id="error-message">{{ error_message }}</p>
         </div>
