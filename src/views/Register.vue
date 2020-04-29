@@ -111,7 +111,6 @@ export default {
       modal_message: '',
       error: undefined,
       success_regis: false,
-      re_email: /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/,
     };
   },
   methods: {
@@ -133,10 +132,7 @@ export default {
         this.error_message = 'Isi semua data terlebih dahulu';
         this.error = true;
       } else {
-        if (!this.validateEmail(this.email)) {
-          this.error_message = 'Masukkan alamat email yang valid';
-          this.error = true;
-        } else if (
+        if (
           !this.validatePassword(this.password, this.confirm_password)) {
           this.error_message = 'Konfirmasi password tidak sesuai';
           this.error = true;
@@ -172,9 +168,6 @@ export default {
 
       this.closeModal('register-confirmation');
       this.showModal('register-popup');
-    },
-    validateEmail(email) {
-      return this.re_email.test(email);
     },
     validatePassword(thePassword, confirmPassword) {
       if (confirmPassword != thePassword) return false;

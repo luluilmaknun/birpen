@@ -49,7 +49,7 @@ describe('tes tambah asisten', () => {
       data() {
         return {
           'sso_username': '',
-          'error_message': 'Invalid username.',
+          'error_message': 'Username tidak valid',
         };
       },
     });
@@ -57,7 +57,7 @@ describe('tes tambah asisten', () => {
     asistenApi.createAsisten = jest.fn(() => Promise.resolve({
       status: 400,
       data: {
-        detail: 'Invalid username.',
+        detail: 'Username tidak valid',
         success: 'False',
       },
     }));
@@ -65,6 +65,6 @@ describe('tes tambah asisten', () => {
     vm = wrapper.vm;
     vm.click_tambah();
     expect(vm.sso_username).toEqual('');
-    expect(vm.error_message).toEqual('Invalid username.');
+    expect(vm.error_message).toEqual('Username tidak valid');
   });
 });

@@ -49,7 +49,7 @@ describe('tes toggle blokir', () => {
         return {
           'alumni_username': 'muhammad.reza',
           'blocked': false,
-          'error_message': 'Alumni tidak ada.',
+          'error_message': 'Data Alumni tidak ditemukan',
         };
       },
     });
@@ -57,12 +57,12 @@ describe('tes toggle blokir', () => {
     alumniServices.toggleBlockAlumni = jest.fn(() => Promise.resolve({
       status: 400,
       data: {
-        detail: 'Alumni tidak ada.',
+        detail: 'Data Alumni tidak ditemukan',
       },
     }));
 
     vm = wrapper.vm;
     vm.toggle_alumni();
-    expect(vm.error_message).toEqual('Alumni tidak ada.');
+    expect(vm.error_message).toEqual('Data Alumni tidak ditemukan');
   });
 });

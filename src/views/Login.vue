@@ -76,6 +76,7 @@ export default {
             window.location.replace('/');
           })
           .catch((error) => {
+            this.message = error.response.data.detail;
             this.message_seen = true;
           });
     },

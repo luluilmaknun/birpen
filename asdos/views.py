@@ -13,7 +13,7 @@ from .models import AsistenDosen
 from .serializers import AsistenDosenSerializer
 from .permissions import IsPrivilegedToAccessAsdos
 
-ASDOS_NOT_FOUND_MESSAGE = 'Asisten does not exist.'
+ASDOS_NOT_FOUND_MESSAGE = 'Data Asisten tidak ditemukan'
 
 
 @api_view(["GET"])
@@ -47,18 +47,18 @@ def create_asisten(request):
 
     except (ObjectDoesNotExist, ValueError, TypeError, DataError):
         return Response({
-            'detail': 'Invalid username.',
+            'detail': 'Username tidak valid',
             'success': False,
         }, status=HTTP_400_BAD_REQUEST)
 
     except IntegrityError:
         return Response({
-            'detail': asisten.username + ' is already registered as asisten.',
+            'detail': asisten.username + ' sudah terdaftar sebagai asisten.',
             'success': False,
         }, status=HTTP_400_BAD_REQUEST)
 
     return Response({
-        "detail": 'Valid data.',
+        "detail": 'Data valid',
         "success": True,
     }, status=HTTP_200_OK)
 

@@ -47,7 +47,7 @@ class CreateAdminTest(TestCase):
                                     content_type='application/x-www-form-urlencoded')
 
         self.assertEqual(response.status_code, 400)
-        self.assertEqual(response.data['detail'], 'Username not provided.')
+        self.assertEqual(response.data['detail'], 'Kolom username kosong')
 
     def test_admin_already_exists(self):
         self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + self.token_admin)
@@ -58,7 +58,7 @@ class CreateAdminTest(TestCase):
                                     content_type='application/x-www-form-urlencoded')
 
         self.assertEqual(response.status_code, 400)
-        self.assertEqual(response.data['detail'], 'Admin already exists.')
+        self.assertEqual(response.data['detail'], 'Admin sudah terdaftar')
 
     def test_username_too_long(self):
         self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + self.token_admin)
@@ -69,7 +69,7 @@ class CreateAdminTest(TestCase):
                                     content_type='application/x-www-form-urlencoded')
 
         self.assertEqual(response.status_code, 400)
-        self.assertEqual(response.data['detail'], 'Invalid username.')
+        self.assertEqual(response.data['detail'], 'Username tidak valid')
 
     def test_mahasiswa_cant_create_admin(self):
         before_delete_count = Admin.objects.all().count()
