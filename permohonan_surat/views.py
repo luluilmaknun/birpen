@@ -7,11 +7,13 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.status import (
+    HTTP_403_FORBIDDEN,
     HTTP_400_BAD_REQUEST,
     HTTP_200_OK,
 )
 
-from .models import Pesanan, PesananSuratAkademik, SuratAkademik
+from .models import Pesanan, PesananSuratAkademik, SuratAkademik, \
+    StatusSurat, StatusBayar
 from .permissions import IsPrivilegedToRequestAcademicLetter
 
 
@@ -55,6 +57,35 @@ def create_pesanan_surat_akademik(request):
         return Response({
             "success": False,
             'detail': 'Data tidak valid',
+        }, status=HTTP_400_BAD_REQUEST)
+
+    return Response({
+        "success": True,
+    }, status=HTTP_200_OK)
+
+@api_view(["PATCH"])
+@permission_classes((IsAuthenticated,))
+def update_status_pesanan(request, key):
+
+    status_bayar = request.data.get('status_bayar')
+    status_surat = request.data.get('status_surat')
+
+    try:
+        if not request.user.is_admin():
+            return Response({
+                'detail': 'Tidak memiliki hak untuk mengupdate surat.'
+            }, status=HTTP_403_FORBIDDEN)
+
+        pesanan = PesananSuratAkademik.objects.get(pk=key)
+        pesanan.pesanan.status_bayar = StatusBayar.objects.get(nama=status_bayar)
+        pesanan.pesanan.save()
+
+        pesanan.status_surat = StatusSurat.objects.get(nama=status_surat)
+        pesanan.save()
+
+    except ObjectDoesNotExist:
+        return Response({
+            'detail': 'Surat/status tidak ditemukan.'
         }, status=HTTP_400_BAD_REQUEST)
 
     return Response({
