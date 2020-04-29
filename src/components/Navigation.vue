@@ -124,13 +124,11 @@ export default {
   width: fit-content;
   margin-left: 10px;
   margin-right: 10px;
-  width: 400px;
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 .admin-dropdown-container {
-  background-color: rgb(194, 194, 194);
   border-style: solid;
   border-color: black;
   background-color: black;

@@ -67,7 +67,6 @@ body, html {
 .home-surat {
   height: 100%;
   padding: 2%;
-  height: 100%;
   box-sizing: border-box;
 }
 h2.title-home {
