@@ -1,5 +1,6 @@
 from django.contrib.auth import get_user_model
 from django.db import models
+from django.core.validators import MinValueValidator
 
 User = get_user_model()
 
@@ -54,7 +55,8 @@ class PesananSuratAkademik(models.Model):
     surat_akademik = models.ForeignKey(SuratAkademik, on_delete=models.CASCADE)
     status_surat = models.ForeignKey(StatusSurat, on_delete=models.CASCADE,
                                      default=DEFAULT_STATUS_SURAT)
-    jumlah = models.PositiveIntegerField(null=False, blank=False, default=0)
+    jumlah = models.PositiveIntegerField(null=False, blank=False,
+                                         validators=[MinValueValidator(1)])
 
     class Meta:
         verbose_name = 'pesanan surat akademik'
