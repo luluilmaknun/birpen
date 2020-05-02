@@ -45,21 +45,21 @@ class UpdateStatusBayarTest(TestCase):
         self.invalid_status_bayar = "Ngutang"
 
     def test_unauthorized_request_cant_update_status_bayar(self):
-        response = self.client.patch("/api/permohonan-surat/pesanan-surat-akademik/" +
+        response = self.client.patch("/api/permohonan-surat/pesanan/" +
                                      str(self.pesanan.pk) + "/update-status-bayar/",
                                      data={"status_bayar": self.status_lunas.nama}, format="json")
         self.assertEqual(response.status_code, 401)
 
     def test_non_admin_cant_update_status_bayar(self):
         self.client.credentials(HTTP_AUTHORIZATION="Bearer " + self.token_non_admin)
-        response = self.client.patch("/api/permohonan-surat/pesanan-surat-akademik/" +
+        response = self.client.patch("/api/permohonan-surat/pesanan/" +
                                      str(self.pesanan.pk) + "/update-status-bayar/",
                                      data={"status_bayar": self.status_lunas.nama}, format="json")
         self.assertEqual(response.status_code, 403)
 
     def test_pesanan_not_found(self):
         self.client.credentials(HTTP_AUTHORIZATION="Bearer " + self.token_admin)
-        response = self.client.patch("/api/permohonan-surat/pesanan-surat-akademik/" +
+        response = self.client.patch("/api/permohonan-surat/pesanan/" +
                                      str(self.invalid_pesanan_id) + "/update-status-bayar/",
                                      data={"status_bayar": self.status_lunas.nama}, format="json")
         self.assertEqual(response.data['detail'], 'Data pesanan tidak ditemukan.')
@@ -67,7 +67,7 @@ class UpdateStatusBayarTest(TestCase):
 
     def test_status_bayar_not_found(self):
         self.client.credentials(HTTP_AUTHORIZATION="Bearer " + self.token_admin)
-        response = self.client.patch("/api/permohonan-surat/pesanan-surat-akademik/" +
+        response = self.client.patch("/api/permohonan-surat/pesanan/" +
                                      str(self.pesanan.pk) + "/update-status-bayar/",
                                      data={"status_bayar": self.invalid_status_bayar},
                                      format="json")
@@ -76,7 +76,7 @@ class UpdateStatusBayarTest(TestCase):
 
     def test_status_bayar_not_provided(self):
         self.client.credentials(HTTP_AUTHORIZATION="Bearer " + self.token_admin)
-        response = self.client.patch("/api/permohonan-surat/pesanan-surat-akademik/" +
+        response = self.client.patch("/api/permohonan-surat/pesanan/" +
                                      str(self.pesanan.pk) + "/update-status-bayar/",
                                      data={}, format="json")
         self.assertEqual(response.data['detail'], 'Data status bayar tidak ditemukan.')
@@ -84,7 +84,7 @@ class UpdateStatusBayarTest(TestCase):
 
     def test_success_update_status_bayar(self):
         self.client.credentials(HTTP_AUTHORIZATION="Bearer " + self.token_admin)
-        response = self.client.patch("/api/permohonan-surat/pesanan-surat-akademik/" +
+        response = self.client.patch("/api/permohonan-surat/pesanan/" +
                                      str(self.pesanan.pk) + "/update-status-bayar/",
                                      data={"status_bayar": self.status_lunas.nama}, format="json")
         self.assertEqual(response.data['success'], True)
