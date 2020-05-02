@@ -60,3 +60,27 @@ def create_pesanan_surat_akademik(request):
     return Response({
         "success": True,
     }, status=HTTP_200_OK)
+
+@api_view(["GET"])
+@permission_classes((IsAuthenticated,))
+def read_pesanan_surat_akademik(request):
+
+    # psa = Pesanan Surat Akademik
+    response = []
+    psa_objects = PesananSuratAkademik.objects.all()
+
+    for psa in psa_objects:
+        if request.user.is_admin() or psa.pesanan.pemesan.username == request.user.username:
+            response.append({
+                "id": str(psa.pk).zfill(6),
+                "nama_pemesan": psa.pesanan.nama_pemesan,
+                "npm_pemesan": psa.pesanan.npm_pemesan,
+                "waktu_pemesanan": psa.pesanan.waktu_pemesanan,
+                "status_bayar": psa.pesanan.status_bayar.nama,
+                "status_surat": psa.status_surat.nama,
+            })
+
+    return Response({
+        "success": True,
+        "pesanan_surat_akademik": response,
+    }, status=HTTP_200_OK)
