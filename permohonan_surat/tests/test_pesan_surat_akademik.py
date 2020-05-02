@@ -60,13 +60,13 @@ class PesanSuratAkademikTest(TestCase):
         }
 
     def test_unauthorized_request_cant_create_academic_letter(self):
-        response = self.client.post("/api/permohonan-surat/pesanan-surat-akademik/create/",
+        response = self.client.post("/api/permohonan-surat/pesanan/create/",
                                     data=self.valid_data, format="json")
         self.assertEqual(response.status_code, 401)
 
     def test_dosen_cant_create_academic_letter(self):
         self.client.credentials(HTTP_AUTHORIZATION="Bearer " + self.token_dosen)
-        response = self.client.post("/api/permohonan-surat/pesanan-surat-akademik/create/",
+        response = self.client.post("/api/permohonan-surat/pesanan/create/",
                                     data=self.valid_data, format="json")
         self.assertEqual(response.status_code, 403)
 
@@ -86,7 +86,7 @@ class PesanSuratAkademikTest(TestCase):
         }
 
         self.client.credentials(HTTP_AUTHORIZATION="Bearer " + self.token_mahasiswa)
-        response = self.client.post("/api/permohonan-surat/pesanan-surat-akademik/create/",
+        response = self.client.post("/api/permohonan-surat/pesanan/create/",
                                     data=data, format="json")
         self.assertEqual(response.status_code, 400)
 
@@ -106,7 +106,7 @@ class PesanSuratAkademikTest(TestCase):
         }
 
         self.client.credentials(HTTP_AUTHORIZATION="Bearer " + self.token_mahasiswa)
-        response = self.client.post("/api/permohonan-surat/pesanan-surat-akademik/create/",
+        response = self.client.post("/api/permohonan-surat/pesanan/create/",
                                     data=data, format="json")
         self.assertEqual(response.status_code, 400)
 
@@ -117,7 +117,7 @@ class PesanSuratAkademikTest(TestCase):
         }
 
         self.client.credentials(HTTP_AUTHORIZATION="Bearer " + self.token_mahasiswa)
-        response = self.client.post("/api/permohonan-surat/pesanan-surat-akademik/create/",
+        response = self.client.post("/api/permohonan-surat/pesanan/create/",
                                     data=data, format="json")
         self.assertEqual(response.status_code, 400)
 
@@ -137,7 +137,7 @@ class PesanSuratAkademikTest(TestCase):
         }
 
         self.client.credentials(HTTP_AUTHORIZATION="Bearer " + self.token_mahasiswa)
-        response = self.client.post("/api/permohonan-surat/pesanan-surat-akademik/create/",
+        response = self.client.post("/api/permohonan-surat/pesanan/create/",
                                     data=data, format="json")
         self.assertEqual(response.status_code, 400)
 
@@ -157,7 +157,7 @@ class PesanSuratAkademikTest(TestCase):
         }
 
         self.client.credentials(HTTP_AUTHORIZATION="Bearer " + self.token_mahasiswa)
-        response = self.client.post("/api/permohonan-surat/pesanan-surat-akademik/create/",
+        response = self.client.post("/api/permohonan-surat/pesanan/create/",
                                     data=data, format="json")
         self.assertEqual(response.status_code, 400)
 
@@ -178,7 +178,7 @@ class PesanSuratAkademikTest(TestCase):
         }
 
         self.client.credentials(HTTP_AUTHORIZATION="Bearer " + self.token_mahasiswa)
-        response = self.client.post("/api/permohonan-surat/pesanan-surat-akademik/create/",
+        response = self.client.post("/api/permohonan-surat/pesanan/create/",
                                     data=data, format="json")
         self.assertEqual(response.status_code, 400)
 
@@ -199,7 +199,7 @@ class PesanSuratAkademikTest(TestCase):
         }
 
         self.client.credentials(HTTP_AUTHORIZATION="Bearer " + self.token_mahasiswa)
-        response = self.client.post("/api/permohonan-surat/pesanan-surat-akademik/create/",
+        response = self.client.post("/api/permohonan-surat/pesanan/create/",
                                     data=data, format="json")
         self.assertEqual(response.status_code, 400)
 
@@ -220,7 +220,7 @@ class PesanSuratAkademikTest(TestCase):
         }
 
         self.client.credentials(HTTP_AUTHORIZATION="Bearer " + self.token_mahasiswa)
-        response = self.client.post("/api/permohonan-surat/pesanan-surat-akademik/create/",
+        response = self.client.post("/api/permohonan-surat/pesanan/create/",
                                     data=data, format="json")
         self.assertEqual(response.status_code, 400)
 
@@ -241,7 +241,7 @@ class PesanSuratAkademikTest(TestCase):
         }
 
         self.client.credentials(HTTP_AUTHORIZATION="Bearer " + self.token_mahasiswa)
-        response = self.client.post("/api/permohonan-surat/pesanan-surat-akademik/create/",
+        response = self.client.post("/api/permohonan-surat/pesanan/create/",
                                     data=data, format="json")
         self.assertEqual(response.status_code, 400)
 
@@ -262,18 +262,18 @@ class PesanSuratAkademikTest(TestCase):
         }
 
         self.client.credentials(HTTP_AUTHORIZATION="Bearer " + self.token_mahasiswa)
-        response = self.client.post("/api/permohonan-surat/pesanan-surat-akademik/create/",
+        response = self.client.post("/api/permohonan-surat/pesanan/create/",
                                     data=data, format="json")
         self.assertEqual(response.status_code, 400)
 
     def test_mahasiswa_can_create_surat_akademik(self):
         self.client.credentials(HTTP_AUTHORIZATION="Bearer " + self.token_mahasiswa)
-        response = self.client.post("/api/permohonan-surat/pesanan-surat-akademik/create/",
+        response = self.client.post("/api/permohonan-surat/pesanan/create/",
                                     data=self.valid_data, format="json")
         self.assertEqual(response.status_code, 200)
 
     def test_alumni_can_create_surat_akademik(self):
         self.client.credentials(HTTP_AUTHORIZATION="Bearer " + self.token_alumni)
-        response = self.client.post("/api/permohonan-surat/pesanan-surat-akademik/create/",
+        response = self.client.post("/api/permohonan-surat/pesanan/create/",
                                     data=self.valid_data, format="json")
         self.assertEqual(response.status_code, 200)
