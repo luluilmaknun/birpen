@@ -58,9 +58,10 @@ const router = new Router({
       pathToRegexpOptions: {strict: true},
     },
     {
-      path: '/surat/tracking/detailPengajuanSurat/',
+      path: '/surat/tracking/:pk_key/detailPengajuanSurat/',
       name: 'detail-pengajuan-surat',
       component: DetailPengajuanSurat,
+      props: true,
       meta: {
         requiresAuth: true,
       },
