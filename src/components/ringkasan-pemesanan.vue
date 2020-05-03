@@ -13,12 +13,12 @@
           </th>
         </tr>
 
-        <tr v-for="pesanan in surat_akademik">
+        <tr v-for="pesanan in surat_akademik" :key="pesanan.id">
           <td class="jenis_dokumen">
             {{ pesanan.jenis_dokumen }}
           </td>
           <td class="harga">
-            Rp. {{ pesanan.harga }}
+            Rp. {{ list_harga[pesanan.jenis_dokumen] }}
           </td>
           <td class="jumlah">
             {{ pesanan.jumlah }}
@@ -42,7 +42,8 @@ export default {
   name: 'RingkasanPemesanan',
   props: {
     surat_akademik: Object,
-    jumlah_harga: String,
+    list_harga: Object,
+    jumlah_harga: Number,
   },
   data: function() {
     return {
