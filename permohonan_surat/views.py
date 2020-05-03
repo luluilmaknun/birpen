@@ -13,7 +13,8 @@ from rest_framework.status import (
 
 from .models import Pesanan, PesananSuratAkademik, SuratAkademik
 from .permissions import IsPrivilegedToRequestAcademicLetter, \
-    IsPrivilegedToGetMahasiswaProfile
+    IsPrivilegedToAccessAcademicLetter, IsPrivilegedToGetMahasiswaProfile
+from .serializers import SuratAkademikSerializer
 
 
 @api_view(["GET"])
@@ -60,6 +61,19 @@ def create_pesanan_surat_akademik(request):
 
     return Response({
         "success": True,
+    }, status=HTTP_200_OK)
+
+@api_view(["GET"])
+@permission_classes((IsAuthenticated, IsPrivilegedToAccessAcademicLetter,))
+def read_surat_akademik(_):
+    surat_akademik = SuratAkademik.objects.all().order_by('jenis_dokumen')
+
+    surat_akademik_serialized = \
+        (SuratAkademikSerializer(surat).data for surat in surat_akademik)
+
+    return Response({
+        "success": True,
+        "surat_akademik": surat_akademik_serialized
     }, status=HTTP_200_OK)
 
 @csrf_exempt
