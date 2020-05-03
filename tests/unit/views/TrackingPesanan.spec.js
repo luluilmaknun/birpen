@@ -20,10 +20,6 @@ describe('Cek komponen tabel', () => {
     expect(wrapper.find('#status_bayar').exists()).toBe(true);
   });
 
-  it('Tes kolom status surat', () => {
-    expect(wrapper.find('#status_surat').exists()).toBe(true);
-  });
-
   it('Tes kolom aksi', () => {
     expect(wrapper.find('#aksi').exists()).toBe(true);
   });
