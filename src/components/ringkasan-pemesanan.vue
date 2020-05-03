@@ -13,7 +13,7 @@
           </th>
         </tr>
 
-        <tr v-for="pesanan in surat_akademik" :key="pesanan.id">
+        <tr v-for="pesanan in surat_akademik">
           <td class="jenis_dokumen">
             {{ pesanan.jenis_dokumen }}
           </td>
