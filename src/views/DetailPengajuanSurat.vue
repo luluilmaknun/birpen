@@ -14,7 +14,7 @@
         </div>
       </div>
       <!-- table -->
-      <div class="table-div">
+      <div class="table-tracking-div">
         <table>
           <tr>
             <th id="table-header" class="head-table">
@@ -25,12 +25,13 @@
             </th>
           </tr>
 
-          <tr v-for="content in listSurat" :key="content.nama_surat">
+          <tr v-for="content in listSuratTransfered"
+          :key="content.status_surat">
             <td id="nama_surat">
-              {{ content.nama_surat }}
+              {{ content.surat_akademik }}
             </td>
             <td id="nama_status_surat">
-              {{ content.nama_status_surat }}
+              {{ content.status_surat }}
             </td>
           </tr>
         </table>
@@ -40,7 +41,12 @@
 </template>
 
 <script>
+import trackingPesananApi from '@/services/trackingPesananServices.js';
+
 export default {
+  created: function() {
+
+  },
   data: function() {
     return {
       profileDetail: {
@@ -48,7 +54,9 @@ export default {
         npm: '1706075022',
         id_pesanan: 'OD1FC',
       },
-      listSurat: [
+      response: {},
+      listPesanan: [],
+      DUMMY_DATA: [
         {
           nama_surat: 'Transkrip nilai',
           nama_status_surat: 'Menunggu paraf dari Wakil Dekan',
@@ -59,6 +67,13 @@ export default {
         },
       ],
     };
+  },
+  methods: {
+    fetchPesanan() {
+      trackingPesananApi.getTrackingPesanan().then((result) => {
+        this.response = result;
+      });
+    },
   },
 };
 </script>
@@ -81,14 +96,14 @@ export default {
   margin-right: 10px;
 }
 /* table styling */
-.table-div {
+.table-tracking-div {
   width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
   margin-top: 30px;
 }
-.table-div table {
+.table-tracking-div table {
   border-radius: 1em;
   text-align: center;
   overflow: hidden;
