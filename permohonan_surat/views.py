@@ -29,8 +29,16 @@ def permohonan_surat_placeholder_views(_):
 def create_pesanan_surat_akademik(request):
     pesanan = Pesanan()
     try:
-        pesanan.nama_pemesan = request.data.get('nama_pemesan')
-        pesanan.npm_pemesan = request.data.get('npm_pemesan')
+        pesanan.pemesan = request.user
+
+        if pesanan.pemesan.is_mahasiswa():
+            pesanan.nama_pemesan = \
+                pesanan.pemesan.first_name + ' ' + pesanan.pemesan.last_name
+            pesanan.npm_pemesan = pesanan.pemesan.profile.npm
+        else:
+            pesanan.nama_pemesan = request.data.get('nama_pemesan')
+            pesanan.npm_pemesan = request.data.get('npm_pemesan')
+
         pesanan.save()
 
         for surat in request.data.get('surat_akademik'):
