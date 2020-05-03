@@ -1,8 +1,11 @@
 from django.contrib.auth import get_user_model
 from django.db import models
+from django.core.validators import MinValueValidator
 
 User = get_user_model()
 
+DEFAULT_STATUS_BAYAR = 1
+DEFAULT_STATUS_SURAT = 1
 
 class StatusBayar(models.Model):
     nama = models.CharField(max_length=64, null=False, blank=False, unique=True)
@@ -39,7 +42,8 @@ class Pesanan(models.Model):
     nama_pemesan = models.CharField(max_length=64)
     npm_pemesan = models.CharField(max_length=10)
     waktu_pemesanan = models.DateTimeField(auto_now_add=True)
-    status_bayar = models.ForeignKey(StatusBayar, on_delete=models.CASCADE)
+    status_bayar = models.ForeignKey(StatusBayar, on_delete=models.CASCADE,
+                                     default=DEFAULT_STATUS_BAYAR)
 
     class Meta:
         verbose_name = 'pesanan'
@@ -49,8 +53,10 @@ class Pesanan(models.Model):
 class PesananSuratAkademik(models.Model):
     pesanan = models.ForeignKey(Pesanan, on_delete=models.CASCADE)
     surat_akademik = models.ForeignKey(SuratAkademik, on_delete=models.CASCADE)
-    status_surat = models.ForeignKey(StatusSurat, on_delete=models.CASCADE)
-    jumlah = models.PositiveIntegerField(null=False, blank=False, default=0)
+    status_surat = models.ForeignKey(StatusSurat, on_delete=models.CASCADE,
+                                     default=DEFAULT_STATUS_SURAT)
+    jumlah = models.PositiveIntegerField(null=False, blank=False,
+                                         validators=[MinValueValidator(1)])
 
     class Meta:
         verbose_name = 'pesanan surat akademik'
