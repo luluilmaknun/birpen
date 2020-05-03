@@ -51,11 +51,11 @@ export default {
       listSurat: [
         {
           nama_surat: 'Transkrip nilai',
-          nama_status_surat: 'Belum Bayar',
+          nama_status_surat: 'Menunggu paraf dari Wakil Dekan',
         },
         {
           nama_surat: 'Keterangan Mahasiswa FIB UI',
-          nama_status_surat: 'Lunas',
+          nama_status_surat: 'Selesai',
         },
       ],
     };
