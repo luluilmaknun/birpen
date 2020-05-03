@@ -36,6 +36,7 @@
 </template>
 
 <script>
+import trackingPesananApi from '@/services/trackingPesananServices.js';
 export default {
   data: function() {
     return {
@@ -43,6 +44,8 @@ export default {
         'ID Pesanan', 'Nama Mahasiswa', 'NPM Mahasiswa',
         'Waktu Pemesanan', 'Status Bayar', 'Aksi',
       ],
+      response: {},
+      trackingList: [],
       DUMMY_DATA: [
         {
           pk: 101,
@@ -108,7 +111,16 @@ export default {
 
   },
   methods: {
-
+    fetchTrackingPesanan: function() {
+      trackingPesananApi.getTrackingPesanan().then((result) => {
+        this.response = result.data;
+      })
+    },
+    responseToList: function(theResponse, theList) {
+      for (let i = 0; i < theResponse.length; i++) {
+        this.$set(theList, i, theResponse[i]);
+      }
+    },
   },
 };
 </script>
