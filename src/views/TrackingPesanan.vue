@@ -24,9 +24,6 @@
           <td id="status_bayar">
             {{ data.status_bayar }}
           </td>
-          <td id="status_surat">
-            {{ data.status_surat }}
-          </td>
           <td id="aksi">
             <button class="detail-button">
               Detail
@@ -44,7 +41,7 @@ export default {
     return {
       tableHead: [
         'ID Pesanan', 'Nama Mahasiswa', 'NPM Mahasiswa',
-        'Waktu Pemesanan', 'Status Bayar', 'Status Surat', 'Aksi',
+        'Waktu Pemesanan', 'Status Bayar', 'Aksi',
       ],
       DUMMY_DATA: [
         {
@@ -53,7 +50,6 @@ export default {
           npm_mahasiswa: '1706075022',
           waktu_pemesanan: '2 Januari 2020',
           status_bayar: 'Lunas',
-          status_surat: 'Menunggu paraf manager pendidikan',
         },
         {
           id_pesanan: 102,
@@ -69,7 +65,6 @@ export default {
           npm_mahasiswa: '1704052130',
           waktu_pemesanan: '4 Maret 2020',
           status_bayar: 'Belum Lunas',
-          status_surat: 'Menunggu paraf manager pendidikan',
         },
       ],
     };
