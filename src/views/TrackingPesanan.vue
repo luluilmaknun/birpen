@@ -25,7 +25,8 @@
             {{ data.status_bayar }}
           </td>
           <td id="aksi">
-            <button class="detail-button">
+            <button v-on:click="showDetailPage(data.pk)"
+            class="detail-button">
               Detail
             </button>
           </td>
@@ -121,6 +122,9 @@ export default {
         this.$set(theList, i, theResponse[i]);
       }
     },
+    showDetailPage: function(pk) {
+      this.$router.push('/surat/tracking/' + pk + '/detailPengajuanSurat/');
+    }
   },
 };
 </script>
