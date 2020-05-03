@@ -39,6 +39,7 @@ class SuratAkademik(models.Model):
 
 
 class Pesanan(models.Model):
+    pemesan = models.ForeignKey(User, on_delete=models.CASCADE)
     nama_pemesan = models.CharField(max_length=64)
     npm_pemesan = models.CharField(max_length=10)
     waktu_pemesanan = models.DateTimeField(auto_now_add=True)
