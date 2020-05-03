@@ -10,11 +10,8 @@ import MainMenuSurat from '@/views/MainMenuSurat.vue';
 import AdminPage from '@/views/AdminPage.vue';
 import Register from '@/views/Register.vue';
 import AlumniPage from '@/views/AlumniPage.vue';
-<<<<<<< HEAD
 import DetailPengajuanSurat from '@/views/DetailPengajuanSurat.vue';
-=======
 import TrackingPesanan from '@/views/TrackingPesanan.vue';
->>>>>>> athallah.annafis/88
 
 Vue.use(Router);
 
