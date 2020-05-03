@@ -1,5 +1,4 @@
 from rest_framework import serializers
-
 from permohonan_surat.models import StatusBayar
 
 
