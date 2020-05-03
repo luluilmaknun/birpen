@@ -1,5 +1,4 @@
 from django.contrib.auth import get_user_model
-from django.utils.datastructures import MultiValueDict
 from django.utils.http import urlencode
 from django.test import TestCase
 
@@ -36,113 +35,103 @@ class UpdateSuratTest(TestCase):
         StatusBayar.objects.create(nama="Lunas")
 
         status_surat_proses = StatusSurat.objects.create(nama="Sedang diproses")
-        StatusSurat.objects.create(nama="Selesai")
+        status_surat_selesai = StatusSurat.objects.create(nama="Selesai")
 
-        surat_akademik = SuratAkademik.objects.create(
-            jenis_dokumen="Surat Ket. Ijazah/Transkrip Hilang",
+        self.jenis_dokumen_1 = "Daftar Nilai Semester"
+        self.jenis_dokumen_2 = "Legalisasi Transkrip Nilai"
+
+        surat_akademik_1 = SuratAkademik.objects.create(
+            jenis_dokumen=self.jenis_dokumen_1,
+            harga_mahasiswa=0,
+            harga_alumni=5000,
+        )
+
+        surat_akademik_2 = SuratAkademik.objects.create(
+            jenis_dokumen=self.jenis_dokumen_2,
             harga_mahasiswa=0,
             harga_alumni=5000,
         )
 
         pesanan_mahasiswa = Pesanan.objects.create(
+            pemesan=user_mahasiswa,
             nama_pemesan="muhammad fauzan",
             npm_pemesan="1707584930",
             waktu_pemesanan="2020-04-29T12:44:18Z",
             status_bayar=status_bayar_belom
         )
+        self.id_pesanan_mahasiswa = pesanan_mahasiswa.pk
 
         pesanan_alumni = Pesanan.objects.create(
+            pemesan=user_alumni,
             nama_pemesan="annida safira",
             npm_pemesan="1703827383",
             waktu_pemesanan="2020-05-29T12:44:18Z",
             status_bayar=status_bayar_belom
         )
+        self.id_pesanan_alumni = pesanan_alumni.pk
 
-        pesanan_surat_akademik_mahasiswa = PesananSuratAkademik.objects.create(
+        PesananSuratAkademik.objects.create(
             pesanan=pesanan_mahasiswa,
-            surat_akademik=surat_akademik,
+            surat_akademik=surat_akademik_1,
             status_surat=status_surat_proses,
             jumlah=1
         )
-        self.pk_pesanan_surat_mahasiswa = pesanan_surat_akademik_mahasiswa.pk
+        PesananSuratAkademik.objects.create(
+            pesanan=pesanan_mahasiswa,
+            surat_akademik=surat_akademik_2,
+            status_surat=status_surat_selesai,
+            jumlah=3
+        )
 
-        pesanan_surat_akademik_alumni = PesananSuratAkademik.objects.create(
+        PesananSuratAkademik.objects.create(
             pesanan=pesanan_alumni,
-            surat_akademik=surat_akademik,
+            surat_akademik=surat_akademik_2,
             status_surat=status_surat_proses,
-            jumlah=1
+            jumlah=3
         )
-        self.pk_pesanan_surat_alumni = pesanan_surat_akademik_alumni.pk
+
+        self.api = '/api/permohonan-surat/'
+        self.url_update = 'pesanan/{}/surat-akademik/{}/update-status/'
 
     def test_update_without_authentication(self):
-        response = self.client.patch('/api/permohonan-surat/1/update-pesanan/',
-                                     content_type='application/x-www-form-urlencoded')
+        url_request = self.api + self.url_update.format(
+            self.id_pesanan_mahasiswa, self.jenis_dokumen_1)
+        response = self.client.patch(url_request, content_type='application/x-www-form-urlencoded')
         self.assertEqual(response.data['detail'], 'Authentication credentials were not provided.')
         self.assertEqual(response.status_code, 401)
 
-    def test_surat_notfound(self):
+    def test_update_pesanan_notfound(self):
+        url_request = self.api + self.url_update.format('8009', self.jenis_dokumen_1)
         self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + self.token_admin)
-        response = self.client.patch('/api/permohonan-surat/100/update-pesanan/',
-                                     content_type='application/x-www-form-urlencoded')
-        self.assertEqual(response.data['detail'], 'Surat/status tidak ditemukan.')
+        response = self.client.patch(url_request, content_type='application/x-www-form-urlencoded')
+        self.assertEqual(response.data['detail'],
+                         'Pesanan surat/jenis dokumen akademik tidak ditemukan.')
         self.assertEqual(response.status_code, 400)
 
-    def test_status_bayar_notfound(self):
+    def test_update_jenis_dokumen_notfound(self):
+        url_request = self.api + self.url_update.format(self.id_pesanan_mahasiswa, 'surat cinta')
         self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + self.token_admin)
-        response = self.client.patch(
-            '/api/permohonan-surat/{}/update-pesanan/'.format(self.pk_pesanan_surat_mahasiswa),
-            data=urlencode(MultiValueDict({
-                'status_bayar': "Ngutang",
-                'status_surat': "Selesai",
-            })),
-            content_type='application/x-www-form-urlencoded')
-        self.assertEqual(response.data['detail'], 'Surat/status tidak ditemukan.')
+        response = self.client.patch(url_request, content_type='application/x-www-form-urlencoded')
+        self.assertEqual(response.data['detail'],
+                         'Pesanan surat/jenis dokumen akademik tidak ditemukan.')
         self.assertEqual(response.status_code, 400)
 
-    def test_status_surat_notfound(self):
-        self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + self.token_admin)
-        response = self.client.patch(
-            '/api/permohonan-surat/{}/update-pesanan/'.format(self.pk_pesanan_surat_mahasiswa),
-            data=urlencode(MultiValueDict({
-                'status_bayar': "Lunas",
-                'status_surat': "Tunda",
-            })),
-            content_type='application/x-www-form-urlencoded')
-        self.assertEqual(response.data['detail'], 'Surat/status tidak ditemukan.')
-        self.assertEqual(response.status_code, 400)
+    def test_update_by_non_admin_fail(self):
+        url_request = self.api + self.url_update.format(
+            self.id_pesanan_mahasiswa, self.jenis_dokumen_1)
+        self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + self.token_mahasiswa)
+        response = self.client.patch(url_request, content_type='application/x-www-form-urlencoded')
+        self.assertEqual(response.status_code, 403)
 
-    def test_admin_success_update(self):
+        self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + self.token_alumni)
+        response = self.client.patch(url_request, content_type='application/x-www-form-urlencoded')
+        self.assertEqual(response.status_code, 403)
+
+    def test_update_by_admin_success(self):
+        url_request = self.api + self.url_update.format(
+            self.id_pesanan_mahasiswa, self.jenis_dokumen_1)
         self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + self.token_admin)
-        response = self.client.patch(
-            '/api/permohonan-surat/{}/update-pesanan/'.format(self.pk_pesanan_surat_mahasiswa),
-            data=urlencode(MultiValueDict({
-                'status_bayar': "Lunas",
-                'status_surat': "Selesai",
-            })),
-            content_type='application/x-www-form-urlencoded')
+        response = self.client.patch(url_request, data=urlencode({
+            'status_surat':'Lunas'}), content_type='application/x-www-form-urlencoded')
         self.assertEqual(response.data['success'], True)
         self.assertEqual(response.status_code, 200)
-
-    def test_mahasiswa_fail_update(self):
-        self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + self.token_mahasiswa)
-        response = self.client.patch(
-            '/api/permohonan-surat/{}/update-pesanan/'.format(self.pk_pesanan_surat_mahasiswa),
-            data=urlencode(MultiValueDict({
-                'status_bayar': "Lunas",
-                'status_surat': "Selesai",
-            })),
-            content_type='application/x-www-form-urlencoded')
-        self.assertEqual(response.data['detail'], "Tidak memiliki hak untuk mengupdate surat.")
-        self.assertEqual(response.status_code, 403)
-
-    def test_alumni_fail_update(self):
-        self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + self.token_alumni)
-        response = self.client.patch(
-            '/api/permohonan-surat/{}/update-pesanan/'.format(self.pk_pesanan_surat_alumni),
-            data=urlencode(MultiValueDict({
-                'status_bayar': "Lunas",
-                'status_surat': "Selesai",
-            })),
-            content_type='application/x-www-form-urlencoded')
-        self.assertEqual(response.data['detail'], "Tidak memiliki hak untuk mengupdate surat.")
-        self.assertEqual(response.status_code, 403)
