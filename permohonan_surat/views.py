@@ -1,5 +1,5 @@
 from django.db.utils import IntegrityError, DataError
-from django.core.exceptions import ObjectDoesNotExist
+from django.core.exceptions import ObjectDoesNotExist, FieldError
 from django.core.validators import ValidationError
 from django.views.decorators.csrf import csrf_exempt
 
@@ -7,14 +7,13 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.status import (
-    HTTP_403_FORBIDDEN,
     HTTP_400_BAD_REQUEST,
     HTTP_200_OK,
 )
 
-from .models import Pesanan, PesananSuratAkademik, SuratAkademik, \
-    StatusSurat, StatusBayar
-from .permissions import IsPrivilegedToRequestAcademicLetter
+from .models import Pesanan, PesananSuratAkademik, SuratAkademik
+from .permissions import IsPrivilegedToRequestAcademicLetter, \
+    IsPrivilegedToEditSurat
 
 
 @api_view(["GET"])
@@ -64,28 +63,22 @@ def create_pesanan_surat_akademik(request):
     }, status=HTTP_200_OK)
 
 @api_view(["PATCH"])
-@permission_classes((IsAuthenticated,))
-def update_status_pesanan(request, key):
+@permission_classes((IsAuthenticated, IsPrivilegedToEditSurat,))
+def update_status_surat(request, id_pesanan, jenis_dokumen):
 
-    status_bayar = request.data.get('status_bayar')
     status_surat = request.data.get('status_surat')
 
     try:
-        if not request.user.is_admin():
-            return Response({
-                'detail': 'Tidak memiliki hak untuk mengupdate surat.'
-            }, status=HTTP_403_FORBIDDEN)
+        psa = PesananSuratAkademik.objects.get(
+            pesanan=id_pesanan,
+            surat_akademik__jenis_dokumen=jenis_dokumen,
+        )
+        psa.status_surat.nama = status_surat
+        psa.save()
 
-        pesanan = PesananSuratAkademik.objects.get(pk=key)
-        pesanan.pesanan.status_bayar = StatusBayar.objects.get(nama=status_bayar)
-        pesanan.pesanan.save()
-
-        pesanan.status_surat = StatusSurat.objects.get(nama=status_surat)
-        pesanan.save()
-
-    except ObjectDoesNotExist:
+    except (ObjectDoesNotExist, FieldError):
         return Response({
-            'detail': 'Surat/status tidak ditemukan.'
+            'detail': 'Pesanan surat/jenis dokumen akademik tidak ditemukan.'
         }, status=HTTP_400_BAD_REQUEST)
 
     return Response({
