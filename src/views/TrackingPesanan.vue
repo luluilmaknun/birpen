@@ -50,6 +50,18 @@ export default {
           npm_pemesan: '1706075022',
           waktu_pemesanan: '2 Januari 2020',
           status_bayar: 'Lunas',
+          pesanan_surat_akademik: [
+            {
+              surat_akademik: 'Transkrip Nilai',
+              status_surat: 'Menunggu paraf Wakil Dekan',
+              jumlah: 2,
+            },
+            {
+              surat_akademik: 'Keterangan Mahasiswa FEB UI',
+              status_surat: 'Selesai',
+              jumlah: 1,
+            },
+          ],
         },
         {
           pk: 102,
@@ -57,6 +69,18 @@ export default {
           npm_pemesan: '1706075042',
           waktu_pemesanan: '3 Februari 2020',
           status_bayar: 'Lunas',
+          pesanan_surat_akademik: [
+            {
+              surat_akademik: 'Transkrip Nilai',
+              status_surat: 'Menunggu paraf Wakil Dekan',
+              jumlah: 2,
+            },
+            {
+              surat_akademik: 'Keterangan Mahasiswa FEB UI',
+              status_surat: 'Selesai',
+              jumlah: 1,
+            },
+          ],
         },
         {
           pk: 103,
@@ -64,6 +88,18 @@ export default {
           npm_pemesan: '1704052130',
           waktu_pemesanan: '4 Maret 2020',
           status_bayar: 'Belum Lunas',
+          pesanan_surat_akademik: [
+            {
+              surat_akademik: 'Transkrip Nilai',
+              status_surat: 'Menunggu paraf Wakil Dekan',
+              jumlah: 2,
+            },
+            {
+              surat_akademik: 'Keterangan Mahasiswa FEB UI',
+              status_surat: 'Selesai',
+              jumlah: 1,
+            },
+          ],
         },
       ],
     };
