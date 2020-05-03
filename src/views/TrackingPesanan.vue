@@ -9,14 +9,14 @@
           </th>
         </tr>
         <tr v-for="data in DUMMY_DATA" :key="data.id">
-          <td id="id_pesanan">
-            {{ data.id_pesanan }}
+          <td id="pk">
+            {{ data.pk }}
           </td>
-          <td id="nama_mahasiswa">
-            {{ data.nama_mahasiswa }}
+          <td id="nama_pemesan">
+            {{ data.nama_pemesan }}
           </td>
-          <td id="npm_mahasiswa">
-            {{ data.npm_mahasiswa }}
+          <td id="npm_pemesan">
+            {{ data.npm_pemesan }}
           </td>
           <td id="waktu_pemesanan">
             {{ data.waktu_pemesanan }}
@@ -45,23 +45,23 @@ export default {
       ],
       DUMMY_DATA: [
         {
-          id_pesanan: 101,
-          nama_mahasiswa: 'Athallah Annafis',
-          npm_mahasiswa: '1706075022',
+          pk: 101,
+          nama_pemesan: 'Athallah Annafis',
+          npm_pemesan: '1706075022',
           waktu_pemesanan: '2 Januari 2020',
           status_bayar: 'Lunas',
         },
         {
-          id_pesanan: 102,
-          nama_mahasiswa: 'Julia Ningrum',
-          npm_mahasiswa: '1706075042',
+          pk: 102,
+          nama_pemesan: 'Julia Ningrum',
+          npm_pemesan: '1706075042',
           waktu_pemesanan: '3 Februari 2020',
           status_bayar: 'Lunas',
         },
         {
-          id_pesanan: 103,
-          nama_mahasiswa: 'Yusuf Tri Ardho',
-          npm_mahasiswa: '1704052130',
+          pk: 103,
+          nama_pemesan: 'Yusuf Tri Ardho',
+          npm_pemesan: '1704052130',
           waktu_pemesanan: '4 Maret 2020',
           status_bayar: 'Belum Lunas',
         },
