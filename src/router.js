@@ -10,6 +10,7 @@ import MainMenuSurat from '@/views/MainMenuSurat.vue';
 import AdminPage from '@/views/AdminPage.vue';
 import Register from '@/views/Register.vue';
 import AlumniPage from '@/views/AlumniPage.vue';
+import DetailPengajuanSurat from '@/views/DetailPengajuanSurat.vue';
 
 Vue.use(Router);
 
@@ -50,6 +51,15 @@ const router = new Router({
       path: '/surat/tracking/',
       name: 'tracking-surat',
       component: null,
+      meta: {
+        requiresAuth: true,
+      },
+      pathToRegexpOptions: {strict: true},
+    },
+    {
+      path: '/surat/tracking/detailPengajuanSurat/',
+      name: 'detail-pengajuan-surat',
+      component: DetailPengajuanSurat,
       meta: {
         requiresAuth: true,
       },
