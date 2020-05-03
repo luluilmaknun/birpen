@@ -1,5 +1,5 @@
 from django.db.utils import IntegrityError, DataError
-from django.core.exceptions import ObjectDoesNotExist
+from django.core.exceptions import ObjectDoesNotExist, FieldError
 from django.core.validators import ValidationError
 from django.views.decorators.csrf import csrf_exempt
 
@@ -82,6 +82,29 @@ def create_pesanan_surat_akademik(request):
         return Response({
             "success": False,
             'detail': 'Data tidak valid',
+        }, status=HTTP_400_BAD_REQUEST)
+
+    return Response({
+        "success": True,
+    }, status=HTTP_200_OK)
+
+@api_view(["PATCH"])
+@permission_classes((IsAuthenticated, IsPrivilegedToUpdateAcademicLetterStatus,))
+def update_status_surat(request, id_pesanan, jenis_dokumen):
+
+    status_surat = request.data.get('status_surat')
+
+    try:
+        psa = PesananSuratAkademik.objects.get(
+            pesanan=id_pesanan,
+            surat_akademik__jenis_dokumen=jenis_dokumen,
+        )
+        psa.status_surat.nama = status_surat
+        psa.save()
+
+    except (ObjectDoesNotExist, FieldError):
+        return Response({
+            'detail': 'Pesanan surat/jenis dokumen akademik tidak ditemukan.'
         }, status=HTTP_400_BAD_REQUEST)
 
     return Response({
