@@ -29,8 +29,8 @@
             <td id="nama_surat">
               {{ content.nama_surat }}
             </td>
-            <td id="nama_status">
-              {{ content.nama_status }}
+            <td id="nama_status_surat">
+              {{ content.nama_status_surat }}
             </td>
           </tr>
         </table>
@@ -51,11 +51,11 @@ export default {
       listSurat: [
         {
           nama_surat: 'Transkrip nilai',
-          nama_status: 'Belum Bayar',
+          nama_status_surat: 'Belum Bayar',
         },
         {
           nama_surat: 'Keterangan Mahasiswa FIB UI',
-          nama_status: 'Lunas',
+          nama_status_surat: 'Lunas',
         },
       ],
     };
