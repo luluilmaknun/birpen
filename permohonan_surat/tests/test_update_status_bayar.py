@@ -37,7 +37,8 @@ class UpdateStatusBayarTest(TestCase):
             harga_mahasiswa=0, harga_alumni=5000
         )
 
-        self.pesanan = Pesanan.objects.create(pk=1, nama_pemesan="Ahmad Fauzan",
+        self.pesanan = Pesanan.objects.create(pk=1, pemesan=user_non_admin,
+                                              nama_pemesan="Ahmad Fauzan",
                                               npm_pemesan=1706979322,
                                               status_bayar=self.status_belum_bayar)
 
