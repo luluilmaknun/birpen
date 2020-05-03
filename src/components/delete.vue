@@ -42,7 +42,7 @@ export default {
             window.location.pathname='/pengumuman/';
           },
           (error) => {
-            this.error=error;
+            this.error = error.response.data.detail;
           });
     },
   },

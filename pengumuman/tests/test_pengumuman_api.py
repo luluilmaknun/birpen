@@ -99,7 +99,7 @@ class PengumumanApiTest(TestCase):
                                    content_type='application/x-www-form-urlencoded')
 
         self.assertEqual(response.status_code, 400)
-        self.assertEqual(response.data['detail'], 'Pengumuman does not exist.')
+        self.assertEqual(response.data['detail'], 'Data Pengumuman tidak ditemukan')
 
     def test_fail_edit_because_not_enough_privileges(self):
         self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + self.token_1)
@@ -108,7 +108,7 @@ class PengumumanApiTest(TestCase):
                                    content_type='application/x-www-form-urlencoded')
 
         self.assertEqual(response.status_code, 403)
-        self.assertEqual(response.data['detail'], 'Not enough privileges.')
+        self.assertEqual(response.data['detail'], 'Tidak punya wewenang untuk mengubah')
 
     def test_fail_edit_because_invalid_data(self):
         self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + self.token_3)
@@ -122,7 +122,7 @@ class PengumumanApiTest(TestCase):
                                    content_type='application/x-www-form-urlencoded')
 
         self.assertEqual(response.status_code, 400)
-        self.assertEqual(response.data['detail'], 'Invalid data.')
+        self.assertEqual(response.data['detail'], 'Data tidak valid')
 
     def test_success_edit_admin_non_creator(self):
         self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + self.token_2)
@@ -181,7 +181,7 @@ class PengumumanApiTest(TestCase):
         response = self.client.get('/api/pengumuman/{}/'.format(10000))
 
         self.assertEqual(response.status_code, 400)
-        self.assertEqual(response.data['detail'], 'Pengumuman does not exist.')
+        self.assertEqual(response.data['detail'], 'Data Pengumuman tidak ditemukan')
 
     def test_success_get_pengumuman_non_admin(self):
         self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + self.token_3)
@@ -206,4 +206,4 @@ class PengumumanApiTest(TestCase):
         response = self.client.get('/api/pengumuman/{}/'.format(self.pengumuman_pk))
 
         self.assertEqual(response.status_code, 400)
-        self.assertEqual(response.data['detail'], 'Pengumuman does not exist.')
+        self.assertEqual(response.data['detail'], 'Data Pengumuman tidak ditemukan')

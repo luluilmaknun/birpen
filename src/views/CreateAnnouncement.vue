@@ -229,7 +229,7 @@ export default {
       announcementApi.editAnnouncement(pk, request).then((d) => {
         this.$router.push('/pengumuman/');
       }).catch((error) => {
-        this.error_message = 'Ada kendala error';
+        this.error_message = error.response.data.detail;
         this.error_message_seen = true;
       });
     },
@@ -237,7 +237,7 @@ export default {
       announcementApi.createAnnouncement(request).then((d) => {
         this.$router.push('/pengumuman/');
       }).catch((error) => {
-        this.error_message = 'Ada kendala error';
+        this.error_message = error.response.data.detail;
         this.error_message_seen = true;
       });
     },

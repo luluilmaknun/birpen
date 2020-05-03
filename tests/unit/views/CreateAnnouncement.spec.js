@@ -156,6 +156,28 @@ describe('Tes create data function', () => {
     expect(wrapper.vm.error_message_seen).toBe(true);
     expect(wrapper.vm.error_message).toBe('Kelas sudah lampau');
   });
+
+  it('Test create data error from backend', () => {
+    const error = new Error('error');
+
+    error.response = {
+      status: 400,
+      data: {
+        success: false,
+        detail: 'Tidak punya wewenang untuk membuat',
+      },
+    };
+
+    announcementApi.createAnnouncement = jest.fn(() =>
+      Promise.reject(error));
+
+    vm.validateData();
+    vm.$nextTick(() => {
+      expect(wrapper.vm.error_message_seen).toBe(true);
+      expect(wrapper.vm.error_message)
+          .toBe('Tidak punya wewenang untuk membuat');
+    });
+  });
 });
 
 describe('Edit function', () => {
@@ -416,5 +438,45 @@ describe('Edit function', () => {
     vm.getAnnouncementData();
     expect(wrapper.find('#nama_dosen').element.value)
         .toBe('');
+  });
+
+  it('Test edit data error from backend', () => {
+    const wrapper = shallowMount(CreateAnnouncement, {
+      'propsData': {
+        edit: true,
+      },
+      data() {
+        return {
+          'jenis_pengumuman': 'Asistensi',
+          'tanggal_kelas': '2200-03-30',
+          'nama_mata_kuliah': 'Aljabar Linier',
+          'nama_dosen': 'Lulu Ilmaknun',
+          'nama_asisten': 'Lulz',
+          'nama_sesi': 'Sesi 2 (11.00 - 13.30)',
+          'nama_ruang': '3111',
+          'nama_status_pengumuman': 'Terlambat',
+        };
+      },
+    });
+    const vm = wrapper.vm;
+
+    const error = new Error('error');
+    error.response = {
+      status: 400,
+      data: {
+        success: false,
+        detail: 'Tidak punya wewenang untuk mengubah',
+      },
+    };
+
+    announcementApi.editAnnouncement = jest.fn(() =>
+      Promise.reject(error));
+
+    vm.validateData();
+    vm.$nextTick(() => {
+      expect(wrapper.vm.error_message)
+          .toBe('Tidak punya wewenang untuk mengubah');
+      expect(wrapper.vm.error_message_seen).toBe(true);
+    });
   });
 });
