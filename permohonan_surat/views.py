@@ -13,7 +13,7 @@ from rest_framework.status import (
 
 from .models import Pesanan, PesananSuratAkademik, SuratAkademik
 from .permissions import IsPrivilegedToRequestAcademicLetter, \
-    IsPrivilegedToAccessAcademicLetter
+    IsPrivilegedToAccessAcademicLetter, IsPrivilegedToGetMahasiswaProfile
 from .serializers import SuratAkademikSerializer
 
 
@@ -31,8 +31,16 @@ def permohonan_surat_placeholder_views(_):
 def create_pesanan_surat_akademik(request):
     pesanan = Pesanan()
     try:
-        pesanan.nama_pemesan = request.data.get('nama_pemesan')
-        pesanan.npm_pemesan = request.data.get('npm_pemesan')
+        pesanan.pemesan = request.user
+
+        if pesanan.pemesan.is_mahasiswa():
+            pesanan.nama_pemesan = \
+                pesanan.pemesan.first_name + ' ' + pesanan.pemesan.last_name
+            pesanan.npm_pemesan = pesanan.pemesan.profile.npm
+        else:
+            pesanan.nama_pemesan = request.data.get('nama_pemesan')
+            pesanan.npm_pemesan = request.data.get('npm_pemesan')
+
         pesanan.save()
 
         for surat in request.data.get('surat_akademik'):
@@ -66,4 +74,16 @@ def read_surat_akademik(_):
     return Response({
         "success": True,
         "surat_akademik": surat_akademik_serialized
+    }, status=HTTP_200_OK)
+
+@csrf_exempt
+@api_view(["GET"])
+@permission_classes((IsAuthenticated, IsPrivilegedToGetMahasiswaProfile,))
+def get_mahasiswa_profile(request):
+
+    return Response({
+        "mahasiswa": {
+            "nama": request.user.first_name + " " + request.user.last_name,
+            "npm": request.user.profile.npm,
+        }
     }, status=HTTP_200_OK)

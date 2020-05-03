@@ -1,11 +1,14 @@
 from django.test import TestCase
 from django.db import IntegrityError
+from django.contrib.auth import get_user_model
 
 from permohonan_surat.models import SuratAkademik
 from permohonan_surat.models import Pesanan
 from permohonan_surat.models import StatusSurat
 from permohonan_surat.models import StatusBayar
 from permohonan_surat.models import PesananSuratAkademik
+
+User = get_user_model()
 
 
 class PesananSuratAkademikTest(TestCase):
@@ -14,8 +17,10 @@ class PesananSuratAkademikTest(TestCase):
                                                            harga_mahasiswa=0, harga_alumni=10000)
 
         status_bayar = StatusBayar.objects.create(nama='Lunas')
-        self.pesanan = Pesanan.objects.create(nama_pemesan='Lunas', npm_pemesan='1706978821',
-                                              status_bayar=status_bayar)
+        user = User.objects.create(username="muhammad.yusuf", password="yusuf")
+
+        self.pesanan = Pesanan.objects.create(pemesan=user, nama_pemesan='Lunas',
+                                              npm_pemesan='1706978821', status_bayar=status_bayar)
 
         self.status_surat = StatusSurat.objects.create(nama='Menunggu Diproses')
 
