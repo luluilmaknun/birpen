@@ -114,7 +114,7 @@ export default {
     fetchTrackingPesanan: function() {
       trackingPesananApi.getTrackingPesanan().then((result) => {
         this.response = result.data;
-      })
+      });
     },
     responseToList: function(theResponse, theList) {
       for (let i = 0; i < theResponse.length; i++) {
