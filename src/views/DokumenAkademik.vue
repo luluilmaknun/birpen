@@ -51,6 +51,23 @@
         </td>
       </tr>
     </table>
+
+    <div class="button-container pemesanan">
+      <button @click="showModal('ringkasan')">Pesan</button>
+      <button @click="goToPage('surat')">Kembali</button>
+    </div>
+
+    <modal name="ringkasan" height="auto" :pivotX="0.0">
+      <div class="button-container ringkasan">
+        <button class="btn btn-red" @click="closeModal('ringkasan')">
+          Batal
+        </button>
+
+        <button class="btn btn-grn" @click="requestLetter">
+          Pesan
+        </button>
+      </div>
+    </modal>
   </div>
 </template>
 
@@ -91,9 +108,27 @@ export default {
       ],
     };
   },
+  created() {
+    this.fetchLetterList();
+  },
   methods: {
+    fetchLetterList() {
+      // TODO
+    },
     update(type, id) {
-      
+      // TODO
+    },
+    showModal(name) {
+      this.$modal.show(name);
+    },
+    closeModal(name) {
+      this.$modal.hide(name);
+    },
+    goToPage(path) {
+      this.$router.push({name: path});
+    },
+    requestLetter() {
+      // TODO
     },
   },
 };
