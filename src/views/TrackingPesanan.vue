@@ -28,8 +28,8 @@
             {{ data.status_surat }}
           </td>
           <td id="aksi">
-            <button>
-              TODO
+            <button class="detail-button">
+              Detail
             </button>
           </td>
         </tr>
@@ -84,9 +84,24 @@ export default {
 </script>
 
 <style>
-h2{
+.table-div h2 {
   color: black;
   margin-bottom: 20px;
+}
+.detail-button {
+  background: none;
+  border-style: solid;
+  border-width: 2px;
+  border-radius: 100px;
+  color: white;
+  background-color: #5386E8;
+  border-color: #5386E8;
+  font-weight: bolder;
+  padding: 5px;
+}
+.detail-button:hover {
+  background-color: white;
+  color: #5386E8;
 }
 .table-div {
   width: 85%;
