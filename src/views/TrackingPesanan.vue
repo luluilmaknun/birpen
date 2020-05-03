@@ -57,7 +57,6 @@ export default {
           npm_mahasiswa: '1706075042',
           waktu_pemesanan: '3 Februari 2020',
           status_bayar: 'Lunas',
-          status_surat: 'Selesai',
         },
         {
           id_pesanan: 103,
