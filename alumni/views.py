@@ -1,3 +1,4 @@
+from re import match
 from django.contrib.auth import get_user_model
 from django.core.exceptions import ObjectDoesNotExist, ValidationError
 from django.db.utils import DataError, IntegrityError
@@ -13,6 +14,7 @@ from .permissions import IsPrivilegedToAccessAlumni
 from .serializers import AlumniSerializer
 
 User = get_user_model()
+EMAIL_REGEX = r"^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$"
 
 @api_view(["GET"])
 @permission_classes((IsAuthenticated, IsPrivilegedToAccessAlumni))
@@ -45,19 +47,22 @@ def register(request):
         if username[0] != '@':
             raise ValueError
 
+        if not match(EMAIL_REGEX, email):
+            raise ValueError
+
         user = User.objects.create(username=username, email=email)
         user.set_password(password)
         user.save()
 
     except (DataError, ValueError):
         return Response({
-            'detail': 'Invalid username, email, or password.',
+            'detail': 'Username, email, atau password tidak valid',
             'success': False,
         }, status=HTTP_400_BAD_REQUEST)
 
     except IntegrityError:
         return Response({
-            'detail': 'Username is already registered.',
+            'detail': 'Username sudah terdaftar',
             'success': False,
         }, status=HTTP_400_BAD_REQUEST)
 
@@ -88,12 +93,12 @@ def update_block_status(request, username):
 
     except ObjectDoesNotExist:
         return Response({
-            'detail': 'Alumni does not exist.'
+            'detail': 'Data Alumni tidak ditemukan'
         }, status=HTTP_400_BAD_REQUEST)
 
     except (ValidationError, IntegrityError):
         return Response({
-            'detail': 'Invalid data.'
+            'detail': 'Data tidak valid'
         }, status=HTTP_400_BAD_REQUEST)
 
     return Response({

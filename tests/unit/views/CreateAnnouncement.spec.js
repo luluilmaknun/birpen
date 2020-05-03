@@ -132,7 +132,7 @@ describe('Tes create data function', () => {
       },
     }));
 
-    vm.postData();
+    vm.validateData();
   });
 
   it('Test create data error', () => {
@@ -152,9 +152,31 @@ describe('Tes create data function', () => {
     });
     const vm = wrapper.vm;
 
-    vm.postData();
-    expect(wrapper.vm.message_seen).toBe(true);
-    expect(wrapper.vm.message).toBe('Kelas sudah lampau');
+    vm.validateData();
+    expect(wrapper.vm.error_message_seen).toBe(true);
+    expect(wrapper.vm.error_message).toBe('Kelas sudah lampau');
+  });
+
+  it('Test create data error from backend', () => {
+    const error = new Error('error');
+
+    error.response = {
+      status: 400,
+      data: {
+        success: false,
+        detail: 'Tidak punya wewenang untuk membuat',
+      },
+    };
+
+    announcementApi.createAnnouncement = jest.fn(() =>
+      Promise.reject(error));
+
+    vm.validateData();
+    vm.$nextTick(() => {
+      expect(wrapper.vm.error_message_seen).toBe(true);
+      expect(wrapper.vm.error_message)
+          .toBe('Tidak punya wewenang untuk membuat');
+    });
   });
 });
 
@@ -196,7 +218,7 @@ describe('Edit function', () => {
       },
     }));
 
-    vm.editData(1);
+    vm.getAnnouncementData(1);
   });
 
   it('Test data return', () => {
@@ -226,8 +248,8 @@ describe('Edit function', () => {
     namaDosen.element.value = 'Bukan Lulu';
     namaDosen.trigger('change');
 
-    vm.postData();
-    vm.editData(1);
+    vm.validateData();
+    vm.getAnnouncementData(1);
 
     expect(wrapper.find('#nama_dosen').element.value)
         .toBe('Bukan Lulu');
@@ -253,9 +275,9 @@ describe('Edit function', () => {
     });
     const vm = wrapper.vm;
 
-    vm.postData();
-    expect(wrapper.vm.message_seen).toBe(true);
-    expect(wrapper.vm.message).toBe('Kelas sudah lampau');
+    vm.validateData();
+    expect(wrapper.vm.error_message_seen).toBe(true);
+    expect(wrapper.vm.error_message).toBe('Kelas sudah lampau');
   });
 
   it('Test security access admin success', () => {
@@ -285,7 +307,7 @@ describe('Edit function', () => {
     });
     const vm = wrapper.vm;
 
-    vm.editData(1);
+    vm.getAnnouncementData(1);
   });
 
   it('Test security access non-admin success asistensi', () => {
@@ -315,7 +337,7 @@ describe('Edit function', () => {
       },
     }));
 
-    vm.editData(1);
+    vm.getAnnouncementData(1);
   });
 
   it('Test security access non-admin success non-asistensi', () => {
@@ -361,7 +383,7 @@ describe('Edit function', () => {
       },
     }));
 
-    vm.editData(1);
+    vm.getAnnouncementData(1);
   });
 
   it('Test security access non-admin denied asistensi', () => {
@@ -413,8 +435,48 @@ describe('Edit function', () => {
     });
     const vm = wrapper.vm;
 
-    vm.editData();
+    vm.getAnnouncementData();
     expect(wrapper.find('#nama_dosen').element.value)
         .toBe('');
+  });
+
+  it('Test edit data error from backend', () => {
+    const wrapper = shallowMount(CreateAnnouncement, {
+      'propsData': {
+        edit: true,
+      },
+      data() {
+        return {
+          'jenis_pengumuman': 'Asistensi',
+          'tanggal_kelas': '2200-03-30',
+          'nama_mata_kuliah': 'Aljabar Linier',
+          'nama_dosen': 'Lulu Ilmaknun',
+          'nama_asisten': 'Lulz',
+          'nama_sesi': 'Sesi 2 (11.00 - 13.30)',
+          'nama_ruang': '3111',
+          'nama_status_pengumuman': 'Terlambat',
+        };
+      },
+    });
+    const vm = wrapper.vm;
+
+    const error = new Error('error');
+    error.response = {
+      status: 400,
+      data: {
+        success: false,
+        detail: 'Tidak punya wewenang untuk mengubah',
+      },
+    };
+
+    announcementApi.editAnnouncement = jest.fn(() =>
+      Promise.reject(error));
+
+    vm.validateData();
+    vm.$nextTick(() => {
+      expect(wrapper.vm.error_message)
+          .toBe('Tidak punya wewenang untuk mengubah');
+      expect(wrapper.vm.error_message_seen).toBe(true);
+    });
   });
 });

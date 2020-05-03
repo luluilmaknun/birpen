@@ -53,7 +53,7 @@ class RegisterAlumniTest(TestCase):
         self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + self.token_admin)
         response = self.client.patch('/api/alumni/' + self.alumni.username + '/block/',
                                      content_type='application/x-www-form-urlencoded')
-        self.assertEqual(response.data['detail'], 'Invalid data.')
+        self.assertEqual(response.data['detail'], 'Data tidak valid')
         self.assertEqual(response.status_code, 400)
 
     def test_invalid_data_blocked_not_boolean(self):
@@ -63,21 +63,21 @@ class RegisterAlumniTest(TestCase):
                                          'blocked': 'not_boolean',
                                      })),
                                      content_type='application/x-www-form-urlencoded')
-        self.assertEqual(response.data['detail'], 'Invalid data.')
+        self.assertEqual(response.data['detail'], 'Data tidak valid')
         self.assertEqual(response.status_code, 400)
 
     def test_invalid_data_user_not_found(self):
         self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + self.token_admin)
         response = self.client.patch('/api/alumni/ahmad.fauzan/block/',
                                      content_type='application/x-www-form-urlencoded')
-        self.assertEqual(response.data['detail'], 'Alumni does not exist.')
+        self.assertEqual(response.data['detail'], 'Data Alumni tidak ditemukan')
         self.assertEqual(response.status_code, 400)
 
     def test_invalid_data_user_non_alumni(self):
         self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + self.token_admin)
         response = self.client.patch('/api/alumni/' + self.user_non_alumni.username + '/block/',
                                      content_type='application/x-www-form-urlencoded')
-        self.assertEqual(response.data['detail'], 'Alumni does not exist.')
+        self.assertEqual(response.data['detail'], 'Data Alumni tidak ditemukan')
         self.assertEqual(response.status_code, 400)
 
     def test_success_block(self):
