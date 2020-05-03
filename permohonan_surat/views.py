@@ -67,9 +67,9 @@ def create_pesanan_surat_akademik(request):
 def read_pesanan(request):
 
     if request.user.is_admin():
-        pesanan = Pesanan.objects.all()
+        pesanan = Pesanan.objects.all().order_by('-waktu_pemesanan')
     else:
-        pesanan = Pesanan.objects.filter(pemesan=request.user)
+        pesanan = Pesanan.objects.filter(pemesan=request.user).order_by('-waktu_pemesanan')
 
     pesanan = [PesananSerializer(pesanan).data for pesanan in pesanan]
 
