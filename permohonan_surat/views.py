@@ -12,8 +12,9 @@ from rest_framework.status import (
 )
 
 from .models import Pesanan, PesananSuratAkademik, SuratAkademik
-from .permissions import IsPrivilegedToRequestAcademicLetter
-
+from .permissions import IsPrivilegedToRequestAcademicLetter, \
+    IsPrivilegedToReadPesanan
+from .serializers import PesananSerializer
 
 @api_view(["GET"])
 def permohonan_surat_placeholder_views(_):
@@ -62,25 +63,17 @@ def create_pesanan_surat_akademik(request):
     }, status=HTTP_200_OK)
 
 @api_view(["GET"])
-@permission_classes((IsAuthenticated,))
-def read_pesanan_surat_akademik(request):
+@permission_classes((IsAuthenticated, IsPrivilegedToReadPesanan, ))
+def read_pesanan(request):
 
-    # psa = Pesanan Surat Akademik
-    response = []
-    psa_objects = PesananSuratAkademik.objects.all()
+    if request.user.is_admin():
+        pesanan = Pesanan.objects.all()
+    else:
+        pesanan = Pesanan.objects.filter(pemesan=request.user)
 
-    for psa in psa_objects:
-        if request.user.is_admin() or psa.pesanan.pemesan.username == request.user.username:
-            response.append({
-                "id": str(psa.pk).zfill(6),
-                "nama_pemesan": psa.pesanan.nama_pemesan,
-                "npm_pemesan": psa.pesanan.npm_pemesan,
-                "waktu_pemesanan": psa.pesanan.waktu_pemesanan,
-                "status_bayar": psa.pesanan.status_bayar.nama,
-                "status_surat": psa.status_surat.nama,
-            })
+    pesanan = [PesananSerializer(pesanan).data for pesanan in pesanan]
 
     return Response({
         "success": True,
-        "pesanan_surat_akademik": response,
+        "pesanan": pesanan,
     }, status=HTTP_200_OK)
