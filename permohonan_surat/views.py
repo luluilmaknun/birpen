@@ -3,7 +3,8 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes
 
 from .models import StatusBayar
-# Create your views here.
+from .permissions import IsPrivilegedToUpdateAcademicLetterStatus
+
 
 @api_view(["GET"])
 def permohonan_surat_placeholder_views(_):
@@ -15,7 +16,7 @@ def permohonan_surat_placeholder_views(_):
 
 
 @api_view(["GET"])
-@permission_classes([IsAuthenticated, ])
+@permission_classes([IsAuthenticated, IsPrivilegedToUpdateAcademicLetterStatus])
 def read_status_bayar(request):
     response = {}
     all_obj = StatusBayar.objects.all()
