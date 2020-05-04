@@ -1,11 +1,17 @@
 from django.urls import path
 
-from .views import permohonan_surat_placeholder_views, create_pesanan_surat_akademik,\
-    get_status_surat
+from .views import permohonan_surat_placeholder_views, create_pesanan_surat_akademik, \
+    update_status_surat, update_status_bayar, get_status_surat
 
 urlpatterns = [
     path('', permohonan_surat_placeholder_views, name='permohonan_surat_placeholder_views'),
     path('pesanan/create/', create_pesanan_surat_akademik,
          name='create_pesanan_surat_akademik'),
     path('status-surat/get/', get_status_surat, name='get_status_surat'),
+    path(
+        'pesanan/<id_pesanan>/surat-akademik/<jenis_dokumen>/update-status/',
+        update_status_surat, name='update_status_surat',
+    ),
+    path('pesanan/<id_pesanan>/update-status-bayar/', update_status_bayar,
+         name='update_status_bayar'),
 ]

@@ -7,6 +7,6 @@ class IsPrivilegedToRequestAcademicLetter(permissions.BasePermission):
                request.user.is_alumni()
 
 
-class IsAuthorizedToChangeLetterStatus(permissions.BasePermission):
+class IsPrivilegedToUpdateAcademicLetterStatus(permissions.BasePermission):
     def has_permission(self, request, view):
         return request.user.is_admin()
