@@ -26,7 +26,7 @@
         </th>
       </tr>
 
-      <tr v-for="(item, id) in surat_akademik" :id="id+1" :key="item">
+      <tr v-for="(item, id) in daftar_harga" :id="id+1" :key="item">
         <td class="no">
           {{ id+1 }}
         </td>
@@ -63,6 +63,7 @@
 
     <modal name="ringkasan" height="auto" :pivotX="0.0">
       <div class="modal-container">
+        <RingkasanPemesanan surat_akademik="surat_akademik" />
         <span class="text-danger">{{ error_message }}</span>
         <div class="button-container ringkasan">
           <button class="btn btn-red" @click="closeModal('ringkasan')">
@@ -79,8 +80,11 @@
 </template>
 
 <script>
+import RingkasanPemesanan from '@/components/ringkasan-pemesanan'
+
 export default {
   name: 'DokumenAkademik',
+  components: ['RingkasanPemesanan'],
   data: function() {
     return {
       isAlumni: localStorage['role'] == 'alumni',
@@ -93,7 +97,8 @@ export default {
       error_message: '',
       nama_pemesan: '',
       npm_pemesan: '',
-      surat_akademik: [
+      jumlah_harga: 0,
+      daftar_harga: [
         {
           'jenis_dokumen': 'Surat Keterangan Mahasiswa',
           'harga_mahasiswa': 0,
@@ -124,6 +129,9 @@ export default {
     fetchLetterList() {
       // TODO
     },
+    fetchPriceList() {
+      // TODO
+    }
     update(type, id) {
       const inputId = id + 1;
       const input = this.$refs[inputId][0];
