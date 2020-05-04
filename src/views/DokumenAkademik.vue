@@ -80,8 +80,8 @@ export default {
   name: 'DokumenAkademik',
   data: function() {
     return {
-      // isAlumni: localStorage['role'] == 'alumni',
-      isAlumni: true,
+      isAlumni: localStorage['role'] == 'alumni',
+      // isAlumni: true,
       tableHead: [
         ['no', 'No'],
         ['jenis_dokumen', 'Jenis Dokumen'],
@@ -274,5 +274,27 @@ input::-webkit-inner-spin-button {
   margin: 20px;
   padding: 15px;
   min-width: 150px;
+}
+.button-container.ringkasan {
+  margin: auto;
+  padding: 5%;
+  text-align: center;
+}
+.button-container.ringkasan .btn {
+  font-size: 23px;
+  font-weight: bolder;
+  border: 0px;
+  padding: 8px 30px;
+  width: 135px;
+  border-radius: 34.5px;
+  margin: 15px;
+}
+.button-container.ringkasan .btn-grn {
+  background: #3C8F2F;
+  color: white;
+}
+.button-container.ringkasan .btn-red {
+  background: #E63946;
+  color: white;
 }
 </style>
