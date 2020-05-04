@@ -23,3 +23,7 @@ class IsPrivilegedToReadDetailPesanan(permissions.BasePermission):
 
         return Pesanan.objects.filter(id=id_pesanan).count() == 1 and \
                Pesanan.objects.get(id=id_pesanan).pemesan == request.user
+
+class IsPrivilegedToUpdateAcademicLetterStatus(permissions.BasePermission):
+    def has_permission(self, request, view):
+        return request.user.is_admin()
