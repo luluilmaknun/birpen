@@ -1,5 +1,5 @@
 from django.db.utils import IntegrityError, DataError
-from django.core.exceptions import ObjectDoesNotExist
+from django.core.exceptions import ObjectDoesNotExist, FieldError
 from django.core.validators import ValidationError
 from django.views.decorators.csrf import csrf_exempt
 
@@ -38,6 +38,32 @@ def read_status_bayar(request):
 
 
 @csrf_exempt
+@api_view(["PATCH"])
+@permission_classes((IsAuthenticated, IsPrivilegedToUpdateAcademicLetterStatus))
+def update_status_bayar(request, id_pesanan):
+
+    try:
+        pesanan = Pesanan.objects.get(pk=id_pesanan)
+        status_bayar = StatusBayar.objects.get(nama=request.data.get("status_bayar"))
+
+    except Pesanan.DoesNotExist:
+        return Response({
+            'detail': 'Data pesanan tidak ditemukan.'
+        }, status=HTTP_400_BAD_REQUEST)
+
+    except StatusBayar.DoesNotExist:
+        return Response({
+            'detail': 'Data status bayar tidak ditemukan.'
+        }, status=HTTP_400_BAD_REQUEST)
+
+    pesanan.status_bayar = status_bayar
+    pesanan.save()
+
+    return Response({
+        "success": True,
+    }, status=HTTP_200_OK)
+
+@csrf_exempt
 @api_view(["POST"])
 @permission_classes((IsAuthenticated, IsPrivilegedToRequestAcademicLetter,))
 def create_pesanan_surat_akademik(request):
@@ -69,6 +95,29 @@ def create_pesanan_surat_akademik(request):
         return Response({
             "success": False,
             'detail': 'Data tidak valid',
+        }, status=HTTP_400_BAD_REQUEST)
+
+    return Response({
+        "success": True,
+    }, status=HTTP_200_OK)
+
+@api_view(["PATCH"])
+@permission_classes((IsAuthenticated, IsPrivilegedToUpdateAcademicLetterStatus,))
+def update_status_surat(request, id_pesanan, jenis_dokumen):
+
+    status_surat = request.data.get('status_surat')
+
+    try:
+        psa = PesananSuratAkademik.objects.get(
+            pesanan=id_pesanan,
+            surat_akademik__jenis_dokumen=jenis_dokumen,
+        )
+        psa.status_surat.nama = status_surat
+        psa.save()
+
+    except (ObjectDoesNotExist, FieldError):
+        return Response({
+            'detail': 'Pesanan surat/jenis dokumen akademik tidak ditemukan.'
         }, status=HTTP_400_BAD_REQUEST)
 
     return Response({
