@@ -7,13 +7,13 @@
       <div class="input-row">
         <label>Nama: </label>
         <input v-if="isAlumni" class="profile-input" v-model="nama_pemesan">
-        <span v-else class="">Lulu Ilmaknun Qurotaini</span>
+        <span v-else class="">{{ nama_pemesan }}</span>
       </div>
 
       <div class="input-row">
         <label>NPM: </label>
         <input v-if="isAlumni" class="profile-input" v-model="npm_pemesan">
-        <span v-else class="">1706979341</span>
+        <span v-else class="">{{ npm_pemesan }}</span>
       </div>
     </div>
 
@@ -62,14 +62,17 @@
     </div>
 
     <modal name="ringkasan" height="auto" :pivotX="0.0">
-      <div class="button-container ringkasan">
-        <button class="btn btn-red" @click="closeModal('ringkasan')">
-          Batal
-        </button>
+      <div class="modal-container">
+        <span class="text-danger">{{ error_message }}</span>
+        <div class="button-container ringkasan">
+          <button class="btn btn-red" @click="closeModal('ringkasan')">
+            Batal
+          </button>
 
-        <button class="btn btn-grn" @click="validateData">
-          Pesan
-        </button>
+          <button class="btn btn-grn" @click="validateData">
+            Pesan
+          </button>
+        </div>
       </div>
     </modal>
   </div>
@@ -81,13 +84,13 @@ export default {
   data: function() {
     return {
       isAlumni: localStorage['role'] == 'alumni',
-      // isAlumni: true,
       tableHead: [
         ['no', 'No'],
         ['jenis_dokumen', 'Jenis Dokumen'],
         ['harga_satuan', 'Harga Satuan'],
         ['jumlah', 'Jumlah'],
       ],
+      error_message: '',
       nama_pemesan: '',
       npm_pemesan: '',
       surat_akademik: [
@@ -141,13 +144,18 @@ export default {
       this.$modal.show(name);
     },
     closeModal(name) {
+      this.error_message= '';
       this.$modal.hide(name);
     },
     goToPage(path) {
       this.$router.push({name: path});
     },
     validateData() {
-      // TODO
+      if (this.nama_pemesan == '' || this.npm_pemesan == '') {
+        this.error_message = 'Nama dan NPM belum diisi';
+      } else {
+        this.requestLetter();
+      }
     },
     requestLetter() {
       // TODO
@@ -157,6 +165,9 @@ export default {
 </script>
 
 <style scoped>
+button {
+  cursor: pointer;
+}
 #dokumen-akademik.page-container {
   padding: 3% 8%;
 }
@@ -212,6 +223,7 @@ th {
 td {
   padding: 13px;
   border-bottom: .5px solid black;
+  word-break: break-word;
 }
 tr:last-of-type td {
   border-bottom: 0;
@@ -237,7 +249,6 @@ button.btn-count {
   border: 0;
   background-color: #FFDD00;
   color: black;
-  cursor: pointer;
   padding: 7px 10px;
 }
 button.btn-count.increment {
@@ -270,14 +281,19 @@ input::-webkit-inner-spin-button {
   background-color: #D8DADB;
   color: black;
   font-weight: 700;
-  cursor: pointer;
   margin: 20px;
   padding: 15px;
   min-width: 150px;
 }
-.button-container.ringkasan {
-  margin: auto;
+.modal-container {
   padding: 5%;
+}
+.text-danger {
+  color: red;
+  font-weight: 700;
+}
+.button-container.ringkasan {
+  margin: 10px auto;
   text-align: center;
 }
 .button-container.ringkasan .btn {
