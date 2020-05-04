@@ -6,13 +6,13 @@
     <div class="profile-container">
       <div class="input-row">
         <label>Nama: </label>
-        <input v-if="isAlumni" class="profile-input" id="name">
+        <input v-if="isAlumni" class="profile-input" v-model="nama_pemesan">
         <span v-else class="">Lulu Ilmaknun Qurotaini</span>
       </div>
 
       <div class="input-row">
         <label>NPM: </label>
-        <input v-if="isAlumni" class="profile-input" id="npm">
+        <input v-if="isAlumni" class="profile-input" v-model="npm_pemesan">
         <span v-else class="">1706979341</span>
       </div>
     </div>
@@ -40,11 +40,11 @@
         </td>
         <td class="jumlah">
           <div class="button-count-container">
-            <button class="btn-count" @click="update('increment', id+1)">
+            <button class="btn-count" @click="update('increment', id)">
               +
             </button>
-            <input :id="id+1" class="jumlah_surat" value=0>
-            <button class="btn-count" @click="update('decrement', id+1)">
+            <input type="number" :ref="id+1" class="jumlah_surat" value=0 >
+            <button class="btn-count" @click="update('decrement', id)">
               -
             </button>
           </div>
@@ -63,7 +63,7 @@
           Batal
         </button>
 
-        <button class="btn btn-grn" @click="requestLetter">
+        <button class="btn btn-grn" @click="validateData">
           Pesan
         </button>
       </div>
@@ -84,6 +84,8 @@ export default {
         ['harga_satuan', 'Harga Satuan'],
         ['jumlah', 'Jumlah'],
       ],
+      nama_pemesan: '',
+      npm_pemesan: '',
       surat_akademik: [
         {
           'jenis_dokumen': 'Surat Keterangan Mahasiswa',
@@ -116,7 +118,14 @@ export default {
       // TODO
     },
     update(type, id) {
-      // TODO
+      const inputId = id + 1;
+      const input = this.$refs[inputId][0];
+
+      if (type == 'increment') {
+        input.value = parseInt(input.value) + 1;
+      } else if (type == 'decrement') {
+        input.value = parseInt(input.value) - 1;
+      }
     },
     showModal(name) {
       this.$modal.show(name);
@@ -126,6 +135,9 @@ export default {
     },
     goToPage(path) {
       this.$router.push({name: path});
+    },
+    validateData() {
+      // TODO
     },
     requestLetter() {
       // TODO
