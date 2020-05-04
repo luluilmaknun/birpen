@@ -8,7 +8,7 @@ urlpatterns = [
     path('pesanan/create/', create_pesanan_surat_akademik,
          name='create_pesanan_surat_akademik'),
     path('pesanan/', read_pesanan, name='read_pesanan'),
-    path('pesanan/<id_pesanan>/', read_pesanan_detail, name='read_pesanan_detail')
+    path('pesanan/<id_pesanan>/', read_pesanan_detail, name='read_pesanan_detail'),
     path(
         'pesanan/<id_pesanan>/surat-akademik/<jenis_dokumen>/update-status/',
         update_status_surat, name='update_status_surat',

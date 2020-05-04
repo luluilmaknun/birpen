@@ -12,7 +12,8 @@ from rest_framework.status import (
 )
 
 from .permissions import IsPrivilegedToRequestAcademicLetter, \
-    IsPrivilegedToReadPesanan, IsPrivilegedToReadDetailPesanan
+    IsPrivilegedToReadPesanan, IsPrivilegedToReadDetailPesanan, \
+    IsPrivilegedToUpdateAcademicLetterStatus
 from .serializers import PesananSerializer, DetailPesananSerializer
 from .models import Pesanan, PesananSuratAkademik, SuratAkademik, StatusBayar
 
@@ -53,7 +54,7 @@ def update_status_bayar(request, id_pesanan):
 
 @csrf_exempt
 @api_view(["POST"])
-@permission_classes((IsAuthenticated, IsPrivilegedToRequestAcademicLetter,))
+@permission_classes((IsAuthenticated, IsPrivilegedToRequestAcademicLetter, ))
 def create_pesanan_surat_akademik(request):
     pesanan = Pesanan()
     try:
