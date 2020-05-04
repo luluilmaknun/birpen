@@ -5,3 +5,8 @@ class IsPrivilegedToRequestAcademicLetter(permissions.BasePermission):
     def has_permission(self, request, view):
         return request.user.is_mahasiswa() or \
                request.user.is_alumni()
+
+
+class IsAuthorizedToChangeLetterStatus(permissions.BasePermission):
+    def has_permission(self, request, view):
+        return request.user.is_admin()

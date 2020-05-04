@@ -1,8 +1,7 @@
-from django.db.utils import IntegrityError, DataError
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.validators import ValidationError
+from django.db.utils import IntegrityError, DataError
 from django.views.decorators.csrf import csrf_exempt
-
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
@@ -11,8 +10,9 @@ from rest_framework.status import (
     HTTP_200_OK,
 )
 
-from .models import Pesanan, PesananSuratAkademik, SuratAkademik
-from .permissions import IsPrivilegedToRequestAcademicLetter
+from .models import Pesanan, PesananSuratAkademik, SuratAkademik, StatusSurat
+from .permissions import IsPrivilegedToRequestAcademicLetter, IsAuthorizedToChangeLetterStatus
+from .serializers import StatusSuratSerializers
 
 
 @api_view(["GET"])
@@ -22,6 +22,7 @@ def permohonan_surat_placeholder_views(_):
     }
 
     return Response({"success": True, "result": result}, status=200)
+
 
 @csrf_exempt
 @api_view(["POST"])
@@ -59,4 +60,14 @@ def create_pesanan_surat_akademik(request):
 
     return Response({
         "success": True,
+    }, status=HTTP_200_OK)
+
+
+@api_view(["GET"])
+@permission_classes((IsAuthenticated, IsAuthorizedToChangeLetterStatus,))
+def get_status_surat(request):
+    status_surat = StatusSurat.objects.all()
+    return Response({
+        "success": True,
+        "status_surat": StatusSuratSerializers(status_surat, many=True).data,
     }, status=HTTP_200_OK)
