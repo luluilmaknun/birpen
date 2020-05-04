@@ -11,9 +11,11 @@ from rest_framework.status import (
     HTTP_200_OK,
 )
 
-from .models import Pesanan, PesananSuratAkademik, SuratAkademik, StatusBayar
+from .models import Pesanan, PesananSuratAkademik, SuratAkademik, \
+    StatusBayar
 from .permissions import IsPrivilegedToRequestAcademicLetter, \
     IsPrivilegedToUpdateAcademicLetterStatus
+from .serializers import StatusBayarSerializer
 
 
 @api_view(["GET"])
@@ -23,6 +25,17 @@ def permohonan_surat_placeholder_views(_):
     }
 
     return Response({"success": True, "result": result}, status=200)
+
+
+@api_view(["GET"])
+@permission_classes([IsAuthenticated, IsPrivilegedToUpdateAcademicLetterStatus])
+def read_status_bayar(request):
+    all_obj = StatusBayar.objects.all()
+
+    return Response({
+        "status_bayar": (StatusBayarSerializer(x).data for x in all_obj),
+    })
+
 
 @csrf_exempt
 @api_view(["PATCH"])
