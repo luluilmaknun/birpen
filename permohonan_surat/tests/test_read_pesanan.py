@@ -111,8 +111,6 @@ class ReadPesananTest(TestCase):
 
         self.assertEqual(response.status_code, 200)
         self.assertEqual(len(response.data['pesanan']), 2)
-        self.assertEqual(len(response.data['pesanan'][0]['pesanan_surat_akademik']), 2)
-        self.assertEqual(len(response.data['pesanan'][1]['pesanan_surat_akademik']), 1)
 
     def test_output_mahasiswa_read_success(self):
         url_request = self.api + self.url_read
@@ -121,7 +119,6 @@ class ReadPesananTest(TestCase):
 
         self.assertEqual(response.status_code, 200)
         self.assertEqual(len(response.data['pesanan']), 1)
-        self.assertEqual(len(response.data['pesanan'][0]['pesanan_surat_akademik']), 2)
 
     def test_output_alumni_read_success(self):
         url_request = self.api + self.url_read
@@ -130,7 +127,6 @@ class ReadPesananTest(TestCase):
 
         self.assertEqual(response.status_code, 200)
         self.assertEqual(len(response.data['pesanan']), 1)
-        self.assertEqual(len(response.data['pesanan'][0]['pesanan_surat_akademik']), 1)
 
     def test_output_dosen_read_fail(self):
         url_request = self.api + self.url_read
