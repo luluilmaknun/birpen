@@ -13,8 +13,8 @@ from rest_framework.status import (
 
 from .models import Pesanan, PesananSuratAkademik, SuratAkademik
 from .permissions import IsPrivilegedToRequestAcademicLetter, \
-    IsPrivilegedToReadPesanan
-from .serializers import PesananSerializer
+    IsPrivilegedToReadPesanan, IsPrivilegedToReadDetailPesanan
+from .serializers import PesananSerializer, DetailPesananSerializer
 
 @api_view(["GET"])
 def permohonan_surat_placeholder_views(_):
@@ -74,6 +74,20 @@ def read_pesanan(request):
     pesanan = [PesananSerializer(pesanan).data for pesanan in pesanan]
 
     return Response({
-        "success": True,
         "pesanan": pesanan,
     }, status=HTTP_200_OK)
+
+@api_view(["GET"])
+@permission_classes((IsAuthenticated, IsPrivilegedToReadPesanan,
+                     IsPrivilegedToReadDetailPesanan, ))
+def read_pesanan_detail(_, id_pesanan):
+    try:
+        pesanan = Pesanan.objects.get(id=id_pesanan)
+        pesanan = DetailPesananSerializer(pesanan).data
+
+    except Pesanan.DoesNotExist:
+        return Response({
+            'detail': 'Data pesanan tidak ditemukan.'
+        }, status=HTTP_400_BAD_REQUEST)
+
+    return Response(pesanan, status=HTTP_200_OK)
