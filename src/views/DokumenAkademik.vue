@@ -43,7 +43,8 @@
             <button class="btn-count" @click="update('increment', id)">
               +
             </button>
-            <input type="number" :ref="id+1" class="jumlah_surat" value=0 >
+            <input type="number" :ref="id+1"
+              class="jumlah_surat" value=0 min=0 >
             <button class="btn-count" @click="update('decrement', id)">
               -
             </button>
@@ -120,11 +121,17 @@ export default {
     update(type, id) {
       const inputId = id + 1;
       const input = this.$refs[inputId][0];
+      const currValue = parseInt(input.value);
 
       if (type == 'increment') {
-        input.value = parseInt(input.value) + 1;
+        input.value = currValue + 1;
       } else if (type == 'decrement') {
-        input.value = parseInt(input.value) - 1;
+        // Check for minimum value zero
+        if (currValue == 0) {
+          input.value = 0;
+        } else {
+          input.value = currValue - 1;
+        }
       }
     },
     showModal(name) {
