@@ -18,10 +18,10 @@
     </div>
 
     <!-- TABLE SECTION -->
-    <table>
+    <table class="table-div">
       <tr class="table-header">
         <th class="table-header-item" v-for="head in tableHead" :key="head"
-          :id="head[0]">
+          :class="head[0]">
           {{ head[1] }}
         </th>
       </tr>
@@ -34,25 +34,28 @@
           {{ item.jenis_dokumen }}
         </td>
         <td class="harga_satuan">
-          Rp.
           <span v-if="isAlumni">{{ item.harga_alumni }}</span>
           <span v-else>{{ item.harga_mahasiswa }}</span>
         </td>
         <td class="jumlah">
           <div class="button-count-container">
-            <button class="btn-count" @click="update('increment', id)">
-              +
+            <button class="btn-count decrement"
+              @click="update('decrement', id)">
+              -
             </button>
             <input type="number" :ref="id+1"
               class="jumlah_surat" value=0 min=0 >
-            <button class="btn-count" @click="update('decrement', id)">
-              -
+            <button class="btn-count increment"
+              @click="update('increment', id)">
+              +
             </button>
           </div>
         </td>
       </tr>
     </table>
 
+    <br>
+    <br>
     <div class="button-container pemesanan">
       <button @click="showModal('ringkasan')">Pesan</button>
       <button @click="goToPage('surat')">Kembali</button>
@@ -187,5 +190,89 @@ export default {
   width: 250px;
   padding: 6px;
   font-weight: 700;
+}
+table.table-div {
+  width: 100%;
+  border: 1.5px solid black;
+  border-radius: 1em;
+  border-spacing: 0;
+}
+th:first-of-type {
+  border-top-left-radius: 10px;
+}
+th:last-of-type {
+  border-top-right-radius: 10px;
+}
+th {
+  background-color: black;
+  padding: 13px;
+  color: white;
+  font-weight: 700;
+}
+td {
+  padding: 13px;
+  border-bottom: .5px solid black;
+}
+tr:last-of-type td {
+  border-bottom: 0;
+}
+th.no, td.no {
+  width: 5%;
+  text-align: center;
+}
+th.jenis_dokumen, td.jenis_dokumen {
+  width: 65%;
+  text-align: left;
+}
+th.harga_satuan, td.harga_satuan {
+  width: 15%;
+  text-align: center;
+}
+th.jumlah, td.jumlah {
+  width: 15%;
+  min-width: 85px;
+  text-align: center;
+}
+button.btn-count {
+  border: 0;
+  background-color: #FFDD00;
+  color: black;
+  cursor: pointer;
+  padding: 7px 10px;
+}
+button.btn-count.increment {
+  border-top-right-radius: 8px;
+  border-bottom-right-radius: 8px;
+}
+button.btn-count.decrement {
+  border-top-left-radius: 8px;
+  border-bottom-left-radius: 8px;
+}
+input.jumlah_surat {
+  width: 40px;
+  border: 0;
+  text-align: center;
+  padding: 0;
+}
+input[type='number'] {
+    -moz-appearance:textfield;
+}
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+}
+.button-container.pemesanan {
+  margin-right: 50px;
+}
+.button-container.pemesanan button {
+  border: 0;
+  border-radius: 30px;
+  background-color: #D8DADB;
+  color: black;
+  font-weight: 700;
+  cursor: pointer;
+  margin: 20px;
+  padding: 15px;
+  min-width: 150px;
 }
 </style>
