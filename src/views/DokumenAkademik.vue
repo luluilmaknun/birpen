@@ -26,7 +26,7 @@
         </th>
       </tr>
 
-      <tr v-for="(item, id) in surat_akademik" :id="id+1" :key="item">
+      <tr v-for="(item, id) in surat_akademik" :ref="'row_'+(id+1)" :key="item">
         <td class="no">
           {{ id+1 }}
         </td>
@@ -43,7 +43,7 @@
               @click="update('decrement', id)">
               -
             </button>
-            <input type="number" :ref="id+1"
+            <input type="number" :ref="'jumlah_' + (id+1)"
               class="jumlah_surat" value=0 min=0 >
             <button class="btn-count increment"
               @click="update('increment', id)">
@@ -63,7 +63,6 @@
 
     <modal name="ringkasan" height="auto" :pivotX="0.0">
       <div class="modal-container">
-        <RingkasanPemesanan surat_akademik="surat_akademik" />
         <span class="text-danger">{{ error_message }}</span>
         <div class="button-container ringkasan">
           <button class="btn btn-red" @click="closeModal('ringkasan')">
@@ -80,12 +79,10 @@
 </template>
 
 <script>
-import RingkasanPemesanan from '@/components/ringkasan-pemesanan';
-import suratApi from '@/services/suratServices'
+import suratApi from '@/services/suratServices';
 
 export default {
   name: 'DokumenAkademik',
-  components: ['RingkasanPemesanan'],
   data: function() {
     return {
       isAlumni: localStorage['role'] == 'alumni',
@@ -100,19 +97,20 @@ export default {
       npm_pemesan: '',
       jumlah_harga: 0,
       surat_akademik: [],
-      pesanan: {},
+      pesanan: [],
+      temp_pesanan: {},
       response: {},
     };
   },
   created() {
     this.fetchLetterList();
 
-    if(!this.isAlumni) {
+    if (!this.isAlumni) {
       suratApi.fetchDataPemesan().then((d) => {
         this.nama_pemesan = d.data.mahasiswa.nama;
         this.npm_pemesan = d.data.mahasiswa.npm;
       });
-    };
+    }
   },
   methods: {
     fetchLetterList() {
@@ -125,7 +123,7 @@ export default {
       });
     },
     update(type, id) {
-      const inputId = id + 1;
+      const inputId = 'jumlah_' + (id+1);
       const input = this.$refs[inputId][0];
       const currValue = parseInt(input.value);
 
@@ -139,6 +137,16 @@ export default {
           input.value = currValue - 1;
         }
       }
+
+      this.updatePesanan(id);
+    },
+    updatePesanan(id) {
+      const rowId = 'row_' + (id+1);
+      const row = this.$refs[rowId][0];
+
+      const jenisDokumen = row.childNodes[1].innerText;
+      const jumlah = row.childNodes[3].childNodes[0].childNodes[1].value;
+      this.temp_pesanan[jenisDokumen] = jumlah;
     },
     showModal(name) {
       this.$modal.show(name);
@@ -158,7 +166,7 @@ export default {
       }
     },
     summarize() {
-
+      // TODO
     },
     requestLetter() {
       // TODO
