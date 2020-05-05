@@ -11,9 +11,13 @@ from rest_framework.status import (
     HTTP_200_OK,
 )
 
-from .models import Pesanan, PesananSuratAkademik, SuratAkademik, StatusBayar
+from .models import Pesanan, PesananSuratAkademik, SuratAkademik, \
+    StatusBayar
 from .permissions import IsPrivilegedToRequestAcademicLetter, \
+    IsPrivilegedToReadPesanan, IsPrivilegedToReadDetailPesanan, \
     IsPrivilegedToUpdateAcademicLetterStatus
+from .serializers import PesananSerializer, DetailPesananSerializer, \
+    StatusBayarSerializer
 
 
 @api_view(["GET"])
@@ -23,6 +27,17 @@ def permohonan_surat_placeholder_views(_):
     }
 
     return Response({"success": True, "result": result}, status=200)
+
+
+@api_view(["GET"])
+@permission_classes([IsAuthenticated, IsPrivilegedToUpdateAcademicLetterStatus])
+def read_status_bayar(request):
+    all_obj = StatusBayar.objects.all()
+
+    return Response({
+        "status_bayar": (StatusBayarSerializer(x).data for x in all_obj),
+    })
+
 
 @csrf_exempt
 @api_view(["PATCH"])
@@ -52,7 +67,7 @@ def update_status_bayar(request, id_pesanan):
 
 @csrf_exempt
 @api_view(["POST"])
-@permission_classes((IsAuthenticated, IsPrivilegedToRequestAcademicLetter,))
+@permission_classes((IsAuthenticated, IsPrivilegedToRequestAcademicLetter, ))
 def create_pesanan_surat_akademik(request):
     pesanan = Pesanan()
     try:
@@ -88,6 +103,37 @@ def create_pesanan_surat_akademik(request):
         "success": True,
     }, status=HTTP_200_OK)
 
+@api_view(["GET"])
+@permission_classes((IsAuthenticated, IsPrivilegedToReadPesanan, ))
+def read_pesanan(request):
+
+    if request.user.is_admin():
+        pesanan = Pesanan.objects.all().order_by('-waktu_pemesanan')
+    else:
+        pesanan = Pesanan.objects.filter(pemesan=request.user).order_by('-waktu_pemesanan')
+
+    pesanan = [PesananSerializer(pesanan).data for pesanan in pesanan]
+
+    return Response({
+        "pesanan": pesanan,
+    }, status=HTTP_200_OK)
+
+@api_view(["GET"])
+@permission_classes((IsAuthenticated, IsPrivilegedToReadPesanan,
+                     IsPrivilegedToReadDetailPesanan, ))
+def read_pesanan_detail(_, id_pesanan):
+    try:
+        pesanan = Pesanan.objects.get(id=id_pesanan)
+        pesanan = DetailPesananSerializer(pesanan).data
+
+    except Pesanan.DoesNotExist:
+        return Response({
+            'detail': 'Data pesanan tidak ditemukan.'
+        }, status=HTTP_400_BAD_REQUEST)
+
+    return Response(pesanan, status=HTTP_200_OK)
+
+@csrf_exempt
 @api_view(["PATCH"])
 @permission_classes((IsAuthenticated, IsPrivilegedToUpdateAcademicLetterStatus,))
 def update_status_surat(request, id_pesanan, jenis_dokumen):
