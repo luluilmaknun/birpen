@@ -57,12 +57,14 @@
     <br>
     <br>
     <div class="button-container pemesanan">
-      <button @click="showModal('ringkasan')">Pesan</button>
+      <button @click="summarize">Pesan</button>
       <button @click="goToPage('surat')">Kembali</button>
     </div>
 
-    <modal name="ringkasan" height="auto" :pivotX="0.0">
+    <modal name="ringkasan" height="auto" :pivotX="0.0" :width="1000">
       <div class="modal-container">
+        <RingkasanPemesanan :surat_akademik="pesanan"
+           :list_harga="list_harga" :jumlah_harga="jumlah_harga" />
         <span class="text-danger">{{ error_message }}</span>
         <div class="button-container ringkasan">
           <button class="btn btn-red" @click="closeModal('ringkasan')">
@@ -80,9 +82,13 @@
 
 <script>
 import suratApi from '@/services/suratServices';
+import RingkasanPemesanan from '@/components/ringkasan-pemesanan';
 
 export default {
   name: 'DokumenAkademik',
+  components: {
+    RingkasanPemesanan,
+  },
   data: function() {
     return {
       isAlumni: localStorage['role'] == 'alumni',
@@ -98,6 +104,7 @@ export default {
       jumlah_harga: 0,
       surat_akademik: [],
       pesanan: [],
+      list_harga: {},
       temp_pesanan: {},
       response: {},
     };
@@ -145,8 +152,12 @@ export default {
       const row = this.$refs[rowId][0];
 
       const jenisDokumen = row.childNodes[1].innerText;
+      const harga = row.childNodes[2].innerText;
       const jumlah = row.childNodes[3].childNodes[0].childNodes[1].value;
-      this.temp_pesanan[jenisDokumen] = jumlah;
+
+      this.temp_pesanan[jenisDokumen] = {};
+      this.temp_pesanan[jenisDokumen]['jumlah'] = jumlah;
+      this.temp_pesanan[jenisDokumen]['harga'] = harga;
     },
     showModal(name) {
       this.$modal.show(name);
@@ -166,7 +177,29 @@ export default {
       }
     },
     summarize() {
-      // TODO
+      this.jumlah_harga = 0;
+      this.pesanan = [];
+
+      for (const k in this.temp_pesanan) {
+        if (this.temp_pesanan.hasOwnProperty(k)) {
+          const jumlah = parseInt(this.temp_pesanan[k]['jumlah']);
+
+          if (!jumlah == 0) {
+            const hargaSatuan = parseInt(this.temp_pesanan[k]['harga']);
+            const harga = jumlah * hargaSatuan;
+
+            this.pesanan.push({
+              'jenis_dokumen': k,
+              'jumlah': jumlah,
+            });
+
+            this.jumlah_harga = this.jumlah_harga + harga;
+            this.list_harga[k] = this.temp_pesanan[k]['harga'];
+          }
+        }
+      }
+
+      this.showModal('ringkasan');
     },
     requestLetter() {
       // TODO
@@ -295,9 +328,6 @@ input::-webkit-inner-spin-button {
   margin: 20px;
   padding: 15px;
   min-width: 150px;
-}
-.modal-container {
-  padding: 5%;
 }
 .text-danger {
   color: red;
