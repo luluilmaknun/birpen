@@ -8,7 +8,7 @@
             {{ head }}
           </th>
         </tr>
-        <tr v-for="data in DUMMY_DATA" :key="data.id">
+        <tr v-for="data in this.trackingList" :key="data.id">
           <td id="pk">
             {{ data.pk }}
           </td>
@@ -108,12 +108,13 @@ export default {
     };
   },
   created: function() {
-
+    this.fetchTrackingPesanan();
   },
   methods: {
     fetchTrackingPesanan: function() {
       trackingPesananApi.getTrackingPesanan().then((result) => {
         this.response = result.data;
+        this.responseToList(this.response.pesanan, this.trackingList);
       });
     },
     responseToList: function(theResponse, theList) {
