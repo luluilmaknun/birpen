@@ -18,7 +18,6 @@ from .permissions import IsPrivilegedToRequestAcademicLetter, \
     IsPrivilegedToUpdateAcademicLetterStatus
 from .serializers import PesananSerializer, DetailPesananSerializer, \
     StatusBayarSerializer
-from .models import Pesanan, PesananSuratAkademik, SuratAkademik, StatusBayar
 
 
 @api_view(["GET"])
