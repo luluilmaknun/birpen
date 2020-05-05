@@ -26,7 +26,7 @@
         </th>
       </tr>
 
-      <tr v-for="(item, id) in daftar_harga" :id="id+1" :key="item">
+      <tr v-for="(item, id) in surat_akademik" :id="id+1" :key="item">
         <td class="no">
           {{ id+1 }}
         </td>
@@ -80,7 +80,8 @@
 </template>
 
 <script>
-import RingkasanPemesanan from '@/components/ringkasan-pemesanan'
+import RingkasanPemesanan from '@/components/ringkasan-pemesanan';
+import suratApi from '@/services/suratServices'
 
 export default {
   name: 'DokumenAkademik',
@@ -98,28 +99,9 @@ export default {
       nama_pemesan: '',
       npm_pemesan: '',
       jumlah_harga: 0,
-      daftar_harga: [
-        {
-          'jenis_dokumen': 'Surat Keterangan Mahasiswa',
-          'harga_mahasiswa': 0,
-          'harga_alumni': 10000,
-        },
-        {
-          'jenis_dokumen': 'Surat Keterangan Tidak Lulus',
-          'harga_mahasiswa': 50000,
-          'harga_alumni': 50000,
-        },
-        {
-          'jenis_dokumen': 'Surat Mencintai dirinya',
-          'harga_mahasiswa': 0,
-          'harga_alumni': 10000,
-        },
-        {
-          'jenis_dokumen': 'Surat-suratan sama doi',
-          'harga_mahasiswa': 0,
-          'harga_alumni': 0,
-        },
-      ],
+      surat_akademik: [],
+      pesanan: {},
+      response: {},
     };
   },
   created() {
@@ -127,11 +109,14 @@ export default {
   },
   methods: {
     fetchLetterList() {
-      // TODO
+      suratApi.fetchSuratAkademik().then((d) => {
+        this.response = d.data.surat_akademik;
+
+        for (let i = 0; i < this.response.length; i++) {
+          this.$set(this.surat_akademik, i, this.response[i]);
+        }
+      });
     },
-    fetchPriceList() {
-      // TODO
-    }
     update(type, id) {
       const inputId = id + 1;
       const input = this.$refs[inputId][0];
@@ -164,6 +149,9 @@ export default {
       } else {
         this.requestLetter();
       }
+    },
+    summarize() {
+
     },
     requestLetter() {
       // TODO
