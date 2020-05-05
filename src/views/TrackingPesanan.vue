@@ -46,65 +46,6 @@ export default {
       ],
       response: {},
       trackingList: [],
-      DUMMY_DATA: [
-        {
-          pk: 101,
-          nama_pemesan: 'Athallah Annafis',
-          npm_pemesan: '1706075022',
-          waktu_pemesanan: '2 Januari 2020',
-          status_bayar: 'Lunas',
-          pesanan_surat_akademik: [
-            {
-              surat_akademik: 'Transkrip Nilai',
-              status_surat: 'Menunggu paraf Wakil Dekan',
-              jumlah: 2,
-            },
-            {
-              surat_akademik: 'Keterangan Mahasiswa FEB UI',
-              status_surat: 'Selesai',
-              jumlah: 1,
-            },
-          ],
-        },
-        {
-          pk: 102,
-          nama_pemesan: 'Julia Ningrum',
-          npm_pemesan: '1706075042',
-          waktu_pemesanan: '3 Februari 2020',
-          status_bayar: 'Lunas',
-          pesanan_surat_akademik: [
-            {
-              surat_akademik: 'Transkrip Nilai',
-              status_surat: 'Menunggu paraf Wakil Dekan',
-              jumlah: 2,
-            },
-            {
-              surat_akademik: 'Keterangan Mahasiswa FEB UI',
-              status_surat: 'Selesai',
-              jumlah: 1,
-            },
-          ],
-        },
-        {
-          pk: 103,
-          nama_pemesan: 'Yusuf Tri Ardho',
-          npm_pemesan: '1704052130',
-          waktu_pemesanan: '4 Maret 2020',
-          status_bayar: 'Belum Lunas',
-          pesanan_surat_akademik: [
-            {
-              surat_akademik: 'Transkrip Nilai',
-              status_surat: 'Menunggu paraf Wakil Dekan',
-              jumlah: 2,
-            },
-            {
-              surat_akademik: 'Keterangan Mahasiswa FEB UI',
-              status_surat: 'Selesai',
-              jumlah: 1,
-            },
-          ],
-        },
-      ],
     };
   },
   created: function() {
@@ -121,6 +62,18 @@ export default {
       for (let i = 0; i < theResponse.length; i++) {
         this.$set(theList, i, theResponse[i]);
       }
+    },
+    modifyDateTime: function(time) {
+      const datetime = String(time);
+      const timestampList = datetime.split('T');
+      const timeList = timestampList[1].split(':');
+
+      // Date and time
+      const second = timeList[2].split('.')[0];
+      const createdTime = timeList[0] + ':' + timeList[1] + ':' + second;
+      const date = timestampList[0];
+      const result = date + '  ' + createdTime;
+      return result;
     },
   },
 };
