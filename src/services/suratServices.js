@@ -7,12 +7,12 @@ export default {
   fetchStatusBayar() {
     return api.get('permohonan-surat/status-bayar/');
   },
-  updateStatusBayar(request, pesanan) {
+  updateStatusBayar(pesanan, request) {
     return api.patch('permohonan-surat/' +
     'pesanan/'+pesanan+'/update-status-bayar/',
     request);
   },
-  updateStatusSurat(request, pesanan, dokumen) {
+  updateStatusSurat(pesanan, dokumen, request) {
     return api.patch('permohonan-surat/' +
     'pesanan/'+pesanan+'/surat-akademik/'+dokumen+'/update-status/',
     request);
