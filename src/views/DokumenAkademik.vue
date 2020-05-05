@@ -172,6 +172,8 @@ export default {
     validateData() {
       if (this.nama_pemesan == '' || this.npm_pemesan == '') {
         this.error_message = 'Nama dan NPM belum diisi';
+      } else if (this.pesanan.length == 0) {
+        this.error_message = 'Silahkan pilih pesanan terlebih dahulu';
       } else {
         this.requestLetter();
       }
@@ -179,6 +181,7 @@ export default {
     summarize() {
       this.jumlah_harga = 0;
       this.pesanan = [];
+      this.error_message= '';
 
       for (const k in this.temp_pesanan) {
         if (this.temp_pesanan.hasOwnProperty(k)) {
@@ -202,7 +205,20 @@ export default {
       this.showModal('ringkasan');
     },
     requestLetter() {
-      // TODO
+      const request = {};
+
+      if (this.isAlumni) {
+        request['nama_pemesan'] = this.nama_pemesan;
+        request['npm_pemesan'] = this.npm_pemesan;
+      }
+      request['surat_akademik'] = this.pesanan;
+
+      suratApi.createPesanan(request).then((d) => {
+        this.error_message= '';
+        this.$router.push({name: 'tracking-surat'});
+      }).catch((error) => {
+        this.error_message = error.response.data.detail;
+      });
     },
   },
 };
