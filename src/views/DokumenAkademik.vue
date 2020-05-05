@@ -106,6 +106,13 @@ export default {
   },
   created() {
     this.fetchLetterList();
+
+    if(!this.isAlumni) {
+      suratApi.fetchDataPemesan().then((d) => {
+        this.nama_pemesan = d.data.mahasiswa.nama;
+        this.npm_pemesan = d.data.mahasiswa.npm;
+      });
+    };
   },
   methods: {
     fetchLetterList() {
