@@ -46,10 +46,7 @@ export default {
       id_pesanan_display: this.id_pesanan.padStart(6, '0'),
       error_message: '',
       status_bayar_input: this.status_surat,
-      list_status_bayar: [
-        'Lunas',
-        'Belum bayar',
-      ],
+      list_status_bayar: [],
     };
   },
   methods: {
@@ -60,7 +57,7 @@ export default {
       suratAPI.fetchStatusBayar().then((result) => {
         this.response = result.data;
         for (let i = 0; i < this.response.status_bayar.length; i++) {
-          this.$set(this.list_status_bayar, i, this.response.status_bayar[i]);
+          this.$set(this.list_status_bayar, i, this.response.status_bayar[i].nama);
         }
       });
     },

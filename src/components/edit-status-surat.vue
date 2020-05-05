@@ -48,12 +48,7 @@ export default {
       id_pesanan_display: this.id_pesanan.padStart('0', 6),
       error_message: '',
       status_surat_input: this.status_surat,
-      list_status_surat: [
-        'Menunggu paraf manager pendidikan',
-        'Menunggu paraf wakil dekan 1',
-        'Menunggu paraf wakil dekan',
-        'Selesai',
-      ],
+      list_status_surat: [],
     };
   },
   methods: {
@@ -64,7 +59,7 @@ export default {
       suratAPI.fetchStatusSurat().then((result) => {
         this.response = result.data;
         for (let i = 0; i < this.response.status_surat.length; i++) {
-          this.$set(this.list_status_surat, i, this.response.status_surat[i]);
+          this.$set(this.list_status_surat, i, this.response.status_surat[i].nama);
         }
       });
     },
