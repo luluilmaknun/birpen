@@ -64,6 +64,7 @@ def create_pesanan_surat_akademik(request):
     }, status=HTTP_200_OK)
 
 @api_view(["GET"])
+@permission_classes((IsAuthenticated, IsPrivilegedToAccessAcademicLetter,))
 def read_surat_akademik(_):
     surat_akademik = SuratAkademik.objects.all().order_by('jenis_dokumen')
 
