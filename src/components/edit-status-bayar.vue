@@ -57,7 +57,9 @@ export default {
       suratAPI.fetchStatusBayar().then((result) => {
         this.response = result.data;
         for (let i = 0; i < this.response.status_bayar.length; i++) {
-          this.$set(this.list_status_bayar, i, this.response.status_bayar[i].nama);
+          this.$set(
+              this.list_status_bayar, i, this.response.status_bayar[i].nama
+          );
         }
       });
     },

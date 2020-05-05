@@ -59,7 +59,9 @@ export default {
       suratAPI.fetchStatusSurat().then((result) => {
         this.response = result.data;
         for (let i = 0; i < this.response.status_surat.length; i++) {
-          this.$set(this.list_status_surat, i, this.response.status_surat[i].nama);
+          this.$set(
+              this.list_status_surat, i, this.response.status_surat[i].nama
+          );
         }
       });
     },
