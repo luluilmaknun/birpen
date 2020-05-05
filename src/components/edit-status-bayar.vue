@@ -9,9 +9,9 @@
           <p id='id-pesanan'>ID Pesanan: {{ this.id_pesanan_display }}</p>
       </div>
       <div class="modal-container">
-        <h1 id="desc-modal">Status surat</h1>
-        <select v-model="status_surat_input">
-          <option v-for='status in list_status_surat'
+        <h1 id="desc-modal">Status bayar</h1>
+        <select v-model="status_bayar_input">
+          <option v-for='status in list_status_bayar'
             :key="status">
             {{ status }}
           </option>
@@ -20,7 +20,7 @@
       <div class='submit-container'>
         <p id="error-message" v-if='error_message'>{{ error_message }}</p>
         <button class="simpan-button" id="simpan-button"
-        @click="updateStatusSurat">Simpan</button>
+        @click="updateStatusBayar">Simpan</button>
       </div>
     </modal>
 
@@ -34,25 +34,21 @@
 import suratAPI from '@/services/suratServices';
 
 export default {
-  name: 'edit-status-surat',
+  name: 'edit-status-bayar',
   props: {
     id_pesanan: String,
-    jenis_dokumen: String,
-    status_surat: String,
   },
   created() {
-    this.fetchStatusSuratList();
+    this.fetchStatusBayarList();
   },
   data: function() {
     return {
-      id_pesanan_display: this.id_pesanan.padStart('0', 6),
+      id_pesanan_display: this.id_pesanan.padStart(6, '0'),
       error_message: '',
-      status_surat_input: this.status_surat,
-      list_status_surat: [
-        'Menunggu paraf manager pendidikan',
-        'Menunggu paraf wakil dekan 1',
-        'Menunggu paraf wakil dekan',
-        'Selesai',
+      status_bayar_input: this.status_surat,
+      list_status_bayar: [
+        'Lunas',
+        'Belum bayar',
       ],
     };
   },
@@ -60,17 +56,17 @@ export default {
     open_modal: function() {
       this.$modal.show(this.id_pesanan);
     },
-    fetchStatusSuratList: function() {
-      suratAPI.fetchStatusSurat().then((result) => {
+    fetchStatusBayarList: function() {
+      suratAPI.fetchStatusBayar().then((result) => {
         this.response = result.data;
-        for (let i = 0; i < this.response.status_surat.length; i++) {
-          this.$set(this.list_status_surat, i, this.response.status_surat[i]);
+        for (let i = 0; i < this.response.status_bayar.length; i++) {
+          this.$set(this.list_status_bayar, i, this.response.status_bayar[i]);
         }
       });
     },
-    updateStatusSurat: function() {
-      suratAPI.updateStatusSurat(this.id_pesanan, this.jenis_dokumen, {
-        status_surat: this.status_surat_input,
+    updateStatusBayar: function() {
+      suratAPI.updateStatusBayar(this.id_pesanan, {
+        status_bayar: this.status_bayar_input,
       }).then((result) => {
         this.$router.go();
       }).catch((error) => {
