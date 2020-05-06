@@ -24,7 +24,9 @@
           <td id="status_bayar">
             <div v-if="isAdmin" class="status-bayar-div">
               {{ data.status_bayar }}
-              <EditStatusBayar :id_pesanan="String(data.pk)"/>
+              <EditStatusBayar
+              :id_pesanan="String(data.pk)"
+              :status_bayar="data.status_bayar"/>
             </div>
             <div class="status-bayar-div" v-else>
               {{ data.status_bayar }}
@@ -171,8 +173,5 @@ tr:nth-child(odd) {
   justify-content: center;
   align-items: center;
   text-align: center;
-}
-.status-bayar-div * {
-  margin: 0;
 }
 </style>
