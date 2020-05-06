@@ -8,9 +8,9 @@
             {{ head }}
           </th>
         </tr>
-        <tr v-for="data in DUMMY_DATA" :key="data.id">
+        <tr v-for="data in this.trackingList" :key="data.id">
           <td id="pk">
-            {{ data.pk }}
+            {{ String(data.pk).padStart(6, '0') }}
           </td>
           <td id="nama_pemesan">
             {{ data.nama_pemesan }}
@@ -22,11 +22,18 @@
             {{ data.waktu_pemesanan }}
           </td>
           <td id="status_bayar">
-            {{ data.status_bayar }}
+            <div v-if="isAdmin" class="status-bayar-div">
+              {{ data.status_bayar }}
+              <EditStatusBayar
+              :id_pesanan="String(data.pk).padStart(6, '0')"
+              :status_bayar="data.status_bayar"/>
+            </div>
+            <div class="status-bayar-div" v-else>
+              {{ data.status_bayar }}
+            </div>
           </td>
           <td id="aksi">
-            <button v-on:click="showDetailPage(data.pk)"
-            class="detail-button">
+            <button class="detail-button">
               Detail
             </button>
           </td>
@@ -37,8 +44,12 @@
 </template>
 
 <script>
+import EditStatusBayar from '@/components/edit-status-bayar.vue';
 import trackingPesananApi from '@/services/trackingPesananServices.js';
 export default {
+  components: {
+    EditStatusBayar,
+  },
   data: function() {
     return {
       tableHead: [
@@ -47,74 +58,19 @@ export default {
       ],
       response: {},
       trackingList: [],
-      DUMMY_DATA: [
-        {
-          pk: 101,
-          nama_pemesan: 'Athallah Annafis',
-          npm_pemesan: '1706075022',
-          waktu_pemesanan: '2 Januari 2020',
-          status_bayar: 'Lunas',
-          pesanan_surat_akademik: [
-            {
-              surat_akademik: 'Transkrip Nilai',
-              status_surat: 'Menunggu paraf Wakil Dekan',
-              jumlah: 2,
-            },
-            {
-              surat_akademik: 'Keterangan Mahasiswa FEB UI',
-              status_surat: 'Selesai',
-              jumlah: 1,
-            },
-          ],
-        },
-        {
-          pk: 102,
-          nama_pemesan: 'Julia Ningrum',
-          npm_pemesan: '1706075042',
-          waktu_pemesanan: '3 Februari 2020',
-          status_bayar: 'Lunas',
-          pesanan_surat_akademik: [
-            {
-              surat_akademik: 'Transkrip Nilai',
-              status_surat: 'Menunggu paraf Wakil Dekan',
-              jumlah: 2,
-            },
-            {
-              surat_akademik: 'Keterangan Mahasiswa FEB UI',
-              status_surat: 'Selesai',
-              jumlah: 1,
-            },
-          ],
-        },
-        {
-          pk: 103,
-          nama_pemesan: 'Yusuf Tri Ardho',
-          npm_pemesan: '1704052130',
-          waktu_pemesanan: '4 Maret 2020',
-          status_bayar: 'Belum Lunas',
-          pesanan_surat_akademik: [
-            {
-              surat_akademik: 'Transkrip Nilai',
-              status_surat: 'Menunggu paraf Wakil Dekan',
-              jumlah: 2,
-            },
-            {
-              surat_akademik: 'Keterangan Mahasiswa FEB UI',
-              status_surat: 'Selesai',
-              jumlah: 1,
-            },
-          ],
-        },
-      ],
+      isAdmin: localStorage.getItem('is_admin') === 'true',
     };
   },
   created: function() {
-
+    this.fetchTrackingPesanan();
   },
   methods: {
     fetchTrackingPesanan: function() {
       trackingPesananApi.getTrackingPesanan().then((result) => {
         this.response = result.data;
+        this.responseToList(this.response.pesanan, this.trackingList);
+        // Perform modify created date
+        this.fetchDateCreated(this.trackingList, 'waktu_pemesanan');
       });
     },
     responseToList: function(theResponse, theList) {
@@ -124,7 +80,44 @@ export default {
     },
     showDetailPage: function(pk) {
       this.$router.push('/surat/tracking/' + pk + '/detailPengajuanSurat/');
-    }
+    },
+    fetchDateCreated: function(theList, columnTarget) {
+      let modDate;
+      for (let i = 0; i < theList.length; i++) {
+        modDate = this.getDate(theList[i].waktu_pemesanan);
+        this.$set(theList[i], columnTarget, modDate);
+      }
+    },
+    getMonthName: function(monthNumber) {
+      const choice = monthNumber - 1;
+      const month = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni',
+        'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+      return month[choice];
+    },
+    getDate: function(dateAndTime) {
+      const temp = this.modifyDateTime(dateAndTime);
+      const tempArr = temp.split(' ');
+      const dateArr = tempArr[0].split('-');
+      // Perform date formating
+      const day = dateArr[2];
+      const monthNumber = dateArr[1];
+      const month = this.getMonthName(monthNumber);
+      const year = dateArr[0];
+      const result = day + ' ' + month + ' ' + year;
+      return result;
+    },
+    modifyDateTime: function(defaultTime) {
+      const datetime = String(defaultTime);
+      const timestampList = datetime.split('T');
+      const timeList = timestampList[1].split(':');
+
+      // Date and time
+      const second = timeList[2].split('.')[0];
+      const createdTime = timeList[0] + ':' + timeList[1] + ':' + second;
+      const date = timestampList[0];
+      const result = date + '  ' + createdTime;
+      return result;
+    },
   },
 };
 </script>
@@ -176,5 +169,12 @@ th {
 }
 tr:nth-child(odd) {
   background-color: #D3D3D3;
+}
+.status-bayar-div {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
 }
 </style>
