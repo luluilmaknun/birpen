@@ -56,6 +56,8 @@ export default {
       trackingPesananApi.getTrackingPesanan().then((result) => {
         this.response = result.data;
         this.responseToList(this.response.pesanan, this.trackingList);
+        // Perform modify created date
+        this.fetchDateCreated(this.trackingList, 'waktu_pemesanan');
       });
     },
     responseToList: function(theResponse, theList) {
@@ -63,8 +65,33 @@ export default {
         this.$set(theList, i, theResponse[i]);
       }
     },
-    modifyDateTime: function(time) {
-      const datetime = String(time);
+    fetchDateCreated: function(theList, columnTarget) {
+      let modDate;
+      for (let i = 0; i < theList.length; i++) {
+        modDate = this.getDate(theList[i].waktu_pemesanan);
+        this.$set(theList[i], columnTarget, modDate);
+      }
+    },
+    getMonthName: function(monthNumber) {
+      const choice = monthNumber - 1;
+      const month = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni',
+        'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+      return month[choice];
+    },
+    getDate: function(dateAndTime) {
+      const temp = this.modifyDateTime(dateAndTime);
+      const tempArr = temp.split(' ');
+      const dateArr = tempArr[0].split('-');
+      // Perform date formating
+      const day = dateArr[2];
+      const monthNumber = dateArr[1];
+      const month = this.getMonthName(monthNumber);
+      const year = dateArr[0];
+      const result = day + ' ' + month + ' ' + year;
+      return result;
+    },
+    modifyDateTime: function(defaultTime) {
+      const datetime = String(defaultTime);
       const timestampList = datetime.split('T');
       const timeList = timestampList[1].split(':');
 
