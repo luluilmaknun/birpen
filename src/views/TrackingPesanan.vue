@@ -33,7 +33,9 @@
             </div>
           </td>
           <td id="aksi">
-            <button class="detail-button">
+            <button
+            v-on:click="showDetailPage(String(data.pk).padStart(6, '0'))"
+            class="detail-button">
               Detail
             </button>
           </td>
@@ -45,7 +47,7 @@
 
 <script>
 import EditStatusBayar from '@/components/edit-status-bayar.vue';
-import trackingPesananApi from '@/services/trackingPesananServices.js';
+import trackingPesananApi from '@/services/suratServices.js';
 export default {
   components: {
     EditStatusBayar,
