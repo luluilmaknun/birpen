@@ -10,7 +10,7 @@ describe('Cek komponen tabel', () => {
       'npm_pesanan': '1706075200',
       'pk': '12',
       'status_bayar': 'Belum Bayar',
-      'waktu_pemesanan': '3 Januari 2020',
+      'waktu_pemesanan': '2020-05-06T06:39:12.00+07:00',
     },
   ];
   beforeEach(() => {
