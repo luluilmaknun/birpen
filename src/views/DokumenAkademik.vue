@@ -345,6 +345,10 @@ input::-webkit-inner-spin-button {
   padding: 15px;
   min-width: 150px;
 }
+.button-container.pemesanan button:hover {
+  background-color: #FFDD00;
+  color: white;
+}
 .text-danger {
   color: red;
   font-weight: 700;
@@ -356,17 +360,27 @@ input::-webkit-inner-spin-button {
 .button-container.ringkasan .btn {
   font-size: 23px;
   font-weight: bolder;
-  border: 0px;
   padding: 8px 30px;
   width: 135px;
   border-radius: 34.5px;
   margin: 15px;
+  opacity: 0.7;
+}
+.button-container.ringkasan .btn-grn:hover {
+  background-color: white;
+  color: #3C8F2F;
+}
+.button-container.ringkasan .btn-red:hover {
+  background-color: white;
+  color: #E63946;
 }
 .button-container.ringkasan .btn-grn {
+  border: 2px solid #3C8F2F;
   background: #3C8F2F;
   color: white;
 }
 .button-container.ringkasan .btn-red {
+  border: 2px solid #E63946;
   background: #E63946;
   color: white;
 }
