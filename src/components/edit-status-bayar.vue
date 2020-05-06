@@ -164,8 +164,11 @@ export default {
 #pen-icon {
   width: 20px;
 }
+<<<<<<< HEAD
 
 .main-edit-status-bayar-container {
   margin: 0;
 }
+=======
+>>>>>>> c5e43bc4b593a68aac2e951630ea87bd2bd2790b
 </style>
