@@ -22,9 +22,12 @@
             {{ data.waktu_pemesanan }}
           </td>
           <td id="status_bayar">
-            <div class="status-bayar-div">
+            <div v-if="isAdmin" class="status-bayar-div">
               {{ data.status_bayar }}
               <EditStatusBayar :id_pesanan="String(data.pk)"/>
+            </div>
+            <div class="status-bayar-div" v-else>
+              {{ data.status_bayar }}
             </div>
           </td>
           <td id="aksi">
@@ -53,6 +56,7 @@ export default {
       ],
       response: {},
       trackingList: [],
+      isAdmin: localStorage.getItem('is_admin') === 'true',
     };
   },
   created: function() {
