@@ -364,7 +364,6 @@ input::-webkit-inner-spin-button {
   width: 135px;
   border-radius: 34.5px;
   margin: 15px;
-  opacity: 0.7;
 }
 .button-container.ringkasan .btn-grn:hover {
   background-color: white;
