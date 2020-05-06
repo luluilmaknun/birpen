@@ -10,6 +10,7 @@ import MainMenuSurat from '@/views/MainMenuSurat.vue';
 import AdminPage from '@/views/AdminPage.vue';
 import Register from '@/views/Register.vue';
 import AlumniPage from '@/views/AlumniPage.vue';
+import DokumenAkademik from '@/views/DokumenAkademik.vue';
 
 Vue.use(Router);
 
@@ -41,7 +42,7 @@ const router = new Router({
     {
       path: '/surat/pemesanan/',
       name: 'pemesanan-dokumen',
-      component: null,
+      component: DokumenAkademik,
       meta: {
         requiresAuth: true,
       },

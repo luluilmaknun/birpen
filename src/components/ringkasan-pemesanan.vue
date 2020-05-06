@@ -54,6 +54,9 @@ export default {
 </script>
 
 <style scoped>
+#ringkasan-pemesanan {
+  width: 100%;
+}
 #ringkasan-pemesanan .title {
   font-weight: bold;
   font-size: 40px;
@@ -63,7 +66,7 @@ export default {
 }
 /* TABLE SECTION */
 .table-div {
-  width: 60%;
+  width: 90%;
   display: flex;
   flex-direction: column;
   align-items: center;
