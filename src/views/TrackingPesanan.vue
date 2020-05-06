@@ -22,7 +22,10 @@
             {{ data.waktu_pemesanan }}
           </td>
           <td id="status_bayar">
-            {{ data.status_bayar }}
+            <div class="status-bayar-div">
+              {{ data.status_bayar }}
+              <EditStatusBayar :id_pesanan="String(data.pk)"/>
+            </div>
           </td>
           <td id="aksi">
             <button class="detail-button">
@@ -36,8 +39,12 @@
 </template>
 
 <script>
+import EditStatusBayar from '@/components/edit-status-bayar.vue';
 import trackingPesananApi from '@/services/trackingPesananServices.js';
 export default {
+  components: {
+    EditStatusBayar,
+  },
   data: function() {
     return {
       tableHead: [
@@ -153,5 +160,15 @@ th {
 }
 tr:nth-child(odd) {
   background-color: #D3D3D3;
+}
+.status-bayar-div {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+.status-bayar-div * {
+  margin: 0;
 }
 </style>
