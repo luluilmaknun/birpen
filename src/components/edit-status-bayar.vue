@@ -37,6 +37,7 @@ export default {
   name: 'edit-status-bayar',
   props: {
     id_pesanan: String,
+    status_bayar: String,
   },
   created() {
     this.fetchStatusBayarList();
@@ -45,7 +46,7 @@ export default {
     return {
       id_pesanan_display: this.id_pesanan.padStart(6, '0'),
       error_message: '',
-      status_bayar_input: this.status_surat,
+      status_bayar_input: this.status_bayar,
       list_status_bayar: [],
     };
   },
