@@ -347,7 +347,7 @@ input::-webkit-inner-spin-button {
 }
 .button-container.pemesanan button:hover {
   background-color: #FFDD00;
-  color: white;
+  color: black;
 }
 .text-danger {
   color: red;
