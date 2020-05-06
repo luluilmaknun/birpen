@@ -10,7 +10,7 @@
         </tr>
         <tr v-for="data in this.trackingList" :key="data.id">
           <td id="pk">
-            {{ data.pk }}
+            {{ String(data.pk).padStart(6, '0') }}
           </td>
           <td id="nama_pemesan">
             {{ data.nama_pemesan }}
@@ -25,7 +25,7 @@
             <div v-if="isAdmin" class="status-bayar-div">
               {{ data.status_bayar }}
               <EditStatusBayar
-              :id_pesanan="String(data.pk)"
+              :id_pesanan="String(data.pk).padStart(6, '0')"
               :status_bayar="data.status_bayar"/>
             </div>
             <div class="status-bayar-div" v-else>
