@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="main-edit-status-bayar-container">
     <modal v-bind:name=this.id_pesanan
     @before-open="error_message=''"
     height="auto"
@@ -163,5 +163,9 @@ export default {
 
 #pen-icon {
   width: 20px;
+}
+
+.main-edit-status-bayar-container {
+  margin: 0;
 }
 </style>
