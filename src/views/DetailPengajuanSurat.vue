@@ -109,7 +109,6 @@ export default {
         this.responseToList(
             this.detailPesanan.pesanan_surat_akademik, this.listPesanan
         );
-        console.log(this.listPesanan);
       });
     },
     responseToList: function(theResponse, theList) {
