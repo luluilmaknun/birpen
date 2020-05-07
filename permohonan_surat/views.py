@@ -121,9 +121,9 @@ def get_status_surat(request):
 def read_pesanan(request):
 
     if request.user.is_admin():
-        pesanan = Pesanan.objects.all().order_by('-waktu_pemesanan')
+        pesanan = Pesanan.objects.all().order_by('-waktu_pemesanan', 'id')
     else:
-        pesanan = Pesanan.objects.filter(pemesan=request.user).order_by('-waktu_pemesanan')
+        pesanan = Pesanan.objects.filter(pemesan=request.user).order_by('-waktu_pemesanan', 'id')
 
     pesanan = [PesananSerializer(pesanan).data for pesanan in pesanan]
 
