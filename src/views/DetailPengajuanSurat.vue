@@ -44,7 +44,7 @@
               class="edit-status-surat-div">
                 {{ content.status_surat }}
                 <EditStatusSurat
-                :id_pesanan="String(idPesanan).padStart(6, '0')"
+                :id_pesanan="idPesanan"
                 :status_surat="content.status_surat"
                 :jenis_dokumen="content.surat_akademik"
                 />
@@ -120,7 +120,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .main-container {
   width: 60%;
 }
