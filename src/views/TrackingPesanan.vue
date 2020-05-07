@@ -81,7 +81,7 @@ export default {
       }
     },
     showDetailPage: function(pk) {
-      this.$router.push('/surat/tracking/' + pk + '/detailPengajuanSurat/');
+      this.$router.push('/surat/tracking/' + pk + '/detail/');
     },
     fetchDateCreated: function(theList, columnTarget) {
       let modDate;
