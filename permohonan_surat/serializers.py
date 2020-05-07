@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from .models import Pesanan, PesananSuratAkademik, StatusBayar
+from .models import Pesanan, PesananSuratAkademik, StatusBayar, StatusSurat
 
 class StatusBayarField(serializers.RelatedField):
     def to_representation(self, value):
@@ -44,8 +44,12 @@ class DetailPesananSerializer(serializers.ModelSerializer):
         return [PesananSuratAkademikSerializer(psa).data
                 for psa in PesananSuratAkademik.objects.filter(pesanan=pesanan)]
 
-class StatusBayarSerializer(serializers.ModelSerializer):
+class StatusSuratSerializers(serializers.ModelSerializer):
+    class Meta:
+        model = StatusSurat
+        fields = ['nama']
 
+class StatusBayarSerializer(serializers.ModelSerializer):
     class Meta:
         model = StatusBayar
         fields = ['nama']
