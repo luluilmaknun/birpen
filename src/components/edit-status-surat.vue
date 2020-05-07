@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="main-container-edit-status-surat">
     <modal v-bind:name=this.id_pesanan
     @before-open="error_message=''"
     height="auto"
@@ -79,6 +79,9 @@ export default {
 </script>
 
 <style scoped>
+.main-container-edit-status-surat {
+  margin: 0;
+}
 
 .modal-buttons button {
   margin-left: 10px;
