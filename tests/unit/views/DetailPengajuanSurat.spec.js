@@ -1,28 +1,35 @@
 import {shallowMount} from '@vue/test-utils';
 import DetailPengajuanSurat from '@/views/DetailPengajuanSurat.vue';
 
-describe('Cek komponen profile', () => {
+describe('Test fetch', () => {
   let wrapper;
-  wrapper = shallowMount(DetailPengajuanSurat);
-  it('Cek profile Component', () => {
-    const div = wrapper.find('.profile-detail');
-    expect(div.exists()).toBe(true);
-  });
+  let vm;
 
-  it('Cek profile detail', () => {
+  const mockResponse = {
+    'nama_pemesan': 'Ardo',
+    'npm_pemesan': '1706075200',
+    'pesanan_surat_akademik': [
+      {
+        'jumlah': 4,
+        'status_surat': 'Bisa Diambil',
+        'surat_akademik': 'Cetak/Denda: FRS/IRS',
+      },
+    ],
+    'pk': '12',
+    'status_bayar': 'Belum Bayar',
+    'waktu_pemesanan': '2020-05-06T06:39:12.00+07:00',
+  };
+
+  const paddingPK = String(mockResponse.pk).padStart(6, '0');
+  it('test fetch', () => {
     wrapper = shallowMount(DetailPengajuanSurat, {
       data() {
         return {
-          'profileDetail': {
-            'nama': 'sebuah nama',
-            'npm': '1706075022',
-            'id_pesanan': '170DFC',
-          },
+          detailPesanan: mockResponse,
         };
       },
     });
-    expect(wrapper.find('#profile-nama').html()).toContain('sebuah nama');
-    expect(wrapper.find('#profile-npm').html()).toContain('1706075022');
-    expect(wrapper.find('#profile-idPesanan').html()).toContain('170DFC');
+    vm = wrapper.vm;
+    vm.fetchDetail(paddingPK);
   });
 });
