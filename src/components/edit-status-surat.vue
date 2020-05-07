@@ -45,7 +45,7 @@ export default {
   },
   data: function() {
     return {
-      id_pesanan_display: this.id_pesanan.padStart('0', 6),
+      id_pesanan_display: this.id_pesanan.padStart(6, '0'),
       error_message: '',
       status_surat_input: this.status_surat,
       list_status_surat: [],
