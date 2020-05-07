@@ -160,7 +160,7 @@ def update_status_surat(request, id_pesanan, jenis_dokumen):
             pesanan=id_pesanan,
             surat_akademik__jenis_dokumen=jenis_dokumen,
         )
-        psa.status_surat.nama = status_surat
+        psa.status_surat = StatusSurat.objects.get(nama=status_surat)
         psa.save()
 
     except (ObjectDoesNotExist, FieldError):
