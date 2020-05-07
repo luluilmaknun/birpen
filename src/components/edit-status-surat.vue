@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <modal v-bind:name=this.id_pesanan
+  <div class="main-container-edit-status-surat">
+    <modal v-bind:name=this.jenis_dokumen
     @before-open="error_message=''"
     height="auto"
     width="475"
@@ -45,7 +45,7 @@ export default {
   },
   data: function() {
     return {
-      id_pesanan_display: this.id_pesanan.padStart('0', 6),
+      id_pesanan_display: this.id_pesanan.padStart(6, '0'),
       error_message: '',
       status_surat_input: this.status_surat,
       list_status_surat: [],
@@ -53,7 +53,7 @@ export default {
   },
   methods: {
     open_modal: function() {
-      this.$modal.show(this.id_pesanan);
+      this.$modal.show(this.jenis_dokumen);
     },
     fetchStatusSuratList: function() {
       suratAPI.fetchStatusSurat().then((result) => {
@@ -79,6 +79,9 @@ export default {
 </script>
 
 <style scoped>
+.main-container-edit-status-surat {
+  margin: 0;
+}
 
 .modal-buttons button {
   margin-left: 10px;
