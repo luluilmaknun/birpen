@@ -132,6 +132,6 @@ class UpdateSuratTest(TestCase):
             self.id_pesanan_mahasiswa, self.jenis_dokumen_1)
         self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + self.token_admin)
         response = self.client.patch(url_request, data=urlencode({
-            'status_surat':'Lunas'}), content_type='application/x-www-form-urlencoded')
+            'status_surat':'Selesai'}), content_type='application/x-www-form-urlencoded')
         self.assertEqual(response.data['success'], True)
         self.assertEqual(response.status_code, 200)
