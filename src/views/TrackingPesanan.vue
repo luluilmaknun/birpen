@@ -124,7 +124,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .table-div h2 {
   color: black;
   margin-bottom: 20px;

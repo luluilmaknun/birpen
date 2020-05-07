@@ -1,6 +1,6 @@
-from django.db.utils import IntegrityError, DataError
 from django.core.exceptions import ObjectDoesNotExist, FieldError
 from django.core.validators import ValidationError
+from django.db.utils import IntegrityError, DataError
 from django.views.decorators.csrf import csrf_exempt
 
 from rest_framework.decorators import api_view, permission_classes
@@ -12,12 +12,13 @@ from rest_framework.status import (
 )
 
 from .models import Pesanan, PesananSuratAkademik, SuratAkademik, \
-    StatusBayar
+    StatusBayar, StatusSurat
 from .permissions import IsPrivilegedToRequestAcademicLetter, \
     IsPrivilegedToReadPesanan, IsPrivilegedToReadDetailPesanan, \
-    IsPrivilegedToUpdateAcademicLetterStatus
+    IsPrivilegedToUpdateAcademicLetterStatus, IsPrivilegedToAccessAcademicLetter, \
+    IsPrivilegedToGetMahasiswaProfile
 from .serializers import PesananSerializer, DetailPesananSerializer, \
-    StatusBayarSerializer
+    StatusBayarSerializer, StatusSuratSerializers, SuratAkademikSerializer
 
 
 @api_view(["GET"])
@@ -65,6 +66,7 @@ def update_status_bayar(request, id_pesanan):
         "success": True,
     }, status=HTTP_200_OK)
 
+
 @csrf_exempt
 @api_view(["POST"])
 @permission_classes((IsAuthenticated, IsPrivilegedToRequestAcademicLetter, ))
@@ -103,6 +105,17 @@ def create_pesanan_surat_akademik(request):
         "success": True,
     }, status=HTTP_200_OK)
 
+
+@api_view(["GET"])
+@permission_classes((IsAuthenticated, IsPrivilegedToUpdateAcademicLetterStatus,))
+def get_status_surat(request):
+    status_surat = StatusSurat.objects.all()
+    return Response({
+        "success": True,
+        "status_surat": StatusSuratSerializers(status_surat, many=True).data,
+    }, status=HTTP_200_OK)
+
+
 @api_view(["GET"])
 @permission_classes((IsAuthenticated, IsPrivilegedToReadPesanan, ))
 def read_pesanan(request):
@@ -118,6 +131,7 @@ def read_pesanan(request):
         "pesanan": pesanan,
     }, status=HTTP_200_OK)
 
+
 @api_view(["GET"])
 @permission_classes((IsAuthenticated, IsPrivilegedToReadPesanan,
                      IsPrivilegedToReadDetailPesanan, ))
@@ -132,6 +146,7 @@ def read_pesanan_detail(_, id_pesanan):
         }, status=HTTP_400_BAD_REQUEST)
 
     return Response(pesanan, status=HTTP_200_OK)
+
 
 @csrf_exempt
 @api_view(["PATCH"])
@@ -155,4 +170,31 @@ def update_status_surat(request, id_pesanan, jenis_dokumen):
 
     return Response({
         "success": True,
+    }, status=HTTP_200_OK)
+
+
+@api_view(["GET"])
+@permission_classes((IsAuthenticated, IsPrivilegedToAccessAcademicLetter,))
+def read_surat_akademik(_):
+    surat_akademik = SuratAkademik.objects.all().order_by('jenis_dokumen')
+
+    surat_akademik_serialized = \
+        (SuratAkademikSerializer(surat).data for surat in surat_akademik)
+
+    return Response({
+        "success": True,
+        "surat_akademik": surat_akademik_serialized
+    }, status=HTTP_200_OK)
+
+
+@csrf_exempt
+@api_view(["GET"])
+@permission_classes((IsAuthenticated, IsPrivilegedToGetMahasiswaProfile,))
+def get_mahasiswa_profile(request):
+
+    return Response({
+        "mahasiswa": {
+            "nama": request.user.first_name + " " + request.user.last_name,
+            "npm": request.user.profile.npm,
+        }
     }, status=HTTP_200_OK)
