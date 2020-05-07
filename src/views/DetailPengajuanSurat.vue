@@ -70,26 +70,11 @@ export default {
   },
   data: function() {
     return {
-      profileDetail: {
-        nama: 'Athallah Annafis',
-        npm: '1706075022',
-        id_pesanan: 'OD1FC',
-      },
       response: {},
       detailPesanan: {},
       listPesanan: [],
       idPesanan: 'undefined',
       isAdmin: localStorage.getItem('is_admin') === 'true',
-      DUMMY_DATA: [
-        {
-          nama_surat: 'Transkrip nilai',
-          nama_status_surat: 'Menunggu paraf dari Wakil Dekan',
-        },
-        {
-          nama_surat: 'Keterangan Mahasiswa FIB UI',
-          nama_status_surat: 'Selesai',
-        },
-      ],
     };
   },
   created: function() {
@@ -98,7 +83,6 @@ export default {
   },
   methods: {
     getIdFromURL: function(theURL) {
-      // https://pplukan.com/surat/tracking/idPesanan/detailPengajuanSurat
       const tempArr = theURL.split('/');
       const theID = tempArr[5];
       return theID;
