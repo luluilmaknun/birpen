@@ -17,7 +17,7 @@
             "pemesan": 6,
             "nama_pemesan":"Agas Yanpratama",
             "npm_pemesan":"1706979213",
-            "waktu_pemesanan":"2020-04-29T12:44:18Z",
+            "waktu_pemesanan":"2020-03-29T12:44:18Z",
             "status_bayar":1
         }
     },
@@ -28,7 +28,7 @@
             "pemesan": 7,
             "nama_pemesan":"Ichlassul Affan",
             "npm_pemesan":"1706974215",
-            "waktu_pemesanan":"2020-04-29T12:44:18Z",
+            "waktu_pemesanan":"2020-02-29T12:44:18Z",
             "status_bayar":2
         }
     },
@@ -39,7 +39,7 @@
             "pemesan": 9,
             "nama_pemesan":"Magna Alamna",
             "npm_pemesan":"1706972217",
-            "waktu_pemesanan":"2020-04-29T12:44:18Z",
+            "waktu_pemesanan":"2020-01-29T12:44:18Z",
             "status_bayar":2
         }
     }
