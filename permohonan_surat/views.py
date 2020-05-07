@@ -15,9 +15,10 @@ from .models import Pesanan, PesananSuratAkademik, SuratAkademik, \
     StatusBayar, StatusSurat
 from .permissions import IsPrivilegedToRequestAcademicLetter, \
     IsPrivilegedToReadPesanan, IsPrivilegedToReadDetailPesanan, \
-    IsPrivilegedToUpdateAcademicLetterStatus
+    IsPrivilegedToUpdateAcademicLetterStatus, IsPrivilegedToAccessAcademicLetter, \
+    IsPrivilegedToGetMahasiswaProfile
 from .serializers import PesananSerializer, DetailPesananSerializer, \
-    StatusBayarSerializer, StatusSuratSerializers
+    StatusBayarSerializer, StatusSuratSerializers, SuratAkademikSerializer
 
 
 @api_view(["GET"])
@@ -169,4 +170,31 @@ def update_status_surat(request, id_pesanan, jenis_dokumen):
 
     return Response({
         "success": True,
+    }, status=HTTP_200_OK)
+
+
+@api_view(["GET"])
+@permission_classes((IsAuthenticated, IsPrivilegedToAccessAcademicLetter,))
+def read_surat_akademik(_):
+    surat_akademik = SuratAkademik.objects.all().order_by('jenis_dokumen')
+
+    surat_akademik_serialized = \
+        (SuratAkademikSerializer(surat).data for surat in surat_akademik)
+
+    return Response({
+        "success": True,
+        "surat_akademik": surat_akademik_serialized
+    }, status=HTTP_200_OK)
+
+
+@csrf_exempt
+@api_view(["GET"])
+@permission_classes((IsAuthenticated, IsPrivilegedToGetMahasiswaProfile,))
+def get_mahasiswa_profile(request):
+
+    return Response({
+        "mahasiswa": {
+            "nama": request.user.first_name + " " + request.user.last_name,
+            "npm": request.user.profile.npm,
+        }
     }, status=HTTP_200_OK)
