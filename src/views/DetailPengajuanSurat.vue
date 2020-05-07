@@ -3,14 +3,16 @@
     <div class="main-container">
       <div class="profile-detail">
         <div class="left-detail">
-          <p>Nama:</p>
-          <p>NPM:</p>
-          <p>ID Pesanan:</p>
+          <p>Nama</p>
+          <p>NPM</p>
+          <p>ID Pesanan</p>
         </div>
         <div class="right-detail">
-          <p id="profile-nama">{{ profileDetail.nama }}</p>
-          <p id="profile-npm">{{ profileDetail.npm }}</p>
-          <p id="profile-idPesanan">{{ profileDetail.id_pesanan }}</p>
+          <p id="profile-nama">: {{ detailPesanan.nama_pemesan }}</p>
+          <p id="profile-npm">: {{ detailPesanan.npm_pemesan }}</p>
+          <p id="profile-idPesanan">
+            : {{ String(detailPesanan.pk).padStart(6, '0') }}
+          </p>
         </div>
       </div>
       <!-- table -->
@@ -21,17 +23,25 @@
               Nama Surat
             </th>
             <th>
+              Jumlah
+            </th>
+            <th>
               Status
             </th>
           </tr>
 
-          <tr v-for="content in listSuratTransfered"
-          :key="content.status_surat">
+          <tr v-for="content in listPesanan"
+          :key="content.surat_akademik">
             <td id="nama_surat">
               {{ content.surat_akademik }}
             </td>
+            <td id="jumlah_surat">
+              {{ content.jumlah }}
+            </td>
             <td id="nama_status_surat">
-              {{ content.status_surat }}
+              <div>
+                {{ content.status_surat }}
+              </div>
             </td>
           </tr>
         </table>
@@ -41,12 +51,9 @@
 </template>
 
 <script>
-import trackingPesananApi from '@/services/trackingPesananServices.js';
+import trackingPesananApi from '@/services/suratServices.js';
 
 export default {
-  created: function() {
-
-  },
   data: function() {
     return {
       profileDetail: {
@@ -55,7 +62,9 @@ export default {
         id_pesanan: 'OD1FC',
       },
       response: {},
+      detailPesanan: {},
       listPesanan: [],
+      idPesanan: 'undefined',
       DUMMY_DATA: [
         {
           nama_surat: 'Transkrip nilai',
@@ -68,11 +77,29 @@ export default {
       ],
     };
   },
+  created: function() {
+    this.idPesanan = this.getIdFromURL(window.location.href);
+    this.fetchDetail(this.idPesanan);
+  },
   methods: {
-    fetchPesanan() {
-      trackingPesananApi.getTrackingPesanan().then((result) => {
-        this.response = result;
+    getIdFromURL: function(theURL) {
+      // https://pplukan.com/surat/tracking/idPesanan/detailPengajuanSurat
+      const tempArr = theURL.split('/');
+      const theID = tempArr[5];
+      return theID;
+    },
+    fetchDetail: function(idPesanan) {
+      trackingPesananApi.getDetailPesanan(idPesanan).then((result) => {
+        this.detailPesanan = result.data;
+        this.responseToList(
+            this.detailPesanan.pesanan_surat_akademik, this.listPesanan
+        );
       });
+    },
+    responseToList: function(theResponse, theList) {
+      for (let i = 0; i < theResponse.length; i++) {
+        this.$set(theList, i, theResponse[i]);
+      }
     },
   },
 };
