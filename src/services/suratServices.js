@@ -4,8 +4,8 @@ export default {
   getTrackingPesanan() {
     return api.get('permohonan-surat/pesanan');
   },
-  getPesananDetail(id_pesanan) {
-    return api.get('permohonan-surat/pesanan/' + id_pesanan + "/")
+  getDetailPesanan(idPesanan) {
+    return api.get('permohonan-surat/pesanan/' + idPesanan + '/');
   },
   fetchStatusSurat() {
     return api.get('permohonan-surat/status-surat/');
