@@ -2,6 +2,7 @@ from django.core.exceptions import ObjectDoesNotExist, FieldError
 from django.core.validators import ValidationError
 from django.db.utils import IntegrityError, DataError
 from django.views.decorators.csrf import csrf_exempt
+
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
@@ -11,12 +12,10 @@ from rest_framework.status import (
 )
 
 from .models import Pesanan, PesananSuratAkademik, SuratAkademik, \
-    StatusBayar
-from .models import StatusSurat
+    StatusBayar, StatusSurat
 from .permissions import IsPrivilegedToRequestAcademicLetter, \
     IsPrivilegedToUpdateAcademicLetterStatus
-from .serializers import StatusBayarSerializer
-from .serializers import StatusSuratSerializers
+from .serializers import StatusBayarSerializer, StatusSuratSerializers
 
 
 @api_view(["GET"])
@@ -42,6 +41,7 @@ def read_status_bayar(request):
 @api_view(["PATCH"])
 @permission_classes((IsAuthenticated, IsPrivilegedToUpdateAcademicLetterStatus))
 def update_status_bayar(request, id_pesanan):
+
     try:
         pesanan = Pesanan.objects.get(pk=id_pesanan)
         status_bayar = StatusBayar.objects.get(nama=request.data.get("status_bayar"))
@@ -116,6 +116,7 @@ def get_status_surat(request):
 @api_view(["PATCH"])
 @permission_classes((IsAuthenticated, IsPrivilegedToUpdateAcademicLetterStatus,))
 def update_status_surat(request, id_pesanan, jenis_dokumen):
+
     status_surat = request.data.get('status_surat')
 
     try:
