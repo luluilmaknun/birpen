@@ -44,7 +44,7 @@
               class="edit-status-surat-div">
                 {{ content.status_surat }}
                 <EditStatusSurat
-                :id_pesanan="String(content.pk).padStart(6, '0')"
+                :id_pesanan="String(idPesanan).padStart(6, '0')"
                 :status_surat="content.status_surat"
                 :jenis_dokumen="content.surat_akademik"
                 />
@@ -109,6 +109,7 @@ export default {
         this.responseToList(
             this.detailPesanan.pesanan_surat_akademik, this.listPesanan
         );
+        console.log(this.listPesanan);
       });
     },
     responseToList: function(theResponse, theList) {
