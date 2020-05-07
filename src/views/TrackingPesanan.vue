@@ -33,7 +33,9 @@
             </div>
           </td>
           <td id="aksi">
-            <button class="detail-button">
+            <button
+            v-on:click="showDetailPage(data.pk)"
+            class="detail-button">
               Detail
             </button>
           </td>
@@ -45,7 +47,7 @@
 
 <script>
 import EditStatusBayar from '@/components/edit-status-bayar.vue';
-import trackingPesananApi from '@/services/trackingPesananServices.js';
+import trackingPesananApi from '@/services/suratServices.js';
 export default {
   components: {
     EditStatusBayar,
@@ -77,6 +79,9 @@ export default {
       for (let i = 0; i < theResponse.length; i++) {
         this.$set(theList, i, theResponse[i]);
       }
+    },
+    showDetailPage: function(pk) {
+      this.$router.push('/surat/tracking/' + pk + '/detail/');
     },
     fetchDateCreated: function(theList, columnTarget) {
       let modDate;

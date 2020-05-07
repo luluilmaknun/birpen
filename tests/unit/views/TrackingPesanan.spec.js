@@ -1,6 +1,6 @@
 import {shallowMount} from '@vue/test-utils';
 import TrackingPesanan from '@/views/TrackingPesanan.vue';
-import trackingPesananApi from '@/services/trackingPesananServices.js';
+import trackingPesananApi from '@/services/suratServices.js';
 
 describe('Cek komponen tabel', () => {
   let vm; let wrapper;
