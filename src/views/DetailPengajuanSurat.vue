@@ -39,7 +39,17 @@
               {{ content.jumlah }}
             </td>
             <td id="nama_status_surat">
-              <div>
+              <div 
+              v-if="isAdmin"
+              class="edit-status-surat-div">
+                {{ content.status_surat }}
+                <EditStatusSurat
+                :id_pesanan="String(content.pk).padStart(6, '0')"
+                :status_surat="content.status_surat"
+                :jenis_dokumen="content.surat_akademik"
+                />
+              </div>
+              <div v-else class="edit-status-surat-div">
                 {{ content.status_surat }}
               </div>
             </td>
@@ -51,9 +61,13 @@
 </template>
 
 <script>
+import EditStatusSurat from '@/components/edit-status-surat.vue';
 import trackingPesananApi from '@/services/suratServices.js';
 
 export default {
+  components: {
+    EditStatusSurat,
+  },
   data: function() {
     return {
       profileDetail: {
@@ -65,6 +79,7 @@ export default {
       detailPesanan: {},
       listPesanan: [],
       idPesanan: 'undefined',
+      isAdmin: localStorage.getItem('is_admin') === 'true',
       DUMMY_DATA: [
         {
           nama_surat: 'Transkrip nilai',
@@ -108,6 +123,12 @@ export default {
 <style>
 .main-container {
   width: 60%;
+}
+.edit-status-surat-div {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
 }
 .profile-detail {
   display: flex;
