@@ -1,6 +1,6 @@
 <template>
   <div class="main-container-edit-status-surat">
-    <modal v-bind:name=this.id_pesanan
+    <modal v-bind:name=this.jenis_dokumen
     @before-open="error_message=''"
     height="auto"
     width="475"
@@ -53,7 +53,7 @@ export default {
   },
   methods: {
     open_modal: function() {
-      this.$modal.show(this.id_pesanan);
+      this.$modal.show(this.jenis_dokumen);
     },
     fetchStatusSuratList: function() {
       suratAPI.fetchStatusSurat().then((result) => {
