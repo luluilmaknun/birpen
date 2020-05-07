@@ -49,7 +49,8 @@ class DetailPesananSerializer(serializers.ModelSerializer):
 
     def get_pesanan_surat_akademik_by_pesanan(self, pesanan):
         return [PesananSuratAkademikSerializer(psa).data
-                for psa in PesananSuratAkademik.objects.filter(pesanan=pesanan)]
+                for psa in PesananSuratAkademik.objects.filter(pesanan=pesanan)
+                .order_by('surat_akademik__jenis_dokumen')]
 
 
 class StatusSuratSerializers(serializers.ModelSerializer):
