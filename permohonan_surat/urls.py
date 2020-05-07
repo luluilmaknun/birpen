@@ -16,7 +16,7 @@ urlpatterns = [
     path('pesanan/', read_pesanan, name='read_pesanan'),
     path('pesanan/<id_pesanan>/', read_pesanan_detail, name='read_pesanan_detail'),
     path(
-        'pesanan/<id_pesanan>/surat-akademik/<jenis_dokumen>/update-status/',
+        'pesanan/<id_pesanan>/surat-akademik/<path:jenis_dokumen>/update-status/',
         update_status_surat, name='update_status_surat',
     ),
     path('pesanan/<id_pesanan>/update-status-bayar/', update_status_bayar,
