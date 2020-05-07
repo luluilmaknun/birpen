@@ -34,7 +34,7 @@
           </td>
           <td id="aksi">
             <button
-            v-on:click="showDetailPage(String(data.pk).padStart(6, '0'))"
+            v-on:click="showDetailPage(data.pk)"
             class="detail-button">
               Detail
             </button>
