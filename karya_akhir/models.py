@@ -31,7 +31,7 @@ class JenisKaryaAkhir(models.Model):
 
 
 class DataKaryaAkhir(models.Model):
-    mahasiswa = models.ForeignKey(User, on_delete=models.CASCADE)
+    mahasiswa = models.OneToOneField(User, on_delete=models.CASCADE)
     peminatan_mahasiswa = models.CharField(max_length=100, null=False, blank=False)
     jenis_karya_akhir = models.ForeignKey(JenisKaryaAkhir, on_delete=models.CASCADE)
     sks_diperoleh = models.PositiveIntegerField(null=False, blank=False)
