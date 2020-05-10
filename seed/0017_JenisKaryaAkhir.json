@@ -1,0 +1,23 @@
+[
+    {
+        "model":"permohonan_surat.jeniskaryaakhir",
+        "pk":1,
+        "fields":{
+            "nama":"Skripsi"
+        }
+    },
+    {
+        "model":"permohonan_surat.jeniskaryaakhir",
+        "pk":2,
+        "fields":{
+            "nama":"Magang"
+        }
+    },
+    {
+        "model":"permohonan_surat.jeniskaryaakhir",
+        "pk":3,
+        "fields":{
+            "nama":"Studi Mandiri"
+        }
+    }
+]

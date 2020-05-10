@@ -1,0 +1,51 @@
+[
+    {
+        "model":"permohonan_surat.programstudi",
+        "pk":1,
+        "fields":{
+            "nama":"Ilmu Ekonomi"
+        }
+    },
+    {
+        "model":"permohonan_surat.programstudi",
+        "pk":2,
+        "fields":{
+            "nama":"Ilmu Ekonomi Islam"
+        }
+    },
+    {
+        "model":"permohonan_surat.programstudi",
+        "pk":3,
+        "fields":{
+            "nama":"Manajemen"
+        }
+    },
+    {
+        "model":"permohonan_surat.programstudi",
+        "pk":4,
+        "fields":{
+            "nama":"Akuntansi"
+        }
+    },
+    {
+        "model":"permohonan_surat.programstudi",
+        "pk":5,
+        "fields":{
+            "nama":"Bisnis Islam"
+        }
+    },
+    {
+        "model":"permohonan_surat.programstudi",
+        "pk":6,
+        "fields":{
+            "nama":"Ekstensi Manajemen"
+        }
+    },
+    {
+        "model":"permohonan_surat.programstudi",
+        "pk":7,
+        "fields":{
+            "nama":"Ekstensi Akuntansi"
+        }
+    }
+]
