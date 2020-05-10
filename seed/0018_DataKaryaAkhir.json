@@ -1,6 +1,6 @@
 [
     {
-        "model":"permohonan_surat.datakaryaakhir",
+        "model":"karya_akhir.datakaryaakhir",
         "pk":1,
         "fields":{
             "mahasiswa":11,
@@ -14,7 +14,7 @@
         }
     },
     {
-        "model":"permohonan_surat.datakaryaakhir",
+        "model":"karya_akhir.datakaryaakhir",
         "pk":2,
         "fields":{
             "mahasiswa":12,
@@ -28,7 +28,7 @@
         }
     },
     {
-        "model":"permohonan_surat.datakaryaakhir",
+        "model":"karya_akhir.datakaryaakhir",
         "pk":3,
         "fields":{
             "mahasiswa":13,
@@ -42,7 +42,7 @@
         }
     },
     {
-        "model":"permohonan_surat.datakaryaakhir",
+        "model":"karya_akhir.datakaryaakhir",
         "pk":4,
         "fields":{
             "mahasiswa":14,

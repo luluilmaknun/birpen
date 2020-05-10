@@ -2,7 +2,7 @@ from django.contrib.auth import get_user_model
 from django.test import TestCase
 from django.db import IntegrityError
 
-from permohonan_surat.models import DataKaryaAkhir, JenisKaryaAkhir
+from karya_akhir.models import DataKaryaAkhir, JenisKaryaAkhir
 
 User = get_user_model()
 
@@ -71,7 +71,7 @@ class DataKaryaAkhirTest(TestCase):
         with self.assertRaises(IntegrityError):
             DataKaryaAkhir.objects.create(
                 mahasiswa=self.user,
-                peminatan_mahasiswa=None,
+                peminatan_mahasiswa="Akuntansi Islam",
                 jenis_karya_akhir=self.jenis_karya_akhir,
                 sks_diperoleh=144,
                 pembimbing="Ahmad Fauzan S.Ak",

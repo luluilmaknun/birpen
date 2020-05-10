@@ -1,7 +1,7 @@
 from django.test import TestCase
 from django.db import IntegrityError
 
-from permohonan_surat.models import SuratKaryaAkhir
+from karya_akhir.models import SuratKaryaAkhir
 
 
 class SuratKaryaAkhirTest(TestCase):
