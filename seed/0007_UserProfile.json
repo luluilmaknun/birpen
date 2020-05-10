@@ -67,7 +67,7 @@
             "user": 6,
             "org_code": "01.00.12.01",
             "role": "mahasiswa",
-            "npm": "1706079214",
+            "npm": "1706079215",
             "faculty": "Ilmu Komputer",
             "study_program": "Ilmu Komputer",
             "educational_program": "S1 Reguler"
@@ -80,7 +80,7 @@
             "user": 7,
             "org_code": "01.00.12.01",
             "role": "mahasiswa",
-            "npm": "1706079214",
+            "npm": "1706079216",
             "faculty": "Ilmu Komputer",
             "study_program": "Ilmu Komputer",
             "educational_program": "S1 Reguler"
@@ -93,7 +93,7 @@
             "user": 9,
             "org_code": "01.00.12.01",
             "role": "alumni",
-            "npm": "1706079214",
+            "npm": "1706079217",
             "faculty": "Ilmu Komputer",
             "study_program": "Ilmu Komputer",
             "educational_program": "S1 Reguler"
@@ -106,9 +106,61 @@
             "user": 10,
             "org_code": "01.00.12.01",
             "role": "alumni",
-            "npm": "1706079214",
+            "npm": "1706079218",
             "faculty": "Ilmu Komputer",
             "study_program": "Ilmu Komputer",
+            "educational_program": "S1 Reguler"
+        }
+    },
+    {
+        "model": "sso_ui.profile",
+        "pk": 11,
+        "fields": {
+            "user": 11,
+            "org_code": "02.03.06.01",
+            "role": "mahasiswa",
+            "npm": "1706079219",
+            "faculty": "Ekonomi dan Bisnis",
+            "study_program": "Akuntansi",
+            "educational_program": "S1 Reguler"
+        }
+    },
+    {
+        "model": "sso_ui.profile",
+        "pk": 12,
+        "fields": {
+            "user": 12,
+            "org_code": "02.03.06.01",
+            "role": "mahasiswa",
+            "npm": "1806079220",
+            "faculty": "Ekonomi dan Bisnis",
+            "study_program": "Akuntansi",
+            "educational_program": "S1 Reguler"
+        }
+    },
+    {
+        "model": "sso_ui.profile",
+        "pk": 13,
+        "fields": {
+            "user": 13,
+            "org_code": "01.01.06.01",
+            "role": "mahasiswa",
+            "npm": "1906079221",
+            "faculty": "Ekonomi dan Bisnis",
+            "study_program": "Ilmu Ekonomi",
+            "educational_program": "S1 Reguler"
+        }
+    },
+    {
+        "model": "sso_ui.profile",
+        "pk": 14,
+        "fields": {
+            "user": 14,
+            "org_code": "01.01.06.01",
+            "role": "mahasiswa",
+            "npm": "1606079219",
+            "faculty": "Ekonomi dan Bisnis",
+            "study_program": "Ilmu Ekonomi",
             "educational_program": "S1 Reguler"
         }
     }

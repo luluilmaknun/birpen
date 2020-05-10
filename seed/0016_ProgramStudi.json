@@ -1,0 +1,51 @@
+[
+    {
+        "model":"karya_akhir.programstudi",
+        "pk":1,
+        "fields":{
+            "nama":"Ilmu Ekonomi"
+        }
+    },
+    {
+        "model":"karya_akhir.programstudi",
+        "pk":2,
+        "fields":{
+            "nama":"Ilmu Ekonomi Islam"
+        }
+    },
+    {
+        "model":"karya_akhir.programstudi",
+        "pk":3,
+        "fields":{
+            "nama":"Manajemen"
+        }
+    },
+    {
+        "model":"karya_akhir.programstudi",
+        "pk":4,
+        "fields":{
+            "nama":"Akuntansi"
+        }
+    },
+    {
+        "model":"karya_akhir.programstudi",
+        "pk":5,
+        "fields":{
+            "nama":"Bisnis Islam"
+        }
+    },
+    {
+        "model":"karya_akhir.programstudi",
+        "pk":6,
+        "fields":{
+            "nama":"Ekstensi Manajemen"
+        }
+    },
+    {
+        "model":"karya_akhir.programstudi",
+        "pk":7,
+        "fields":{
+            "nama":"Ekstensi Akuntansi"
+        }
+    }
+]
