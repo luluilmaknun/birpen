@@ -79,3 +79,28 @@ class DataKaryaAkhirTest(TestCase):
                 judul_karya_id=None,
                 judul_karya_en="A Masterpiece"
             )
+
+    def test_data_karya_akhir_one_to_one_user(self):
+
+        DataKaryaAkhir.objects.create(
+            mahasiswa=self.user,
+            peminatan_mahasiswa="Akuntansi Islam",
+            jenis_karya_akhir=self.jenis_karya_akhir,
+            sks_diperoleh=144,
+            pembimbing="Ahmad Fauzan S.Ak",
+            pembimbing_pendamping="Yusuf Tri S.Ak",
+            judul_karya_id="Sebuah Karya",
+            judul_karya_en="A Masterpiece"
+        )
+
+        with self.assertRaises(IntegrityError):
+            DataKaryaAkhir.objects.create(
+                mahasiswa=self.user,
+                peminatan_mahasiswa="Akuntansi Islam",
+                jenis_karya_akhir=self.jenis_karya_akhir,
+                sks_diperoleh=144,
+                pembimbing="Ahmad Fauzan S.Ak",
+                pembimbing_pendamping="Yusuf Tri S.Ak",
+                judul_karya_id="Sebuah Karya",
+                judul_karya_en="A Masterpiece"
+            )
