@@ -1,0 +1,58 @@
+[
+    {
+        "model":"karya_akhir.datakaryaakhir",
+        "pk":1,
+        "fields":{
+            "mahasiswa":11,
+            "peminatan_mahasiswa": "Akuntansi Terapan",
+            "jenis_karya_akhir": 1,
+            "sks_diperoleh": 144,
+            "pembimbing": "Lulu Ilmaknun S.Ak.",
+            "pembimbing_pendamping": "Annida Safira S.Ak.",
+            "judul_karya_id": "Akuntansi dalam kehidupan sosial",
+            "judul_karya_en": "Accounting in social life"
+        }
+    },
+    {
+        "model":"karya_akhir.datakaryaakhir",
+        "pk":2,
+        "fields":{
+            "mahasiswa":12,
+            "peminatan_mahasiswa": "Akuntansi Terapan",
+            "jenis_karya_akhir": 1,
+            "sks_diperoleh": 144,
+            "pembimbing": "Lulu Ilmaknun S.Ak.",
+            "pembimbing_pendamping": "Annida Safira S.Ak.",
+            "judul_karya_id": "Akuntansi dalam bisnis",
+            "judul_karya_en": "Accounting in business"
+        }
+    },
+    {
+        "model":"karya_akhir.datakaryaakhir",
+        "pk":3,
+        "fields":{
+            "mahasiswa":13,
+            "peminatan_mahasiswa": "Ilmu Ekonomi Terapan",
+            "jenis_karya_akhir": 1,
+            "sks_diperoleh": 144,
+            "pembimbing": "Ahmad Fauzan S.E.",
+            "pembimbing_pendamping": "Athallah Annafis S.E.",
+            "judul_karya_id": "Ekonomi dalam bisnis",
+            "judul_karya_en": "Economy in business"
+        }
+    },
+    {
+        "model":"karya_akhir.datakaryaakhir",
+        "pk":4,
+        "fields":{
+            "mahasiswa":14,
+            "peminatan_mahasiswa": "Ilmu Ekonomi Terapan",
+            "jenis_karya_akhir": 1,
+            "sks_diperoleh": 144,
+            "pembimbing": "Ahmad Fauzan S.E.",
+            "pembimbing_pendamping": "Athallah Annafis S.E.",
+            "judul_karya_id": "Ekonomi dalam kehidupan sosial",
+            "judul_karya_en": "Economy in social life"
+        }
+    }
+]
