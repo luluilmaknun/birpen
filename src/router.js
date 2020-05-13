@@ -13,6 +13,7 @@ import AlumniPage from '@/views/AlumniPage.vue';
 import DetailPengajuanSurat from '@/views/DetailPengajuanSurat.vue';
 import TrackingPesanan from '@/views/TrackingPesanan.vue';
 import DokumenAkademik from '@/views/DokumenAkademik.vue';
+import UnduhDokumenSidang from '@/views/UnduhDokumenSidang.vue';
 
 Vue.use(Router);
 
@@ -39,6 +40,15 @@ const router = new Router({
       component: null,
       meta: {
         requiresAuth: true,
+      },
+    },
+    {
+      path: '/surat/sidang/unduh/',
+      name: 'unduh-dokumen-sidang',
+      component: UnduhDokumenSidang,
+      meta: {
+        requiresAuth: true,
+        requiresPrivilegeToAccessSidang: true,
       },
     },
     {
@@ -183,6 +193,14 @@ router.beforeEach((to, from, next) => {
       (record) => record.meta.requiresPrivilegeToAccessPengumuman)) {
     if (role != 'mahasiswa' && role != 'staff'
         && isAsdos == 'false' && isAdmin == 'false') {
+      next({name: 'home'});
+      return;
+    }
+  }
+
+  if (to.matched.some(
+      (record) => record.meta.requiresPrivilegeToAccessSidang)) {
+    if (role != 'alumni' && isAdmin == 'false') {
       next({name: 'home'});
       return;
     }
