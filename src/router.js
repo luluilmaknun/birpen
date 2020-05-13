@@ -44,8 +44,8 @@ const router = new Router({
     },
     {
       path: '/surat/sidang/unduh/',
-      name: 'unduh-dokumen-sidang',
-      component: UnduhDokumenSidang,
+      name: 'unduh-dokumen-karya-akhir',
+      component: UnduhDokumenKaryaAkhir,
       meta: {
         requiresAuth: true,
         requiresPrivilegeToAccessSidang: true,
