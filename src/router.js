@@ -13,7 +13,7 @@ import AlumniPage from '@/views/AlumniPage.vue';
 import DetailPengajuanSurat from '@/views/DetailPengajuanSurat.vue';
 import TrackingPesanan from '@/views/TrackingPesanan.vue';
 import DokumenAkademik from '@/views/DokumenAkademik.vue';
-import UnduhDokumenSidang from '@/views/UnduhDokumenSidang.vue';
+import UnduhDokumenKaryaAkhir from '@/views/UnduhDokumenKaryaAkhir.vue';
 
 Vue.use(Router);
 
