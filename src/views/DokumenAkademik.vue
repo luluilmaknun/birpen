@@ -149,11 +149,13 @@ export default {
     },
     updatePesanan(id) {
       const rowId = 'row_' + (id+1);
+      const inputId = 'jumlah_' + (id+1);
       const row = this.$refs[rowId][0];
+      const input = this.$refs[inputId][0];
 
       const jenisDokumen = row.childNodes[1].innerText;
       const harga = row.childNodes[2].innerText;
-      const jumlah = row.childNodes[3].childNodes[0].childNodes[1].value;
+      const jumlah = input.value;
 
       this.temp_pesanan[jenisDokumen] = {};
       this.temp_pesanan[jenisDokumen]['jumlah'] = jumlah;
