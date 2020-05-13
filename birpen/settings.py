@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'landing_page',
     'pengumuman',
     'permohonan_surat',
+    'karya_akhir',
     'asdos',
     'admin_birpen',
     'safedelete',
