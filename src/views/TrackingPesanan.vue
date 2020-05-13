@@ -60,6 +60,7 @@ export default {
       ],
       response: {},
       trackingList: [],
+      errorResponse: {},
       isAdmin: localStorage.getItem('is_admin') === 'true',
     };
   },
@@ -73,6 +74,8 @@ export default {
         this.responseToList(this.response.pesanan, this.trackingList);
         // Perform modify created date
         this.fetchDateCreated(this.trackingList, 'waktu_pemesanan');
+      }).catch((error) => {
+        this.errorResponse = error.data;
       });
     },
     responseToList: function(theResponse, theList) {
