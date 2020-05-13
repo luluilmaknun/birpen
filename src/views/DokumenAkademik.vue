@@ -18,10 +18,10 @@
     </div>
 
     <!-- TABLE SECTION -->
-    <table class="table-div">
+    <table class="table-div" aria-hidden="true">
       <tr class="table-header">
         <th class="table-header-item" v-for="head in tableHead" :key="head"
-          :class="head[0]">
+          :class="head[0]" id="head[0]">
           {{ head[1] }}
         </th>
       </tr>

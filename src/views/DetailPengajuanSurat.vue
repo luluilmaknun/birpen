@@ -17,15 +17,15 @@
       </div>
       <!-- table -->
       <div class="table-tracking-div">
-        <table>
+        <table aria-hidden="true">
           <tr>
             <th id="table-header" class="head-table">
               Nama Surat
             </th>
-            <th>
+            <th id="jumlah-header">
               Jumlah
             </th>
-            <th>
+            <th id="status-header">
               Status
             </th>
           </tr>
@@ -39,7 +39,7 @@
               {{ content.jumlah }}
             </td>
             <td id="nama_status_surat">
-              <div 
+              <div
               v-if="isAdmin"
               class="edit-status-surat-div">
                 {{ content.status_surat }}
