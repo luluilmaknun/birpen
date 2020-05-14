@@ -43,7 +43,7 @@ class GetStatusSuratApiTest(TestCase):
         factory = APIRequestFactory()
         view = get_status_surat
 
-        request = factory.get('/api/permohonan-surat/status-bayar')
+        request = factory.get('/api/permohonan-surat/status-surat/')
         response = view(request)
         self.assertEqual(response.status_code, 401)
 
@@ -52,7 +52,7 @@ class GetStatusSuratApiTest(TestCase):
         view = get_status_surat
         user = User.objects.get(username='admin')
 
-        request = factory.get('/api/permohonan-surat/status-bayar')
+        request = factory.get('/api/permohonan-surat/status-surat/')
         force_authenticate(request, user=user)
         response = view(request)
         self.assertEqual(response.status_code, 200)
@@ -62,7 +62,7 @@ class GetStatusSuratApiTest(TestCase):
         view = get_status_surat
         user = User.objects.get(username='dosen')
 
-        request = factory.get('/api/permohonan-surat/status-bayar')
+        request = factory.get('/api/permohonan-surat/status-surat/')
         force_authenticate(request, user=user)
         response = view(request)
         self.assertEqual(response.status_code, 403)
@@ -72,7 +72,7 @@ class GetStatusSuratApiTest(TestCase):
         view = get_status_surat
         user = User.objects.get(username='asdos')
 
-        request = factory.get('/api/permohonan-surat/status-bayar')
+        request = factory.get('/api/permohonan-surat/status-surat/')
         force_authenticate(request, user=user)
         response = view(request)
         self.assertEqual(response.status_code, 403)
@@ -82,7 +82,7 @@ class GetStatusSuratApiTest(TestCase):
         view = get_status_surat
         user = User.objects.get(username='alumni')
 
-        request = factory.get('/api/permohonan-surat/status-bayar')
+        request = factory.get('/api/permohonan-surat/status-surat/')
         force_authenticate(request, user=user)
         response = view(request)
         self.assertEqual(response.status_code, 403)
@@ -92,7 +92,7 @@ class GetStatusSuratApiTest(TestCase):
         view = get_status_surat
         user = User.objects.get(username='mahasiswa')
 
-        request = factory.get('/api/permohonan-surat/status-bayar')
+        request = factory.get('/api/permohonan-surat/status-surat/')
         force_authenticate(request, user=user)
         response = view(request)
         self.assertEqual(response.status_code, 403)

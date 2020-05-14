@@ -1,9 +1,6 @@
 from django.contrib.auth import get_user_model
-from django.utils.http import urlencode
 from django.test import TestCase
-
 from rest_framework.test import APIClient
-
 from rest_framework_jwt.settings import api_settings
 
 from admin_birpen.models import Admin
@@ -12,7 +9,8 @@ from permohonan_surat.models import StatusBayar, StatusSurat, SuratAkademik, \
 
 User = get_user_model()
 
-class UpdateSuratTest(TestCase):
+
+class ReadPesananDetailTest(TestCase):
     def setUp(self):
         self.client = APIClient()
 
@@ -25,11 +23,18 @@ class UpdateSuratTest(TestCase):
 
         user_mahasiswa = User.objects.create(username='muhammad.fauzan', password='not_admin')
         user_mahasiswa.profile.role = 'mahasiswa'
+        user_mahasiswa.profile.save()
         self.token_mahasiswa = jwt_encode_handler(jwt_payload_handler(user_mahasiswa))
 
         user_alumni = User.objects.create(username='annida.safira', password='nida')
         user_alumni.profile.role = 'alumni'
+        user_alumni.profile.save()
         self.token_alumni = jwt_encode_handler(jwt_payload_handler(user_alumni))
+
+        user_dosen = User.objects.create(username='athallah.ahmad', password='dosen')
+        user_dosen.profile.role = 'staff'
+        user_dosen.profile.save()
+        self.token_dosen = jwt_encode_handler(jwt_payload_handler(user_dosen))
 
         status_bayar_belom = StatusBayar.objects.create(nama="Belum Bayar")
         StatusBayar.objects.create(nama="Lunas")
@@ -91,47 +96,58 @@ class UpdateSuratTest(TestCase):
         )
 
         self.api = '/api/permohonan-surat/'
-        self.url_update = 'pesanan/{}/surat-akademik/{}/update-status/'
+        self.url_read = 'pesanan/{}/'
 
-    def test_update_without_authentication(self):
-        url_request = self.api + self.url_update.format(
-            self.id_pesanan_mahasiswa, self.jenis_dokumen_1)
-        response = self.client.patch(url_request, content_type='application/x-www-form-urlencoded')
+    def test_read_without_authentication_pesanan_random(self):
+        url_request = self.api + self.url_read.format(2)
+        response = self.client.get(url_request, content_type='application/x-www-form-urlencoded')
         self.assertEqual(response.data['detail'], 'Authentication credentials were not provided.')
         self.assertEqual(response.status_code, 401)
 
-    def test_update_pesanan_notfound(self):
-        url_request = self.api + self.url_update.format('8009', self.jenis_dokumen_1)
-        self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + self.token_admin)
-        response = self.client.patch(url_request, content_type='application/x-www-form-urlencoded')
-        self.assertEqual(response.data['detail'],
-                         'Pesanan surat/jenis dokumen akademik tidak ditemukan.')
-        self.assertEqual(response.status_code, 400)
+    def test_read_without_authentication_pesanan_mahasiswa(self):
+        url_request = self.api + self.url_read.format(self.id_pesanan_mahasiswa)
+        response = self.client.get(url_request, content_type='application/x-www-form-urlencoded')
+        self.assertEqual(response.data['detail'], 'Authentication credentials were not provided.')
+        self.assertEqual(response.status_code, 401)
 
-    def test_update_jenis_dokumen_notfound(self):
-        url_request = self.api + self.url_update.format(self.id_pesanan_mahasiswa, 'surat cinta')
-        self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + self.token_admin)
-        response = self.client.patch(url_request, content_type='application/x-www-form-urlencoded')
-        self.assertEqual(response.data['detail'],
-                         'Pesanan surat/jenis dokumen akademik tidak ditemukan.')
-        self.assertEqual(response.status_code, 400)
-
-    def test_update_by_non_admin_fail(self):
-        url_request = self.api + self.url_update.format(
-            self.id_pesanan_mahasiswa, self.jenis_dokumen_1)
-        self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + self.token_mahasiswa)
-        response = self.client.patch(url_request, content_type='application/x-www-form-urlencoded')
+    def test_read_with_authentication_but_dosen(self):
+        url_request = self.api + self.url_read.format(self.id_pesanan_mahasiswa)
+        self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + self.token_dosen)
+        response = self.client.get(url_request, content_type='application/x-www-form-urlencoded')
         self.assertEqual(response.status_code, 403)
 
-        self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + self.token_alumni)
-        response = self.client.patch(url_request, content_type='application/x-www-form-urlencoded')
-        self.assertEqual(response.status_code, 403)
-
-    def test_update_by_admin_success(self):
-        url_request = self.api + self.url_update.format(
-            self.id_pesanan_mahasiswa, self.jenis_dokumen_1)
+    def test_admin_read_pesanan_mahasiswa_success(self):
+        url_request = self.api + self.url_read.format(self.id_pesanan_mahasiswa)
         self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + self.token_admin)
-        response = self.client.patch(url_request, data=urlencode({
-            'status_surat':'Selesai'}), content_type='application/x-www-form-urlencoded')
-        self.assertEqual(response.data['success'], True)
+        response = self.client.get(url_request, content_type='application/x-www-form-urlencoded')
+
         self.assertEqual(response.status_code, 200)
+
+    def test_admin_read_unknown_pesanan(self):
+        url_request = self.api + self.url_read.format(232134)
+        self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + self.token_admin)
+        response = self.client.get(url_request, content_type='application/x-www-form-urlencoded')
+
+        self.assertEqual(response.status_code, 400)
+        self.assertEqual(response.data['detail'], 'Data pesanan tidak ditemukan.')
+
+    def test_nonadmin_read_pesanan_itself_success(self):
+        url_request = self.api + self.url_read.format(self.id_pesanan_mahasiswa)
+        self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + self.token_mahasiswa)
+        response = self.client.get(url_request, content_type='application/x-www-form-urlencoded')
+
+        self.assertEqual(response.status_code, 200)
+
+    def test_nonadmin_read_pesanan_other_nonadmin(self):
+        url_request = self.api + self.url_read.format(self.id_pesanan_mahasiswa)
+        self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + self.token_alumni)
+        response = self.client.get(url_request, content_type='application/x-www-form-urlencoded')
+
+        self.assertEqual(response.status_code, 403)
+
+    def test_nonadmin_read_unknown_pesanan(self):
+        url_request = self.api + self.url_read.format(234124)
+        self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + self.token_alumni)
+        response = self.client.get(url_request, content_type='application/x-www-form-urlencoded')
+
+        self.assertEqual(response.status_code, 403)

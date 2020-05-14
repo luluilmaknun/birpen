@@ -5,7 +5,7 @@
         "fields":{
             "jenis_dokumen":"Surat Keterangan Mahasiswa",
             "harga_mahasiswa": 0,
-            "harga_alumni": 5000
+            "harga_alumni": 0
         }
     },
     {
@@ -14,7 +14,7 @@
         "fields":{
             "jenis_dokumen":"Surat Ket. Ijazah/Transkrip Hilang",
             "harga_mahasiswa": 0,
-            "harga_alumni": 5000
+            "harga_alumni": 0
         }
     },
     {
@@ -23,7 +23,7 @@
         "fields":{
             "jenis_dokumen":"Daftar Nilai Semester",
             "harga_mahasiswa": 0,
-            "harga_alumni": 20000
+            "harga_alumni": 0
         }
     },
     {
@@ -112,7 +112,7 @@
         "pk":13,
         "fields":{
             "jenis_dokumen":"Legalisasi Akreditasi Program Studi",
-            "harga_mahasiswa": 0,
+            "harga_mahasiswa": 5000,
             "harga_alumni": 5000
         }
     },
@@ -121,7 +121,7 @@
         "pk":14,
         "fields":{
             "jenis_dokumen":"Legalisasi Akreditasi Institusi",
-            "harga_mahasiswa": 0,
+            "harga_mahasiswa": 5000,
             "harga_alumni": 5000
         }
     },
@@ -130,7 +130,7 @@
         "pk":15,
         "fields":{
             "jenis_dokumen":"Legalisasi Akreditasi Program Profesi & Spesialis",
-            "harga_mahasiswa": 0,
+            "harga_mahasiswa": 5000,
             "harga_alumni": 5000
         }
     },
@@ -139,7 +139,7 @@
         "pk":16,
         "fields":{
             "jenis_dokumen":"Legalisasi Surat Ket. Ijazah/Transkrip Hilang",
-            "harga_mahasiswa": 0,
+            "harga_mahasiswa": 5000,
             "harga_alumni": 5000
         }
     }
