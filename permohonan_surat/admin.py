@@ -1,5 +1,6 @@
 from django.apps import apps
 from django.contrib import admin
+
 from .models import Pesanan, PesananSuratAkademik, StatusBayar, StatusSurat, SuratAkademik
 
 app = apps.get_app_config('permohonan_surat')
@@ -19,11 +20,8 @@ class DisplayPesananSuratAkademik(admin.ModelAdmin):
 for model in [StatusBayar, StatusSurat]:
     admin.site.register(model, DisplayNama)
 
-
 admin.site.register(SuratAkademik, DisplaySuratAkademik)
 
-
 admin.site.register(Pesanan, DisplayPesanan)
-
 
 admin.site.register(PesananSuratAkademik, DisplayPesananSuratAkademik)

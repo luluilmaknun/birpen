@@ -1,6 +1,5 @@
 from rest_framework import serializers
 
-from .models import StatusSurat, StatusBayar
 from .models import Pesanan, PesananSuratAkademik, StatusBayar, StatusSurat, \
     SuratAkademik
 
