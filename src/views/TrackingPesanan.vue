@@ -2,9 +2,9 @@
   <div>
     <div class="table-div">
       <h2>Daftar Pengajuan Surat</h2>
-      <table>
+      <table aria-hidden="true">
         <tr>
-          <th v-for="head in tableHead" :key="head">
+          <th v-for="head in tableHead" :key="head" id="header">
             {{ head }}
           </th>
         </tr>
