@@ -13,6 +13,7 @@ import AlumniPage from '@/views/AlumniPage.vue';
 import DetailPengajuanSurat from '@/views/DetailPengajuanSurat.vue';
 import TrackingPesanan from '@/views/TrackingPesanan.vue';
 import DokumenAkademik from '@/views/DokumenAkademik.vue';
+import SidangKaryaAkhir from '@/views/SidangKaryaAkhir.vue';
 
 Vue.use(Router);
 
@@ -36,7 +37,7 @@ const router = new Router({
     {
       path: '/surat/sidang/',
       name: 'sidang-akhir',
-      component: null,
+      component: SidangKaryaAkhir,
       meta: {
         requiresAuth: true,
       },
