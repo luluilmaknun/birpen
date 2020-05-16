@@ -13,11 +13,23 @@
 </template>
 
 <script>
+import apiSidangAkhir from '@/services/sidangKaryaAkhirServices.js';
 export default {
   data: function() {
     return {
       programStudi: '',
+      programStudiResponse: {},
     };
+  },
+  created: function() {
+    this.fetchProgramStudi();
+  },
+  methods: {
+    fetchProgramStudi: function() {
+      apiSidangAkhir.getProgramStudi().then((result) => {
+        this.programStudiResponse = result.data;
+      })
+    }
   },
 }
 </script>
