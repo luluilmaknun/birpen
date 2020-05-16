@@ -3,6 +3,8 @@
     <h1>Mahasiswa Sidang Karya Akhir</h1>
     <div class="main-container">
       <div class="filter-div">
+        <input placeholder="Tulis nama angkatan"
+        class="filter-element" id="angkatan-input" v-model="angkatan"/>
         <select class="filter-element" id="studi-choices" v-model="chosenStudi">
           <option :value="''" hidden>Pilih Program Studi</option>
           <option v-for="studi in programStudiDummy"
@@ -11,8 +13,6 @@
             {{ studi.nama }}
           </option>
         </select>
-        <input placeholder="Tulis nama angkatan"
-        class="filter-element" id="angkatan-input" v-model="angkatan"/>
       </div>
       <!-- TABLE SECTION -->
       <div class="table-div">
