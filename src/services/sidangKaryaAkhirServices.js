@@ -1,7 +1,7 @@
 import api from '@/services/api';
 
 export default {
-  getMahasiswaSidang() {
-    return '';
+  getProgramStudi() {
+    return api.get('karya-akhir/program-studi/');
   }
 }
