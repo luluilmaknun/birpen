@@ -7,7 +7,7 @@
     <div class="table-div">
       <table aria-hidden="true">
         <tr>
-          <th class="head-table"
+          <th class="head-table" id="head-table"
             v-for="head in tableHead" :key="head">
             {{ head }}
           </th>
