@@ -4,16 +4,23 @@
     <div class="home-button-container">
         <div id="button_surat" class="home-button"
             @click="goToPage('/surat/')">
-            <img src="./assets/images/mail_1.png" class="home-button-image"
-            alt="Klik untuk layanan surat"/>
+            <vue-load-image>
+              <img slot="image" src="./assets/images/mail_1.png"
+               class="home-button-image" alt="Klik untuk layanan surat"/>
+              <img slot="preloader" src="./assets/icons/loader.svg"/>
+            </vue-load-image>
            Layanan Dokumen Akademik
         </div>
 
         <div v-if="!isAlumni || (isAlumni && (isAsdos || isAdmin))"
             id="button_pengumuman" class="home-button"
             @click="goToPage('/pengumuman/')">
-            <img src="./assets/images/shout_1.png" class="home-button-image"
-            alt="Klik untuk melihat pengumuman" />
+            <vue-load-image>
+              <img slot="image" src="./assets/images/shout_1.png"
+               class="home-button-image"
+               alt="Klik untuk melihat pengumuman" />
+              <img slot="preloader" src="./assets/icons/loader.svg"/>
+            </vue-load-image>
            Pengumuman Perkuliahan
         </div>
     </div>
@@ -21,6 +28,8 @@
 </template>
 
 <script>
+import VueLoadImage from 'vue-load-image';
+
 export default {
   name: 'Home',
   data: function() {
@@ -34,6 +43,9 @@ export default {
     goToPage(link) {
       this.$router.push({path: link});
     },
+  },
+  components: {
+    'vue-load-image': VueLoadImage,
   },
 };
 </script>
