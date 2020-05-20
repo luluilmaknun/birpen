@@ -4,6 +4,11 @@
     <br>
 
     <div class="profile-container">
+      <div id='loader_permohonan-surat_pesanan_mahasiswa-profile'>
+        <img src="../assets/icons/loader.svg"/>
+      </div>
+
+      <div id='permohonan-surat_pesanan_mahasiswa-profile'>
       <div class="input-row">
         <label>Nama: </label>
         <input v-if="isAlumni" class="profile-input" v-model="nama_pemesan">
@@ -16,8 +21,14 @@
         <span v-else class="">{{ npm_pemesan }}</span>
       </div>
     </div>
+    </div>
 
     <!-- TABLE SECTION -->
+    <div id='loader_permohonan-surat_surat-akademik'>
+      <img src="../assets/icons/loader.svg"/>
+    </div>
+
+    <div id='permohonan-surat_surat-akademik'>
     <table class="table-div" aria-hidden="true">
       <tr class="table-header">
         <th class="table-header-item" v-for="head in tableHead" :key="head"
@@ -59,6 +70,7 @@
     <div class="button-container pemesanan">
       <button @click="summarize">Pesan</button>
       <button @click="goToPage('surat')">Kembali</button>
+    </div>
     </div>
 
     <modal name="ringkasan" height="auto" :pivotX="0.0" :width="1000">
@@ -227,6 +239,10 @@ export default {
 </script>
 
 <style scoped>
+#permohonan-surat_pesanan_mahasiswa-profile, #permohonan-surat_surat-akademik{
+  visibility: hidden;
+}
+
 button {
   cursor: pointer;
 }

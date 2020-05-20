@@ -4,7 +4,12 @@
       Daftar Alumni
     </h1>
 
+    <div id='loader_alumni'>
+      <img src="../assets/icons/loader.svg"/>
+    </div>
+
     <!-- TABLE SECTION -->
+    <div id='alumni'>
     <div class="table-div">
       <table aria-hidden="true">
         <tr>
@@ -32,6 +37,7 @@
           </td>
         </tr>
       </table>
+    </div>
     </div>
   </div>
 </template>
@@ -72,6 +78,10 @@ export default {
 </script>
 
 <style scoped>
+#alumni {
+  visibility: hidden;
+}
+
 .title-alumni {
   margin-top: 50px;
   margin-bottom: 20px;

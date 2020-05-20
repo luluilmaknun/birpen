@@ -107,7 +107,13 @@
       <!-- TODAY if no data -->
       <div class="table-div" id="table-today" v-if="today.length == 0">
         <p class="today-tomorrow-date">{{ todayDate }}</p>
+
+        <div id='loader_pengumuman_get-pengumuman'>
+          <img src="../assets/icons/loader.svg"/>
+        </div>
+
         <!-- TODAY ADMIN -->
+        <div id='pengumuman_get-pengumuman'>
         <table v-if="isAdmin" aria-hidden="true">
           <tr>
             <th id="table-header" class="head-table"
@@ -132,12 +138,19 @@
           </tr>
         </table>
         <h2>Tidak ada pengumuman</h2>
+        </div>
       </div>
 
       <!-- table if there are datas -->
       <div class="table-div" v-else>
         <p class="today-tomorrow-date">{{ todayDate }}</p>
+
+        <div id='loader_pengumuman_get-pengumuman'>
+          <img src="../assets/icons/loader.svg"/>
+        </div>
+
         <!-- TODAY ADMIN -->
+        <div id='pengumuman_get-pengumuman'>
         <table v-if="isAdmin" aria-hidden="true">
           <tr>
             <th id="table-header" class="head-table"
@@ -227,13 +240,20 @@
             </td>
           </tr>
         </table>
+        </div>
       </div>
 
       <!-- TOMORROW -->
       <!-- table if no data -->
       <div class="table-div" id="table-tomorrow" v-if="tomorrow.length == 0">
         <p class="today-tomorrow-date">{{ tomorrowDate }}</p>
+
+        <div id='loader_pengumuman_get-pengumuman'>
+          <img src="../assets/icons/loader.svg"/>
+        </div>
+
         <!-- TOMORROW ADMIN -->
+        <div id='pengumuman_get-pengumuman'>
         <table v-if="isAdmin" aria-hidden="true">
           <tr>
             <th id="table-header" class="head-table"
@@ -258,12 +278,19 @@
           </tr>
         </table>
         <h2>Tidak ada pengumuman</h2>
+        </div>
       </div>
 
       <!-- table if there are datas -->
       <div class="table-div" id="table-tomorrow" v-else>
         <p class="today-tomorrow-date">{{ tomorrowDate }}</p>
+
+        <div id='loader_pengumuman_get-pengumuman'>
+          <img src="../assets/icons/loader.svg"/>
+        </div>
+
         <!-- TOMORROW ADMIN -->
+        <div id='pengumuman_get-pengumuman'>
         <table v-if="isAdmin" aria-hidden="true">
           <tr>
             <th id="table-header" class="head-table"
@@ -353,6 +380,7 @@
             </td>
           </tr>
         </table>
+        </div>
       </div>
     </div>
 
@@ -361,7 +389,13 @@
       <!-- if there is no data -->
       <div class="table-div" v-if="filteredAnnouncement.length == 0">
         <p class="today-tomorrow-date">{{ filterDate }}</p>
+
+        <div :id="'loader_pengumuman_filter-pengumuman?tanggal='+selectedDate">
+          <img src="../assets/icons/loader.svg"/>
+        </div>
+
         <!-- FILTERED ADMIN -->
+        <div :id="'pengumuman_filter-pengumuman?tanggal='+selectedDate">
         <table v-if="isAdmin" aria-hidden="true">
           <tr>
             <th id="table-header" class="head-table"
@@ -386,13 +420,18 @@
           </tr>
         </table>
         <h2>Tidak ada pengumuman</h2>
+        </div>
       </div>
-
-
       <!-- if there are datas -->
       <div class="table-div" v-else>
         <p class="today-tomorrow-date">{{ filterDate }}</p>
+
+        <div :id="'loader_pengumuman_filter-pengumuman?tanggal='+selectedDate">
+          <img src="../assets/icons/loader.svg"/>
+        </div>
+
         <!-- FILTERED ADMIN -->
+        <div :id="'pengumuman_filter-pengumuman?tanggal='+selectedDate">
         <table v-if="isAdmin" aria-hidden="true">
           <tr>
             <th id="table-header" class="head-table"
@@ -482,6 +521,7 @@
             </td>
           </tr>
         </table>
+        </div>
       </div>
     </div>
 
@@ -531,6 +571,7 @@ export default {
       todayDate: '',
       tomorrowDate: '',
       filterDate: '',
+      selectedDate: '',
       error_msg: '',
     };
   },
@@ -543,6 +584,7 @@ export default {
       const currentURL = window.location.href;
       const arr = currentURL.split('tanggal=');
       const date = arr[1];
+      this.selectedDate = date;
       if (typeof(date) == 'undefined' || date == '') {
         this.isFiltered = false;
         this.fetchPengumuman();
@@ -655,6 +697,10 @@ export default {
 </script>
 
 <style scoped>
+div[id^="pengumuman_"] {
+  visibility: hidden;
+}
+
 .title-pengumuman {
   margin-top: 50px;
   margin-bottom: 20px;

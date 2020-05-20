@@ -8,7 +8,12 @@
       <CreateAdmin/>
     </div>
 
+    <div id='loader_admin_birpen'>
+      <img src="../assets/icons/loader.svg"/>
+    </div>
+
     <!-- TABLE SECTION -->
+    <div id='admin_birpen'>
     <div class="table-div">
       <table aria-hidden="true">
         <tr>
@@ -27,6 +32,7 @@
           </td>
         </tr>
       </table>
+    </div>
     </div>
   </div>
 </template>
@@ -69,6 +75,10 @@ export default {
 </script>
 
 <style scoped>
+#admin_birpen {
+  visibility: hidden;
+}
+
 .title-admin {
   margin-top: 50px;
   margin-bottom: 20px;

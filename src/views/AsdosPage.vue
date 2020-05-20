@@ -8,7 +8,13 @@
     <div class="create-asisten-div">
       <CreateAsisten/>
     </div>
+
+    <div id='loader_asdos'>
+      <img src="../assets/icons/loader.svg"/>
+    </div>
+
     <!-- TABLE SECTION -->
+    <div id='asdos'>
     <div class="table-div">
       <table aria-hidden="true">
         <tr>
@@ -27,6 +33,7 @@
           </td>
         </tr>
       </table>
+    </div>
     </div>
 
   </div>
@@ -87,6 +94,10 @@ export default {
 </script>
 
 <style scoped>
+#asdos {
+  visibility: hidden;
+}
+
 .title-asdos {
   margin-top: 50px;
   margin-bottom: 20px;

@@ -1,6 +1,10 @@
 <template>
   <div>
     <div class="main-container">
+      <div :id="'loader_permohonan-surat_pesanan_' + idPesanan">
+        <img src="../assets/icons/loader.svg"/>
+      </div>
+      <div :id="'permohonan-surat_pesanan_' + idPesanan">
       <div class="profile-detail">
         <div class="left-detail">
           <p>Nama</p>
@@ -15,8 +19,16 @@
           </p>
         </div>
       </div>
+      </div>
+
+
       <!-- table -->
       <div class="table-tracking-div">
+        <div :id="'loader_permohonan-surat_pesanan_' + idPesanan">
+          <img src="../assets/icons/loader.svg"/>
+        </div>
+
+        <div :id="'permohonan-surat_pesanan_' + idPesanan">
         <table aria-hidden="true">
           <tr>
             <th id="table-header" class="head-table">
@@ -56,6 +68,7 @@
           </tr>
         </table>
       </div>
+    </div>
     </div>
   </div>
 </template>
@@ -105,6 +118,10 @@ export default {
 </script>
 
 <style scoped>
+div[id^="permohonan-surat_pesanan_"] {
+  visibility: hidden;
+}
+
 .main-container {
   width: 60%;
 }
