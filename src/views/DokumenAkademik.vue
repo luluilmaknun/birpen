@@ -67,12 +67,12 @@
            :list_harga="list_harga" :jumlah_harga="jumlah_harga" />
         <span class="text-danger">{{ error_message }}</span>
         <div class="button-container ringkasan">
-          <button class="btn btn-red" @click="closeModal('ringkasan')">
-            Batal
-          </button>
-
           <button class="btn btn-grn" @click="validateData">
             Pesan
+          </button>
+
+          <button class="btn btn-red" @click="closeModal('ringkasan')">
+            Batal
           </button>
         </div>
       </div>
