@@ -132,7 +132,7 @@
           </tr>
         </table>
         <div v-if="isLoadPengumuman">
-          <img src="../assets/icons/loader.svg"/>
+          <img src="@/assets/icons/loader.svg"/>
         </div>
         <h2 v-else>Tidak ada pengumuman</h2>
       </div>
@@ -231,7 +231,7 @@
           </tr>
         </table>
         <div v-if="isLoadPengumuman">
-          <img src="../assets/icons/loader.svg"/>
+          <img src="@/assets/icons/loader.svg"/>
         </div>
       </div>
 
@@ -264,7 +264,7 @@
           </tr>
         </table>
         <div v-if="isLoadPengumuman">
-          <img src="../assets/icons/loader.svg"/>
+          <img src="@/assets/icons/loader.svg"/>
         </div>
         <h2 v-else>Tidak ada pengumuman</h2>
       </div>
@@ -363,7 +363,7 @@
           </tr>
         </table>
         <div v-if="isLoadPengumuman">
-          <img src="../assets/icons/loader.svg"/>
+          <img src="@/assets/icons/loader.svg"/>
         </div>
       </div>
     </div>
@@ -398,12 +398,12 @@
           </tr>
         </table>
         <div v-if="isLoadFilter">
-          <img src="../assets/icons/loader.svg"/>
+          <img src="@/assets/icons/loader.svg"/>
         </div>
         <h2 v-else>Tidak ada pengumuman</h2>
       </div>
 
-      
+
       <!-- if there are datas -->
       <div class="table-div" v-else>
         <p class="today-tomorrow-date">{{ filterDate }}</p>
@@ -498,7 +498,7 @@
           </tr>
         </table>
         <div v-if="isLoadFilter">
-          <img src="../assets/icons/loader.svg"/>
+          <img src="@/assets/icons/loader.svg"/>
         </div>
       </div>
     </div>

@@ -2,7 +2,6 @@
   <div>
     <div class="table-div">
       <h2>Daftar Pengajuan Surat</h2>
-      <div id="permohonan-surat_pesanan">
       <table aria-hidden="true">
         <tr>
           <th v-for="head in tableHead" :key="head" id="header">
@@ -45,7 +44,7 @@
     </div>
 
     <div v-if="isLoadTracking">
-      <img src="../assets/icons/loader.svg"/>
+      <img src="@/assets/icons/loader.svg"/>
     </div>
 
   </div>

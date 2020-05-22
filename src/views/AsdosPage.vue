@@ -28,7 +28,7 @@
         </tr>
       </table>
       <div v-if="isLoadAsdosTable">
-        <img src="../assets/icons/loader.svg"/>
+        <img src="@/assets/icons/loader.svg"/>
       </div>
     </div>
 

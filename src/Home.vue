@@ -5,9 +5,9 @@
         <div id="button_surat" class="home-button"
             @click="goToPage('/surat/')">
             <vue-load-image>
-              <img slot="image" src="./assets/images/mail_1.png"
+              <img slot="image" src="@/assets/images/mail_1.png"
                class="home-button-image" alt="Klik untuk layanan surat"/>
-              <img slot="preloader" src="./assets/icons/loader.svg"/>
+              <img slot="preloader" src="@/assets/icons/loader.svg"/>
             </vue-load-image>
            Layanan Dokumen Akademik
         </div>
@@ -16,10 +16,10 @@
             id="button_pengumuman" class="home-button"
             @click="goToPage('/pengumuman/')">
             <vue-load-image>
-              <img slot="image" src="./assets/images/shout_1.png"
+              <img slot="image" src="@/assets/images/shout_1.png"
                class="home-button-image"
                alt="Klik untuk melihat pengumuman" />
-              <img slot="preloader" src="./assets/icons/loader.svg"/>
+              <img slot="preloader" src="@/assets/icons/loader.svg"/>
             </vue-load-image>
            Pengumuman Perkuliahan
         </div>

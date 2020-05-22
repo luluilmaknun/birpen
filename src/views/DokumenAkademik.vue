@@ -6,14 +6,15 @@
     <div class="profile-container">
       <div class="input-row">
         <label>Nama: </label>
-        <img v-if="isLoadProfile" src="../assets/icons/loader-small.svg"/>
-        <input v-else-if="isAlumni" class="profile-input" v-model="nama_pemesan">
+        <img v-if="isLoadProfile" src="@/assets/icons/loader-small.svg"/>
+        <input v-else-if="isAlumni" class="profile-input"
+          v-model="nama_pemesan">
         <span v-else class="">{{ nama_pemesan }}</span>
       </div>
 
       <div class="input-row">
         <label>NPM: </label>
-        <img v-if="isLoadProfile" src="../assets/icons/loader-small.svg"/>
+        <img v-if="isLoadProfile" src="@/assets/icons/loader-small.svg"/>
         <input v-else-if="isAlumni" class="profile-input" v-model="npm_pemesan">
         <span v-else class="">{{ npm_pemesan }}</span>
       </div>
@@ -64,7 +65,7 @@
     </div>
 
     <div v-if="isLoadTableDoc">
-      <img src="../assets/icons/loader.svg"/>
+      <img src="@/assets/icons/loader.svg"/>
     </div>
 
     <modal name="ringkasan" height="auto" :pivotX="0.0" :width="1000">

@@ -29,7 +29,7 @@
       </table>
 
       <div v-if="isLoadAdminTable">
-        <img src="../assets/icons/loader.svg"/>
+        <img src="@/assets/icons/loader.svg"/>
       </div>
 
     </div>

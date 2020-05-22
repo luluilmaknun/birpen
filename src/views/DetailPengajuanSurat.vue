@@ -8,14 +8,26 @@
           <p>ID Pesanan: </p>
         </div>
         <div class="right-detail">
-          <p v-if="isLoadDetail"><img src="../assets/icons/loader-small.svg"/></p>
-          <p v-else id="profile-nama"><b>{{ detailPesanan.nama_pemesan }}</b></p>
+          <p v-if="isLoadDetail">
+            <img src="@/assets/icons/loader-small.svg"/>
+          </p>
+          <p v-else id="profile-nama">
+            <b>{{ detailPesanan.nama_pemesan }}</b>
+          </p>
 
-          <p v-if="isLoadDetail"><img src="../assets/icons/loader-small.svg"/></p>
-          <p v-else id="profile-npm"><b>{{ detailPesanan.npm_pemesan }}</b></p>
+          <p v-if="isLoadDetail">
+            <img src="@/assets/icons/loader-small.svg"/>
+          </p>
+          <p v-else id="profile-npm">
+            <b>{{ detailPesanan.npm_pemesan }}</b>
+          </p>
 
-          <p v-if="isLoadDetail"><img src="../assets/icons/loader-small.svg"/></p>
-          <p v-else id="profile-idPesanan"><b>{{ String(detailPesanan.pk).padStart(6, '0') }}</b></p>
+          <p v-if="isLoadDetail">
+            <img src="@/assets/icons/loader-small.svg"/>
+          </p>
+          <p v-else id="profile-idPesanan">
+            <b>{{ String(detailPesanan.pk).padStart(6, '0') }}</b>
+          </p>
         </div>
       </div>
       <!-- table -->
@@ -60,9 +72,9 @@
         </table>
 
         <div v-if="isLoadDetail">
-          <img src="../assets/icons/loader.svg"/>
+          <img src="@/assets/icons/loader.svg"/>
         </div>
-        
+
       </div>
     </div>
   </div>
