@@ -8,9 +8,6 @@
     <div class="create-asisten-div">
       <CreateAsisten/>
     </div>
-
-
-
     <!-- TABLE SECTION -->
     <div class="table-div">
       <table aria-hidden="true">

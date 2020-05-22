@@ -2,6 +2,7 @@
   <div id="dokumen-akademik" class="page-container">
     <h2 class="title">Pemesanan Surat <br> Akademik </h2>
     <br>
+
     <div class="profile-container">
       <div class="input-row">
         <label>Nama: </label>
@@ -61,7 +62,7 @@
       <button @click="summarize">Pesan</button>
       <button @click="goToPage('surat')">Kembali</button>
     </div>
-    
+
     <div v-if="isLoadTableDoc">
       <img src="../assets/icons/loader.svg"/>
     </div>

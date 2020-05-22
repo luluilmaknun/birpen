@@ -18,7 +18,6 @@
           <p v-else id="profile-idPesanan"><b>{{ String(detailPesanan.pk).padStart(6, '0') }}</b></p>
         </div>
       </div>
-
       <!-- table -->
       <div class="table-tracking-div">
         <table aria-hidden="true">

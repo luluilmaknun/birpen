@@ -402,6 +402,8 @@
         </div>
         <h2 v-else>Tidak ada pengumuman</h2>
       </div>
+
+      
       <!-- if there are datas -->
       <div class="table-div" v-else>
         <p class="today-tomorrow-date">{{ filterDate }}</p>
