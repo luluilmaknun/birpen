@@ -4,12 +4,7 @@
       Daftar Alumni
     </h1>
 
-    <div id='loader_alumni'>
-      <img src="../assets/icons/loader.svg"/>
-    </div>
-
     <!-- TABLE SECTION -->
-    <div id='alumni'>
     <div class="table-div">
       <table aria-hidden="true">
         <tr>
@@ -37,7 +32,9 @@
           </td>
         </tr>
       </table>
-    </div>
+      <div v-if="isLoadAlumniTable">
+        <img src="../assets/icons/loader.svg"/>
+      </div>
     </div>
   </div>
 </template>
@@ -58,6 +55,7 @@ export default {
       ],
       listAlumni: [],
       response: {},
+      isLoadAlumniTable: false,
     };
   },
   created() {
@@ -65,7 +63,9 @@ export default {
   },
   methods: {
     fetchAlumni() {
+      this.isLoadAlumniTable = true;
       alumniServices.fetchAlumni().then((result) => {
+        this.isLoadAlumniTable = false;
         this.response = result.data;
 
         for (let i = 0; i < this.response.alumni.length; i++) {
@@ -78,10 +78,6 @@ export default {
 </script>
 
 <style scoped>
-#alumni {
-  visibility: hidden;
-}
-
 .title-alumni {
   margin-top: 50px;
   margin-bottom: 20px;

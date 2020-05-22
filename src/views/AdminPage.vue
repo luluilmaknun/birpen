@@ -8,12 +8,7 @@
       <CreateAdmin/>
     </div>
 
-    <div id='loader_admin_birpen'>
-      <img src="../assets/icons/loader.svg"/>
-    </div>
-
     <!-- TABLE SECTION -->
-    <div id='admin_birpen'>
     <div class="table-div">
       <table aria-hidden="true">
         <tr>
@@ -32,7 +27,11 @@
           </td>
         </tr>
       </table>
-    </div>
+
+      <div v-if="isLoadAdminTable">
+        <img src="../assets/icons/loader.svg"/>
+      </div>
+
     </div>
   </div>
 </template>
@@ -55,6 +54,7 @@ export default {
       ],
       response: {},
       listAdmin: [],
+      isLoadAdminTable: false,
     };
   },
   created() {
@@ -62,7 +62,9 @@ export default {
   },
   methods: {
     fetchAdmin() {
+      this.isLoadAdminTable = true;
       adminApi.fetchAdmin().then((d) => {
+        this.isLoadAdminTable = false;
         this.response = d.data;
 
         for (let i = 0; i < this.response.admin.length; i++) {
@@ -75,10 +77,6 @@ export default {
 </script>
 
 <style scoped>
-#admin_birpen {
-  visibility: hidden;
-}
-
 .title-admin {
   margin-top: 50px;
   margin-bottom: 20px;

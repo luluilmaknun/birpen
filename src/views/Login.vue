@@ -40,6 +40,9 @@
         Buat Akun<br> Alumni
       </a>
     </div>
+    <p v-if="a == true">ahaha</p>
+    <p v-else>hihi</p>
+    <button @click=ceng()>he</button>
   </div>
 </template>
 
@@ -49,6 +52,7 @@ import axios from 'axios';
 export default {
   data: function() {
     return {
+      a: true,
       username: '',
       password: '',
       message: 'Username/Password salah',
@@ -56,6 +60,9 @@ export default {
     };
   },
   methods: {
+    ceng() {
+      this.a = !this.a;
+    },
     clickMasuk() {
       this.$refs.submit.click();
     },

@@ -107,13 +107,7 @@
       <!-- TODAY if no data -->
       <div class="table-div" id="table-today" v-if="today.length == 0">
         <p class="today-tomorrow-date">{{ todayDate }}</p>
-
-        <div id='loader_pengumuman_get-pengumuman'>
-          <img src="../assets/icons/loader.svg"/>
-        </div>
-
         <!-- TODAY ADMIN -->
-        <div id='pengumuman_get-pengumuman'>
         <table v-if="isAdmin" aria-hidden="true">
           <tr>
             <th id="table-header" class="head-table"
@@ -137,20 +131,16 @@
             <td/>
           </tr>
         </table>
-        <h2>Tidak ada pengumuman</h2>
+        <div v-if="isLoadPengumuman">
+          <img src="../assets/icons/loader.svg"/>
         </div>
+        <h2 v-else>Tidak ada pengumuman</h2>
       </div>
 
       <!-- table if there are datas -->
       <div class="table-div" v-else>
         <p class="today-tomorrow-date">{{ todayDate }}</p>
-
-        <div id='loader_pengumuman_get-pengumuman'>
-          <img src="../assets/icons/loader.svg"/>
-        </div>
-
         <!-- TODAY ADMIN -->
-        <div id='pengumuman_get-pengumuman'>
         <table v-if="isAdmin" aria-hidden="true">
           <tr>
             <th id="table-header" class="head-table"
@@ -240,6 +230,8 @@
             </td>
           </tr>
         </table>
+        <div v-if="isLoadPengumuman">
+          <img src="../assets/icons/loader.svg"/>
         </div>
       </div>
 
@@ -247,13 +239,7 @@
       <!-- table if no data -->
       <div class="table-div" id="table-tomorrow" v-if="tomorrow.length == 0">
         <p class="today-tomorrow-date">{{ tomorrowDate }}</p>
-
-        <div id='loader_pengumuman_get-pengumuman'>
-          <img src="../assets/icons/loader.svg"/>
-        </div>
-
         <!-- TOMORROW ADMIN -->
-        <div id='pengumuman_get-pengumuman'>
         <table v-if="isAdmin" aria-hidden="true">
           <tr>
             <th id="table-header" class="head-table"
@@ -277,20 +263,16 @@
             <td/>
           </tr>
         </table>
-        <h2>Tidak ada pengumuman</h2>
+        <div v-if="isLoadPengumuman">
+          <img src="../assets/icons/loader.svg"/>
         </div>
+        <h2 v-else>Tidak ada pengumuman</h2>
       </div>
 
       <!-- table if there are datas -->
       <div class="table-div" id="table-tomorrow" v-else>
         <p class="today-tomorrow-date">{{ tomorrowDate }}</p>
-
-        <div id='loader_pengumuman_get-pengumuman'>
-          <img src="../assets/icons/loader.svg"/>
-        </div>
-
         <!-- TOMORROW ADMIN -->
-        <div id='pengumuman_get-pengumuman'>
         <table v-if="isAdmin" aria-hidden="true">
           <tr>
             <th id="table-header" class="head-table"
@@ -380,6 +362,8 @@
             </td>
           </tr>
         </table>
+        <div v-if="isLoadPengumuman">
+          <img src="../assets/icons/loader.svg"/>
         </div>
       </div>
     </div>
@@ -389,13 +373,7 @@
       <!-- if there is no data -->
       <div class="table-div" v-if="filteredAnnouncement.length == 0">
         <p class="today-tomorrow-date">{{ filterDate }}</p>
-
-        <div :id="'loader_pengumuman_filter-pengumuman?tanggal='+selectedDate">
-          <img src="../assets/icons/loader.svg"/>
-        </div>
-
         <!-- FILTERED ADMIN -->
-        <div :id="'pengumuman_filter-pengumuman?tanggal='+selectedDate">
         <table v-if="isAdmin" aria-hidden="true">
           <tr>
             <th id="table-header" class="head-table"
@@ -419,19 +397,15 @@
             <td/>
           </tr>
         </table>
-        <h2>Tidak ada pengumuman</h2>
+        <div v-if="isLoadFilter">
+          <img src="../assets/icons/loader.svg"/>
         </div>
+        <h2 v-else>Tidak ada pengumuman</h2>
       </div>
       <!-- if there are datas -->
       <div class="table-div" v-else>
         <p class="today-tomorrow-date">{{ filterDate }}</p>
-
-        <div :id="'loader_pengumuman_filter-pengumuman?tanggal='+selectedDate">
-          <img src="../assets/icons/loader.svg"/>
-        </div>
-
         <!-- FILTERED ADMIN -->
-        <div :id="'pengumuman_filter-pengumuman?tanggal='+selectedDate">
         <table v-if="isAdmin" aria-hidden="true">
           <tr>
             <th id="table-header" class="head-table"
@@ -521,6 +495,8 @@
             </td>
           </tr>
         </table>
+        <div v-if="isLoadFilter">
+          <img src="../assets/icons/loader.svg"/>
         </div>
       </div>
     </div>
@@ -571,8 +547,9 @@ export default {
       todayDate: '',
       tomorrowDate: '',
       filterDate: '',
-      selectedDate: '',
       error_msg: '',
+      isLoadPengumuman: false,
+      isLoadFilter: false,
     };
   },
   created: function() {
@@ -596,7 +573,9 @@ export default {
     fetchFilteredPengumuman: function(date) {
       const dateResult = this.getFilteredDate(date);
       this.filterDate = dateResult;
+      this.isLoadFilter = true;
       announcementApi.getAnnouncementFiltered(date).then((result) => {
+        this.isLoadFilter = false;
         this.response = result.data;
         for (let i = 0; i < this.response.pengumuman_response.length; i++) {
           this.$set(
@@ -606,7 +585,9 @@ export default {
       });
     },
     fetchPengumuman: function() {
+      this.isLoadPengumuman = true;
       announcementApi.getAnnouncementDefault().then((d) => {
+        this.isLoadPengumuman = false;
         this.response = d.data;
         this.responseToList(this.response.pengumuman_today, this.today);
         this.responseToList(this.response.pengumuman_tomo, this.tomorrow);
@@ -697,10 +678,6 @@ export default {
 </script>
 
 <style scoped>
-div[id^="pengumuman_"] {
-  visibility: hidden;
-}
-
 .title-pengumuman {
   margin-top: 50px;
   margin-bottom: 20px;

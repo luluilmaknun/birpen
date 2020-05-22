@@ -9,12 +9,9 @@
       <CreateAsisten/>
     </div>
 
-    <div id='loader_asdos'>
-      <img src="../assets/icons/loader.svg"/>
-    </div>
+
 
     <!-- TABLE SECTION -->
-    <div id='asdos'>
     <div class="table-div">
       <table aria-hidden="true">
         <tr>
@@ -33,7 +30,9 @@
           </td>
         </tr>
       </table>
-    </div>
+      <div v-if="isLoadAsdosTable">
+        <img src="../assets/icons/loader.svg"/>
+      </div>
     </div>
 
   </div>
@@ -71,6 +70,7 @@ export default {
       ],
       response: {},
       listAsisten: [],
+      isLoadAsdosTable: false,
     };
   },
   created: function() {
@@ -78,7 +78,9 @@ export default {
   },
   methods: {
     fetchAsdos: function() {
+      this.isLoadAsdosTable = true;
       asistenServices.getAsisten().then((d) => {
+        this.isLoadAsdosTable = false;
         this.response = d.data;
         // TODO get asdos to this.response
         for (let i = 0; i < this.response.asisten_dosen.length; i++) {
@@ -94,10 +96,6 @@ export default {
 </script>
 
 <style scoped>
-#asdos {
-  visibility: hidden;
-}
-
 .title-asdos {
   margin-top: 50px;
   margin-bottom: 20px;

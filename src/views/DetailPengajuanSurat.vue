@@ -1,34 +1,26 @@
 <template>
   <div>
     <div class="main-container">
-      <div :id="'loader_permohonan-surat_pesanan_' + idPesanan">
-        <img src="../assets/icons/loader.svg"/>
-      </div>
-      <div :id="'permohonan-surat_pesanan_' + idPesanan">
       <div class="profile-detail">
         <div class="left-detail">
-          <p>Nama</p>
-          <p>NPM</p>
-          <p>ID Pesanan</p>
+          <p>Nama: </p>
+          <p>NPM: </p>
+          <p>ID Pesanan: </p>
         </div>
         <div class="right-detail">
-          <p id="profile-nama">: {{ detailPesanan.nama_pemesan }}</p>
-          <p id="profile-npm">: {{ detailPesanan.npm_pemesan }}</p>
-          <p id="profile-idPesanan">
-            : {{ String(detailPesanan.pk).padStart(6, '0') }}
-          </p>
+          <p v-if="isLoadDetail"><img src="../assets/icons/loader-small.svg"/></p>
+          <p v-else id="profile-nama"><b>{{ detailPesanan.nama_pemesan }}</b></p>
+
+          <p v-if="isLoadDetail"><img src="../assets/icons/loader-small.svg"/></p>
+          <p v-else id="profile-npm"><b>{{ detailPesanan.npm_pemesan }}</b></p>
+
+          <p v-if="isLoadDetail"><img src="../assets/icons/loader-small.svg"/></p>
+          <p v-else id="profile-idPesanan"><b>{{ String(detailPesanan.pk).padStart(6, '0') }}</b></p>
         </div>
       </div>
-      </div>
-
 
       <!-- table -->
       <div class="table-tracking-div">
-        <div :id="'loader_permohonan-surat_pesanan_' + idPesanan">
-          <img src="../assets/icons/loader.svg"/>
-        </div>
-
-        <div :id="'permohonan-surat_pesanan_' + idPesanan">
         <table aria-hidden="true">
           <tr>
             <th id="table-header" class="head-table">
@@ -67,8 +59,12 @@
             </td>
           </tr>
         </table>
+
+        <div v-if="isLoadDetail">
+          <img src="../assets/icons/loader.svg"/>
+        </div>
+        
       </div>
-    </div>
     </div>
   </div>
 </template>
@@ -88,6 +84,7 @@ export default {
       listPesanan: [],
       idPesanan: 'undefined',
       isAdmin: localStorage.getItem('is_admin') === 'true',
+      isLoadDetail: false,
     };
   },
   created: function() {
@@ -101,7 +98,9 @@ export default {
       return theID;
     },
     fetchDetail: function(idPesanan) {
+      this.isLoadDetail = true;
       trackingPesananApi.getDetailPesanan(idPesanan).then((result) => {
+        this.isLoadDetail = false;
         this.detailPesanan = result.data;
         this.responseToList(
             this.detailPesanan.pesanan_surat_akademik, this.listPesanan
@@ -118,10 +117,6 @@ export default {
 </script>
 
 <style scoped>
-div[id^="permohonan-surat_pesanan_"] {
-  visibility: hidden;
-}
-
 .main-container {
   width: 60%;
 }
