@@ -11,10 +11,6 @@ const propsData = {
   username: 'yusuf.tri71',
 };
 
-const data = {
-  nama: 'Hehe',
-};
-
 describe('tes detail karya akhir komponen', () => {
   const wrapper = shallowMount(DetailKaryaAkhir, {
     propsData, localVue,
@@ -44,7 +40,6 @@ describe('tes fetch detail', () => {
     wrapper = shallowMount(DetailKaryaAkhir, {
       propsData, localVue,
     });
-    wrapper.setData(data);
     vm = wrapper.vm;
 
     karyaAkhirAPI.fetchDetail = jest.fn(() => Promise.resolve({
