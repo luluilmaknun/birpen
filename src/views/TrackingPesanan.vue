@@ -152,6 +152,9 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin-bottom: 100px;
+  margin-top: 20px;
+
 }
 .table-div table {
   border-radius: 1em;
