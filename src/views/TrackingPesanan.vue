@@ -4,7 +4,7 @@
       <h2>Daftar Pengajuan Surat</h2>
       <table>
         <tr>
-          <th v-for="head in tableHead" :key="head">
+          <th id="table-head" v-for="head in tableHead" :key="head">
             {{ head }}
           </th>
         </tr>
@@ -43,9 +43,9 @@
       </table>
 
       <div class="pagination-section">
-        <button v-on:click="this.decreamentPage">Prev</button>
+        <button id="prev-button" v-on:click="this.decreamentPage">Prev</button>
         <p class="page-number">{{ pageNumber }}</p>
-        <button v-on:click="this.increamentPage">Next</button>
+        <button id="next-button" v-on:click="this.increamentPage">Next</button>
       </div>
     </div>
   </div>
@@ -148,7 +148,7 @@ export default {
         } if (i == theList.length-1) {
           pagedList.push(temp);
           temp = [];
-        } 
+        }
       }
     },
     renderPagination: function(pageNumber, pagedList) {
@@ -159,14 +159,16 @@ export default {
       const pagedLength = this.pagedTrackingList.length;
       if (this.pageNumber == pagedLength) {
         // do nothing
-        this.pageNumber == pagedLength;
+        this.pageNumber = pagedLength;
+      } if (this.pagedTrackingList.length == 1 || 
+      this.pagedTrackingList == 0) {
+        this.pageNumber = 1;
       } else {
         this.pageNumber++;
       }
       this.renderPagination(this.pageNumber, this.pagedTrackingList);
     },
     decreamentPage: function() {
-      const pagedLength = this.pagedTrackingList.length;
       if (this.pageNumber == 1) {
         this.pageNumber = 1;
       } else {
