@@ -39,7 +39,7 @@
               {{ content.jumlah }}
             </td>
             <td id="nama_status_surat">
-              <div 
+              <div
               v-if="isAdmin"
               class="edit-status-surat-div">
                 {{ content.status_surat }}
