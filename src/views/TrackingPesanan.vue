@@ -41,6 +41,12 @@
           </td>
         </tr>
       </table>
+
+      <div class="pagination-section">
+        <button>Prev</button>
+        {{ pageNumber }}
+        <button>Next</button>
+      </div>
     </div>
   </div>
 </template>
@@ -60,6 +66,8 @@ export default {
       ],
       response: {},
       trackingList: [],
+      pagedTrackingList: [],
+      pageNumber: 1,
       errorResponse: {},
       isAdmin: localStorage.getItem('is_admin') === 'true',
     };
@@ -72,6 +80,7 @@ export default {
       trackingPesananApi.getTrackingPesanan().then((result) => {
         this.response = result.data;
         this.responseToList(this.response.pesanan, this.trackingList);
+        this.fetchPagination(this.trackingList, this.pagedTrackingList);
         // Perform modify created date
         this.fetchDateCreated(this.trackingList, 'waktu_pemesanan');
       }).catch((error) => {
@@ -122,6 +131,24 @@ export default {
       const date = timestampList[0];
       const result = date + '  ' + createdTime;
       return result;
+    },
+    fetchPagination: function(theList, paginationList) {
+      const base = 5;
+      let temp = [];
+      let count = 0;
+      for (let i = 0; i < theList.length; i++) {
+        temp.push(theList[i]);
+        count += 1;
+        if (count == base) {
+          count = 0;
+          paginationList.push(temp);
+          temp = [];
+        } if (i == theList.length-1) {
+          paginationList.push(temp);
+          temp = [];
+        }
+      }
+      console.log(paginationList);
     },
   },
 };
@@ -184,5 +211,12 @@ tr:nth-child(odd) {
   justify-content: center;
   align-items: center;
   text-align: center;
+}
+.pagination-section {
+  margin-top: 30px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
 }
 </style>
