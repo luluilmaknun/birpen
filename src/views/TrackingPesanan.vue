@@ -8,7 +8,7 @@
             {{ head }}
           </th>
         </tr>
-        <tr v-for="data in this.trackingList" :key="data.id">
+        <tr v-for="data in renderPagedTrackingList" :key="data.pk">
           <td id="pk">
             {{ String(data.pk).padStart(6, '0') }}
           </td>
@@ -43,9 +43,9 @@
       </table>
 
       <div class="pagination-section">
-        <button>Prev</button>
-        {{ pageNumber }}
-        <button>Next</button>
+        <button v-on:click="this.decreamentPage">Prev</button>
+        <p class="page-number">{{ pageNumber }}</p>
+        <button v-on:click="this.increamentPage">Next</button>
       </div>
     </div>
   </div>
@@ -67,6 +67,7 @@ export default {
       response: {},
       trackingList: [],
       pagedTrackingList: [],
+      renderPagedTrackingList: [],
       pageNumber: 1,
       errorResponse: {},
       isAdmin: localStorage.getItem('is_admin') === 'true',
@@ -80,9 +81,10 @@ export default {
       trackingPesananApi.getTrackingPesanan().then((result) => {
         this.response = result.data;
         this.responseToList(this.response.pesanan, this.trackingList);
-        this.fetchPagination(this.trackingList, this.pagedTrackingList);
         // Perform modify created date
         this.fetchDateCreated(this.trackingList, 'waktu_pemesanan');
+        this.fetchPagination(this.trackingList, this.pagedTrackingList);
+        this.renderPagination(this.pageNumber, this.pagedTrackingList);
       }).catch((error) => {
         this.errorResponse = error.data;
       });
@@ -132,7 +134,7 @@ export default {
       const result = date + '  ' + createdTime;
       return result;
     },
-    fetchPagination: function(theList, paginationList) {
+    fetchPagination: function(theList, pagedList) {
       const base = 5;
       let temp = [];
       let count = 0;
@@ -141,14 +143,36 @@ export default {
         count += 1;
         if (count == base) {
           count = 0;
-          paginationList.push(temp);
+          pagedList.push(temp);
           temp = [];
         } if (i == theList.length-1) {
-          paginationList.push(temp);
+          pagedList.push(temp);
           temp = [];
-        }
+        } 
       }
-      console.log(paginationList);
+    },
+    renderPagination: function(pageNumber, pagedList) {
+      const tempList = pagedList[pageNumber-1];
+      this.renderPagedTrackingList = tempList;
+    },
+    increamentPage: function() {
+      const pagedLength = this.pagedTrackingList.length;
+      if (this.pageNumber == pagedLength) {
+        // do nothing
+        this.pageNumber == pagedLength;
+      } else {
+        this.pageNumber++;
+      }
+      this.renderPagination(this.pageNumber, this.pagedTrackingList);
+    },
+    decreamentPage: function() {
+      const pagedLength = this.pagedTrackingList.length;
+      if (this.pageNumber == 1) {
+        this.pageNumber = 1;
+      } else {
+        this.pageNumber--;
+      }
+      this.renderPagination(this.pageNumber, this.pagedTrackingList);
     },
   },
 };
@@ -218,5 +242,9 @@ tr:nth-child(odd) {
   flex-direction: row;
   align-items: center;
   justify-content: center;
+}
+.page-number {
+  margin-left: 10px;
+  margin-right: 10px;
 }
 </style>
