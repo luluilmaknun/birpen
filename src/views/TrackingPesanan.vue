@@ -131,7 +131,7 @@ export default {
       const second = timeList[2].split('.')[0];
       const createdTime = timeList[0] + ':' + timeList[1] + ':' + second;
       const date = timestampList[0];
-      const result = date + '  ' + createdTime;
+      const result = date + ' ' + createdTime;
       return result;
     },
     fetchPagination: function(theList, pagedList) {
@@ -160,7 +160,7 @@ export default {
       if (this.pageNumber == pagedLength) {
         // do nothing
         this.pageNumber = pagedLength;
-      } if (this.pagedTrackingList.length == 1 || 
+      } if (this.pagedTrackingList.length == 1 ||
       this.pagedTrackingList == 0) {
         this.pageNumber = 1;
       } else {
