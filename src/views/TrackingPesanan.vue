@@ -91,7 +91,6 @@ export default {
         this.fetchDateCreated(this.trackingList, 'waktu_pemesanan');
         this.fetchPagination(this.trackingList, this.pagedTrackingList);
         this.renderPagination(this.pageNumber, this.pagedTrackingList);
-        console.log(this.pagedTrackingList);
       }).catch((error) => {
         this.errorResponse = error.data;
       });
@@ -162,8 +161,6 @@ export default {
         const last = pagedList.length - 1;
         pagedList.splice(last,1);
       }
-      console.log(theList);
-      console.log(pagedList);
     },
     renderPagination: function(pageNumber, pagedList) {
       const tempList = pagedList[pageNumber-1];
