@@ -141,7 +141,6 @@ export default {
       return result;
     },
     fetchPagination: function(theList, pagedList) {
-      
       const base = 5;
       let temp = [];
       let count = 0;
@@ -159,7 +158,7 @@ export default {
       }
       if (pagedList[pagedList.length - 1] == 0) {
         const last = pagedList.length - 1;
-        pagedList.splice(last,1);
+        pagedList.splice(last, 1);
       }
     },
     renderPagination: function(pageNumber, pagedList) {
