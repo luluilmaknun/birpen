@@ -41,18 +41,17 @@
           </td>
         </tr>
       </table>
-
-      <div class="pagination-section">
-        <button class="pagination-button"
-        id="prev-button" v-show="showPrev" v-on:click="this.decreamentPage">
-          &lt;
-        </button>
-        <p class="page-number">{{ pageNumber }}</p>
-        <button class="pagination-button"
-        id="next-button" v-show="showNext" v-on:click="this.increamentPage">
-          &gt;
-        </button>
-      </div>
+    </div>
+    <div class="pagination-section">
+      <button class="pagination-button"
+      id="prev-button" v-show="showPrev" v-on:click="this.decreamentPage">
+        &lt;
+      </button>
+      <p class="page-number">{{ pageNumber }}</p>
+      <button class="pagination-button"
+      id="next-button" v-show="showNext" v-on:click="this.increamentPage">
+        &gt;
+      </button>
     </div>
   </div>
 </template>
@@ -224,9 +223,8 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-bottom: 100px;
   margin-top: 20px;
-
+  min-height: 650px;
 }
 .table-div table {
   border-radius: 1em;
@@ -278,8 +276,7 @@ tr:nth-child(odd) {
   font-size: 16pt;
 }
 .pagination-button:hover {
-  color: white;
-  background-color: black;
+  background-color: #FFDD00;
 }
 #next-button {
   visibility: visible;
