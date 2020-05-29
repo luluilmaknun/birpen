@@ -162,30 +162,38 @@ export default {
       }
     },
     renderPagination: function(pageNumber, pagedList) {
+      this.checkPaginationButton(pageNumber, pagedList);
       const tempList = pagedList[pageNumber-1];
       this.renderPagedTrackingList = tempList;
     },
     increamentPage: function() {
-      const pagedLength = this.pagedTrackingList.length;
-      if (this.pageNumber == pagedLength) {
-        // do nothing
-        this.pageNumber = pagedLength;
-      } else if (this.pagedTrackingList.length == 1 ||
-      this.pagedTrackingList == 0) {
-        // keep it 1
-        this.pageNumber = 1;
-      } else {
-        this.pageNumber++;
-      }
+      this.pageNumber++
       this.renderPagination(this.pageNumber, this.pagedTrackingList);
     },
     decreamentPage: function() {
-      if (this.pageNumber == 1) {
-        this.pageNumber = 1;
-      } else {
-        this.pageNumber--;
-      }
+      this.pageNumber--;
       this.renderPagination(this.pageNumber, this.pagedTrackingList);
+    },
+    checkPaginationButton: function(pageNumber, pagedList) {
+      if (pagedList.length == 1 || pagedList.length == 0) {
+        // kalo gaada atau cuman 1 panjang paginationnya
+        document.getElementById('next-button').style.visibility = 'hidden';
+        document.getElementById('prev-button').style.visibility = 'hidden';
+      } 
+      // kalo panjang pagination > 1
+      else if (pageNumber == 1) {
+        // ujung kiri
+        document.getElementById('prev-button').style.visibility = 'hidden';
+        document.getElementById('next-button').style.visibility = 'visible';
+      } else if (pageNumber == pagedList.length) { 
+        // ujung kanan
+        document.getElementById('next-button').style.visibility = 'hidden';
+        document.getElementById('prev-button').style.visibility = 'visible';
+      } else {
+        // tengah
+        document.getElementById('next-button').style.visibility = 'visible';
+        document.getElementById('prev-button').style.visibility = 'visible';
+      }
     },
   },
 };
