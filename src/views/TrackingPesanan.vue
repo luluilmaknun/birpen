@@ -141,7 +141,7 @@ export default {
       return result;
     },
     fetchPagination: function(theList, pagedList) {
-      const base = 5;
+      const base = 7;
       let temp = [];
       let count = 0;
       for (let i = 0; i < theList.length; i++) {
@@ -258,7 +258,6 @@ tr:nth-child(odd) {
 }
 .pagination-button {
   padding: 5px 10px;
-  padding-left: ;
   border-radius: 1000px;
   border-style: none;
   background: none;
