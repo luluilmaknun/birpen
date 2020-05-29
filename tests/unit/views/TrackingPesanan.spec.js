@@ -24,10 +24,6 @@ describe('Cek komponen tabel', () => {
           },
         }));
     vm.fetchTrackingPesanan();
-    const trackingList = vm.trackingList;
-    const pagedTrackingList = vm.pagedTrackingList;
-    vm.fetchPagination(trackingList, pagedTrackingList);
-    vm.renderPagination(1, pagedTrackingList);
   });
 
   it('test ada response', () => {
@@ -52,12 +48,19 @@ describe('test button pagination', () => {
   });
 });
 
-describe('test fungsi modify date', () => {
+describe('test fungsi dateTime', () => {
   const wrapper = shallowMount(TrackingPesanan);
   const vm = wrapper.vm;
-  const defaultDateTime = '2020-05-06T06:39:12.00+07:00';
-  const result = vm.modifyDateTime(defaultDateTime);
-  expect(result).toBe('2020-05-06 06:39:12');
+  it('test modify date function', () => {
+    const defaultDateTime = '2020-05-06T06:39:12.00+07:00';
+    const result = vm.modifyDateTime(defaultDateTime);
+    expect(result).toBe('06 Mei 2020');
+  });
+  it('test get date function', () => {
+    const datetime = '2020-05-06 06:39:12';
+    const result = vm.getDate(datetime);
+    expect(result).toBe('06 Mei 2020');
+  });
 });
 
 describe('test fungsi get nama bulan', () => {
@@ -87,4 +90,73 @@ describe('test fungsi show detail page', () => {
   });
   vm.showDetailPage(pk);
   expect(window.location.href).toEqual(url);
+});
+
+describe('test fetch pagination', () => {
+  const wrapper = shallowMount(TrackingPesanan);
+  const vm = wrapper.vm;
+  it('first case', () => {
+    const theList = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1]; // length = 10
+    const pagedList = [];
+    vm.fetchPagination(theList, pagedList);
+    expect(pagedList.length).toBe(2);
+  });
+  it('second case', () => {
+    const theList = [1, 1, 1, 1, 1, 1, 1]; // length = 7
+    const pagedList = [];
+    vm.fetchPagination(theList, pagedList);
+    expect(pagedList.length).toBe(1);
+  });
+});
+
+describe('test render pagination', () => {
+  const wrapper = shallowMount(TrackingPesanan);
+  const vm = wrapper.vm;
+  const pageNumber = 1;
+  const pagedList = [[1, 1, 1, 1, 1, 1, 1], [1, 1, 1]]; // length = 10
+  vm.renderPagination(pageNumber, pagedList);
+  const result = vm.renderPagedTrackingList;
+  expect(result.length).toBe(7);
+});
+
+describe('test next prev button visibility', () => {
+  const wrapper = shallowMount(TrackingPesanan);
+  const vm = wrapper.vm;
+  let pagedList; let pageNumber;
+  it('case pertama', () => {
+    const nextButton = wrapper.find('#next-button');
+    const prevButton = wrapper.find('#prev-button');
+    pagedList = [];
+    pageNumber = 1;
+    vm.checkPaginationButton(pageNumber, pagedList);
+    expect(prevButton.isVisible()).toBe(true);
+    expect(nextButton.isVisible()).toBe(true);
+  });
+  it('case kedua', () => {
+    const nextButton = wrapper.find('#next-button');
+    const prevButton = wrapper.find('#prev-button');
+    pagedList = [[1, 1, 1, 1, 1, 1, 1], [1, 1, 1]]; // length = 2
+    pageNumber = 1;
+    vm.checkPaginationButton(pageNumber, pagedList);
+    expect(prevButton.isVisible()).toBe(false);
+    expect(nextButton.isVisible()).toBe(false);
+  });
+  it('case ketiga', () => {
+    const nextButton = wrapper.find('#next-button');
+    const prevButton = wrapper.find('#prev-button');
+    pagedList = [[1, 1, 1, 1, 1, 1, 1], [1, 1, 1]]; // length = 2
+    pageNumber = 2;
+    vm.checkPaginationButton(pageNumber, pagedList);
+    expect(nextButton.isVisible()).toBe(true);
+    expect(prevButton.isVisible()).toBe(false);
+  });
+  it('case keempat', () => {
+    const nextButton = wrapper.find('#next-button');
+    const prevButton = wrapper.find('#prev-button');
+    pagedList = [[1, 1, 1], [1, 1, 1], [1, 1, 1], [1, 1, 1]];
+    pageNumber = 2;
+    vm.checkPaginationButton(pageNumber, pagedList);
+    expect(nextButton.isVisible()).toBe(false);
+    expect(prevButton.isVisible()).toBe(true);
+  });
 });
