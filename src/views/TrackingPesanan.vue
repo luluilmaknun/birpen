@@ -171,8 +171,9 @@ export default {
       if (this.pageNumber == pagedLength) {
         // do nothing
         this.pageNumber = pagedLength;
-      } if (this.pagedTrackingList.length == 1 ||
+      } else if (this.pagedTrackingList.length == 1 ||
       this.pagedTrackingList == 0) {
+        // keep it 1
         this.pageNumber = 1;
       } else {
         this.pageNumber++;
