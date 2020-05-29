@@ -68,14 +68,6 @@ describe('test fungsi get nama bulan', () => {
   expect(result).toBe('Februari');
 });
 
-// describe('test fungsi get date', () => {
-//   const wrapper = shallowMount(TrackingPesanan);
-//   const vm = wrapper.vm;
-//   const dateTime = '2020-05-06 06:39:12';
-//   const result = vm.getDate(dateTime);
-//   expect(result).toBe('5 Mei 2020');
-// });
-
 describe('test fungsi show detail page', () => {
   const wrapper = shallowMount(TrackingPesanan, {
     mocks: {
