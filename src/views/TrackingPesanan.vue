@@ -43,9 +43,15 @@
       </table>
 
       <div class="pagination-section">
-        <button id="prev-button" v-on:click="this.decreamentPage">Prev</button>
+        <button class="pagination-button"
+        id="prev-button" v-on:click="this.decreamentPage">
+          &lt;
+        </button>
         <p class="page-number">{{ pageNumber }}</p>
-        <button id="next-button" v-on:click="this.increamentPage">Next</button>
+        <button class="pagination-button"
+        id="next-button" v-on:click="this.increamentPage">
+          &gt;
+        </button>
       </div>
     </div>
   </div>
@@ -85,6 +91,7 @@ export default {
         this.fetchDateCreated(this.trackingList, 'waktu_pemesanan');
         this.fetchPagination(this.trackingList, this.pagedTrackingList);
         this.renderPagination(this.pageNumber, this.pagedTrackingList);
+        console.log(this.pagedTrackingList);
       }).catch((error) => {
         this.errorResponse = error.data;
       });
@@ -135,6 +142,7 @@ export default {
       return result;
     },
     fetchPagination: function(theList, pagedList) {
+      
       const base = 5;
       let temp = [];
       let count = 0;
@@ -150,6 +158,12 @@ export default {
           temp = [];
         }
       }
+      if (pagedList[pagedList.length - 1] == 0) {
+        const last = pagedList.length - 1;
+        pagedList.splice(last,1);
+      }
+      console.log(theList);
+      console.log(pagedList);
     },
     renderPagination: function(pageNumber, pagedList) {
       const tempList = pagedList[pageNumber-1];
@@ -244,6 +258,24 @@ tr:nth-child(odd) {
   flex-direction: row;
   align-items: center;
   justify-content: center;
+}
+.pagination-button {
+  padding: 5px 10px;
+  padding-left: ;
+  border-radius: 1000px;
+  border-style: none;
+  background: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  align-content: center;
+  color: black;
+  font-weight: bolder;
+  font-size: 16pt;
+}
+.pagination-button:hover {
+  color: white;
+  background-color: black;
 }
 .page-number {
   margin-left: 10px;
