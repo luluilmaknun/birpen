@@ -44,12 +44,12 @@
 
       <div class="pagination-section">
         <button class="pagination-button"
-        id="prev-button" v-on:click="this.decreamentPage">
+        id="prev-button" v-show="showPrev" v-on:click="this.decreamentPage">
           &lt;
         </button>
         <p class="page-number">{{ pageNumber }}</p>
         <button class="pagination-button"
-        id="next-button" v-on:click="this.increamentPage">
+        id="next-button" v-show="showNext" v-on:click="this.increamentPage">
           &gt;
         </button>
       </div>
@@ -66,6 +66,8 @@ export default {
   },
   data: function() {
     return {
+      showPrev: true,
+      showNext: true,
       tableHead: [
         'ID Pesanan', 'Nama Mahasiswa', 'NPM Mahasiswa',
         'Waktu Pemesanan', 'Status Bayar', 'Aksi',
@@ -106,7 +108,7 @@ export default {
     fetchDateCreated: function(theList, columnTarget) {
       let modDate;
       for (let i = 0; i < theList.length; i++) {
-        modDate = this.getDate(theList[i].waktu_pemesanan);
+        modDate = this.modifyDateTime(theList[i].waktu_pemesanan);
         this.$set(theList[i], columnTarget, modDate);
       }
     },
@@ -117,8 +119,7 @@ export default {
       return month[choice];
     },
     getDate: function(dateAndTime) {
-      const temp = this.modifyDateTime(dateAndTime);
-      const tempArr = temp.split(' ');
+      const tempArr = dateAndTime.split(' ');
       const dateArr = tempArr[0].split('-');
       // Perform date formating
       const day = dateArr[2];
@@ -138,7 +139,8 @@ export default {
       const createdTime = timeList[0] + ':' + timeList[1] + ':' + second;
       const date = timestampList[0];
       const result = date + ' ' + createdTime;
-      return result;
+      const temp = this.getDate(result);
+      return temp;
     },
     fetchPagination: function(theList, pagedList) {
       const base = 7;
@@ -167,7 +169,7 @@ export default {
       this.renderPagedTrackingList = tempList;
     },
     increamentPage: function() {
-      this.pageNumber++
+      this.pageNumber++;
       this.renderPagination(this.pageNumber, this.pagedTrackingList);
     },
     decreamentPage: function() {
@@ -175,24 +177,22 @@ export default {
       this.renderPagination(this.pageNumber, this.pagedTrackingList);
     },
     checkPaginationButton: function(pageNumber, pagedList) {
-      if (pagedList.length == 1 || pagedList.length == 0) {
-        // kalo gaada atau cuman 1 panjang paginationnya
-        document.getElementById('next-button').style.visibility = 'hidden';
-        document.getElementById('prev-button').style.visibility = 'hidden';
-      } 
-      // kalo panjang pagination > 1
-      else if (pageNumber == 1) {
+      if (pageNumber == 1 &&
+      (pagedList.length == 1 || pagedList.length == 0)) {
+        this.showPrev = false;
+        this.showNext = false;
+      } else if (pageNumber == 1 && pagedList.length > 1) {
         // ujung kiri
-        document.getElementById('prev-button').style.visibility = 'hidden';
-        document.getElementById('next-button').style.visibility = 'visible';
-      } else if (pageNumber == pagedList.length) { 
+        this.showPrev = false;
+        this.showNext = true;
+      } else if (pageNumber == pagedList.length) {
         // ujung kanan
-        document.getElementById('next-button').style.visibility = 'hidden';
-        document.getElementById('prev-button').style.visibility = 'visible';
+        this.showNext = false;
+        this.showPrev = true;
       } else {
         // tengah
-        document.getElementById('next-button').style.visibility = 'visible';
-        document.getElementById('prev-button').style.visibility = 'visible';
+        this.showNext = true;
+        this.showPrev = true;
       }
     },
   },
@@ -280,6 +280,12 @@ tr:nth-child(odd) {
 .pagination-button:hover {
   color: white;
   background-color: black;
+}
+#next-button {
+  visibility: visible;
+}
+#prev-button {
+  visibility: visible;
 }
 .page-number {
   margin-left: 10px;
