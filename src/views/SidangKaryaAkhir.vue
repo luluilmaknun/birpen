@@ -98,25 +98,7 @@ export default {
           judul_karya_en: "Ekonomi in social life",
         },
       ],
-      programStudiDummy: [
-        {
-          pk: 1,
-          nama: 'Manajemen'
-        },
-        {
-          pk: 2,
-          nama: 'Akuntansi'
-        },
-        {
-          pk: 3,
-          nama: 'Bisnis Islam'
-        },
-        {
-          pk: 4,
-          nama: 'Ilmu Ekonomi Islam'
-        },
-      ],
-      programStudiResponse: {},
+      programStudiResponse: [],
     };
   },
   created: function() {
