@@ -5,9 +5,10 @@ from rest_framework.status import (
     HTTP_200_OK,
 )
 
-from .models import SuratKaryaAkhir, ProgramStudi
-from .permissions import IsPrivilegedToAccessKaryaAkhir
-from .serializers import SuratKaryaAkhirSerializer, ProgramStudiSerializer
+from .models import SuratKaryaAkhir, ProgramStudi, DataKaryaAkhir
+from .permissions import IsPrivilegedToAccessKaryaAkhir, IsAdmin
+from .serializers import SuratKaryaAkhirSerializer, ProgramStudiSerializer, \
+    MahasiswaKaryaAkhirSerializer
 
 
 @api_view(["GET"])
@@ -17,6 +18,32 @@ def karya_akhir_placeholder_views(_):
     }
 
     return Response({"success": True, "result": result}, status=HTTP_200_OK)
+
+
+@api_view(["GET"])
+@permission_classes([IsAuthenticated, IsAdmin])
+def filter_mahasiswa(request):
+    request_angkatan = request.GET["angkatan"]
+    request_prodi = request.GET["prodi"]
+
+    if request_angkatan and request_prodi:
+        filtered_data_karya_akhir = DataKaryaAkhir.objects \
+            .filter(mahasiswa__profile__year_of_entry=request_angkatan) \
+            .filter(mahasiswa__profile__study_program=request_prodi)
+    elif not request_prodi:
+        filtered_data_karya_akhir = DataKaryaAkhir.objects \
+            .filter(mahasiswa__profile__year_of_entry=request_angkatan)
+    elif not request_angkatan:
+        filtered_data_karya_akhir = DataKaryaAkhir.objects \
+            .filter(mahasiswa__profile__study_program=request_prodi)
+    else:
+        filtered_data_karya_akhir = DataKaryaAkhir.objects.all()
+
+    return Response({
+        "mahasiswa_karya_akhir": (MahasiswaKaryaAkhirSerializer(surat_karya_akhir).data
+                                  for surat_karya_akhir in filtered_data_karya_akhir),
+    })
+
 
 @api_view(["GET"])
 @permission_classes([IsAuthenticated, IsPrivilegedToAccessKaryaAkhir])
