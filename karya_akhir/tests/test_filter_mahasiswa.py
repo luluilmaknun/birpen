@@ -159,7 +159,7 @@ class FilterMahasiswaKaryaAkhir(TestCase):
                     "npm": "",
                     "program_studi": "Akuntansi",
                     "angkatan": "2016",
-               }
+                }
             },
             {
                 "mahasiswa": {
