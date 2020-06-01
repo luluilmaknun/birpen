@@ -45,8 +45,8 @@ def filter_mahasiswa(request):
         }, status=HTTP_200_OK)
 
     return Response({
-        "mahasiswa_karya_akhir": (MahasiswaKaryaAkhirSerializer(surat_karya_akhir).data
-                                  for surat_karya_akhir in filtered_data_karya_akhir),
+        "mahasiswa_karya_akhir": [MahasiswaKaryaAkhirSerializer(surat_karya_akhir).data
+                                  for surat_karya_akhir in filtered_data_karya_akhir],
     }, status=HTTP_200_OK)
 
 
