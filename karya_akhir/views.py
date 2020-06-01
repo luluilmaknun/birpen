@@ -6,7 +6,7 @@ from rest_framework.status import (
 )
 
 from .models import SuratKaryaAkhir, ProgramStudi, DataKaryaAkhir
-from .permissions import IsPrivilegedToAccessKaryaAkhir
+from .permissions import IsPrivilegedToAccessKaryaAkhir, IsAdmin
 from .serializers import SuratKaryaAkhirSerializer, ProgramStudiSerializer, \
     MahasiswaKaryaAkhirSerializer
 
@@ -21,14 +21,14 @@ def karya_akhir_placeholder_views(_):
 
 
 @api_view(["GET"])
-@permission_classes([IsAuthenticated, IsPrivilegedToAccessKaryaAkhir])
+@permission_classes([IsAuthenticated, IsAdmin])
 def read_mahasiswa_karya_akhir(_):
     all_data_karya_akhir = DataKaryaAkhir.objects.all()
 
     return Response({
-        "mahasiswa_karya_akhir": (MahasiswaKaryaAkhirSerializer(data_karya_akhir).data
-                                  for data_karya_akhir in all_data_karya_akhir),
-    })
+        "mahasiswa_karya_akhir": [MahasiswaKaryaAkhirSerializer(data_karya_akhir).data
+                                  for data_karya_akhir in all_data_karya_akhir],
+    }, status=HTTP_200_OK)
 
 
 @api_view(["GET"])
