@@ -7,8 +7,8 @@
         class="filter-element" id="angkatan-input" v-model="angkatan"/>
         <select class="filter-element" id="studi-choices" v-model="chosenStudi">
           <option :value="''" hidden>Pilih Program Studi</option>
-          <option v-for="studi in programStudiDummy"
-          :key="studi.pk"
+          <option v-for="studi in programStudi"
+          :key="studi.nama"
           :value="studi.nama">
             {{ studi.nama }}
           </option>
@@ -63,42 +63,42 @@ export default {
           mahasiswa: 'Yusuf Tri Ardho',
           npm: '1706023024',
           angkatan: '2017',
-          peminatan_mahasiswa: "Akuntansi Terapan",
+          peminatan_mahasiswa: 'Akuntansi Terapan',
           jenis_karya_akhir: 1,
           sks_diperoleh: 144,
-          pembimbing: "Lulu Ilmaknun S.Ak.",
-          pembimbing_pendamping: "Annida Safira S.Ak.",
-          judul_karya_id: "Akuntansi dalam bisnis",
-          judul_karya_en: "Accounting in business",
+          pembimbing: 'Lulu Ilmaknun S.Ak.',
+          pembimbing_pendamping: 'Annida Safira S.Ak.',
+          judul_karya_id: 'Akuntansi dalam bisnis',
+          judul_karya_en: 'Accounting in business',
         },
         {
           pk: 2,
           mahasiswa: 'Napis',
           npm: '1706075022',
           angkatan: '2016',
-          peminatan_mahasiswa: "Akuntansi Virtual",
+          peminatan_mahasiswa: 'Akuntansi Virtual',
           jenis_karya_akhir: 1,
           sks_diperoleh: 144,
-          pembimbing: "Bulan",
-          pembimbing_pendamping: "-",
-          judul_karya_id: "Akuntansi dalam bisnis",
-          judul_karya_en: "Accounting with VR",
+          pembimbing: 'Bulan',
+          pembimbing_pendamping: '-',
+          judul_karya_id: 'Akuntansi dalam bisnis',
+          judul_karya_en: 'Accounting with VR',
         },
         {
           pk: 3,
           mahasiswa: 'Azhar',
           npm: '1706024864',
           angkatan: '2019',
-          peminatan_mahasiswa: "Ilmu Ekonomi Terapan",
+          peminatan_mahasiswa: 'Ilmu Ekonomi Terapan',
           jenis_karya_akhir: 2,
           sks_diperoleh: 141,
-          pembimbing: "Bebes",
-          pembimbing_pendamping: "-",
-          judul_karya_id: "Ekonomi dalam bisnis",
-          judul_karya_en: "Ekonomi in social life",
+          pembimbing: 'Bebes',
+          pembimbing_pendamping: '-',
+          judul_karya_id: 'Ekonomi dalam bisnis',
+          judul_karya_en: 'Ekonomi in social life',
         },
       ],
-      programStudiResponse: [],
+      programStudi: [],
     };
   },
   created: function() {
@@ -107,11 +107,11 @@ export default {
   methods: {
     fetchProgramStudi: function() {
       apiSidangAkhir.getProgramStudi().then((result) => {
-        this.programStudiResponse = result.data;
-      })
-    }
+        this.programStudi = result.data.program_studi;
+      });
+    },
   },
-}
+};
 </script>
 
 <style scoped>
