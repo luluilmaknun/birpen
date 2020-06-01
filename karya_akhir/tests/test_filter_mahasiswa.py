@@ -186,3 +186,10 @@ class FilterMahasiswaKaryaAkhir(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.data['mahasiswa_karya_akhir'],
                          expected_response)
+
+    def test_admin_can_filter_mahasiswa_karya_akhir_none(self):
+        self.client.credentials(HTTP_AUTHORIZATION="Bearer " + self.token_admin)
+        response = self.client \
+            .get("/api/karya-akhir/filter-mahasiswa?angkatan=2018&prodi=Ekonomi")
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.data['detail'], "Tidak ada data yang tersedia")
