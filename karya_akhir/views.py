@@ -5,9 +5,10 @@ from rest_framework.status import (
     HTTP_200_OK,
 )
 
-from .models import SuratKaryaAkhir, ProgramStudi
+from .models import SuratKaryaAkhir, ProgramStudi, DataKaryaAkhir
 from .permissions import IsPrivilegedToAccessKaryaAkhir
-from .serializers import SuratKaryaAkhirSerializer, ProgramStudiSerializer
+from .serializers import SuratKaryaAkhirSerializer, ProgramStudiSerializer, \
+    MahasiswaKaryaAkhirSerializer
 
 
 @api_view(["GET"])
@@ -17,6 +18,18 @@ def karya_akhir_placeholder_views(_):
     }
 
     return Response({"success": True, "result": result}, status=HTTP_200_OK)
+
+
+@api_view(["GET"])
+@permission_classes([IsAuthenticated, IsPrivilegedToAccessKaryaAkhir])
+def read_mahasiswa_karya_akhir(_):
+    all_data_karya_akhir = DataKaryaAkhir.objects.all()
+
+    return Response({
+        "mahasiswa_karya_akhir": (MahasiswaKaryaAkhirSerializer(data_karya_akhir).data
+                                  for data_karya_akhir in all_data_karya_akhir),
+    })
+
 
 @api_view(["GET"])
 @permission_classes([IsAuthenticated, IsPrivilegedToAccessKaryaAkhir])
