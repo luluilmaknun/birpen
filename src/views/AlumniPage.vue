@@ -32,6 +32,9 @@
           </td>
         </tr>
       </table>
+      <div v-if="isLoadAlumniTable">
+        <img src="@/assets/icons/loader.svg"/>
+      </div>
     </div>
   </div>
 </template>
@@ -52,6 +55,7 @@ export default {
       ],
       listAlumni: [],
       response: {},
+      isLoadAlumniTable: false,
     };
   },
   created() {
@@ -59,7 +63,9 @@ export default {
   },
   methods: {
     fetchAlumni() {
+      this.isLoadAlumniTable = true;
       alumniServices.fetchAlumni().then((result) => {
+        this.isLoadAlumniTable = false;
         this.response = result.data;
 
         for (let i = 0; i < this.response.alumni.length; i++) {
