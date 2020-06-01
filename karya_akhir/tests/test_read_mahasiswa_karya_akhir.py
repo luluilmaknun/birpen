@@ -10,7 +10,7 @@ from sso_ui.models import Admin
 User = get_user_model()
 
 
-class CreateDataKaryaAkhirTest(TestCase):
+class ReadMahasiswaKaryaAkhir(TestCase):
     def setUp(self):
         self.client = APIClient()
 
