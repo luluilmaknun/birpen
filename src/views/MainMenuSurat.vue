@@ -15,8 +15,11 @@
         <div id="button_dokumen_sidang_akhir"
           class="menu-item" @click="goToPage('/surat/sidang/')">
           <div class="menu-image-container">
-            <img src="@/assets/images/sidang.png" class="menu-icon"
-              alt="Klik untuk menuju layanan sidang akhir" />
+            <vue-load-image>
+              <img slot="image" src="@/assets/images/sidang.png"
+               class="menu-icon" alt="Klik untuk menuju layanan sidang akhir" />
+              <img slot="preloader" src="@/assets/icons/loader.svg"/>
+            </vue-load-image>
           </div>
           <h3>Dokumen Kelengkapan Sidang Karya Akhir</h3>
         </div>
@@ -24,8 +27,12 @@
         <div id="button_pemesanan_dokumen"
           class="menu-item" @click="goToPage('/surat/pemesanan/')">
           <div class="menu-image-container">
-            <img src="@/assets/images/pemesanan.png" class="menu-icon"
-              alt="Klik untuk menuju layanan pemesanan dokumen" />
+            <vue-load-image>
+              <img slot="image"
+               src="@/assets/images/pemesanan.png" class="menu-icon"
+               alt="Klik untuk menuju layanan pemesanan dokumen" />
+              <img slot="preloader" src="@/assets/icons/loader.svg"/>
+            </vue-load-image>
           </div>
           <h3>Pemesanan Dokumen Akademik</h3>
         </div>
@@ -33,8 +40,12 @@
         <div id="button_tracking_pemesanan"
           class="menu-item" @click="goToPage('/surat/tracking/')">
           <div class="menu-image-container">
-            <img src="@/assets/images/tracking.png" class="menu-icon"
-              alt="Klik untuk menuju layanan tracking pemesanan" />
+            <vue-load-image>
+              <img slot="image"
+               src="@/assets/images/tracking.png" class="menu-icon"
+               alt="Klik untuk menuju layanan tracking pemesanan" />
+              <img slot="preloader" src="@/assets/icons/loader.svg"/>
+            </vue-load-image>
           </div>
           <h3>Trace & Tracking Pemesanan Dokumen Akademik</h3>
         </div>
@@ -44,6 +55,8 @@
 </template>
 
 <script>
+import VueLoadImage from 'vue-load-image';
+
 export default {
   name: 'MainMenuSurat',
 
@@ -51,6 +64,10 @@ export default {
     goToPage(link) {
       this.$router.push({path: link});
     },
+  },
+
+  components: {
+    'vue-load-image': VueLoadImage,
   },
 };
 </script>
