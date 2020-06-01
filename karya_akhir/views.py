@@ -30,14 +30,14 @@ def filter_mahasiswa(request):
         filtered_data_karya_akhir = DataKaryaAkhir.objects \
             .filter(mahasiswa__profile__year_of_entry=request_angkatan) \
             .filter(mahasiswa__profile__study_program=request_prodi)
-    elif not request_prodi:
-        filtered_data_karya_akhir = DataKaryaAkhir.objects \
-            .filter(mahasiswa__profile__year_of_entry=request_angkatan)
+    elif not request_prodi and not request_angkatan:
+        filtered_data_karya_akhir = DataKaryaAkhir.objects.all()
     elif not request_angkatan:
         filtered_data_karya_akhir = DataKaryaAkhir.objects \
             .filter(mahasiswa__profile__study_program=request_prodi)
     else:
-        filtered_data_karya_akhir = DataKaryaAkhir.objects.all()
+        filtered_data_karya_akhir = DataKaryaAkhir.objects \
+            .filter(mahasiswa__profile__year_of_entry=request_angkatan)
 
     if not filtered_data_karya_akhir:
         return Response({

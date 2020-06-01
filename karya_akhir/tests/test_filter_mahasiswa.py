@@ -148,3 +148,41 @@ class FilterMahasiswaKaryaAkhir(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.data['mahasiswa_karya_akhir'],
                          expected_response)
+
+    def test_admin_can_filter_mahasiswa_karya_akhir_all(self):
+        self.client.credentials(HTTP_AUTHORIZATION="Bearer " + self.token_admin)
+        expected_response = [
+            {
+                "mahasiswa": {
+                    "username": "mahasiswa_1",
+                    "nama": " ",
+                    "npm": "",
+                    "program_studi": "Akuntansi",
+                    "angkatan": "2016",
+               }
+            },
+            {
+                "mahasiswa": {
+                    "username": "mahasiswa_2",
+                    "nama": " ",
+                    "npm": "",
+                    "program_studi": "Bisnis Islam",
+                    "angkatan": "2016",
+                }
+            },
+            {
+                "mahasiswa": {
+                    "username": "mahasiswa_3",
+                    "nama": " ",
+                    "npm": "",
+                    "program_studi": "Ekonomi Islam",
+                    "angkatan": "2017",
+                }
+            },
+        ]
+
+        response = self.client \
+            .get("/api/karya-akhir/filter-mahasiswa?angkatan=&prodi=")
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.data['mahasiswa_karya_akhir'],
+                         expected_response)
