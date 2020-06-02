@@ -1,0 +1,26 @@
+version: "3"
+
+services:
+  birpen:
+    build: .
+    restart: always
+    entrypoint: /opt/birpen/docker_start.sh
+    environment:
+      - DB_NAME=birpen
+      - DB_USER=birpen
+      - DB_PASSWORD=pPLUKAN
+      - DB_HOST=birpen_db
+      - DB_PORT=5432
+    ports:
+      - "8000:8000"
+    depends_on:
+      - birpen_db
+  birpen_db:
+    image: postgres
+    restart: always
+    ports:
+      - "5432"
+    environment:
+      - POSTGRES_DB=birpen
+      - POSTGRES_USER=birpen
+      - POSTGRES_PASSWORD=pPLUKAN
