@@ -49,23 +49,33 @@ export default {
     visibility: hidden !important;
     float: none !important;
   }
+
   div {
     float: none;
   }
+
   #print, #print * {
     visibility: visible !important;
   }
+
   #print {
     position: absolute !important;
     left: 0 !important;
     top: 0 !important;
+    display: block !important;
   }
+
+  #display-print {
+    display: none;
+  }
+
   .break-after {
     display: block !important;
     page-break-after: always !important;
     position: relative !important;
     page-break-inside: avoid !important;
   }
+
   .break-before {
     display: block !important;
     page-break-before: always !important;

@@ -1,8 +1,8 @@
 <template>
   <div class="PenunjukkanDospem">
     <div class="container">
-      <div class="border">
-        <div id="print">
+      <div id="display-print"> <!-- Start of display -->
+        <div class="border">
           <div class="pdf-viewer break-before" id="pdf-viewer">
             <div class="row">
               <div class="title-container">
@@ -14,7 +14,7 @@
             <div class='row padding-top-50'>
               <b>Kepada Yth.</b><br/>
               <b>{{ pembimbing }}</b><br/>
-              <b>Di tempat.</b><br/>
+              <b>Di tempat</b><br/>
             </div>
             <div class='row'>
               Dengan ini kami menugaskan Saudara sebagai dosen pembimbing dalam
@@ -102,7 +102,305 @@
             </div>
           </div>
         </div>
-      </div>
+        <div class="border margin-top-50">
+          <div v-if="pembimbing_pendamping != null && pembimbing_pendamping.length > 0" class="pdf-viewer break-before" id="pdf-viewer">
+            <div class="row">
+              <div class="title-container">
+                <h1>FORMULIR</h1>
+                <h1>PENUNJUKKAN DOSEN PEMBIMBING</h1>
+                <h1>KARYA AKHIR - MAHASISWA S1 REGULER</h1>
+              </div>
+            </div>
+            <div class='row padding-top-50'>
+              <b>Kepada Yth.</b><br/>
+              <b>{{ pembimbing_pendamping }}</b><br/>
+              <b>Di tempat</b><br/>
+            </div>
+            <div class='row'>
+              Dengan ini kami menugaskan Saudara sebagai dosen pembimbing dalam
+              Karya Akhir mahasiswa
+            </div>
+            <div class='row'>
+              <div class='col-3'>
+                Nama
+              </div>
+              <div class='col-40-px'>
+                :
+              </div>
+              <div class='col-6'>
+                {{ nama }}
+              </div>
+            </div>
+            <div class='row'>
+              <div class='col-3'>
+                Nomor Pokok Mahasiswa
+              </div>
+              <div class='col-40-px'>
+                :
+              </div>
+              <div class='col-6'>
+                {{ npm }}
+              </div>
+            </div>
+            <div class='row'>
+              <div class='col-3'>
+                Program Studi
+              </div>
+              <div class='col-40-px'>
+                :
+              </div>
+              <div class='col-6'>
+                {{ program_studi }}
+              </div>
+            </div>
+            <div class='row'>
+              <div class='col-3'>
+                Konsentrasi
+              </div>
+              <div class='col-40-px'>
+                :
+              </div>
+              <div class='col-6'>
+                {{ peminatan_mahasiswa }}
+              </div>
+            </div>
+            <div class='row'>
+              <div class='col-3'>
+                Jenis Karya Akhir
+              </div>
+              <div class='col-40-px'>
+                :
+              </div>
+              <div class='col-6'>
+                {{ jenis_karya_akhir }}
+              </div>
+            </div>
+            <div class='row align-justify'>
+              Demikian surat penunjukkan ini kami buat,
+              bimbingan atas mahasiswa tersebut kami serahkan
+              sepenuhnya kepada Saudara.
+            </div>
+            <div class='row align-right padding-top-50'>
+              Depok, {{ date }}<br/>
+            </div>
+            <div class='row padding-top-30'>
+              <div class='col-5'>
+                <div class='row align-left'>
+                  Penerima Tugas,<br/>
+                  Dosen Pembimbing,<br/>
+                </div>
+                <div class='row align-left padding-top-80'>
+                  {{ pembimbing_pendamping }}
+                </div>
+              </div>
+              <div class='col-5 align-top'>
+                <div class='row align-right'>
+                  Pemberi Tugas,<br/>
+                  Ketua Program Studi,<br/>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div> 
+      </div><!-- End of display -->
+      <div id="print" class="display-none"> <!-- Start of print -->
+        <div class="pdf-viewer break-before" id="pdf-viewer">
+          <div class="row">
+            <div class="title-container">
+              <h1>FORMULIR</h1>
+              <h1>PENUNJUKKAN DOSEN PEMBIMBING</h1>
+              <h1>KARYA AKHIR - MAHASISWA S1 REGULER</h1>
+            </div>
+          </div>
+          <div class='row padding-top-50'>
+            <b>Kepada Yth.</b><br/>
+            <b>{{ pembimbing }}</b><br/>
+            <b>Di tempat</b><br/>
+          </div>
+          <div class='row'>
+            Dengan ini kami menugaskan Saudara sebagai dosen pembimbing dalam
+            Karya Akhir mahasiswa
+          </div>
+          <div class='row'>
+            <div class='col-3'>
+              Nama
+            </div>
+            <div class='col-40-px'>
+              :
+            </div>
+            <div class='col-6'>
+              {{ nama }}
+            </div>
+          </div>
+          <div class='row'>
+            <div class='col-3'>
+              Nomor Pokok Mahasiswa
+            </div>
+            <div class='col-40-px'>
+              :
+            </div>
+            <div class='col-6'>
+              {{ npm }}
+            </div>
+          </div>
+          <div class='row'>
+            <div class='col-3'>
+              Program Studi
+            </div>
+            <div class='col-40-px'>
+              :
+            </div>
+            <div class='col-6'>
+              {{ program_studi }}
+            </div>
+          </div>
+          <div class='row'>
+            <div class='col-3'>
+              Konsentrasi
+            </div>
+            <div class='col-40-px'>
+              :
+            </div>
+            <div class='col-6'>
+              {{ peminatan_mahasiswa }}
+            </div>
+          </div>
+          <div class='row'>
+            <div class='col-3'>
+              Jenis Karya Akhir
+            </div>
+            <div class='col-40-px'>
+              :
+            </div>
+            <div class='col-6'>
+              {{ jenis_karya_akhir }}
+            </div>
+          </div>
+          <div class='row align-justify'>
+            Demikian surat penunjukkan ini kami buat,
+            bimbingan atas mahasiswa tersebut kami serahkan
+            sepenuhnya kepada Saudara.
+          </div>
+          <div class='row align-right padding-top-50'>
+            Depok, {{ date }}<br/>
+          </div>
+          <div class='row padding-top-30'>
+            <div class='col-5'>
+              <div class='row align-left'>
+                Penerima Tugas,<br/>
+                Dosen Pembimbing,<br/>
+              </div>
+              <div class='row align-left padding-top-80'>
+                {{ pembimbing }}
+              </div>
+            </div>
+            <div class='col-5 align-top'>
+              <div class='row align-right'>
+                Pemberi Tugas,<br/>
+                Ketua Program Studi,<br/>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div v-if="pembimbing_pendamping != null && pembimbing_pendamping.length > 0" class="pdf-viewer break-before" id="pdf-viewer">
+          <div class="row">
+            <div class="title-container">
+              <h1>FORMULIR</h1>
+              <h1>PENUNJUKKAN DOSEN PEMBIMBING</h1>
+              <h1>KARYA AKHIR - MAHASISWA S1 REGULER</h1>
+            </div>
+          </div>
+          <div class='row padding-top-50'>
+            <b>Kepada Yth.</b><br/>
+            <b>{{ pembimbing_pendamping }}</b><br/>
+            <b>Di tempat</b><br/>
+          </div>
+          <div class='row'>
+            Dengan ini kami menugaskan Saudara sebagai dosen pembimbing dalam
+            Karya Akhir mahasiswa
+          </div>
+          <div class='row'>
+            <div class='col-3'>
+              Nama
+            </div>
+            <div class='col-40-px'>
+              :
+            </div>
+            <div class='col-6'>
+              {{ nama }}
+            </div>
+          </div>
+          <div class='row'>
+            <div class='col-3'>
+              Nomor Pokok Mahasiswa
+            </div>
+            <div class='col-40-px'>
+              :
+            </div>
+            <div class='col-6'>
+              {{ npm }}
+            </div>
+          </div>
+          <div class='row'>
+            <div class='col-3'>
+              Program Studi
+            </div>
+            <div class='col-40-px'>
+              :
+            </div>
+            <div class='col-6'>
+              {{ program_studi }}
+            </div>
+          </div>
+          <div class='row'>
+            <div class='col-3'>
+              Konsentrasi
+            </div>
+            <div class='col-40-px'>
+              :
+            </div>
+            <div class='col-6'>
+              {{ peminatan_mahasiswa }}
+            </div>
+          </div>
+          <div class='row'>
+            <div class='col-3'>
+              Jenis Karya Akhir
+            </div>
+            <div class='col-40-px'>
+              :
+            </div>
+            <div class='col-6'>
+              {{ jenis_karya_akhir }}
+            </div>
+          </div>
+          <div class='row align-justify'>
+            Demikian surat penunjukkan ini kami buat,
+            bimbingan atas mahasiswa tersebut kami serahkan
+            sepenuhnya kepada Saudara.
+          </div>
+          <div class='row align-right padding-top-50'>
+            Depok, {{ date }}<br/>
+          </div>
+          <div class='row padding-top-30'>
+            <div class='col-5'>
+              <div class='row align-left'>
+                Penerima Tugas,<br/>
+                Dosen Pembimbing,<br/>
+              </div>
+              <div class='row align-left padding-top-80'>
+                {{ pembimbing_pendamping }}
+              </div>
+            </div>
+            <div class='col-5 align-top'>
+              <div class='row align-right'>
+                Pemberi Tugas,<br/>
+                Ketua Program Studi,<br/>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div> <!-- End of print -->
       <div class="bot-container">
         <SaveBtn id="btn" link_download="TODO"/>
         <BackBtn id="btn" />
@@ -301,5 +599,13 @@ export default {
 
 h1 {
   font-size: 1.5em;
+}
+
+.display-none {
+  display: none;
+}
+
+.margin-top-50 {
+  margin-top: 50px;
 }
 </style>
