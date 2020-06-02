@@ -3,6 +3,9 @@
     <h1>Mahasiswa Sidang Karya Akhir</h1>
     <div class="main-container">
       <div class="filter-div">
+        <button class="cari-button">
+          Cari
+        </button>
         <input placeholder="Tulis nama angkatan"
         class="filter-element" id="angkatan-input" v-model="angkatan"/>
         <select class="filter-element" id="studi-choices" v-model="chosenStudi">
@@ -186,5 +189,20 @@ th {
 }
 tr:nth-child(odd) {
   background-color: #D3D3D3;
+}
+.cari-button {
+  background: none;
+  border-style: solid;
+  background-color: #FFDD00;
+  border-color: #FFDD00;
+  border-radius: 1000px;
+  color: black;
+  font-weight: bolder;
+  padding: 10px 15px;
+  margin: 0;
+  margin-left: 20px;
+}
+.cari-button:hover {
+  background-color: white;
 }
 </style>
