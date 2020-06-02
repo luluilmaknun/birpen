@@ -12,7 +12,6 @@
           class="btn unduh-item" :key="surat.nama"
           @click="goToPage(surat.link)">
           {{ surat.nama }}
-          {{ surat.link }}
         </button>
       </div>
 
