@@ -1,6 +1,5 @@
 from django.core.exceptions import ObjectDoesNotExist
 from django.db.utils import IntegrityError, DataError
-
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
@@ -10,11 +9,12 @@ from rest_framework.status import (
     HTTP_400_BAD_REQUEST,
 )
 
+from .models import DataKaryaAkhir, SuratKaryaAkhir, ProgramStudi, JenisKaryaAkhir
 from .permissions import IsPrivilegedToReadDataKaryaAkhir, IsPrivilegedToAccessKaryaAkhir, \
     IsPrivilegedToCreateKaryaAkhir, IsAdmin
-from .models import DataKaryaAkhir, SuratKaryaAkhir, ProgramStudi, JenisKaryaAkhir
 from .serializers import DataKaryaAkhirSerializer, SuratKaryaAkhirSerializer, \
-    ProgramStudiSerializer, MahasiswaKaryaAkhirSerializer
+    ProgramStudiSerializer, MahasiswaKaryaAkhirSerializer, JenisKaryaAkhirSerializer
+
 
 @api_view(["GET"])
 def karya_akhir_placeholder_views(_):
@@ -124,6 +124,7 @@ def read_surat_karya_akhir(_):
                               for surat_karya_akhir in all_surat_karya_akhir),
     })
 
+
 @api_view(["GET"])
 @permission_classes([IsAuthenticated, IsPrivilegedToAccessKaryaAkhir])
 def read_program_studi(_):
@@ -133,3 +134,14 @@ def read_program_studi(_):
         "program_studi": (ProgramStudiSerializer(program_studi).data
                           for program_studi in all_program_studi),
     })
+
+
+@api_view(["GET"])
+@permission_classes([IsAuthenticated, IsPrivilegedToAccessKaryaAkhir])
+def read_jenis_karya_akhir(_):
+    jenis_karya_akhir = JenisKaryaAkhir.objects.all()
+
+    return Response({
+        "success": True,
+        "jenis_karya_akhir": JenisKaryaAkhirSerializer(jenis_karya_akhir, many=True).data,
+    }, status=HTTP_200_OK)

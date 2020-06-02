@@ -2,7 +2,7 @@ from django.urls import path
 
 from .views import karya_akhir_placeholder_views, read_data_karya_akhir_by_username, \
     read_surat_karya_akhir, read_program_studi, create_data_karya_akhir, \
-    filter_mahasiswa, read_mahasiswa_karya_akhir
+    filter_mahasiswa, read_mahasiswa_karya_akhir, read_jenis_karya_akhir
 
 urlpatterns = [
     path('', karya_akhir_placeholder_views, name='karya_akhir_placeholder_views'),
@@ -13,4 +13,5 @@ urlpatterns = [
     path('filter-mahasiswa', filter_mahasiswa, name='filter_mahasiswa'),
     path('<username>/', read_data_karya_akhir_by_username,
          name='read_data_karya_akhir_by_username'),
+    path('jenis-karya-akhir/', read_jenis_karya_akhir, name='read_jenis_karya_akhir'),
 ]
