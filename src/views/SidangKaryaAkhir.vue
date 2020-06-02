@@ -3,11 +3,12 @@
     <h1>Mahasiswa Sidang Karya Akhir</h1>
     <div class="main-container">
       <div class="filter-div">
-        <button class="cari-button">
+        <button v-on:click="performFilter(namaAngkatan, chosenStudi)"
+        class="cari-button">
           Cari
         </button>
         <input placeholder="Tulis nama angkatan"
-        class="filter-element" id="angkatan-input" v-model="angkatan"/>
+        class="filter-element" id="angkatan-input" v-model="namaAngkatan"/>
         <select class="filter-element" id="studi-choices" v-model="chosenStudi">
           <option :value="''" hidden>Pilih Program Studi</option>
           <option v-for="studi in programStudi"
@@ -18,33 +19,62 @@
         </select>
       </div>
       <!-- TABLE SECTION -->
-      <div class="table-div">
+      <div v-if="!isFilterLoaded" class="table-div">
         <table>
-        <tr>
-          <th v-for="head in tableHead" :key="head" id="header">
-            {{ head }}
-          </th>
-        </tr>
-        <tr v-for="data in karyaAkhir" :key="data.pk">
-          <td id="mahasiswa">
-            {{ data.mahasiswa.nama }}
-          </td>
-          <td id="npm">
-            {{ data.mahasiswa.npm }}
-          </td>
-          <td id="program_studi ">
-            {{ data.mahasiswa.program_studi }}
-          </td>
-          <td id="angkatan">
-            {{ data.mahasiswa.angkatan }}
-          </td>
-          <td id="detail-col">
-            <button class="detail-button">
-              Detail
-            </button>
-          </td>
-        </tr>
-      </table>
+          <tr>
+            <th v-for="head in tableHead" :key="head" id="header">
+              {{ head }}
+            </th>
+          </tr>
+          <tr v-for="data in karyaAkhir" :key="data.mahasiswa.nama">
+            <td id="mahasiswa">
+              {{ data.mahasiswa.nama }}
+            </td>
+            <td id="npm">
+              {{ data.mahasiswa.npm }}
+            </td>
+            <td id="program_studi ">
+              {{ data.mahasiswa.program_studi }}
+            </td>
+            <td id="angkatan">
+              {{ data.mahasiswa.angkatan }}
+            </td>
+            <td id="detail-col">
+              <button class="detail-button">
+                Detail
+              </button>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <!-- FILTERED TABLE -->
+      <div v-else class="table-div">
+        <table>
+          <tr>
+            <th v-for="head in tableHead" :key="head" id="header">
+              {{ head }}
+            </th>
+          </tr>
+          <tr v-for="data in filteredKaryaAkhir" :key="data.mahasiswa.nama">
+            <td id="mahasiswa">
+              {{ data.mahasiswa.nama }}
+            </td>
+            <td id="npm">
+              {{ data.mahasiswa.npm }}
+            </td>
+            <td id="program_studi ">
+              {{ data.mahasiswa.program_studi }}
+            </td>
+            <td id="angkatan">
+              {{ data.mahasiswa.angkatan }}
+            </td>
+            <td id="detail-col">
+              <button class="detail-button">
+                Detail
+              </button>
+            </td>
+          </tr>
+        </table>
       </div>
     </div>
   </div>
@@ -55,54 +85,16 @@ import apiSidangAkhir from '@/services/sidangKaryaAkhirServices.js';
 export default {
   data: function() {
     return {
-      angkatan: '',
+      namaAngkatan: '',
       chosenStudi: '',
       tableHead: [
         'Nama', 'NPM', 'Program Studi', 'Angkatan', 'Aksi',
       ],
-      karyaAkhirDummy: [
-        {
-          pk: 1,
-          mahasiswa: 'Yusuf Tri Ardho',
-          npm: '1706023024',
-          angkatan: '2017',
-          peminatan_mahasiswa: 'Akuntansi Terapan',
-          jenis_karya_akhir: 1,
-          sks_diperoleh: 144,
-          pembimbing: 'Lulu Ilmaknun S.Ak.',
-          pembimbing_pendamping: 'Annida Safira S.Ak.',
-          judul_karya_id: 'Akuntansi dalam bisnis',
-          judul_karya_en: 'Accounting in business',
-        },
-        {
-          pk: 2,
-          mahasiswa: 'Napis',
-          npm: '1706075022',
-          angkatan: '2016',
-          peminatan_mahasiswa: 'Akuntansi Virtual',
-          jenis_karya_akhir: 1,
-          sks_diperoleh: 144,
-          pembimbing: 'Bulan',
-          pembimbing_pendamping: '-',
-          judul_karya_id: 'Akuntansi dalam bisnis',
-          judul_karya_en: 'Accounting with VR',
-        },
-        {
-          pk: 3,
-          mahasiswa: 'Azhar',
-          npm: '1706024864',
-          angkatan: '2019',
-          peminatan_mahasiswa: 'Ilmu Ekonomi Terapan',
-          jenis_karya_akhir: 2,
-          sks_diperoleh: 141,
-          pembimbing: 'Bebes',
-          pembimbing_pendamping: '-',
-          judul_karya_id: 'Ekonomi dalam bisnis',
-          judul_karya_en: 'Ekonomi in social life',
-        },
-      ],
       programStudi: [],
       karyaAkhir: [],
+      filteredKaryaAkhir: [],
+      errormsg: '',
+      isFilterLoaded: false,
     };
   },
   created: function() {
@@ -118,6 +110,15 @@ export default {
     fetchKaryaAkhir: function() {
       apiSidangAkhir.getKaryaAkhir().then((result) => {
         this.karyaAkhir = result.data.mahasiswa_karya_akhir;
+      });
+    },
+    performFilter: function(angkatan, prodi) {
+      this.isFilterLoaded = true;
+      this.filterKaryaAkhir(angkatan, prodi);
+    },
+    filterKaryaAkhir: function(angkatan, prodi) {
+      apiSidangAkhir.filterMahasiswa(angkatan, prodi).then((result) => {
+        this.filteredKaryaAkhir = result.data.mahasiswa_karya_akhir;
       });
     },
   },
