@@ -45,6 +45,7 @@ const router = new Router({
       component: null,
       meta: {
         requiresAuth: true,
+        requiresPrivilegeToAccessSidang: true,
       },
     },
     {
@@ -250,7 +251,7 @@ router.beforeEach((to, from, next) => {
 
   if (to.matched.some(
       (record) => record.meta.requiresPrivilegeToAccessSidang)) {
-    if (role != 'alumni' && isAdmin == 'false') {
+    if (role != 'mahasiswa' && isAdmin == 'false') {
       next({name: 'home'});
       return;
     }

@@ -15,10 +15,17 @@
         </button>
       </div>
 
-      <button id="unduh-semua" class="btn btn-yellow"
-      @click="goToPage('<LINK-UNDUH-SEMUA>')">
-        Unduh Semua
-      </button>
+      <div class="button-container">
+        <button id="edit-data" class="btn btn-yellow"
+          @click="goToPage('/surat/sidang/')">
+          Ubah Data
+        </button>
+
+        <button id="unduh-semua" class="btn btn-yellow"
+          @click="goToPage('<LINK-UNDUH-SEMUA>')">
+          Unduh Semua
+        </button>
+      </div>
     </div>
   </div>
 </template>
@@ -76,10 +83,10 @@ h2.title {
 .menu-container {
   background: #2D3033;
   color: white;
-  margin: 50px;
+  margin: 40px;
   padding: 10px 40px;
   border-radius: 18px;
-  width: 350px;
+  width: 380px;
   display: flex;
   flex-direction: column;
 }
@@ -97,7 +104,7 @@ h2.title {
 .unduh-item {
   transition: 0s color;
   width: 100%;
-  margin: 10px 0;
+  margin: 15px 0;
   background: #D8DADB;
   border-radius: 46.5px;
   padding: 9px 20px;
@@ -109,9 +116,14 @@ h2.title {
   background: #FFDD00;
   border-radius: 60.5px;
 }
-.btn#unduh-semua {
-  padding: 12px 30px;
+.button-container {
+  width: 100%;
+  display: flex;
+}
+.button-container .btn {
+  padding: 12px 25px;
   font-weight: bold;
-  margin: 10px auto;
+  margin: 15px auto;
+  width: 170px;
 }
 </style>
