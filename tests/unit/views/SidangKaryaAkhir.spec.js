@@ -1,5 +1,5 @@
 import {shallowMount} from '@vue/test-utils';
-import SidangKaryaAkhir from '@/views/SidangKaryaAkhir.vue';
+import DaftarKaryaAkhir from '@/views/DaftarKaryaAkhir.vue';
 import apiSidangAkhir from '@/services/sidangKaryaAkhirServices.js';
 
 describe('test get api program studi', () => {
@@ -23,7 +23,7 @@ describe('test get api program studi', () => {
   ];
 
   beforeEach(() => {
-    wrapper = shallowMount(SidangKaryaAkhir);
+    wrapper = shallowMount(DaftarKaryaAkhir);
     vm = wrapper.vm;
     apiSidangAkhir.getProgramStudi = jest.fn(
         (result) => Promise.resolve({
@@ -59,7 +59,7 @@ describe('test mahasiswa karya akhir table data', () => {
     },
   ];
   beforeEach(() => {
-    wrapper = shallowMount(SidangKaryaAkhir);
+    wrapper = shallowMount(DaftarKaryaAkhir);
     vm = wrapper.vm;
     apiSidangAkhir.getKaryaAkhir = jest.fn(
         () => Promise.resolve({
@@ -97,7 +97,7 @@ describe('test filter karya akhir success', () => {
   const angkatan = '';
   const prodi = 'Bio Informatics';
   beforeEach(() => {
-    wrapper = shallowMount(SidangKaryaAkhir);
+    wrapper = shallowMount(DaftarKaryaAkhir);
     vm = wrapper.vm;
     apiSidangAkhir.filterMahasiswa = jest.fn(
         (angkatan, prodi) => Promise.resolve({
@@ -116,7 +116,7 @@ describe('test filter karya akhir success', () => {
 
 // PAGINATION TEST
 describe('test fetch pagination', () => {
-  const wrapper = shallowMount(SidangKaryaAkhir);
+  const wrapper = shallowMount(DaftarKaryaAkhir);
   const vm = wrapper.vm;
   it('first case', () => {
     const theList = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1]; // length = 10
@@ -133,7 +133,7 @@ describe('test fetch pagination', () => {
 });
 
 describe('test render pagination', () => {
-  const wrapper = shallowMount(SidangKaryaAkhir);
+  const wrapper = shallowMount(DaftarKaryaAkhir);
   const vm = wrapper.vm;
   const pageNumber = 1;
   const pagedList = [[1, 1, 1, 1, 1, 1, 1], [1, 1, 1]]; // length = 10
@@ -143,7 +143,7 @@ describe('test render pagination', () => {
 });
 
 describe('first and last button pagination function test', () => {
-  const wrapper = shallowMount(SidangKaryaAkhir);
+  const wrapper = shallowMount(DaftarKaryaAkhir);
   const vm = wrapper.vm;
   it('test first page function', () => {
     vm.toFirstPage();
@@ -158,7 +158,7 @@ describe('first and last button pagination function test', () => {
 });
 
 describe('test next prev button visibility', () => {
-  const wrapper = shallowMount(SidangKaryaAkhir);
+  const wrapper = shallowMount(DaftarKaryaAkhir);
   const vm = wrapper.vm;
   let pagedList; let pageNumber;
   let nextButton; let prevButton;
