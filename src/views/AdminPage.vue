@@ -27,6 +27,11 @@
           </td>
         </tr>
       </table>
+
+      <div v-if="isLoadAdminTable">
+        <img src="@/assets/icons/loader.svg"/>
+      </div>
+
     </div>
   </div>
 </template>
@@ -49,6 +54,7 @@ export default {
       ],
       response: {},
       listAdmin: [],
+      isLoadAdminTable: false,
     };
   },
   created() {
@@ -56,7 +62,9 @@ export default {
   },
   methods: {
     fetchAdmin() {
+      this.isLoadAdminTable = true;
       adminApi.fetchAdmin().then((d) => {
+        this.isLoadAdminTable = false;
         this.response = d.data;
 
         for (let i = 0; i < this.response.admin.length; i++) {

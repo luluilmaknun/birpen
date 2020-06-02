@@ -13,6 +13,12 @@ import AlumniPage from '@/views/AlumniPage.vue';
 import DetailPengajuanSurat from '@/views/DetailPengajuanSurat.vue';
 import TrackingPesanan from '@/views/TrackingPesanan.vue';
 import DokumenAkademik from '@/views/DokumenAkademik.vue';
+import KaryaAkhirSiapUji from '@/views/KaryaAkhirSiapUji';
+import PengajuanDospem from '@/views/PengajuanDospem';
+import PenunjukkanDospem from '@/views/PenunjukkanDospem';
+import PermohonanUjianBersyarat from '@/views/PermohonanUjianBersyarat';
+import SuratPernyataan from '@/views/SuratPernyataan';
+import PemesananTugasAkhir from '@/views/PemesananTugasAkhir.vue';
 
 Vue.use(Router);
 
@@ -36,7 +42,47 @@ const router = new Router({
     {
       path: '/surat/sidang/',
       name: 'sidang-akhir',
-      component: null,
+      component: PemesananTugasAkhir,
+      meta: {
+        requiresAuth: true,
+      },
+    },
+    {
+      path: '/surat/sidang/surat-karya-akhir-siap-uji/',
+      name: 'surat-karya-akhir-siap-uji',
+      component: KaryaAkhirSiapUji,
+      meta: {
+        requiresAuth: true,
+      },
+    },
+    {
+      path: '/surat/sidang/form-pengajuan-dosen-pembimbing-karya-akhir/',
+      name: 'form-pengajuan-dosen-pembimbing-karya-akhir',
+      component: PengajuanDospem,
+      meta: {
+        requiresAuth: true,
+      },
+    },
+    {
+      path: '/surat/sidang/form-penunjukkan-dosen-pembimbing/',
+      name: 'form-penunjukkan-dosen-pembimbing',
+      component: PenunjukkanDospem,
+      meta: {
+        requiresAuth: true,
+      },
+    },
+    {
+      path: '/surat/sidang/surat-pernyataan/',
+      name: 'surat-pernyataan',
+      component: SuratPernyataan,
+      meta: {
+        requiresAuth: true,
+      },
+    },
+    {
+      path: '/surat/sidang/surat-permohonan-ujian-karya-akhir-bersyarat/',
+      name: 'surat-permohonan-mengikuti-ujian-karya-akhir-bersyarat',
+      component: PermohonanUjianBersyarat,
       meta: {
         requiresAuth: true,
       },

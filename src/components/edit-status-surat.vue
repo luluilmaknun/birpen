@@ -25,7 +25,8 @@
     </modal>
 
     <div class="container-component-edit-status">
-      <img id="pen-icon" src="../assets/icons/pencil.svg" @click="open_modal"/>
+      <img id="pen-icon" src="../assets/icons/pencil.svg"
+        alt="Klik untuk edit status surat" @click="open_modal"/>
     </div>
   </div>
 </template>
