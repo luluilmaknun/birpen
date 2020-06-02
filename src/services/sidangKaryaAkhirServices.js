@@ -4,4 +4,7 @@ export default {
   getProgramStudi() {
     return api.get('karya-akhir/program-studi/');
   },
+  getKaryaAkhir() {
+    return api.get('karya-akhir/mahasiswa/');
+  },
 };
