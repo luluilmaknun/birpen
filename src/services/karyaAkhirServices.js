@@ -16,4 +16,7 @@ export default {
   getMahasiswaProfile() {
     return api.get('karya-akhir/get-profile/');
   },
+  fetchDetail(username) {
+    return api.get('karya-akhir/'+username+'/');
+  },
 };
