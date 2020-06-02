@@ -54,6 +54,8 @@ const router = new Router({
       meta: {
         requiresAuth: true,
         requiresPrivilegeToAccessSidang: true,
+    },
+    {
       path: '/surat/sidang/surat-karya-akhir-siap-uji/',
       name: 'surat-karya-akhir-siap-uji',
       component: KaryaAkhirSiapUji,
