@@ -16,7 +16,6 @@ from .models import DataKaryaAkhir, SuratKaryaAkhir, ProgramStudi, JenisKaryaAkh
 from .serializers import DataKaryaAkhirSerializer, SuratKaryaAkhirSerializer, \
     ProgramStudiSerializer, MahasiswaKaryaAkhirSerializer
 
-
 @api_view(["GET"])
 def karya_akhir_placeholder_views(_):
     result = {
@@ -36,7 +35,8 @@ def read_mahasiswa_karya_akhir(_):
                                   for data_karya_akhir in all_data_karya_akhir],
     }, status=HTTP_200_OK)
 
-
+@api_view(["GET"])
+@permission_classes([IsAuthenticated, IsAdmin])
 def filter_mahasiswa(request):
     request_angkatan = request.GET["angkatan"]
     request_prodi = request.GET["prodi"]
