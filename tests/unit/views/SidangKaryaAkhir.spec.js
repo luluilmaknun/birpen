@@ -113,3 +113,106 @@ describe('test filter karya akhir success', () => {
     expect(vm.filteredKaryaAkhir.length).toBeGreaterThan(0);
   });
 });
+
+// PAGINATION TEST
+describe('test fetch pagination', () => {
+  const wrapper = shallowMount(SidangKaryaAkhir);
+  const vm = wrapper.vm;
+  it('first case', () => {
+    const theList = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1]; // length = 10
+    const pagedList = [];
+    vm.fetchPagination(theList, pagedList);
+    expect(pagedList.length).toBe(2);
+  });
+  it('second case', () => {
+    const theList = [1, 1, 1, 1, 1, 1, 1]; // length = 7
+    const pagedList = [];
+    vm.fetchPagination(theList, pagedList);
+    expect(pagedList.length).toBe(1);
+  });
+});
+
+describe('test render pagination', () => {
+  const wrapper = shallowMount(SidangKaryaAkhir);
+  const vm = wrapper.vm;
+  const pageNumber = 1;
+  const pagedList = [[1, 1, 1, 1, 1, 1, 1], [1, 1, 1]]; // length = 10
+  vm.renderPagination(pageNumber, pagedList);
+  const result = vm.renderPagedList;
+  expect(result.length).toBe(7);
+});
+
+describe('first and last button pagination function test', () => {
+  const wrapper = shallowMount(SidangKaryaAkhir);
+  const vm = wrapper.vm;
+  it('test first page function', () => {
+    vm.toFirstPage();
+    expect(vm.pageNumber).toBe(1);
+  });
+  it('test last page function', () => {
+    vm.pagedList = [1, 1, 1, 1];
+    const last = vm.pagedList.length;
+    vm.toLastPage();
+    expect(vm.pageNumber).toBe(last);
+  });
+});
+
+describe('test next prev button visibility', () => {
+  const wrapper = shallowMount(SidangKaryaAkhir);
+  const vm = wrapper.vm;
+  let pagedList; let pageNumber;
+  let nextButton; let prevButton;
+  let firstPageButton; let lastPageButton;
+  it('case pertama', () => {
+    nextButton = wrapper.find('#next-button');
+    prevButton = wrapper.find('#prev-button');
+    firstPageButton = wrapper.find('#first-page-button');
+    lastPageButton = wrapper.find('#last-page-button');
+    pagedList = [];
+    pageNumber = 1;
+    vm.checkPaginationButton(pageNumber, pagedList);
+    expect(prevButton.isVisible()).toBe(true);
+    expect(nextButton.isVisible()).toBe(true);
+    expect(firstPageButton.isVisible()).toBe(true);
+    expect(lastPageButton.isVisible()).toBe(true);
+  });
+  it('case kedua', () => {
+    nextButton = wrapper.find('#next-button');
+    prevButton = wrapper.find('#prev-button');
+    firstPageButton = wrapper.find('#first-page-button');
+    lastPageButton = wrapper.find('#last-page-button');
+    pagedList = [[1, 1, 1, 1, 1, 1, 1], [1, 1, 1]]; // length = 2
+    pageNumber = 1;
+    vm.checkPaginationButton(pageNumber, pagedList);
+    expect(prevButton.isVisible()).toBe(false);
+    expect(nextButton.isVisible()).toBe(false);
+    expect(firstPageButton.isVisible()).toBe(false);
+    expect(lastPageButton.isVisible()).toBe(false);
+  });
+  it('case ketiga', () => {
+    nextButton = wrapper.find('#next-button');
+    prevButton = wrapper.find('#prev-button');
+    firstPageButton = wrapper.find('#first-page-button');
+    lastPageButton = wrapper.find('#last-page-button');
+    pagedList = [[1, 1, 1, 1, 1, 1, 1], [1, 1, 1]]; // length = 2
+    pageNumber = 2;
+    vm.checkPaginationButton(pageNumber, pagedList);
+    expect(nextButton.isVisible()).toBe(true);
+    expect(prevButton.isVisible()).toBe(false);
+    expect(firstPageButton.isVisible()).toBe(false);
+    expect(lastPageButton.isVisible()).toBe(true);
+  });
+  it('case keempat', () => {
+    nextButton = wrapper.find('#next-button');
+    prevButton = wrapper.find('#prev-button');
+    firstPageButton = wrapper.find('#first-page-button');
+    lastPageButton = wrapper.find('#last-page-button');
+    pagedList = [[1, 1, 1], [1, 1, 1], [1, 1, 1], [1, 1, 1]];
+    pageNumber = 2;
+    vm.checkPaginationButton(pageNumber, pagedList);
+    expect(nextButton.isVisible()).toBe(false);
+    expect(prevButton.isVisible()).toBe(true);
+    expect(firstPageButton.isVisible()).toBe(true);
+    expect(lastPageButton.isVisible()).toBe(false);
+  });
+});
