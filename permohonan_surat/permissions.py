@@ -31,11 +31,6 @@ class IsPrivilegedToReadDetailPesanan(permissions.BasePermission):
                Pesanan.objects.get(id=id_pesanan).pemesan == request.user
 
 
-class IsPrivilegedToUpdateAcademicLetterStatus(permissions.BasePermission):
-    def has_permission(self, request, view):
-        return request.user.is_admin()
-
-
 class IsPrivilegedToGetMahasiswaProfile(permissions.BasePermission):
     def has_permission(self, request, view):
         return request.user.is_mahasiswa()
