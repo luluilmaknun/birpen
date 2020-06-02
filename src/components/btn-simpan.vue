@@ -1,7 +1,7 @@
 <template>
   <div>
-    <button class="yellow-black-btn">
-      <a :href=this.link_download id="link">Simpan</a>
+    <button class="yellow-black-btn" @click="savePdf()">
+      <a>Print</a>
     </button>
   </div>
 </template>
@@ -10,8 +10,10 @@
 
 export default {
   name: 'btn-simpan',
-  props: {
-    link_download: String,
+  methods: {
+    savePdf: function() {
+      window.print();
+    },
   },
 };
 </script>
@@ -38,5 +40,43 @@ export default {
 #link {
   text-decoration: none;
   color: black;
+}
+</style>
+
+<style>
+@media print {
+  body * {
+    visibility: hidden !important;
+    float: none !important;
+  }
+  div {
+    float: none;
+  }
+  #print, #print * {
+    visibility: visible !important;
+  }
+  #print {
+    position: absolute !important;
+    left: 0 !important;
+    top: 0 !important;
+  }
+  .break-after {
+    display: block !important;
+    page-break-after: always !important;
+    position: relative !important;
+    page-break-inside: avoid !important;
+  }
+  .break-before {
+    display: block !important;
+    page-break-before: always !important;
+    position: relative !important;
+    page-break-inside: avoid !important;
+  }
+
+  @page 
+  {
+      size: auto;   /* auto is the initial value */
+      margin: 0mm;  /* this affects the margin in the printer settings */
+  }
 }
 </style>
