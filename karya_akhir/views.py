@@ -14,7 +14,8 @@ from .permissions import IsPrivilegedToReadDataKaryaAkhir, IsPrivilegedToAccessK
     IsPrivilegedToCreateKaryaAkhir, IsAdmin
 from .models import DataKaryaAkhir, SuratKaryaAkhir, ProgramStudi, JenisKaryaAkhir
 from .serializers import DataKaryaAkhirSerializer, SuratKaryaAkhirSerializer, \
-    ProgramStudiSerializer, MahasiswaKaryaAkhirSerializer
+    ProgramStudiSerializer, MahasiswaKaryaAkhirSerializer, JenisKaryaAkhirSerializer
+
 
 @api_view(["GET"])
 def karya_akhir_placeholder_views(_):
@@ -23,6 +24,18 @@ def karya_akhir_placeholder_views(_):
     }
 
     return Response({"success": True, "result": result}, status=HTTP_200_OK)
+
+
+@api_view(["GET"])
+@permission_classes([IsAuthenticated, IsPrivilegedToCreateKaryaAkhir])
+def get_mahasiswa_profile(request):
+    return Response({
+        "mahasiswa": {
+            "nama": request.user.first_name + " " + request.user.last_name,
+            "npm": request.user.profile.npm,
+            "program_studi": request.user.profile.study_program,
+        }
+    }, status=HTTP_200_OK)
 
 
 @api_view(["GET"])
@@ -113,6 +126,18 @@ def read_data_karya_akhir_by_username(_, username):
     return Response({
         "data_karya_akhir": DataKaryaAkhirSerializer(data_karya_akhir).data
     }, status=HTTP_200_OK)
+
+
+@api_view(["GET"])
+@permission_classes([IsAuthenticated, IsPrivilegedToAccessKaryaAkhir])
+def read_jenis_karya_akhir(_):
+    jenis_karya_akhir = JenisKaryaAkhir.objects.all()
+
+    return Response({
+        "success": True,
+        "jenis_karya_akhir": JenisKaryaAkhirSerializer(jenis_karya_akhir, many=True).data,
+    }, status=HTTP_200_OK)
+
 
 @api_view(["GET"])
 @permission_classes([IsAuthenticated, IsPrivilegedToAccessKaryaAkhir])
