@@ -75,7 +75,7 @@ export default {
   data: function() {
     return {
       isAdmin: localStorage.getItem('is_admin') === 'true',
-    }
+    };
   },
   methods: {
     goToPage(link) {

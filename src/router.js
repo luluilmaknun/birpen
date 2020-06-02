@@ -54,7 +54,7 @@ const router = new Router({
       component: SidangKaryaAkhir,
       meta: {
         requiresAuth: true,
-      }
+      },
     },
     {
       path: '/surat/sidang/surat-karya-akhir-siap-uji/',
