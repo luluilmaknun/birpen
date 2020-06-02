@@ -144,7 +144,7 @@ class FilterMahasiswaKaryaAkhir(TestCase):
         }]
 
         response = self.client \
-            .get("/api/karya-akhir/filter-mahasiswa?angkatan=2016&prodi=Bisnis%20Islam")
+            .get("/api/karya-akhir/filter-mahasiswa?angkatan=&prodi=Bisnis%20Islam")
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.data['mahasiswa_karya_akhir'],
                          expected_response)
