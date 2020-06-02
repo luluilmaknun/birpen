@@ -1,76 +1,104 @@
 <template>
   <div>
     <h1>Mahasiswa Sidang Karya Akhir</h1>
-    <div class="main-container">
-      <div class="filter-div">
-        <button v-on:click="performFilter(namaAngkatan, chosenStudi)"
-        class="cari-button">
-          Cari
+    <div class="filter-div">
+      <button v-on:click="performFilter(namaAngkatan, chosenStudi)"
+      class="cari-button">
+        Cari
+      </button>
+      <input placeholder="Tulis nama angkatan"
+      class="filter-element" id="angkatan-input" v-model="namaAngkatan"/>
+      <select class="filter-element" id="studi-choices" v-model="chosenStudi">
+        <option :value="''" hidden>Pilih Program Studi</option>
+        <option v-for="studi in programStudi"
+        :key="studi.nama"
+        :value="studi.nama">
+          {{ studi.nama }}
+        </option>
+      </select>
+    </div>
+    <!-- TABLE SECTION -->
+    <div v-if="!isFilterLoaded" class="table-div">
+      <table>
+        <tr>
+          <th v-for="head in tableHead" :key="head" id="header">
+            {{ head }}
+          </th>
+        </tr>
+        <tr v-for="data in renderPagedList" :key="data.mahasiswa.nama">
+          <td id="mahasiswa">
+            {{ data.mahasiswa.nama }}
+          </td>
+          <td id="npm">
+            {{ data.mahasiswa.npm }}
+          </td>
+          <td id="program_studi ">
+            {{ data.mahasiswa.program_studi }}
+          </td>
+          <td id="angkatan">
+            {{ data.mahasiswa.angkatan }}
+          </td>
+          <td id="detail-col">
+            <DetailKaryaAkhir :username="data.mahasiswa.username"/>
+          </td>
+        </tr>
+      </table>
+    </div>
+    <!-- FILTERED TABLE -->
+    <div v-else class="table-div">
+      <table>
+        <tr>
+          <th v-for="head in tableHead" :key="head" id="header">
+            {{ head }}
+          </th>
+        </tr>
+        <tr v-for="data in renderPagedList" :key="data.mahasiswa.nama">
+          <td id="mahasiswa">
+            {{ data.mahasiswa.nama }}
+          </td>
+          <td id="npm">
+            {{ data.mahasiswa.npm }}
+          </td>
+          <td id="program_studi ">
+            {{ data.mahasiswa.program_studi }}
+          </td>
+          <td id="angkatan">
+            {{ data.mahasiswa.angkatan }}
+          </td>
+          <td id="detail-col">
+            <DetailKaryaAkhir :username="data.mahasiswa.username"/>
+          </td>
+        </tr>
+      </table>
+    </div>
+    <!-- PAGINATION -->
+    <div class="pagination-section">
+      <div class="button-box-2">
+        <button class="pagination-button"
+        id="first-page-button" v-show="showFirst" v-on:click="this.toFirstPage">
+          &lt;&lt;
         </button>
-        <input placeholder="Tulis nama angkatan"
-        class="filter-element" id="angkatan-input" v-model="namaAngkatan"/>
-        <select class="filter-element" id="studi-choices" v-model="chosenStudi">
-          <option :value="''" hidden>Pilih Program Studi</option>
-          <option v-for="studi in programStudi"
-          :key="studi.nama"
-          :value="studi.nama">
-            {{ studi.nama }}
-          </option>
-        </select>
       </div>
-      <!-- TABLE SECTION -->
-      <div v-if="!isFilterLoaded" class="table-div">
-        <table>
-          <tr>
-            <th v-for="head in tableHead" :key="head" id="header">
-              {{ head }}
-            </th>
-          </tr>
-          <tr v-for="data in karyaAkhir" :key="data.mahasiswa.nama">
-            <td id="mahasiswa">
-              {{ data.mahasiswa.nama }}
-            </td>
-            <td id="npm">
-              {{ data.mahasiswa.npm }}
-            </td>
-            <td id="program_studi ">
-              {{ data.mahasiswa.program_studi }}
-            </td>
-            <td id="angkatan">
-              {{ data.mahasiswa.angkatan }}
-            </td>
-            <td id="detail-col">
-              <DetailKaryaAkhir :username="data.mahasiswa.username"/>
-            </td>
-          </tr>
-        </table>
+      <div class="button-box">
+        <button class="pagination-button"
+        id="prev-button" v-show="showPrev" v-on:click="this.decreamentPage">
+          &lt;
+        </button>
       </div>
-      <!-- FILTERED TABLE -->
-      <div v-else class="table-div">
-        <table>
-          <tr>
-            <th v-for="head in tableHead" :key="head" id="header">
-              {{ head }}
-            </th>
-          </tr>
-          <tr v-for="data in filteredKaryaAkhir" :key="data.mahasiswa.nama">
-            <td id="mahasiswa">
-              {{ data.mahasiswa.nama }}
-            </td>
-            <td id="npm">
-              {{ data.mahasiswa.npm }}
-            </td>
-            <td id="program_studi ">
-              {{ data.mahasiswa.program_studi }}
-            </td>
-            <td id="angkatan">
-              {{ data.mahasiswa.angkatan }}
-            </td>
-            <td id="detail-col">
-              <DetailKaryaAkhir :username="data.mahasiswa.username"/>
-            </td>
-          </tr>
-        </table>
+      <div class="button-box">
+        <p class="page-number">{{ pageNumber }}</p>
+      </div>
+      <div class="button-box">
+        <button class="pagination-button"
+        id="next-button" v-show="showNext" v-on:click="this.increamentPage">
+          &gt;
+        </button>
+      </div>
+      <div class="button-box-2">
+        <button class="pagination-button"
+        id="last-page-button" v-show="showLast" v-on:click="this.toLastPage">
+          &gt;&gt;
+        </button>
       </div>
     </div>
   </div>
@@ -85,6 +113,10 @@ export default {
   },
   data: function() {
     return {
+      showPrev: true,
+      showNext: true,
+      showFirst: true,
+      showLast: true,
       namaAngkatan: '',
       chosenStudi: '',
       tableHead: [
@@ -95,6 +127,9 @@ export default {
       filteredKaryaAkhir: [],
       errormsg: '',
       isFilterLoaded: false,
+      pagedList: [],
+      renderPagedList: [],
+      pageNumber: 1,
     };
   },
   created: function() {
@@ -110,6 +145,8 @@ export default {
     fetchKaryaAkhir: function() {
       apiSidangAkhir.getKaryaAkhir().then((result) => {
         this.karyaAkhir = result.data.mahasiswa_karya_akhir;
+        this.fetchPagination(this.karyaAkhir, this.pagedList);
+        this.renderPagination(this.pageNumber, this.pagedList);
       });
     },
     performFilter: function(angkatan, prodi) {
@@ -117,9 +154,84 @@ export default {
       this.filterKaryaAkhir(angkatan, prodi);
     },
     filterKaryaAkhir: function(angkatan, prodi) {
+      this.pagedList = [];
+      this.renderPagedList = [];
+      this.pageNumber = 1;
       apiSidangAkhir.filterMahasiswa(angkatan, prodi).then((result) => {
         this.filteredKaryaAkhir = result.data.mahasiswa_karya_akhir;
+        this.fetchPagination(this.filteredKaryaAkhir, this.pagedList);
+        this.renderPagination(this.pageNumber, this.pagedList);
       });
+    },
+    fetchPagination: function(theList, pagedList) {
+      const base = 7;
+      let temp = [];
+      let count = 0;
+      for (let i = 0; i < theList.length; i++) {
+        temp.push(theList[i]);
+        count += 1;
+        if (count == base) {
+          count = 0;
+          pagedList.push(temp);
+          temp = [];
+        } if (i == theList.length-1) {
+          pagedList.push(temp);
+          temp = [];
+        }
+      }
+      if (pagedList[pagedList.length - 1] == 0) {
+        const last = pagedList.length - 1;
+        pagedList.splice(last, 1);
+      }
+    },
+    renderPagination: function(pageNumber, pagedList) {
+      this.checkPaginationButton(pageNumber, pagedList);
+      const tempList = pagedList[pageNumber-1];
+      this.renderPagedList = tempList;
+    },
+    increamentPage: function() {
+      this.pageNumber++;
+      this.renderPagination(this.pageNumber, this.pagedList);
+    },
+    decreamentPage: function() {
+      this.pageNumber--;
+      this.renderPagination(this.pageNumber, this.pagedList);
+    },
+    toFirstPage: function() {
+      this.pageNumber = 1;
+      this.renderPagination(this.pageNumber, this.pagedList);
+    },
+    toLastPage: function() {
+      const last = this.pagedList.length;
+      this.pageNumber = last;
+      this.renderPagination(this.pageNumber, this.pagedList);
+    },
+    checkPaginationButton: function(pageNumber, pagedList) {
+      if (pageNumber == 1 &&
+      (pagedList.length == 1 || pagedList.length == 0)) {
+        this.showPrev = false;
+        this.showNext = false;
+        this.showFirst = false;
+        this.showLast = false;
+      } else if (pageNumber == 1 && pagedList.length > 1) {
+        // ujung kiri
+        this.showPrev = false;
+        this.showNext = true;
+        this.showFirst = false;
+        this.showLast = true;
+      } else if (pageNumber == pagedList.length) {
+        // ujung kanan
+        this.showNext = false;
+        this.showPrev = true;
+        this.showFirst = true;
+        this.showLast = false;
+      } else {
+        // tengah
+        this.showNext = true;
+        this.showPrev = true;
+        this.showFirst = true;
+        this.showLast = true;
+      }
     },
   },
 };
@@ -163,7 +275,7 @@ export default {
 }
 /* Table styling */
 .table-div {
-  width: 100%;
+  min-width: 700px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -174,7 +286,7 @@ export default {
   text-align: center;
   overflow: hidden;
   border-collapse: collapse;
-  width: 100%;
+  min-width: 100%;
 }
 th, td {
   padding-left: 1.5em;
@@ -205,5 +317,54 @@ tr:nth-child(odd) {
 }
 .cari-button:hover {
   background-color: white;
+}
+.pagination-section {
+  margin-top: 30px;
+  margin-bottom: 70px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+.pagination-button {
+  padding: 5px 10px;
+  border-radius: 1000px;
+  border-style: none;
+  background: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: black;
+  font-weight: bolder;
+  font-size: 16pt;
+  margin: 0;
+}
+.pagination-button:hover {
+  background-color: #FFDD00;
+}
+#next-button {
+  visibility: visible;
+}
+#prev-button {
+  visibility: visible;
+}
+.button-box {
+  width: 45px;
+  height: 40px;
+}
+.button-box-2 {
+  width: 75px;
+  height: 40px;
+}
+.button-box, .button-box-2 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.page-number {
+  margin-left: 10px;
+  margin-right: 10px;
 }
 </style>
