@@ -10,11 +10,11 @@ from rest_framework.status import (
     HTTP_400_BAD_REQUEST,
 )
 
-from .models import DataKaryaAkhir, SuratKaryaAkhir, ProgramStudi, JenisKaryaAkhir
 from .permissions import IsPrivilegedToReadDataKaryaAkhir, IsPrivilegedToAccessKaryaAkhir, \
-    IsPrivilegedToCreateKaryaAkhir
+    IsPrivilegedToCreateKaryaAkhir, IsAdmin
+from .models import DataKaryaAkhir, SuratKaryaAkhir, ProgramStudi, JenisKaryaAkhir
 from .serializers import DataKaryaAkhirSerializer, SuratKaryaAkhirSerializer, \
-    ProgramStudiSerializer
+    ProgramStudiSerializer, MahasiswaKaryaAkhirSerializer
 
 @api_view(["GET"])
 def karya_akhir_placeholder_views(_):
@@ -23,6 +23,37 @@ def karya_akhir_placeholder_views(_):
     }
 
     return Response({"success": True, "result": result}, status=HTTP_200_OK)
+
+
+@api_view(["GET"])
+@permission_classes([IsAuthenticated, IsAdmin])
+def filter_mahasiswa(request):
+    request_angkatan = request.GET["angkatan"]
+    request_prodi = request.GET["prodi"]
+
+    if request_angkatan and request_prodi:
+        filtered_data_karya_akhir = DataKaryaAkhir.objects \
+            .filter(mahasiswa__profile__year_of_entry=request_angkatan) \
+            .filter(mahasiswa__profile__study_program=request_prodi)
+    elif not request_prodi and not request_angkatan:
+        filtered_data_karya_akhir = DataKaryaAkhir.objects.all()
+    elif not request_angkatan:
+        filtered_data_karya_akhir = DataKaryaAkhir.objects \
+            .filter(mahasiswa__profile__study_program=request_prodi)
+    else:
+        filtered_data_karya_akhir = DataKaryaAkhir.objects \
+            .filter(mahasiswa__profile__year_of_entry=request_angkatan)
+
+    if not filtered_data_karya_akhir:
+        return Response({
+            "detail": "Tidak ada data yang tersedia"
+        }, status=HTTP_200_OK)
+
+    return Response({
+        "mahasiswa_karya_akhir": [MahasiswaKaryaAkhirSerializer(surat_karya_akhir).data
+                                  for surat_karya_akhir in filtered_data_karya_akhir],
+    }, status=HTTP_200_OK)
+
 
 @api_view(["POST"])
 @permission_classes([IsAuthenticated, IsPrivilegedToCreateKaryaAkhir])
@@ -56,6 +87,7 @@ def create_data_karya_akhir(request):
     return Response({
         "success": True,
     }, status=HTTP_200_OK)
+
 
 @api_view(["GET"])
 @permission_classes([IsAuthenticated, IsPrivilegedToReadDataKaryaAkhir])
