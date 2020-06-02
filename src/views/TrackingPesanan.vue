@@ -43,15 +43,33 @@
       </table>
     </div>
     <div class="pagination-section">
-      <button class="pagination-button"
-      id="prev-button" v-show="showPrev" v-on:click="this.decreamentPage">
-        &lt;
-      </button>
-      <p class="page-number">{{ pageNumber }}</p>
-      <button class="pagination-button"
-      id="next-button" v-show="showNext" v-on:click="this.increamentPage">
-        &gt;
-      </button>
+      <div class="button-box-2">
+        <button class="pagination-button"
+        id="first-page-button" v-show="showFirst" v-on:click="this.toFirstPage">
+          &lt;&lt;
+        </button>
+      </div>
+      <div class="button-box">
+        <button class="pagination-button"
+        id="prev-button" v-show="showPrev" v-on:click="this.decreamentPage">
+          &lt;
+        </button>
+      </div>
+      <div class="button-box">
+        <p class="page-number">{{ pageNumber }}</p>
+      </div>
+      <div class="button-box">
+        <button class="pagination-button"
+        id="next-button" v-show="showNext" v-on:click="this.increamentPage">
+          &gt;
+        </button>
+      </div>
+      <div class="button-box-2">
+        <button class="pagination-button"
+        id="last-page-button" v-show="showLast" v-on:click="this.toLastPage">
+          &gt;&gt;
+        </button>
+      </div>
     </div>
   </div>
 </template>
@@ -67,6 +85,8 @@ export default {
     return {
       showPrev: true,
       showNext: true,
+      showFirst: true,
+      showLast: true,
       tableHead: [
         'ID Pesanan', 'Nama Mahasiswa', 'NPM Mahasiswa',
         'Waktu Pemesanan', 'Status Bayar', 'Aksi',
@@ -175,23 +195,40 @@ export default {
       this.pageNumber--;
       this.renderPagination(this.pageNumber, this.pagedTrackingList);
     },
+    toFirstPage: function() {
+      this.pageNumber = 1;
+      this.renderPagination(this.pageNumber, this.pagedTrackingList);
+    },
+    toLastPage: function() {
+      const last = this.pagedTrackingList.length;
+      this.pageNumber = last;
+      this.renderPagination(this.pageNumber, this.pagedTrackingList);
+    },
     checkPaginationButton: function(pageNumber, pagedList) {
       if (pageNumber == 1 &&
       (pagedList.length == 1 || pagedList.length == 0)) {
         this.showPrev = false;
         this.showNext = false;
+        this.showFirst = false;
+        this.showLast = false;
       } else if (pageNumber == 1 && pagedList.length > 1) {
         // ujung kiri
         this.showPrev = false;
         this.showNext = true;
+        this.showFirst = false;
+        this.showLast = true;
       } else if (pageNumber == pagedList.length) {
         // ujung kanan
         this.showNext = false;
         this.showPrev = true;
+        this.showFirst = true;
+        this.showLast = false;
       } else {
         // tengah
         this.showNext = true;
         this.showPrev = true;
+        this.showFirst = true;
+        this.showLast = true;
       }
     },
   },
@@ -271,10 +308,11 @@ tr:nth-child(odd) {
   display: flex;
   flex-direction: column;
   align-items: center;
-  align-content: center;
+  justify-content: center;
   color: black;
   font-weight: bolder;
   font-size: 16pt;
+  margin: 0;
 }
 .pagination-button:hover {
   background-color: #FFDD00;
@@ -284,6 +322,20 @@ tr:nth-child(odd) {
 }
 #prev-button {
   visibility: visible;
+}
+.button-box {
+  width: 45px;
+  height: 40px;
+}
+.button-box-2 {
+  width: 75px;
+  height: 40px;
+}
+.button-box, .button-box-2 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 .page-number {
   margin-left: 10px;
