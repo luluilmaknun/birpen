@@ -7,4 +7,7 @@ export default {
   getKaryaAkhir() {
     return api.get('karya-akhir/mahasiswa/');
   },
+  filterMahasiswa(request) {
+    return api.get('karya-akhir/filter-mahasiswa/', request);
+  }
 };
