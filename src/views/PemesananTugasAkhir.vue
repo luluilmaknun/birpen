@@ -113,6 +113,9 @@ export default {
   data: function() {
     return {
       daftar_jenis_karya_akhir: [],
+      nama: '',
+      npm: '',
+      program_studi: '',
       peminatan_mahasiswa: '',
       sks_diperoleh: 0,
       pembimbing: '',

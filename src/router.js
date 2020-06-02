@@ -19,6 +19,7 @@ import PenunjukkanDospem from '@/views/PenunjukkanDospem';
 import PermohonanUjianBersyarat from '@/views/PermohonanUjianBersyarat';
 import SuratPernyataan from '@/views/SuratPernyataan';
 import PemesananTugasAkhir from '@/views/PemesananTugasAkhir.vue';
+import UnduhDokumenKaryaAkhir from '@/views/UnduhDokumenKaryaAkhir.vue';
 
 Vue.use(Router);
 
@@ -45,14 +46,25 @@ const router = new Router({
       component: PemesananTugasAkhir,
       meta: {
         requiresAuth: true,
+        requiresPrivilegeToAccessSidang: true,
       },
     },
     {
-      path: '/surat/sidang/surat-karya-akhir-siap-uji/',
-      name: 'surat-karya-akhir-siap-uji',
+      path: '/surat/sidang/unduh/',
+      name: 'unduh-dokumen-karya-akhir',
+      component: UnduhDokumenKaryaAkhir,
+      meta: {
+        requiresAuth: true,
+        requiresPrivilegeToAccessSidang: true,
+      },
+    },
+    {
+      path: '/surat/sidang/surat-keterangan-karya-akhir-siap-uji/',
+      name: 'surat-keterangan-karya-akhir-siap-uji',
       component: KaryaAkhirSiapUji,
       meta: {
         requiresAuth: true,
+        requiresPrivilegeToAccessSidang: true,
       },
     },
     {
@@ -61,14 +73,16 @@ const router = new Router({
       component: PengajuanDospem,
       meta: {
         requiresAuth: true,
+        requiresPrivilegeToAccessSidang: true,
       },
     },
     {
-      path: '/surat/sidang/form-penunjukkan-dosen-pembimbing/',
-      name: 'form-penunjukkan-dosen-pembimbing',
+      path: '/surat/sidang/formulir-penunjukkan-dosen-pembimbing/',
+      name: 'formulir-penunjukkan-dosen-pembimbing',
       component: PenunjukkanDospem,
       meta: {
         requiresAuth: true,
+        requiresPrivilegeToAccessSidang: true,
       },
     },
     {
@@ -77,14 +91,16 @@ const router = new Router({
       component: SuratPernyataan,
       meta: {
         requiresAuth: true,
+        requiresPrivilegeToAccessSidang: true,
       },
     },
     {
       path: '/surat/sidang/surat-permohonan-ujian-karya-akhir-bersyarat/',
-      name: 'surat-permohonan-mengikuti-ujian-karya-akhir-bersyarat',
+      name: 'surat-permohonan-mengikuti-ujian-karya-akhir-bersyarat-(ukab)',
       component: PermohonanUjianBersyarat,
       meta: {
         requiresAuth: true,
+        requiresPrivilegeToAccessSidang: true,
       },
     },
     {
@@ -229,6 +245,14 @@ router.beforeEach((to, from, next) => {
       (record) => record.meta.requiresPrivilegeToAccessPengumuman)) {
     if (role != 'mahasiswa' && role != 'staff'
         && isAsdos == 'false' && isAdmin == 'false') {
+      next({name: 'home'});
+      return;
+    }
+  }
+
+  if (to.matched.some(
+      (record) => record.meta.requiresPrivilegeToAccessSidang)) {
+    if (role != 'mahasiswa' && isAdmin == 'false') {
       next({name: 'home'});
       return;
     }
