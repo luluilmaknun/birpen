@@ -27,6 +27,16 @@ def karya_akhir_placeholder_views(_):
 
 @api_view(["GET"])
 @permission_classes([IsAuthenticated, IsAdmin])
+def read_mahasiswa_karya_akhir(_):
+    all_data_karya_akhir = DataKaryaAkhir.objects.all()
+
+    return Response({
+        "mahasiswa_karya_akhir": [MahasiswaKaryaAkhirSerializer(data_karya_akhir).data
+                                  for data_karya_akhir in all_data_karya_akhir],
+    }, status=HTTP_200_OK)
+
+@api_view(["GET"])
+@permission_classes([IsAuthenticated, IsAdmin])
 def filter_mahasiswa(request):
     request_angkatan = request.GET["angkatan"]
     request_prodi = request.GET["prodi"]
