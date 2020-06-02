@@ -11,10 +11,11 @@ from rest_framework.status import (
 )
 
 from .permissions import IsPrivilegedToReadDataKaryaAkhir, IsPrivilegedToAccessKaryaAkhir, \
-    IsPrivilegedToCreateKaryaAkhir, IsAdmin
+    IsPrivilegedToCreateKaryaAkhir, IsAdmin, IsPrivilegedToEditDataKaryaAkhir
 from .models import DataKaryaAkhir, SuratKaryaAkhir, ProgramStudi, JenisKaryaAkhir
 from .serializers import DataKaryaAkhirSerializer, SuratKaryaAkhirSerializer, \
-    ProgramStudiSerializer, MahasiswaKaryaAkhirSerializer
+    ProgramStudiSerializer, MahasiswaKaryaAkhirSerializer, JenisKaryaAkhirSerializer
+
 
 @api_view(["GET"])
 def karya_akhir_placeholder_views(_):
@@ -23,6 +24,49 @@ def karya_akhir_placeholder_views(_):
     }
 
     return Response({"success": True, "result": result}, status=HTTP_200_OK)
+
+@api_view(["PUT"])
+@permission_classes([IsAuthenticated, IsPrivilegedToEditDataKaryaAkhir])
+def edit_data_karya_akhir(request):
+    try:
+        data_karya_akhir = request.user.data_karya_akhir
+        data_karya_akhir.peminatan_mahasiswa = request.data.get('peminatan_mahasiswa')
+        data_karya_akhir.jenis_karya_akhir = \
+            JenisKaryaAkhir.objects.get(nama=request.data.get('jenis_karya_akhir'))
+        data_karya_akhir.sks_diperoleh = request.data.get('sks_diperoleh')
+        data_karya_akhir.pembimbing = request.data.get('pembimbing')
+        data_karya_akhir.pembimbing_pendamping = request.data.get('pembimbing_pendamping')
+        data_karya_akhir.judul_karya_id = request.data.get('judul_karya_id')
+        data_karya_akhir.judul_karya_en = request.data.get('judul_karya_en')
+        data_karya_akhir.save()
+
+    except DataKaryaAkhir.DoesNotExist:
+        return Response({
+            "success": False,
+            "detail": "Data karya akhir untuk " + request.user.username + " tidak ditemukan",
+        }, status=HTTP_400_BAD_REQUEST)
+
+    except (JenisKaryaAkhir.DoesNotExist,
+            IntegrityError, DataError, ValueError):
+        return Response({
+            "success": False,
+            "detail": "Data tidak valid",
+        }, status=HTTP_400_BAD_REQUEST)
+
+    return Response({
+        "success": True,
+    }, status=HTTP_200_OK)
+
+@api_view(["GET"])
+@permission_classes([IsAuthenticated, IsPrivilegedToCreateKaryaAkhir])
+def get_mahasiswa_profile(request):
+    return Response({
+        "mahasiswa": {
+            "nama": request.user.first_name + " " + request.user.last_name,
+            "npm": request.user.profile.npm,
+            "program_studi": request.user.profile.study_program,
+        }
+    }, status=HTTP_200_OK)
 
 
 @api_view(["GET"])
@@ -113,6 +157,18 @@ def read_data_karya_akhir_by_username(_, username):
     return Response({
         "data_karya_akhir": DataKaryaAkhirSerializer(data_karya_akhir).data
     }, status=HTTP_200_OK)
+
+
+@api_view(["GET"])
+@permission_classes([IsAuthenticated, IsPrivilegedToAccessKaryaAkhir])
+def read_jenis_karya_akhir(_):
+    jenis_karya_akhir = JenisKaryaAkhir.objects.all()
+
+    return Response({
+        "success": True,
+        "jenis_karya_akhir": JenisKaryaAkhirSerializer(jenis_karya_akhir, many=True).data,
+    }, status=HTTP_200_OK)
+
 
 @api_view(["GET"])
 @permission_classes([IsAuthenticated, IsPrivilegedToAccessKaryaAkhir])

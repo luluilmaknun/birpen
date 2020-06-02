@@ -18,6 +18,7 @@ import PengajuanDospem from '@/views/PengajuanDospem';
 import PenunjukkanDospem from '@/views/PenunjukkanDospem';
 import PermohonanUjianBersyarat from '@/views/PermohonanUjianBersyarat';
 import SuratPernyataan from '@/views/SuratPernyataan';
+import PemesananTugasAkhir from '@/views/PemesananTugasAkhir.vue';
 import UnduhDokumenKaryaAkhir from '@/views/UnduhDokumenKaryaAkhir.vue';
 
 Vue.use(Router);
@@ -42,7 +43,7 @@ const router = new Router({
     {
       path: '/surat/sidang/',
       name: 'sidang-akhir',
-      component: null,
+      component: PemesananTugasAkhir,
       meta: {
         requiresAuth: true,
         requiresPrivilegeToAccessSidang: true,
