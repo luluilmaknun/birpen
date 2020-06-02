@@ -1,0 +1,23 @@
+[
+    {
+        "model":"karya_akhir.jeniskaryaakhir",
+        "pk":1,
+        "fields":{
+            "nama":"Skripsi"
+        }
+    },
+    {
+        "model":"karya_akhir.jeniskaryaakhir",
+        "pk":2,
+        "fields":{
+            "nama":"Magang"
+        }
+    },
+    {
+        "model":"karya_akhir.jeniskaryaakhir",
+        "pk":3,
+        "fields":{
+            "nama":"Studi Mandiri"
+        }
+    }
+]

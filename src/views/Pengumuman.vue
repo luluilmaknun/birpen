@@ -131,7 +131,10 @@
             <td/>
           </tr>
         </table>
-        <h2>Tidak ada pengumuman</h2>
+        <div v-if="isLoadPengumuman">
+          <img src="@/assets/icons/loader.svg"/>
+        </div>
+        <h2 v-else>Tidak ada pengumuman</h2>
       </div>
 
       <!-- table if there are datas -->
@@ -227,6 +230,9 @@
             </td>
           </tr>
         </table>
+        <div v-if="isLoadPengumuman">
+          <img src="@/assets/icons/loader.svg"/>
+        </div>
       </div>
 
       <!-- TOMORROW -->
@@ -257,7 +263,10 @@
             <td/>
           </tr>
         </table>
-        <h2>Tidak ada pengumuman</h2>
+        <div v-if="isLoadPengumuman">
+          <img src="@/assets/icons/loader.svg"/>
+        </div>
+        <h2 v-else>Tidak ada pengumuman</h2>
       </div>
 
       <!-- table if there are datas -->
@@ -353,6 +362,9 @@
             </td>
           </tr>
         </table>
+        <div v-if="isLoadPengumuman">
+          <img src="@/assets/icons/loader.svg"/>
+        </div>
       </div>
     </div>
 
@@ -385,7 +397,10 @@
             <td/>
           </tr>
         </table>
-        <h2>Tidak ada pengumuman</h2>
+        <div v-if="isLoadFilter">
+          <img src="@/assets/icons/loader.svg"/>
+        </div>
+        <h2 v-else>Tidak ada pengumuman</h2>
       </div>
 
 
@@ -482,6 +497,9 @@
             </td>
           </tr>
         </table>
+        <div v-if="isLoadFilter">
+          <img src="@/assets/icons/loader.svg"/>
+        </div>
       </div>
     </div>
 
@@ -532,6 +550,8 @@ export default {
       tomorrowDate: '',
       filterDate: '',
       error_msg: '',
+      isLoadPengumuman: false,
+      isLoadFilter: false,
     };
   },
   created: function() {
@@ -543,6 +563,7 @@ export default {
       const currentURL = window.location.href;
       const arr = currentURL.split('tanggal=');
       const date = arr[1];
+      this.selectedDate = date;
       if (typeof(date) == 'undefined' || date == '') {
         this.isFiltered = false;
         this.fetchPengumuman();
@@ -554,7 +575,9 @@ export default {
     fetchFilteredPengumuman: function(date) {
       const dateResult = this.getFilteredDate(date);
       this.filterDate = dateResult;
+      this.isLoadFilter = true;
       announcementApi.getAnnouncementFiltered(date).then((result) => {
+        this.isLoadFilter = false;
         this.response = result.data;
         for (let i = 0; i < this.response.pengumuman_response.length; i++) {
           this.$set(
@@ -564,7 +587,9 @@ export default {
       });
     },
     fetchPengumuman: function() {
+      this.isLoadPengumuman = true;
       announcementApi.getAnnouncementDefault().then((d) => {
+        this.isLoadPengumuman = false;
         this.response = d.data;
         this.responseToList(this.response.pengumuman_today, this.today);
         this.responseToList(this.response.pengumuman_tomo, this.tomorrow);

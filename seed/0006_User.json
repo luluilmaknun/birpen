@@ -178,5 +178,77 @@
             "groups": [],
             "user_permissions": []
         }
+    },
+    {
+        "model": "sso_ui.user",
+        "pk": 11,
+        "fields": {
+            "password": "pbkdf2_sha256$180000$ZwSWpRJrBvax$hcwXq+cx+daMJwFLeYZCO8/F+MI1zN/ayPTxYf1XFDQ=",
+            "last_login": null,
+            "is_superuser": false,
+            "username": "magnatauro.rondo",
+            "first_name": "Magnatauro",
+            "last_name": "Rondo",
+            "email": "magnatauro.rondo@ui.ac.id",
+            "is_staff": false,
+            "is_active": true,
+            "date_joined": "2020-03-02T06:07:07Z",
+            "groups": [],
+            "user_permissions": []
+        }
+    },
+    {
+        "model": "sso_ui.user",
+        "pk": 12,
+        "fields": {
+            "password": "pbkdf2_sha256$180000$ZwSWpRJrBvax$hcwXq+cx+daMJwFLeYZCO8/F+MI1zN/ayPTxYf1XFDQ=",
+            "last_login": null,
+            "is_superuser": false,
+            "username": "callista.rondo",
+            "first_name": "Callista",
+            "last_name": "Rondo",
+            "email": "callista.rondo@ui.ac.id",
+            "is_staff": false,
+            "is_active": true,
+            "date_joined": "2020-03-02T06:07:07Z",
+            "groups": [],
+            "user_permissions": []
+        }
+    },
+    {
+        "model": "sso_ui.user",
+        "pk": 13,
+        "fields": {
+            "password": "pbkdf2_sha256$180000$ZwSWpRJrBvax$hcwXq+cx+daMJwFLeYZCO8/F+MI1zN/ayPTxYf1XFDQ=",
+            "last_login": null,
+            "is_superuser": false,
+            "username": "nuema.rondo",
+            "first_name": "Nuema",
+            "last_name": "Rondo",
+            "email": "nuema.rondo@ui.ac.id",
+            "is_staff": false,
+            "is_active": true,
+            "date_joined": "2020-03-02T06:07:07Z",
+            "groups": [],
+            "user_permissions": []
+        }
+    },
+    {
+        "model": "sso_ui.user",
+        "pk": 14,
+        "fields": {
+            "password": "pbkdf2_sha256$180000$ZwSWpRJrBvax$hcwXq+cx+daMJwFLeYZCO8/F+MI1zN/ayPTxYf1XFDQ=",
+            "last_login": null,
+            "is_superuser": false,
+            "username": "firly.rondo",
+            "first_name": "Firly",
+            "last_name": "Rondo",
+            "email": "firly.rondo@ui.ac.id",
+            "is_staff": false,
+            "is_active": true,
+            "date_joined": "2020-03-02T06:07:07Z",
+            "groups": [],
+            "user_permissions": []
+        }
     }
 ]

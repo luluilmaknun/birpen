@@ -22,10 +22,17 @@ urlpatterns = [
         'api/pengumuman/',
         include(('pengumuman.urls', 'pengumuman'),
                 namespace='pengumuman')),
+
     path(
         'api/permohonan-surat/',
         include(('permohonan_surat.urls', 'permohonan_surat'),
                 namespace='permohonan_surat')),
+
+    path(
+        'api/karya-akhir/',
+        include(('karya_akhir.urls', 'karya_akhir'),
+                namespace='karya_akhir')),
+
     path(
         'api/asdos/',
         include(('asdos.urls', 'asdos'),

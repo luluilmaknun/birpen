@@ -64,6 +64,7 @@ class Profile(models.Model):
     faculty = models.CharField('fakultas', max_length=128, blank=True)
     study_program = models.CharField('program studi', max_length=128, blank=True)
     educational_program = models.CharField('program pendidikan', max_length=128, blank=True)
+    year_of_entry = models.CharField('Tahun masuk', max_length=4, blank=True)
 
     class Meta:
         verbose_name = 'profil'
@@ -99,6 +100,7 @@ def save_user_attributes(user, attributes, **kwargs):
 
     if profile.role == 'mahasiswa':
         profile.npm = attributes['npm']
+        profile.year_of_entry = '20' + profile.npm[:2]
 
         org_code = attributes['kd_org']
         record = ORG_CODE[LANG][org_code]
@@ -107,7 +109,7 @@ def save_user_attributes(user, attributes, **kwargs):
         profile.study_program = record['study_program']
         profile.educational_program = record['educational_program']
 
-    user.email = f'{user.username}@ui.ac.id'
+    user.email = user.username + '@ui.ac.id'
 
     full_name = attributes['nama']
     i = full_name.rfind(' ')
