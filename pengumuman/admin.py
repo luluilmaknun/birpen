@@ -6,8 +6,6 @@ from .models import Pengumuman
 
 app = apps.get_app_config('pengumuman')
 
-# for model_name, model in app.models.items():
-#    admin.site.register(model)
 
 admin.site.site_header = "Halaman Admin Biro Pendidikan FEB UI"
 
