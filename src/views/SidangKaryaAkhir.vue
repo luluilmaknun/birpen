@@ -22,18 +22,18 @@
             {{ head }}
           </th>
         </tr>
-        <tr v-for="data in karyaAkhirDummy" :key="data.pk">
+        <tr v-for="data in karyaAkhir" :key="data.pk">
           <td id="mahasiswa">
-            {{ data.mahasiswa }}
+            {{ data.mahasiswa.nama }}
           </td>
           <td id="npm">
-            {{ data.npm }}
+            {{ data.mahasiswa.npm }}
           </td>
-          <td id="peminatan_mahasiswa ">
-            {{ data.peminatan_mahasiswa }}
+          <td id="program_studi ">
+            {{ data.mahasiswa.program_studi }}
           </td>
           <td id="angkatan">
-            {{ data.angkatan }}
+            {{ data.mahasiswa.angkatan }}
           </td>
           <td id="detail-col">
             <button class="detail-button">
@@ -99,15 +99,22 @@ export default {
         },
       ],
       programStudi: [],
+      karyaAkhir: [],
     };
   },
   created: function() {
     this.fetchProgramStudi();
+    this.fetchKaryaAkhir();
   },
   methods: {
     fetchProgramStudi: function() {
       apiSidangAkhir.getProgramStudi().then((result) => {
         this.programStudi = result.data.program_studi;
+      });
+    },
+    fetchKaryaAkhir: function() {
+      apiSidangAkhir.getKaryaAkhir().then((result) => {
+        this.karyaAkhir = result.data.mahasiswa_karya_akhir;
       });
     },
   },
