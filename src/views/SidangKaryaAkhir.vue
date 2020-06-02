@@ -40,9 +40,7 @@
               {{ data.mahasiswa.angkatan }}
             </td>
             <td id="detail-col">
-              <button class="detail-button">
-                Detail
-              </button>
+              <DetailKaryaAkhir :username="data.mahasiswa.username"/>
             </td>
           </tr>
         </table>
@@ -69,9 +67,7 @@
               {{ data.mahasiswa.angkatan }}
             </td>
             <td id="detail-col">
-              <button class="detail-button">
-                Detail
-              </button>
+              <DetailKaryaAkhir :username="data.mahasiswa.username"/>
             </td>
           </tr>
         </table>
@@ -82,7 +78,11 @@
 
 <script>
 import apiSidangAkhir from '@/services/sidangKaryaAkhirServices.js';
+import DetailKaryaAkhir from '@/components/detail-karya-akhir.vue';
 export default {
+  components: {
+    DetailKaryaAkhir,
+  },
   data: function() {
     return {
       namaAngkatan: '',
