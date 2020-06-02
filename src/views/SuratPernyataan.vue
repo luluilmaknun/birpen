@@ -274,4 +274,8 @@ export default {
 .align-justify {
   text-align: justify;
 }
+
+h1 {
+  font-size: 1.5em;
+}
 </style>
