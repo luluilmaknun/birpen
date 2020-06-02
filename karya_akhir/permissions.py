@@ -6,3 +6,8 @@ class IsPrivilegedToReadDataKaryaAkhir(permissions.BasePermission):
 
         return request.user.is_admin() or \
                (request.user.is_mahasiswa() and request.user.username == username)
+
+class IsPrivilegedToAccessKaryaAkhir(permissions.BasePermission):
+    def has_permission(self, request, view):
+        return request.user.is_mahasiswa() or \
+               request.user.is_admin()

@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from .models import DataKaryaAkhir
+from .models import DataKaryaAkhir, SuratKaryaAkhir, ProgramStudi
 
 
 class JenisKaryaAkhirField(serializers.RelatedField):
@@ -34,3 +34,15 @@ class DataKaryaAkhirSerializer(serializers.ModelSerializer):
             'program_studi': mahasiswa.profile.study_program,
             'angkatan': mahasiswa.profile.year_of_entry
         }
+
+
+class SuratKaryaAkhirSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = SuratKaryaAkhir
+        fields = ['nama']
+
+
+class ProgramStudiSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ProgramStudi
+        fields = ['nama']
