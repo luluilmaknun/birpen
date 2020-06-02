@@ -257,6 +257,7 @@ tr:nth-child(odd) {
 }
 .pagination-section {
   margin-top: 30px;
+  margin-bottom: 70px;
   display: flex;
   flex-direction: row;
   align-items: center;
