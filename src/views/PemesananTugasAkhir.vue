@@ -153,7 +153,6 @@ export default {
           .then((d) => {
             const data = d.data['data_karya_akhir'];
             this.edit_flag = true;
-            console.log(data);
 
             this.peminatan_mahasiswa = data['peminatan_mahasiswa'];
             this.jenis_karya_akhir = data['jenis_karya_akhir'];
