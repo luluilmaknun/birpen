@@ -39,3 +39,39 @@ describe('test get api program studi', () => {
     expect(vm.programStudi.length).toBeGreaterThan(0);
   });
 });
+
+describe('test mahasiswa karya akhir table data', () => {
+  let wrapper; let vm;
+  const dataMock = [
+    {
+      'angkatan': 'Sarung',
+      'nama': 'Athallah Annafis',
+      'npm': '1706075021',
+      'program_studi': 'bio informatika',
+      'username': 'ketber',
+    },
+    {
+      'angkatan': 'Quanta',
+      'nama': 'Gundam OO',
+      'npm': '1230459402',
+      'program_studi': 'Mobile suit',
+      'username': 'Exia',
+    },
+  ];
+  beforeEach(() => {
+    wrapper = shallowMount(SidangKaryaAkhir);
+    vm = wrapper.vm;
+    apiSidangAkhir.getKaryaAkhir = jest.fn(
+        (result) => Promise.resolve({
+          status: 200,
+          data: {
+            mahasiswa_karya_akhir: dataMock,
+          },
+        }));
+    vm.fetchKaryaAkhir();
+  });
+
+  it('test ada mahasiswa karya akhir', () => {
+    expect(vm.karyaAkhir.length).toBe(2);
+  });
+});
