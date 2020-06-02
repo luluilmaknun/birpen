@@ -7,7 +7,9 @@ export default {
   getKaryaAkhir() {
     return api.get('karya-akhir/mahasiswa/');
   },
-  filterMahasiswa(request) {
-    return api.get('karya-akhir/filter-mahasiswa/', request);
-  }
+  filterMahasiswa(angkatan, prodi) {
+    // api/karya-akhir/filter-mahasiswa?angkatan=2016&prodi=Akuntansi
+    return api.get('karya-akhir/filter-mahasiswa?angkatan=' + angkatan +
+    '&prodi=' + prodi);
+  },
 };
