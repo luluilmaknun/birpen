@@ -3,12 +3,14 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.status import (
     HTTP_200_OK,
+    HTTP_404_NOT_FOUND,
 )
 
-from .models import SuratKaryaAkhir, ProgramStudi, DataKaryaAkhir
-from .permissions import IsPrivilegedToAccessKaryaAkhir, IsAdmin
-from .serializers import SuratKaryaAkhirSerializer, ProgramStudiSerializer, \
-    MahasiswaKaryaAkhirSerializer
+from .models import DataKaryaAkhir, SuratKaryaAkhir, ProgramStudi
+from .permissions import IsPrivilegedToReadDataKaryaAkhir, IsPrivilegedToAccessKaryaAkhir, \
+    IsAdmin
+from .serializers import DataKaryaAkhirSerializer, SuratKaryaAkhirSerializer, \
+    ProgramStudiSerializer, MahasiswaKaryaAkhirSerializer
 
 
 @api_view(["GET"])
@@ -49,6 +51,21 @@ def filter_mahasiswa(request):
                                   for surat_karya_akhir in filtered_data_karya_akhir],
     }, status=HTTP_200_OK)
 
+
+@api_view(["GET"])
+@permission_classes([IsAuthenticated, IsPrivilegedToReadDataKaryaAkhir])
+def read_data_karya_akhir_by_username(_, username):
+    try:
+        data_karya_akhir = DataKaryaAkhir.objects.get(mahasiswa__username=username)
+
+    except DataKaryaAkhir.DoesNotExist:
+        return Response({
+            "detail": "Data karya akhir tidak ditemukan.",
+        }, status=HTTP_404_NOT_FOUND)
+
+    return Response({
+        "data_karya_akhir": DataKaryaAkhirSerializer(data_karya_akhir).data
+    }, status=HTTP_200_OK)
 
 @api_view(["GET"])
 @permission_classes([IsAuthenticated, IsPrivilegedToAccessKaryaAkhir])

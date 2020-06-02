@@ -3,15 +3,30 @@
     <div class="main-container">
       <div class="profile-detail">
         <div class="left-detail">
-          <p>Nama</p>
-          <p>NPM</p>
-          <p>ID Pesanan</p>
+          <p>Nama: </p>
+          <p>NPM: </p>
+          <p>ID Pesanan: </p>
         </div>
         <div class="right-detail">
-          <p id="profile-nama">: {{ detailPesanan.nama_pemesan }}</p>
-          <p id="profile-npm">: {{ detailPesanan.npm_pemesan }}</p>
-          <p id="profile-idPesanan">
-            : {{ String(detailPesanan.pk).padStart(6, '0') }}
+          <p v-if="isLoadDetail">
+            <img src="@/assets/icons/loader-small.svg"/>
+          </p>
+          <p v-else id="profile-nama">
+            <b>{{ detailPesanan.nama_pemesan }}</b>
+          </p>
+
+          <p v-if="isLoadDetail">
+            <img src="@/assets/icons/loader-small.svg"/>
+          </p>
+          <p v-else id="profile-npm">
+            <b>{{ detailPesanan.npm_pemesan }}</b>
+          </p>
+
+          <p v-if="isLoadDetail">
+            <img src="@/assets/icons/loader-small.svg"/>
+          </p>
+          <p v-else id="profile-idPesanan">
+            <b>{{ String(detailPesanan.pk).padStart(6, '0') }}</b>
           </p>
         </div>
       </div>
@@ -55,6 +70,11 @@
             </td>
           </tr>
         </table>
+
+        <div v-if="isLoadDetail">
+          <img src="@/assets/icons/loader.svg"/>
+        </div>
+
       </div>
     </div>
   </div>
@@ -75,6 +95,7 @@ export default {
       listPesanan: [],
       idPesanan: 'undefined',
       isAdmin: localStorage.getItem('is_admin') === 'true',
+      isLoadDetail: false,
     };
   },
   created: function() {
@@ -88,7 +109,9 @@ export default {
       return theID;
     },
     fetchDetail: function(idPesanan) {
+      this.isLoadDetail = true;
       trackingPesananApi.getDetailPesanan(idPesanan).then((result) => {
+        this.isLoadDetail = false;
         this.detailPesanan = result.data;
         this.responseToList(
             this.detailPesanan.pesanan_surat_akademik, this.listPesanan
