@@ -9,7 +9,7 @@
       <!-- TODO -->
     </div>
     <div class="bot-container">
-      <SaveBtn id="btn" />
+      <SaveBtn id="btn" link_download="TODO"/>
       <BackBtn id="btn" />
     </div>
   </div>
