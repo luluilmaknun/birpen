@@ -67,7 +67,7 @@ export default {
 <style scoped>
 .page-container {
   height: 100%;
-  padding: 2%;
+  padding: 3%;
   box-sizing: border-box;
 }
 h2.title {
@@ -83,7 +83,7 @@ h2.title {
 .menu-container {
   background: #2D3033;
   color: white;
-  margin: 40px;
+  margin: 30px;
   padding: 10px 40px;
   border-radius: 18px;
   width: 380px;
@@ -123,7 +123,7 @@ h2.title {
 .button-container .btn {
   padding: 12px 25px;
   font-weight: bold;
-  margin: 15px auto;
+  margin: 20px auto;
   width: 170px;
 }
 </style>
