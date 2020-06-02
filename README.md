@@ -100,6 +100,17 @@ http://birpen.docs.apiary.io/
   python3 manage.py runserver
   ```
 
+### Start Docker Application    
+- Please refer to https://docs.docker.com/engine/install/ for docker installation
+- Start application    
+  ```
+  docker-compose up
+  ```
+- Rebuild image and start application
+  ```
+  docker-compose up --build
+  ```
+
 ### Git Flow
 To resolve each issue:  
 - Create new branch "[username]/[issue's number]" from related PBI branch.

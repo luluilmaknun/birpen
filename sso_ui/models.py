@@ -109,7 +109,7 @@ def save_user_attributes(user, attributes, **kwargs):
         profile.study_program = record['study_program']
         profile.educational_program = record['educational_program']
 
-    user.email = f'{user.username}@ui.ac.id'
+    user.email = user.username + '@ui.ac.id'
 
     full_name = attributes['nama']
     i = full_name.rfind(' ')

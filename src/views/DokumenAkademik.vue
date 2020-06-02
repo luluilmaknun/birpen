@@ -6,22 +6,25 @@
     <div class="profile-container">
       <div class="input-row">
         <label>Nama: </label>
-        <input v-if="isAlumni" class="profile-input" v-model="nama_pemesan">
+        <img v-if="isLoadProfile" src="@/assets/icons/loader-small.svg"/>
+        <input v-else-if="isAlumni" class="profile-input"
+          v-model="nama_pemesan">
         <span v-else class="">{{ nama_pemesan }}</span>
       </div>
 
       <div class="input-row">
         <label>NPM: </label>
-        <input v-if="isAlumni" class="profile-input" v-model="npm_pemesan">
+        <img v-if="isLoadProfile" src="@/assets/icons/loader-small.svg"/>
+        <input v-else-if="isAlumni" class="profile-input" v-model="npm_pemesan">
         <span v-else class="">{{ npm_pemesan }}</span>
       </div>
     </div>
 
     <!-- TABLE SECTION -->
-    <table class="table-div">
+    <table class="table-div" aria-hidden="true">
       <tr class="table-header">
         <th class="table-header-item" v-for="head in tableHead" :key="head"
-          :class="head[0]">
+          :class="head[0]" id="head[0]">
           {{ head[1] }}
         </th>
       </tr>
@@ -56,9 +59,13 @@
 
     <br>
     <br>
-    <div class="button-container pemesanan">
+    <div class="button-container pemesanan" v-if="!isLoadTableDoc">
       <button @click="summarize">Pesan</button>
       <button @click="goToPage('surat')">Kembali</button>
+    </div>
+
+    <div v-if="isLoadTableDoc">
+      <img src="@/assets/icons/loader.svg"/>
     </div>
 
     <modal name="ringkasan" height="auto" :pivotX="0.0" :width="1000">
@@ -107,13 +114,17 @@ export default {
       list_harga: {},
       temp_pesanan: {},
       response: {},
+      isLoadProfile: false,
+      isLoadTableDoc: false,
     };
   },
   created() {
     this.fetchLetterList();
 
     if (!this.isAlumni) {
+      this.isLoadProfile = true;
       suratApi.fetchDataPemesan().then((d) => {
+        this.isLoadProfile = false;
         this.nama_pemesan = d.data.mahasiswa.nama;
         this.npm_pemesan = d.data.mahasiswa.npm;
       });
@@ -121,7 +132,9 @@ export default {
   },
   methods: {
     fetchLetterList() {
+      this.isLoadTableDoc = true,
       suratApi.fetchSuratAkademik().then((d) => {
+        this.isLoadTableDoc = false,
         this.response = d.data.surat_akademik;
 
         for (let i = 0; i < this.response.length; i++) {
@@ -149,11 +162,13 @@ export default {
     },
     updatePesanan(id) {
       const rowId = 'row_' + (id+1);
+      const inputId = 'jumlah_' + (id+1);
       const row = this.$refs[rowId][0];
+      const input = this.$refs[inputId][0];
 
       const jenisDokumen = row.childNodes[1].innerText;
       const harga = row.childNodes[2].innerText;
-      const jumlah = row.childNodes[3].childNodes[0].childNodes[1].value;
+      const jumlah = input.value;
 
       this.temp_pesanan[jenisDokumen] = {};
       this.temp_pesanan[jenisDokumen]['jumlah'] = jumlah;
