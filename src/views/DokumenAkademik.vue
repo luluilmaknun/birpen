@@ -6,13 +6,16 @@
     <div class="profile-container">
       <div class="input-row">
         <label>Nama: </label>
-        <input v-if="isAlumni" class="profile-input" v-model="nama_pemesan">
+        <img v-if="isLoadProfile" src="@/assets/icons/loader-small.svg"/>
+        <input v-else-if="isAlumni" class="profile-input"
+          v-model="nama_pemesan">
         <span v-else class="">{{ nama_pemesan }}</span>
       </div>
 
       <div class="input-row">
         <label>NPM: </label>
-        <input v-if="isAlumni" class="profile-input" v-model="npm_pemesan">
+        <img v-if="isLoadProfile" src="@/assets/icons/loader-small.svg"/>
+        <input v-else-if="isAlumni" class="profile-input" v-model="npm_pemesan">
         <span v-else class="">{{ npm_pemesan }}</span>
       </div>
     </div>
@@ -56,9 +59,13 @@
 
     <br>
     <br>
-    <div class="button-container pemesanan">
+    <div class="button-container pemesanan" v-if="!isLoadTableDoc">
       <button @click="summarize">Pesan</button>
       <button @click="goToPage('surat')">Kembali</button>
+    </div>
+
+    <div v-if="isLoadTableDoc">
+      <img src="@/assets/icons/loader.svg"/>
     </div>
 
     <modal name="ringkasan" height="auto" :pivotX="0.0" :width="1000">
@@ -107,13 +114,17 @@ export default {
       list_harga: {},
       temp_pesanan: {},
       response: {},
+      isLoadProfile: false,
+      isLoadTableDoc: false,
     };
   },
   created() {
     this.fetchLetterList();
 
     if (!this.isAlumni) {
+      this.isLoadProfile = true;
       suratApi.fetchDataPemesan().then((d) => {
+        this.isLoadProfile = false;
         this.nama_pemesan = d.data.mahasiswa.nama;
         this.npm_pemesan = d.data.mahasiswa.npm;
       });
@@ -121,7 +132,9 @@ export default {
   },
   methods: {
     fetchLetterList() {
+      this.isLoadTableDoc = true,
       suratApi.fetchSuratAkademik().then((d) => {
+        this.isLoadTableDoc = false,
         this.response = d.data.surat_akademik;
 
         for (let i = 0; i < this.response.length; i++) {
