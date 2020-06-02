@@ -49,6 +49,14 @@ const router = new Router({
       },
     },
     {
+      path: '/surat/sidang/daftarKaryaAkhir',
+      name: 'daftar-karya-akhir',
+      component: SidangKaryaAkhir,
+      meta: {
+        requiresAuth: true,
+      }
+    },
+    {
       path: '/surat/sidang/surat-karya-akhir-siap-uji/',
       name: 'surat-karya-akhir-siap-uji',
       component: KaryaAkhirSiapUji,
