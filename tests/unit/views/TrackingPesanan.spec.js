@@ -119,44 +119,77 @@ describe('test render pagination', () => {
   expect(result.length).toBe(7);
 });
 
+describe('first and last button pagination function test', () => {
+  const wrapper = shallowMount(TrackingPesanan);
+  const vm = wrapper.vm;
+  it('test first page function', () => {
+    vm.toFirstPage();
+    expect(vm.pageNumber).toBe(1);
+  });
+  it('test last page function', () => {
+    vm.pagedTrackingList = [1, 1, 1, 1];
+    const last = vm.pagedTrackingList.length;
+    vm.toLastPage();
+    expect(vm.pageNumber).toBe(last);
+  });
+});
+
 describe('test next prev button visibility', () => {
   const wrapper = shallowMount(TrackingPesanan);
   const vm = wrapper.vm;
   let pagedList; let pageNumber;
+  let nextButton; let prevButton;
+  let firstPageButton; let lastPageButton;
   it('case pertama', () => {
-    const nextButton = wrapper.find('#next-button');
-    const prevButton = wrapper.find('#prev-button');
+    nextButton = wrapper.find('#next-button');
+    prevButton = wrapper.find('#prev-button');
+    firstPageButton = wrapper.find('#first-page-button');
+    lastPageButton = wrapper.find('#last-page-button');
     pagedList = [];
     pageNumber = 1;
     vm.checkPaginationButton(pageNumber, pagedList);
     expect(prevButton.isVisible()).toBe(true);
     expect(nextButton.isVisible()).toBe(true);
+    expect(firstPageButton.isVisible()).toBe(true);
+    expect(lastPageButton.isVisible()).toBe(true);
   });
   it('case kedua', () => {
-    const nextButton = wrapper.find('#next-button');
-    const prevButton = wrapper.find('#prev-button');
+    nextButton = wrapper.find('#next-button');
+    prevButton = wrapper.find('#prev-button');
+    firstPageButton = wrapper.find('#first-page-button');
+    lastPageButton = wrapper.find('#last-page-button');
     pagedList = [[1, 1, 1, 1, 1, 1, 1], [1, 1, 1]]; // length = 2
     pageNumber = 1;
     vm.checkPaginationButton(pageNumber, pagedList);
     expect(prevButton.isVisible()).toBe(false);
     expect(nextButton.isVisible()).toBe(false);
+    expect(firstPageButton.isVisible()).toBe(false);
+    expect(lastPageButton.isVisible()).toBe(false);
   });
   it('case ketiga', () => {
-    const nextButton = wrapper.find('#next-button');
-    const prevButton = wrapper.find('#prev-button');
+    nextButton = wrapper.find('#next-button');
+    prevButton = wrapper.find('#prev-button');
+    firstPageButton = wrapper.find('#first-page-button');
+    lastPageButton = wrapper.find('#last-page-button');
     pagedList = [[1, 1, 1, 1, 1, 1, 1], [1, 1, 1]]; // length = 2
     pageNumber = 2;
     vm.checkPaginationButton(pageNumber, pagedList);
     expect(nextButton.isVisible()).toBe(true);
     expect(prevButton.isVisible()).toBe(false);
+    expect(firstPageButton.isVisible()).toBe(false);
+    expect(lastPageButton.isVisible()).toBe(true);
   });
   it('case keempat', () => {
-    const nextButton = wrapper.find('#next-button');
-    const prevButton = wrapper.find('#prev-button');
+    nextButton = wrapper.find('#next-button');
+    prevButton = wrapper.find('#prev-button');
+    firstPageButton = wrapper.find('#first-page-button');
+    lastPageButton = wrapper.find('#last-page-button');
     pagedList = [[1, 1, 1], [1, 1, 1], [1, 1, 1], [1, 1, 1]];
     pageNumber = 2;
     vm.checkPaginationButton(pageNumber, pagedList);
     expect(nextButton.isVisible()).toBe(false);
     expect(prevButton.isVisible()).toBe(true);
+    expect(firstPageButton.isVisible()).toBe(true);
+    expect(lastPageButton.isVisible()).toBe(false);
   });
 });
