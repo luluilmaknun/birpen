@@ -1,6 +1,6 @@
 import {shallowMount} from '@vue/test-utils';
 import UnduhDokumenKaryaAkhir from '@/views/UnduhDokumenKaryaAkhir.vue';
-import karyaAkhirApi from '@/services/karyaAkhirService';
+import karyaAkhirApi from '@/services/karyaAkhirServices';
 
 describe('Tes konfigurasi dan elemen halaman', () => {
   const wrapper = shallowMount(UnduhDokumenKaryaAkhir);
