@@ -47,8 +47,8 @@
         </label>
         <select id="jenis_karya_akhir" v-model="jenis_karya_akhir">
           <option v-for="jenis in daftar_jenis_karya_akhir"
-            :key="jenis">
-            {{ jenis }}
+            :key="jenis.nama">
+            {{ jenis.nama }}
           </option>
         </select>
       </div>
@@ -63,7 +63,7 @@
 
       <div>
         <label class="label" for="pembimbing">
-          Jumlah SKS diperoleh:
+          Pembimbing Karya Akhir:
         </label>
         <input type="text" id="pembimbing" required=""
           v-model="pembimbing">
@@ -71,7 +71,7 @@
 
       <div>
         <label class="label" for="pembimbing_pendamping">
-          Jumlah SKS diperoleh:
+          Pembimbing Karya<br>Akhir Pendamping:
         </label>
         <input type="text" id="pembimbing_pendamping" required=""
           v-model="pembimbing_pendamping">
@@ -113,9 +113,7 @@ export default {
   data: function() {
     return {
       daftar_jenis_karya_akhir: [],
-      nama: '',
-      npm: '',
-      program_study: '',
+      peminatan_mahasiswa: '',
       sks_diperoleh: 0,
       pembimbing: '',
       pembimbing_pendamping: '',
@@ -153,12 +151,9 @@ export default {
 
       karyaAkhirApi.readDataKaryaAkhir(localStorage.getItem('username'))
           .then((d) => {
-            const data = d.data;
+            const data = d.data['data_karya_akhir'];
             this.edit_flag = true;
-
-            this.nama = data['mahasiswa'].nama;
-            this.npm = data['mahasiswa'].npm;
-            this.program_studi = data['mahasiswa'].program_studi;
+            console.log(data);
 
             this.peminatan_mahasiswa = data['peminatan_mahasiswa'];
             this.jenis_karya_akhir = data['jenis_karya_akhir'];
@@ -195,7 +190,7 @@ export default {
     },
     editDataKaryaAkhir: function(request) {
       karyaAkhirApi.editDataKaryaAkhir(request).then((d) => {
-        this.$router.push('/surat/sidang/');
+        this.$router.push('/surat/sidang/unduh/');
       }).catch((error) => {
         this.error_message = error.response.data.detail;
         this.error_message_seen = true;
@@ -203,7 +198,7 @@ export default {
     },
     createDataKaryaAkhir: function(request) {
       karyaAkhirApi.createDataKaryaAkhir(request).then((d) => {
-        this.$router.push('/surat/sidang');
+        this.$router.push('/surat/sidang/unduh/');
       }).catch((error) => {
         this.error_message = error.response.data.detail;
         this.error_message_seen = true;

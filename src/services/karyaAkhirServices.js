@@ -11,7 +11,7 @@ export default {
     return api.put('karya-akhir/edit/', request);
   },
   createDataKaryaAkhir(request) {
-    return api.post('karya-akhir/post/', request);
+    return api.post('karya-akhir/create/', request);
   },
   getMahasiswaProfile() {
     return api.get('karya-akhir/get-profile/');
