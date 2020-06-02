@@ -9,12 +9,14 @@
     <div class="menu-container">
       <div class="menu-unduh-list">
         <button v-for="surat in surat_karya_akhir"
-          class="btn unduh-item" :key="surat.nama">
+          class="btn unduh-item" :key="surat.nama"
+          @click="goToPage(surat.link)">
           {{ surat.nama }}
         </button>
       </div>
 
-      <button id="unduh-semua" class="btn btn-yellow">
+      <button id="unduh-semua" class="btn btn-yellow"
+      @click="goToPage('<LINK-UNDUH-SEMUA>')">
         Unduh Semua
       </button>
     </div>
@@ -47,6 +49,9 @@ export default {
             }
           }
       );
+    },
+    goToPage(link) {
+      this.$router.push({path: link});
     },
   },
 };
@@ -95,7 +100,7 @@ h2.title {
   margin: 10px 0;
   background: #D8DADB;
   border-radius: 46.5px;
-  padding: 9px 10px;
+  padding: 9px 20px;
   font-weight: bold;
   line-height: 23px;
   color: black;

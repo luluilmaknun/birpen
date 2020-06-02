@@ -54,6 +54,7 @@ const router = new Router({
       meta: {
         requiresAuth: true,
         requiresPrivilegeToAccessSidang: true,
+      },
     },
     {
       path: '/surat/sidang/surat-karya-akhir-siap-uji/',
@@ -61,6 +62,7 @@ const router = new Router({
       component: KaryaAkhirSiapUji,
       meta: {
         requiresAuth: true,
+        requiresPrivilegeToAccessSidang: true,
       },
     },
     {
@@ -69,6 +71,7 @@ const router = new Router({
       component: PengajuanDospem,
       meta: {
         requiresAuth: true,
+        requiresPrivilegeToAccessSidang: true,
       },
     },
     {
@@ -77,6 +80,7 @@ const router = new Router({
       component: PenunjukkanDospem,
       meta: {
         requiresAuth: true,
+        requiresPrivilegeToAccessSidang: true,
       },
     },
     {
@@ -85,6 +89,7 @@ const router = new Router({
       component: SuratPernyataan,
       meta: {
         requiresAuth: true,
+        requiresPrivilegeToAccessSidang: true,
       },
     },
     {
@@ -93,6 +98,7 @@ const router = new Router({
       component: PermohonanUjianBersyarat,
       meta: {
         requiresAuth: true,
+        requiresPrivilegeToAccessSidang: true,
       },
     },
     {
