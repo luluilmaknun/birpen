@@ -2,7 +2,7 @@ import api from '@/services/api';
 
 export default {
   fetchJenisKaryaAkhir() {
-    return api.get('karya-akhir/surat/');
+    return api.get('karya-akhir/jenis-karya-akhir/');
   },
   readDataKaryaAkhir(username) {
     return api.get('karya-akhir/'+username+'/');
@@ -10,7 +10,10 @@ export default {
   editDataKaryaAkhir(request) {
     return api.put('karya-akhir/edit/', request);
   },
-  createDataKaryaAkhir() {
+  createDataKaryaAkhir(request) {
     return api.post('karya-akhir/post/', request);
-  }
+  },
+  getMahasiswaProfile() {
+    return api.get('karya-akhir/get-profile/');
+  },
 };

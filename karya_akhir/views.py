@@ -26,6 +26,18 @@ def karya_akhir_placeholder_views(_):
 
 
 @api_view(["GET"])
+@permission_classes([IsAuthenticated, IsPrivilegedToCreateKaryaAkhir])
+def get_mahasiswa_profile(request):
+    return Response({
+        "mahasiswa": {
+            "nama": request.user.first_name + " " + request.user.last_name,
+            "npm": request.user.profile.npm,
+            "program_studi": request.user.profile.study_program,
+        }
+    }, status=HTTP_200_OK)
+
+
+@api_view(["GET"])
 @permission_classes([IsAuthenticated, IsAdmin])
 def read_mahasiswa_karya_akhir(_):
     all_data_karya_akhir = DataKaryaAkhir.objects.all()

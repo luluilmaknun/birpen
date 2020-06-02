@@ -5,7 +5,7 @@
     </h2>
     <br>
     <br>
-    <form class="vue-form" @submit.prevent="validateData()">
+    <form class="vue-form" @submit.prevent="submitData()">
       <div>
         <label class="label" for="nama" style="display: inline">
           Nama:
@@ -106,36 +106,23 @@
 </template>
 
 <script>
-import dropdownApi from '@/services/dropdownDataServices';
-import announcementApi from '@/services/announcementServices';
+import karyaAkhirApi from '@/services/karyaAkhirServices';
 
 export default {
-  name: 'CreateAnnouncement',
-  props: {
-    edit: Boolean,
-    pk: String,
-  },
+  name: 'PemesananTugasAkhir',
   data: function() {
     return {
-      role: localStorage.getItem('role'),
-      is_admin: localStorage.getItem('is_admin'),
-      is_asdos: localStorage.getItem('is_asdos'),
-      pembuat: localStorage.getItem('username'),
-      jenis_pengumuman: '',
-      tanggal_kelas: '',
-      nama_mata_kuliah: '',
-      nama_dosen: '',
-      nama_asisten: '',
-      nama_sesi: '',
-      nama_ruang: '',
-      nama_status_pengumuman: '',
-      komentar: '',
-      daftar_mata_kuliah: [],
-      daftar_jenis_pengumuman: [],
-      daftar_nama_ruang: [],
-      daftar_nama_sesi: [],
-      daftar_nama_status_pengumuman: [],
+      daftar_jenis_karya_akhir: [],
+      nama: '',
+      npm: '',
+      program_study: '',
+      sks_diperoleh: 0,
+      pembimbing: '',
+      pembimbing_pendamping: '',
+      judul_karya_id: '',
+      judul_karya_en: '',
 
+      edit_flag: false,
       response: {},
       error_message: '',
       error_message_seen: false,
@@ -143,95 +130,80 @@ export default {
   },
   created: function() {
     this.fetchData();
-
-    if (this.edit) {
-      this.getAnnouncementData(this.pk);
-    }
   },
   methods: {
     fetchData: function() {
-      dropdownApi.fetch().then((d) => {
+      karyaAkhirApi.fetchJenisKaryaAkhir().then((d) => {
         this.response = d.data;
 
-        this.setData(this.daftar_jenis_pengumuman,
-            this.response.jenis_pengumuman);
-        this.setData(this.daftar_mata_kuliah,
-            this.response.mata_kuliah);
-        this.setData(this.daftar_nama_ruang,
-            this.response.ruang);
-        this.setData(this.daftar_nama_sesi,
-            this.response.sesi);
-        this.setData(this.daftar_nama_status_pengumuman,
-            this.response.status_pengumuman);
+        this.setData(this.daftar_jenis_karya_akhir,
+            this.response.jenis_karya_akhir);
+      }).catch((e) => {
+        this.error_message = 'Ada kesalahan pada database jenis karya akhir';
+        this.error_message_seen = true;
       });
+
+      karyaAkhirApi.getMahasiswaProfile().then((d) => {
+        const data = d.data['mahasiswa'];
+
+        this.nama = data['nama'];
+        this.npm = data['npm'];
+        this.program_studi = data['program_studi'];
+      });
+
+      karyaAkhirApi.readDataKaryaAkhir(localStorage.getItem('username'))
+          .then((d) => {
+            const data = d.data;
+            this.edit_flag = true;
+
+            this.nama = data['mahasiswa'].nama;
+            this.npm = data['mahasiswa'].npm;
+            this.program_studi = data['mahasiswa'].program_studi;
+
+            this.peminatan_mahasiswa = data['peminatan_mahasiswa'];
+            this.jenis_karya_akhir = data['jenis_karya_akhir'];
+            this.sks_diperoleh = parseInt(data['sks_diperoleh']);
+            this.pembimbing = data['pembimbing'];
+            this.pembimbing_pendamping = data['pembimbing_pendamping'];
+            this.judul_karya_id = data['judul_karya_id'];
+            this.judul_karya_en = data['judul_karya_en'];
+          }).catch((e) => {
+            this.edit_flag = false;
+          });
     },
     setData: function(target, source) {
       for (let i = 0; i < source.length; i++) {
         this.$set(target, i, source[i]);
       }
     },
-    getAnnouncementData: function(pk) {
-      announcementApi.getAnnouncement(pk).then((d) => {
-        const data = d.data.pengumuman;
-
-        if (this.is_admin == 'false' && this.pembuat != data['pembuat']) {
-          this.$router.push('/pengumuman/');
-        }
-
-        this.pembuat = data['pembuat'];
-        this.nama_mata_kuliah = data['nama_mata_kuliah'];
-        this.jenis_pengumuman = data['jenis_pengumuman'];
-        this.komentar = data['komentar'];
-        this.nama_dosen = data['nama_dosen'];
-        this.nama_ruang = data['nama_ruang'];
-        this.tanggal_kelas = data['tanggal_kelas'];
-        this.nama_sesi = data['nama_sesi'];
-        this.nama_status_pengumuman = data['nama_status_pengumuman'];
-
-        if (this.jenis_pengumuman == 'Asistensi') {
-          this.nama_asisten = data['nama_asisten'];
-        }
-      });
-    },
-    validateData: function() {
+    submitData: function() {
       const request = {};
 
-      const jamKelas = this.nama_sesi.match(/[0-2][0-9].[0-9][0-9]/)[0];
-      const jamMulai = jamKelas.replace('.', ':');
-      const timeKelas = new Date(this.tanggal_kelas + ' ' + jamMulai);
-      const timeNow = new Date();
-      if (timeKelas > timeNow) {
-        request['tanggal_kelas'] = this.tanggal_kelas;
-        request['jenis_pengumuman'] = this.jenis_pengumuman;
-        request['nama_mata_kuliah'] = this.nama_mata_kuliah;
-        request['nama_dosen'] = this.nama_dosen;
-        request['nama_asisten'] = this.nama_asisten;
-        request['nama_sesi'] = this.nama_sesi;
-        request['nama_ruang'] = this.nama_ruang;
-        request['nama_status_pengumuman'] = this.nama_status_pengumuman;
-        request['komentar'] = this.komentar;
+      request['peminatan_mahasiswa'] = this.peminatan_mahasiswa;
+      request['jenis_karya_akhir'] = this.jenis_karya_akhir;
+      request['sks_diperoleh'] = this.sks_diperoleh;
+      request['pembimbing'] = this.pembimbing;
+      request['pembimbing_pendamping'] = this.pembimbing_pendamping;
+      request['judul_karya_id'] = this.judul_karya_id;
+      request['judul_karya_en'] = this.judul_karya_en;
 
-        if (this.edit) {
-          this.editAnnouncement(this.pk, request);
-        } else {
-          this.createAnnouncement(request);
-        }
+      if (this.edit_flag) {
+        this.editDataKaryaAkhir(request);
       } else {
-        this.error_message = 'Kelas sudah lampau';
-        this.error_message_seen = true;
+        this.createDataKaryaAkhir(request);
       }
     },
-    editAnnouncement: function(pk, request) {
-      announcementApi.editAnnouncement(pk, request).then((d) => {
-        this.$router.push('/pengumuman/');
+    editDataKaryaAkhir: function(request) {
+      karyaAkhirApi.editDataKaryaAkhir(request).then((d) => {
+        this.$router.push('/surat/sidang/');
       }).catch((error) => {
         this.error_message = error.response.data.detail;
         this.error_message_seen = true;
       });
     },
-    createAnnouncement: function(request) {
-      announcementApi.createAnnouncement(request).then((d) => {
-        this.$router.push('/pengumuman/');
+    createDataKaryaAkhir: function(request) {
+      karyaAkhirApi.createDataKaryaAkhir(request).then((d) => {
+        this.$router.push('/surat/sidang');
       }).catch((error) => {
         this.error_message = error.response.data.detail;
         this.error_message_seen = true;
