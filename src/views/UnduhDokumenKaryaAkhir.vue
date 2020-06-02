@@ -41,7 +41,12 @@ export default {
     };
   },
   created() {
-    this.fetchData();
+    karyaAkhirApi.readDataKaryaAkhir(localStorage.getItem('username'))
+        .then((d) => {
+          this.fetchData();
+        }).catch((e) => {
+          this.goToPage('sidang-akhir');
+        });
   },
   methods: {
     fetchData() {
