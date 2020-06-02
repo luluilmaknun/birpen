@@ -12,12 +12,13 @@
           class="btn unduh-item" :key="surat.nama"
           @click="goToPage(surat.link)">
           {{ surat.nama }}
+          {{ surat.link }}
         </button>
       </div>
 
       <div class="button-container">
         <button id="edit-data" class="btn btn-yellow"
-          @click="goToPage('/surat/sidang/')">
+          @click="goToPage('sidang-akhir')">
           Ubah Data
         </button>
 
@@ -31,7 +32,7 @@
 </template>
 
 <script>
-import karyaAkhirApi from '@/services/karyaAkhirService';
+import karyaAkhirApi from '@/services/karyaAkhirServices';
 
 export default {
   name: 'UnduhDokumenKaryaAkhir',
@@ -53,12 +54,16 @@ export default {
                   i,
                   d.data.surat_karya_akhir[i],
               );
+
+              const namaSurat =
+                this.surat_karya_akhir[i]['nama'].split(' ').join('-');
+              this.surat_karya_akhir[i]['link'] = namaSurat.toLowerCase();
             }
           }
       );
     },
-    goToPage(link) {
-      this.$router.push({path: link});
+    goToPage(name) {
+      this.$router.push({name: name});
     },
   },
 };

@@ -58,8 +58,8 @@ const router = new Router({
       },
     },
     {
-      path: '/surat/sidang/surat-karya-akhir-siap-uji/',
-      name: 'surat-karya-akhir-siap-uji',
+      path: '/surat/sidang/surat-keterangan-karya-akhir-siap-uji/',
+      name: 'surat-keterangan-karya-akhir-siap-uji',
       component: KaryaAkhirSiapUji,
       meta: {
         requiresAuth: true,
@@ -76,8 +76,8 @@ const router = new Router({
       },
     },
     {
-      path: '/surat/sidang/form-penunjukkan-dosen-pembimbing/',
-      name: 'form-penunjukkan-dosen-pembimbing',
+      path: '/surat/sidang/formulir-penunjukkan-dosen-pembimbing/',
+      name: 'formulir-penunjukkan-dosen-pembimbing',
       component: PenunjukkanDospem,
       meta: {
         requiresAuth: true,
@@ -95,7 +95,7 @@ const router = new Router({
     },
     {
       path: '/surat/sidang/surat-permohonan-ujian-karya-akhir-bersyarat/',
-      name: 'surat-permohonan-mengikuti-ujian-karya-akhir-bersyarat',
+      name: 'surat-permohonan-mengikuti-ujian-karya-akhir-bersyarat-(ukab)',
       component: PermohonanUjianBersyarat,
       meta: {
         requiresAuth: true,
