@@ -24,6 +24,18 @@
           </div>
           <h3>Dokumen Kelengkapan Sidang Karya Akhir</h3>
         </div>
+        <!--- KARYA AKHIR FORM COMPLETED -->
+        <div v-else-if="isFormCompleted" id="button_dokumen_sidang_akhir"
+          class="menu-item" @click="goToPage('/surat/sidang/unduh/')">
+          <div class="menu-image-container">
+            <vue-load-image>
+              <img slot="image" src="@/assets/images/sidang.png"
+               class="menu-icon" alt="Klik untuk menuju layanan sidang akhir" />
+              <img slot="preloader" src="@/assets/icons/loader.svg"/>
+            </vue-load-image>
+          </div>
+          <h3>Dokumen Kelengkapan Sidang Karya Akhir</h3>
+        </div>
         <!-- KARYA AKHIR NON ADMIN -->
         <div v-else id="button_dokumen_sidang_akhir"
           class="menu-item" @click="goToPage('/surat/sidang/')">
@@ -69,13 +81,25 @@
 
 <script>
 import VueLoadImage from 'vue-load-image';
+import karyaAkhirApi from '@/services/karyaAkhirServices';
 
 export default {
   name: 'MainMenuSurat',
   data: function() {
     return {
       isAdmin: localStorage.getItem('is_admin') === 'true',
+      isFormCompleted: false,
     };
+  },
+  created: function() {
+    karyaAkhirApi.readDataKaryaAkhir(localStorage.getItem('username'))
+        .then((d) => {
+          this.isFormCompleted = true;
+        }).catch((e) => {
+          if (e.response.status == 404) {
+            this.isFormCompleted = false;
+          }
+        });
   },
   methods: {
     goToPage(link) {

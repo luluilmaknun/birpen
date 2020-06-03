@@ -1,6 +1,6 @@
 <template>
   <div id="unduh-karya-akhir">
-    <div class='page-container'>
+    <div>
       <h2 class="title">
         Unduh Dokumen Kelengkapan
         <br>
@@ -708,7 +708,9 @@ export default {
           this.ipk = data['ipk'];
           this.fetchData();
         }).catch((e) => {
-          this.goToPage('sidang-akhir');
+          if (e.response.status == 404) {
+            this.isFormCompleted = false;
+          }
         });
   },
   methods: {
