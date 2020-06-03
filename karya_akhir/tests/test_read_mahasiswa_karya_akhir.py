@@ -32,7 +32,8 @@ class ReadMahasiswaKaryaAkhir(TestCase):
             pembimbing="Lulu Ilmaknun S.Ak",
             pembimbing_pendamping="Annida Safira S.Ak",
             judul_karya_id="Sebuah Judul",
-            judul_karya_en="A Title"
+            judul_karya_en="A Title",
+            ipk=3
         )
 
         self.user_admin = User.objects.create(username="admin")

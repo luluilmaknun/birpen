@@ -40,6 +40,7 @@ class DataKaryaAkhir(models.Model):
     pembimbing_pendamping = models.CharField(max_length=70, blank=True)
     judul_karya_id = models.TextField(null=False, blank=False)
     judul_karya_en = models.TextField(blank=True)
+    ipk = models.FloatField(null=False, blank=False)
 
     class Meta:
         verbose_name = 'data karya akhir'
