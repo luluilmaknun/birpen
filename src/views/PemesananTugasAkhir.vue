@@ -169,7 +169,7 @@ export default {
             this.peminatan_mahasiswa = data['peminatan_mahasiswa'];
             this.jenis_karya_akhir = data['jenis_karya_akhir'];
             this.sks_diperoleh = parseInt(data['sks_diperoleh']);
-            this.ipk = parseInt(data['ipk']);
+            this.ipk = parseFloat(data['ipk']);
             this.pembimbing = data['pembimbing'];
             this.pembimbing_pendamping = data['pembimbing_pendamping'];
             this.judul_karya_id = data['judul_karya_id'];
