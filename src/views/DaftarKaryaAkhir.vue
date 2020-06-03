@@ -71,9 +71,12 @@
         </tr>
       </table>
       <h2 class="errormsg"> {{ errormsg }} </h2>
+      <div v-if="isLoadKaryaAkhir || isLoadKaryaAkhirFilter">
+        <img src="@/assets/icons/loader.svg"/>
+      </div>
     </div>
     <!-- PAGINATION -->
-    <div class="pagination-section">
+    <div class="pagination-section" v-if="!isLoadKaryaAkhir">
       <div class="button-box-2">
         <button class="pagination-button"
         id="first-page-button" v-show="showFirst" v-on:click="this.toFirstPage">
@@ -131,6 +134,8 @@ export default {
       pagedList: [],
       renderPagedList: [],
       pageNumber: 1,
+      isLoadKaryaAkhir: false,
+      isLoadKaryaAkhirFilter: false,
     };
   },
   created: function() {
@@ -144,7 +149,9 @@ export default {
       });
     },
     fetchKaryaAkhir: function() {
+      this.isLoadKaryaAkhir = true;
       apiSidangAkhir.getKaryaAkhir().then((result) => {
+        this.isLoadKaryaAkhir = false;
         this.karyaAkhir = result.data.mahasiswa_karya_akhir;
         this.fetchPagination(this.karyaAkhir, this.pagedList);
         this.renderPagination(this.pageNumber, this.pagedList);
@@ -158,7 +165,9 @@ export default {
       this.pagedList = [];
       this.renderPagedList = [];
       this.pageNumber = 1;
+      this.isLoadKaryaAkhirFilter = true,
       apiSidangAkhir.filterMahasiswa(angkatan, prodi).then((result) => {
+        this.isLoadKaryaAkhirFilter = false;
         this.errormsg = '';
         if (result.data.detail != undefined) {
           this.errormsg = result.data.detail;
