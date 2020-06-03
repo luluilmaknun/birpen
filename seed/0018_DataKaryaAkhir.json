@@ -10,7 +10,8 @@
             "pembimbing": "Lulu Ilmaknun S.Ak.",
             "pembimbing_pendamping": "Annida Safira S.Ak.",
             "judul_karya_id": "Akuntansi dalam kehidupan sosial",
-            "judul_karya_en": "Accounting in social life"
+            "judul_karya_en": "Accounting in social life",
+            "ipk": 3
         }
     },
     {
@@ -24,7 +25,8 @@
             "pembimbing": "Lulu Ilmaknun S.Ak.",
             "pembimbing_pendamping": "Annida Safira S.Ak.",
             "judul_karya_id": "Akuntansi dalam bisnis",
-            "judul_karya_en": "Accounting in business"
+            "judul_karya_en": "Accounting in business",
+            "ipk": 3.5
         }
     },
     {
@@ -38,7 +40,8 @@
             "pembimbing": "Ahmad Fauzan S.E.",
             "pembimbing_pendamping": "Athallah Annafis S.E.",
             "judul_karya_id": "Ekonomi dalam bisnis",
-            "judul_karya_en": "Economy in business"
+            "judul_karya_en": "Economy in business",
+            "ipk": 3.7
         }
     },
     {
@@ -52,7 +55,8 @@
             "pembimbing": "Ahmad Fauzan S.E.",
             "pembimbing_pendamping": "Athallah Annafis S.E.",
             "judul_karya_id": "Ekonomi dalam kehidupan sosial",
-            "judul_karya_en": "Economy in social life"
+            "judul_karya_en": "Economy in social life",
+            "ipk": 3.8
         }
     }
 ]

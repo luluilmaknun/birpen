@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from .models import DataKaryaAkhir, SuratKaryaAkhir, ProgramStudi
+from .models import DataKaryaAkhir, SuratKaryaAkhir, ProgramStudi, JenisKaryaAkhir
 
 
 class JenisKaryaAkhirField(serializers.RelatedField):
@@ -22,7 +22,8 @@ class DataKaryaAkhirSerializer(serializers.ModelSerializer):
             'pembimbing',
             'pembimbing_pendamping',
             'judul_karya_id',
-            'judul_karya_en'
+            'judul_karya_en',
+            'ipk'
         ]
 
     def get_mahasiswa_data(self, data_karya_akhir):
@@ -63,4 +64,10 @@ class SuratKaryaAkhirSerializer(serializers.ModelSerializer):
 class ProgramStudiSerializer(serializers.ModelSerializer):
     class Meta:
         model = ProgramStudi
+        fields = ['nama']
+
+
+class JenisKaryaAkhirSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = JenisKaryaAkhir
         fields = ['nama']

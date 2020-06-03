@@ -32,7 +32,8 @@ class CreateDataKaryaAkhirTest(TestCase):
             pembimbing="Lulu Ilmaknun S.Ak",
             pembimbing_pendamping="Annida Safira S.Ak",
             judul_karya_id="Sebuah Judul",
-            judul_karya_en="A Title"
+            judul_karya_en="A Title",
+            ipk=3
         )
 
         self.user_mahasiswa_2 = User.objects.create(username="athallah.annafis")
@@ -68,7 +69,8 @@ class CreateDataKaryaAkhirTest(TestCase):
             "pembimbing": "Lulu Ilmaknun S.Ak",
             "pembimbing_pendamping": "Annida Safira S.Ak",
             "judul_karya_id": "Sebuah Judul",
-            "judul_karya_en": "A Title"
+            "judul_karya_en": "A Title",
+            "ipk": 3
         }
 
     def test_unauthorized_request_cant_read_data_karya_akhir(self):
