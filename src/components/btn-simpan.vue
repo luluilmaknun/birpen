@@ -83,7 +83,7 @@ export default {
     page-break-inside: avoid !important;
   }
 
-  @page 
+  @page
   {
       size: auto;   /* auto is the initial value */
       margin: 0mm;  /* this affects the margin in the printer settings */

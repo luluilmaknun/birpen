@@ -102,8 +102,11 @@
             </div>
           </div>
         </div>
-        <div class="border margin-top-50">
-          <div v-if="pembimbing_pendamping != null && pembimbing_pendamping.length > 0" class="pdf-viewer break-before" id="pdf-viewer">
+        <div class="border margin-top-50"
+          v-if="pembimbing_pendamping != null
+          && pembimbing_pendamping.length > 1">
+          <div
+            class="pdf-viewer break-before" id="pdf-viewer">
             <div class="row">
               <div class="title-container">
                 <h1>FORMULIR</h1>
@@ -201,7 +204,7 @@
               </div>
             </div>
           </div>
-        </div> 
+        </div>
       </div><!-- End of display -->
       <div id="print" class="display-none"> <!-- Start of print -->
         <div class="pdf-viewer break-before" id="pdf-viewer">
@@ -302,7 +305,9 @@
             </div>
           </div>
         </div>
-        <div v-if="pembimbing_pendamping != null && pembimbing_pendamping.length > 0" class="pdf-viewer break-before" id="pdf-viewer">
+        <div v-if="pembimbing_pendamping != null
+        && pembimbing_pendamping.length > 0"
+          class="pdf-viewer break-before" id="pdf-viewer">
           <div class="row">
             <div class="title-container">
               <h1>FORMULIR</h1>
@@ -419,52 +424,54 @@ export default {
   components: {BackBtn, SaveBtn},
   data: function() {
     return {
-      nama: "",
-      npm: "",
-      program_studi: "",
-      peminatan_mahasiswa: "",
-      jenis_karya_akhir: "",
-      sks_diperoleh: "",
-      pembimbing: "",
-      pembimbing_pendamping: "",
-      judul_karya_id: "",
-      judul_karya_en: "",
-      tanggal: "",
+      nama: '',
+      npm: '',
+      program_studi: '',
+      peminatan_mahasiswa: '',
+      jenis_karya_akhir: '',
+      sks_diperoleh: '',
+      pembimbing: '',
+      pembimbing_pendamping: '',
+      judul_karya_id: '',
+      judul_karya_en: '',
+      tanggal: '',
     };
   },
   methods: {
-    translateMonth(number){
-      let  month = "";
+    translateMonth(number) {
+      let month = '';
       if (number == 1) {
-        month = "Januari"
+        month = 'Januari';
       } else if (number == 2) {
-        month = "Februari"
+        month = 'Februari';
       } else if (number == 3) {
-        month = "Maret"
+        month = 'Maret';
       } else if (number == 4) {
-        month = "April"
+        month = 'April';
       } else if (number == 5) {
-        month = "Mei"
+        month = 'Mei';
       } else if (number == 6) {
-        month = "Juni"
+        month = 'Juni';
       } else if (number == 7) {
-        month = "Juli"
+        month = 'Juli';
       } else if (number == 8) {
-        month = "Agustus"
+        month = 'Agustus';
       } else if (number == 9) {
-        month = "September"
+        month = 'September';
       } else if (number == 10) {
-        month = "Oktober"
+        month = 'Oktober';
       } else if (number == 11) {
-        month = "November"
+        month = 'November';
       } else if (number == 12) {
-        month = "Desember"
+        month = 'Desember';
       }
       return month;
     },
     fetchData() {
-      var today = new Date();
-      this.date = today.getDate() + ' ' + this.translateMonth(today.getMonth()+1) + ' ' + today.getFullYear();
+      const today = new Date();
+      this.date = today.getDate() + ' '
+                  + this.translateMonth(today.getMonth()+1)
+                  + ' ' + today.getFullYear();
 
       karyaAkhirApi.readDataKaryaAkhir(localStorage.getItem('username'))
           .then((d) => {
@@ -477,7 +484,7 @@ export default {
             this.pembimbing_pendamping = data['pembimbing_pendamping'];
             this.judul_karya_id = data['judul_karya_id'];
             this.judul_karya_en = data['judul_karya_en'];
-          })
+          });
 
       karyaAkhirApi.getMahasiswaProfile().then((d) => {
         const data = d.data['mahasiswa'];
@@ -488,7 +495,7 @@ export default {
       });
     },
   },
-  created: function(){
+  created: function() {
     this.fetchData();
   },
 };

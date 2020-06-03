@@ -211,7 +211,8 @@
         <div class='row'>
           Mengajukan permohonan dosen pembimbing untuk penulisan karya akhir
           yang akan saya buat dalam rangka penyelesaian studi saya di FEB UI.
-          Adapun Karya Akhir yang akan saya buat adalah {{ jenis_karya_akhir.toLowerCase() }}
+          Adapun Karya Akhir yang akan saya buat adalah
+          {{ jenis_karya_akhir.toLowerCase() }}
         </div>
         <div class='row'>
           Dengan judul topik:
@@ -288,9 +289,9 @@
         <div class='row align-justify'>
           Dengan ini menyatakan dengan sebenar-benarnya bahwa Karya
           Akhir yang telah saya buat telah dinyatakan <b>LAYAK UJI</b>
-          oleh Pembimbing saya. Sehubungan dengan hal tersebut, dengan 
-          ini saya mengajukan permohonan ijin untuk melaksanakan ujian 
-          mata kuliah Karya Akhir terlebih dahulu sebelum keluarnya 
+          oleh Pembimbing saya. Sehubungan dengan hal tersebut, dengan
+          ini saya mengajukan permohonan ijin untuk melaksanakan ujian
+          mata kuliah Karya Akhir terlebih dahulu sebelum keluarnya
           nilai dari mata kuliah berikut ini:<br/>
           <img id="table-ukab" src="@/assets/images/table-ukab.png">
         </div>
@@ -303,8 +304,10 @@
             1.
           </div>
           <div class='col-9-3 align-justify'>
-            <b>Bukan merupakan ujian kelulusan studi saya</b>, dan hanya merupakan
-            ujian untuk mendapatkan nilai dari mata kuliah Karya Akhir.
+            <b>Bukan merupakan ujian kelulusan
+            studi saya</b>, dan hanya merupakan
+            ujian untuk mendapatkan nilai dari mata
+            kuliah Karya Akhir.
           </div>
         </div>
         <div class='row-without-margin align-justify'>
@@ -312,8 +315,10 @@
             2.
           </div>
           <div class='col-9-3 align-justify'>
-            Nilai dari mata kuliah Karya Akhir ini akan saya terima apabila saya
-            telah menyerahkan semua perbaikan/revisi Karya Akhir yang diminta oleh
+            Nilai dari mata kuliah Karya Akhir ini akan
+            saya terima apabila saya
+            telah menyerahkan semua perbaikan/revisi
+            Karya Akhir yang diminta oleh
             Tim Penguji secara tepat waktu.
           </div>
         </div>
@@ -322,10 +327,13 @@
             3.
           </div>
           <div class='col-9-3 align-justify'>
-            Apabila terdapat mata kuliah tersebut diatas yang tidak lulus, maka saya
+            Apabila terdapat mata kuliah tersebut diatas
+            yang tidak lulus, maka saya
             <b>berkewajiban untuk mengulangnya hingga lulus</b>
-            di semester berikutnya, dan <b>saya tidak akan meminta dispensasi
-            perbaikan nilai</b> atas mata kuliah yang tidak lulus tersebut
+            di semester berikutnya, dan
+            <b>saya tidak akan meminta dispensasi
+            perbaikan nilai</b>
+            atas mata kuliah yang tidak lulus tersebut
             dalam bentuk apapun.
           </div>
         </div>
@@ -452,7 +460,9 @@
           </div>
         </div>
       </div>
-      <div v-if="pembimbing_pendamping != null && pembimbing_pendamping.length > 0" class="pdf-viewer break-before" id="pdf-viewer">
+      <div v-if="pembimbing_pendamping != null
+      && pembimbing_pendamping.length > 0"
+      class="pdf-viewer break-before" id="pdf-viewer">
         <div class="row">
           <div class="title-container">
             <h1>FORMULIR</h1>
@@ -623,13 +633,15 @@
           baik judul maupun isinya.
         </div>
         <div class='row align-justify'>
-          Sesuai tanda bukti pernyataan saya, bersama ini saya lampirkan daftar 
-          Karya Akhir yang pernah ditulis sebelumnya yang berhubungan dengan Karya 
-          Akhir saya. Data Karya Akhir ini adalah hasil kompilasi saya dari 
+          Sesuai tanda bukti pernyataan saya,
+          bersama ini saya lampirkan daftar
+          Karya Akhir yang pernah ditulis
+          sebelumnya yang berhubungan dengan Karya
+          Akhir saya. Data Karya Akhir ini adalah hasil kompilasi saya dari
           Perpustakaan Fakultas Ekonomi dan Bisnis Universitas Indonesia.
         </div>
         <div class='row align-justify'>
-          Surat pernyataan ini saya buat dengan jujur dan 
+          Surat pernyataan ini saya buat dengan jujur dan
           dengan segala konsekuensinya.
         </div>
         <div class='row align-right padding-top-30'>
@@ -652,17 +664,17 @@ export default {
   data() {
     return {
       surat_karya_akhir: [],
-      nama: "",
-      npm: "",
-      program_studi: "",
-      peminatan_mahasiswa: "",
-      jenis_karya_akhir: "",
-      sks_diperoleh: "",
-      pembimbing: "",
-      pembimbing_pendamping: "",
-      judul_karya_id: "",
-      judul_karya_en: "",
-      tanggal: "",
+      nama: '',
+      npm: '',
+      program_studi: '',
+      peminatan_mahasiswa: '',
+      jenis_karya_akhir: '',
+      sks_diperoleh: '',
+      pembimbing: '',
+      pembimbing_pendamping: '',
+      judul_karya_id: '',
+      judul_karya_en: '',
+      tanggal: '',
     };
   },
   created() {
@@ -674,8 +686,11 @@ export default {
       this.program_studi = data['program_studi'];
     });
 
-    var today = new Date();
-    this.date = today.getDate() + ' ' + this.translateMonth(today.getMonth()+1) + ' ' + today.getFullYear();
+    const today = new Date();
+    this.date = today.getDate()
+                + ' '
+                + this.translateMonth(today.getMonth()+1)
+                + ' ' + today.getFullYear();
 
     karyaAkhirApi.readDataKaryaAkhir(localStorage.getItem('username'))
         .then((d) => {
@@ -711,32 +726,32 @@ export default {
           }
       );
     },
-    translateMonth(number){
-      let  month = "";
+    translateMonth(number) {
+      let month = '';
       if (number == 1) {
-        month = "Januari"
+        month = 'Januari';
       } else if (number == 2) {
-        month = "Februari"
+        month = 'Februari';
       } else if (number == 3) {
-        month = "Maret"
+        month = 'Maret';
       } else if (number == 4) {
-        month = "April"
+        month = 'April';
       } else if (number == 5) {
-        month = "Mei"
+        month = 'Mei';
       } else if (number == 6) {
-        month = "Juni"
+        month = 'Juni';
       } else if (number == 7) {
-        month = "Juli"
+        month = 'Juli';
       } else if (number == 8) {
-        month = "Agustus"
+        month = 'Agustus';
       } else if (number == 9) {
-        month = "September"
+        month = 'September';
       } else if (number == 10) {
-        month = "Oktober"
+        month = 'Oktober';
       } else if (number == 11) {
-        month = "November"
+        month = 'November';
       } else if (number == 12) {
-        month = "Desember"
+        month = 'Desember';
       }
       return month;
     },
@@ -996,7 +1011,7 @@ h1 {
     page-break-inside: avoid !important;
   }
 
-  @page 
+  @page
   {
       size: auto;   /* auto is the initial value */
       margin: 0mm;  /* this affects the margin in the printer settings */
