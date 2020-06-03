@@ -28,6 +28,12 @@ def karya_akhir_placeholder_views(_):
 @api_view(["PUT"])
 @permission_classes([IsAuthenticated, IsPrivilegedToEditDataKaryaAkhir])
 def edit_data_karya_akhir(request):
+    if float(request.data.get('ipk')) > 4 or float(request.data.get('ipk')) < 0:
+        return Response({
+            "success": False,
+            "detail": "IPK tidak dalam rentang seharusnya",
+        }, status=HTTP_400_BAD_REQUEST)
+
     try:
         data_karya_akhir = request.user.data_karya_akhir
         data_karya_akhir.peminatan_mahasiswa = request.data.get('peminatan_mahasiswa')
@@ -117,6 +123,12 @@ def create_data_karya_akhir(request):
         return Response({
             "success": False,
             "detail": "User sudah memiliki data karya akhir",
+        }, status=HTTP_400_BAD_REQUEST)
+
+    if float(request.data.get('ipk')) > 4 or float(request.data.get('ipk')) < 0:
+        return Response({
+            "success": False,
+            "detail": "IPK tidak dalam rentang seharusnya",
         }, status=HTTP_400_BAD_REQUEST)
 
     data_karya_akhir = DataKaryaAkhir()

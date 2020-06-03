@@ -103,8 +103,8 @@
 
       <br>
       <span style="text-align:center;color:red"
-        v-if="message_seen">
-        {{ message }}
+        v-if="error_message_seen">
+        {{ error_message }}
       </span>
       <button type="submit">
         Simpan
