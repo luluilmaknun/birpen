@@ -2,7 +2,6 @@ from django.core.exceptions import ObjectDoesNotExist, FieldError
 from django.core.validators import ValidationError
 from django.db.utils import IntegrityError, DataError
 from django.views.decorators.csrf import csrf_exempt
-
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
@@ -44,7 +43,6 @@ def read_status_bayar(request):
 @api_view(["PATCH"])
 @permission_classes((IsAuthenticated, IsPrivilegedToUpdateAcademicLetterStatus))
 def update_status_bayar(request, id_pesanan):
-
     try:
         pesanan = Pesanan.objects.get(pk=id_pesanan)
         status_bayar = StatusBayar.objects.get(nama=request.data.get("status_bayar"))

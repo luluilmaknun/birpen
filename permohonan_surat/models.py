@@ -10,6 +10,9 @@ DEFAULT_STATUS_SURAT = 1
 class StatusBayar(models.Model):
     nama = models.CharField(max_length=64, null=False, blank=False, unique=True)
 
+    def __str__(self):
+        return self.nama
+
     class Meta:
         verbose_name = 'status bayar'
         verbose_name_plural = verbose_name
@@ -17,6 +20,9 @@ class StatusBayar(models.Model):
 
 class StatusSurat(models.Model):
     nama = models.CharField(max_length=64, null=False, blank=False, unique=True)
+
+    def __str__(self):
+        return self.nama
 
     class Meta:
         verbose_name = 'status surat'
@@ -27,6 +33,9 @@ class SuratAkademik(models.Model):
     jenis_dokumen = models.CharField(max_length=64, null=False, blank=False, unique=True)
     harga_mahasiswa = models.PositiveIntegerField(null=False, blank=False, default=0)
     harga_alumni = models.PositiveIntegerField(null=False, blank=False, default=0)
+
+    def __str__(self):
+        return self.jenis_dokumen
 
     class Meta:
         verbose_name = 'surat akademik'
@@ -45,6 +54,9 @@ class Pesanan(models.Model):
     waktu_pemesanan = models.DateTimeField(auto_now_add=True)
     status_bayar = models.ForeignKey(StatusBayar, on_delete=models.CASCADE,
                                      default=DEFAULT_STATUS_BAYAR)
+
+    def __str__(self):
+        return self.npm_pemesan
 
     class Meta:
         verbose_name = 'pesanan'
