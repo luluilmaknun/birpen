@@ -157,6 +157,7 @@ export default {
   flex-direction: column;
   align-items: center;
   margin-top: 30px;
+  margin-bottom: 30px;
 }
 .table-tracking-div table {
   border-radius: 1em;
