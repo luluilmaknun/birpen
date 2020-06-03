@@ -23,6 +23,9 @@ class MataKuliah(SafeDeleteModel):
     _safedelete_policy = SOFT_DELETE_CASCADE
     nama = models.CharField(max_length=32)
 
+    def __str__(self):
+        return self.nama
+
     class Meta:
         verbose_name = 'mata kuliah'
         verbose_name_plural = verbose_name
@@ -32,6 +35,9 @@ class JenisPengumuman(SafeDeleteModel):
     _safedelete_policy = SOFT_DELETE_CASCADE
     nama = models.CharField(max_length=32)
 
+    def __str__(self):
+        return self.nama
+
     class Meta:
         verbose_name = 'jenis pengumuman'
         verbose_name_plural = verbose_name
@@ -39,6 +45,9 @@ class JenisPengumuman(SafeDeleteModel):
 class Ruang(SafeDeleteModel):
     _safedelete_policy = SOFT_DELETE_CASCADE
     nama = models.CharField(max_length=32)
+
+    def __str__(self):
+        return self.nama
 
     class Meta:
         verbose_name = 'ruang'
@@ -49,6 +58,9 @@ class Sesi(SafeDeleteModel):
     _safedelete_policy = SOFT_DELETE_CASCADE
     nama = models.CharField(max_length=32)
 
+    def __str__(self):
+        return self.nama
+
     class Meta:
         verbose_name = 'sesi'
         verbose_name_plural = verbose_name
@@ -57,6 +69,9 @@ class Sesi(SafeDeleteModel):
 class StatusPengumuman(SafeDeleteModel):
     _safedelete_policy = SOFT_DELETE_CASCADE
     nama = models.CharField(max_length=32)
+
+    def __str__(self):
+        return self.nama
 
     class Meta:
         verbose_name = 'status pengumuman'

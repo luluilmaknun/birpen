@@ -4,7 +4,6 @@ from .views import permohonan_surat_placeholder_views, create_pesanan_surat_akad
     read_pesanan, read_pesanan_detail, update_status_surat, update_status_bayar, \
     read_status_bayar, get_status_surat, get_mahasiswa_profile, read_surat_akademik
 
-
 urlpatterns = [
     path('', permohonan_surat_placeholder_views, name='permohonan_surat_placeholder_views'),
     path('status-bayar/', read_status_bayar, name='read_status_bayar'),
