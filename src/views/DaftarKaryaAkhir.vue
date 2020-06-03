@@ -11,7 +11,8 @@
         <input placeholder="Tulis nama angkatan"
         class="filter-element" id="angkatan-input" v-model="namaAngkatan"/>
         <select class="filter-element" id="studi-choices" v-model="chosenStudi">
-          <option :value="''">Semua</option>
+          <option selected disabled>-- Pilih Program Studi --</option>
+          <option :value="''">Semua Program Studi</option>
           <option v-for="studi in programStudi"
           :key="studi.nama"
           :value="studi.nama">
