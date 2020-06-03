@@ -28,6 +28,12 @@ def karya_akhir_placeholder_views(_):
 @api_view(["PUT"])
 @permission_classes([IsAuthenticated, IsPrivilegedToEditDataKaryaAkhir])
 def edit_data_karya_akhir(request):
+    if float(request.data.get('ipk')) > 4 or float(request.data.get('ipk')) < 0:
+        return Response({
+            "success": False,
+            "detail": "IPK tidak dalam rentang seharusnya",
+        }, status=HTTP_400_BAD_REQUEST)
+
     try:
         data_karya_akhir = request.user.data_karya_akhir
         data_karya_akhir.peminatan_mahasiswa = request.data.get('peminatan_mahasiswa')
@@ -38,6 +44,7 @@ def edit_data_karya_akhir(request):
         data_karya_akhir.pembimbing_pendamping = request.data.get('pembimbing_pendamping')
         data_karya_akhir.judul_karya_id = request.data.get('judul_karya_id')
         data_karya_akhir.judul_karya_en = request.data.get('judul_karya_en')
+        data_karya_akhir.ipk = request.data.get('ipk')
         data_karya_akhir.save()
 
     except DataKaryaAkhir.DoesNotExist:
@@ -118,6 +125,12 @@ def create_data_karya_akhir(request):
             "detail": "User sudah memiliki data karya akhir",
         }, status=HTTP_400_BAD_REQUEST)
 
+    if float(request.data.get('ipk')) > 4 or float(request.data.get('ipk')) < 0:
+        return Response({
+            "success": False,
+            "detail": "IPK tidak dalam rentang seharusnya",
+        }, status=HTTP_400_BAD_REQUEST)
+
     data_karya_akhir = DataKaryaAkhir()
 
     data_karya_akhir.mahasiswa = request.user
@@ -130,6 +143,7 @@ def create_data_karya_akhir(request):
         data_karya_akhir.pembimbing_pendamping = request.data.get('pembimbing_pendamping')
         data_karya_akhir.judul_karya_id = request.data.get('judul_karya_id')
         data_karya_akhir.judul_karya_en = request.data.get('judul_karya_en')
+        data_karya_akhir.ipk = request.data.get('ipk')
         data_karya_akhir.save()
 
     except (ObjectDoesNotExist, IntegrityError, DataError, ValueError):

@@ -22,7 +22,8 @@ class DataKaryaAkhirTest(TestCase):
             pembimbing="Ahmad Fauzan S.Ak",
             pembimbing_pendamping="Yusuf Tri S.Ak",
             judul_karya_id="Sebuah Karya",
-            judul_karya_en="A Masterpiece"
+            judul_karya_en="A Masterpiece",
+            ipk=3
         )
 
         count = DataKaryaAkhir.objects.all().count()
@@ -38,7 +39,8 @@ class DataKaryaAkhirTest(TestCase):
                 pembimbing="Ahmad Fauzan S.Ak",
                 pembimbing_pendamping="Yusuf Tri S.Ak",
                 judul_karya_id="Sebuah Karya",
-                judul_karya_en="A Masterpiece"
+                judul_karya_en="A Masterpiece",
+                ipk=3
             )
 
     def test_model_not_create_without_sks_diperoleh(self):
@@ -51,7 +53,8 @@ class DataKaryaAkhirTest(TestCase):
                 pembimbing="Ahmad Fauzan S.Ak",
                 pembimbing_pendamping="Yusuf Tri S.Ak",
                 judul_karya_id="Sebuah Karya",
-                judul_karya_en="A Masterpiece"
+                judul_karya_en="A Masterpiece",
+                ipk=3
             )
 
     def test_model_not_create_without_pembimbing(self):
@@ -64,7 +67,8 @@ class DataKaryaAkhirTest(TestCase):
                 pembimbing=None,
                 pembimbing_pendamping="Yusuf Tri S.Ak",
                 judul_karya_id="Sebuah Karya",
-                judul_karya_en="A Masterpiece"
+                judul_karya_en="A Masterpiece",
+                ipk=3
             )
 
     def test_model_not_create_without_judul_karya_id(self):
@@ -77,7 +81,8 @@ class DataKaryaAkhirTest(TestCase):
                 pembimbing="Ahmad Fauzan S.Ak",
                 pembimbing_pendamping="Yusuf Tri S.Ak",
                 judul_karya_id=None,
-                judul_karya_en="A Masterpiece"
+                judul_karya_en="A Masterpiece",
+                ipk=3
             )
 
     def test_data_karya_akhir_one_to_one_user(self):
@@ -90,7 +95,8 @@ class DataKaryaAkhirTest(TestCase):
             pembimbing="Ahmad Fauzan S.Ak",
             pembimbing_pendamping="Yusuf Tri S.Ak",
             judul_karya_id="Sebuah Karya",
-            judul_karya_en="A Masterpiece"
+            judul_karya_en="A Masterpiece",
+            ipk=3
         )
 
         with self.assertRaises(IntegrityError):
@@ -102,5 +108,6 @@ class DataKaryaAkhirTest(TestCase):
                 pembimbing="Ahmad Fauzan S.Ak",
                 pembimbing_pendamping="Yusuf Tri S.Ak",
                 judul_karya_id="Sebuah Karya",
-                judul_karya_en="A Masterpiece"
+                judul_karya_en="A Masterpiece",
+                ipk=3
             )

@@ -41,7 +41,8 @@ class CreateDataKaryaAkhirTest(TestCase):
             "pembimbing": "Ahmad Fauzan S.Ak",
             "pembimbing_pendamping": "Yusuf Tri S.Ak",
             "judul_karya_id": "Sebuah Karya",
-            "judul_karya_en": "A Masterpiece"
+            "judul_karya_en": "A Masterpiece",
+            "ipk": 3.9
         }
 
     def test_unauthorized_request_cant_create_data_karya_akhir(self):
@@ -68,7 +69,8 @@ class CreateDataKaryaAkhirTest(TestCase):
             "pembimbing": "Ahmad Fauzan S.Ak",
             "pembimbing_pendamping": "Yusuf Tri S.Ak",
             "judul_karya_id": "Sebuah Karya",
-            "judul_karya_en": "A Masterpiece"
+            "judul_karya_en": "A Masterpiece",
+            "ipk": 3.4
         }
 
         self.client.credentials(HTTP_AUTHORIZATION="Bearer " + self.token_mahasiswa)
@@ -84,7 +86,8 @@ class CreateDataKaryaAkhirTest(TestCase):
             "pembimbing": "Ahmad Fauzan S.Ak",
             "pembimbing_pendamping": "Yusuf Tri S.Ak",
             "judul_karya_id": "Sebuah Karya",
-            "judul_karya_en": "A Masterpiece"
+            "judul_karya_en": "A Masterpiece",
+            "ipk": 3.4
         }
 
         self.client.credentials(HTTP_AUTHORIZATION="Bearer " + self.token_mahasiswa)
@@ -100,7 +103,8 @@ class CreateDataKaryaAkhirTest(TestCase):
             "pembimbing": "Ahmad Fauzan S.Ak",
             "pembimbing_pendamping": "Yusuf Tri S.Ak",
             "judul_karya_id": "Sebuah Karya",
-            "judul_karya_en": "A Masterpiece"
+            "judul_karya_en": "A Masterpiece",
+            "ipk": 3.4
         }
 
         self.client.credentials(HTTP_AUTHORIZATION="Bearer " + self.token_mahasiswa)
@@ -116,7 +120,8 @@ class CreateDataKaryaAkhirTest(TestCase):
             "pembimbing": "Ahmad Fauzan S.Ak",
             "pembimbing_pendamping": "Yusuf Tri S.Ak",
             "judul_karya_id": "Sebuah Karya",
-            "judul_karya_en": "A Masterpiece"
+            "judul_karya_en": "A Masterpiece",
+            "ipk": 3.4
         }
 
         self.client.credentials(HTTP_AUTHORIZATION="Bearer " + self.token_mahasiswa)
@@ -132,7 +137,8 @@ class CreateDataKaryaAkhirTest(TestCase):
             "pembimbing": "Ahmad Fauzan S.Ak",
             "pembimbing_pendamping": "Yusuf Tri S.Ak",
             "judul_karya_id": "Sebuah Karya",
-            "judul_karya_en": "A Masterpiece"
+            "judul_karya_en": "A Masterpiece",
+            "ipk": 3.4
         }
 
         self.client.credentials(HTTP_AUTHORIZATION="Bearer " + self.token_mahasiswa)

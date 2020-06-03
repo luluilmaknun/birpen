@@ -22,7 +22,8 @@ class DataKaryaAkhirSerializer(serializers.ModelSerializer):
             'pembimbing',
             'pembimbing_pendamping',
             'judul_karya_id',
-            'judul_karya_en'
+            'judul_karya_en',
+            'ipk'
         ]
 
     def get_mahasiswa_data(self, data_karya_akhir):
