@@ -34,9 +34,15 @@ describe('Cek komponen tabel', () => {
 
 describe('test button pagination', () => {
   const wrapper = shallowMount(TrackingPesanan);
+  wrapper.setData({
+    isFetchTrackingPesanan: false,
+  });
 
   it('test untuk button increamant', () => {
     const nextButton = wrapper.find('#next-button');
+    wrapper.setData({
+      isFetchTrackingPesanan: false,
+    });
     expect(nextButton.exists()).toBe(true);
     nextButton.trigger('click');
   });
@@ -136,6 +142,10 @@ describe('first and last button pagination function test', () => {
 
 describe('test next prev button visibility', () => {
   const wrapper = shallowMount(TrackingPesanan);
+  wrapper.setData({
+    isFetchTrackingPesanan: false,
+  });
+
   const vm = wrapper.vm;
   let pagedList; let pageNumber;
   let nextButton; let prevButton;

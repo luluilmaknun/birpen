@@ -1,5 +1,9 @@
 <template>
-  <div id="pemesanan-tugas-akhir" class="page-container">
+  <div v-if="isFetchJenisKaryaAkhir ||
+    isGetMahasiswaProfile || isReadDataKaryaAkhir">
+    <img src="@/assets/icons/loader.svg"/>
+  </div>
+  <div v-else id="pemesanan-tugas-akhir" class="page-container">
     <h2 class="title" style="color: black">
       Dokumen Kelengkapan<br>Sidang Akhir
     </h2>
@@ -136,6 +140,9 @@ export default {
       response: {},
       error_message: '',
       error_message_seen: false,
+      isFetchJenisKaryaAkhir: false,
+      isGetMahasiswaProfile: false,
+      isReadDataKaryaAkhir: false,
     };
   },
   created: function() {
@@ -143,24 +150,30 @@ export default {
   },
   methods: {
     fetchData: function() {
+      this.isFetchJenisKaryaAkhir = true;
       karyaAkhirApi.fetchJenisKaryaAkhir().then((d) => {
         this.response = d.data;
 
         this.setData(this.daftar_jenis_karya_akhir,
             this.response.jenis_karya_akhir);
+        this.isFetchJenisKaryaAkhir = false;
       }).catch((e) => {
         this.error_message = 'Ada kesalahan pada database jenis karya akhir';
         this.error_message_seen = true;
+        this.isFetchJenisKaryaAkhir = false;
       });
 
+      this.isGetMahasiswaProfile = true;
       karyaAkhirApi.getMahasiswaProfile().then((d) => {
         const data = d.data['mahasiswa'];
 
         this.nama = data['nama'];
         this.npm = data['npm'];
         this.program_studi = data['program_studi'];
+        this.isGetMahasiswaProfile = false;
       });
 
+      this.isReadDataKaryaAkhir = true;
       karyaAkhirApi.readDataKaryaAkhir(localStorage.getItem('username'))
           .then((d) => {
             const data = d.data['data_karya_akhir'];
@@ -174,8 +187,10 @@ export default {
             this.pembimbing_pendamping = data['pembimbing_pendamping'];
             this.judul_karya_id = data['judul_karya_id'];
             this.judul_karya_en = data['judul_karya_en'];
+            this.isReadDataKaryaAkhir = false;
           }).catch((e) => {
             this.edit_flag = false;
+            this.isReadDataKaryaAkhir = false;
           });
     },
     setData: function(target, source) {

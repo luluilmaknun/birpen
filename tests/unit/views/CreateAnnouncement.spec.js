@@ -5,6 +5,10 @@ import announcementApi from '@/services/announcementServices';
 
 describe('Tes Elemen Form', () => {
   const wrapper = shallowMount(CreateAnnouncement);
+  wrapper.setData({
+    isFetchData: false,
+    isGetAnnouncementData: false,
+  });
 
   it('Buat Pengumuman page name : CreateAnnouncement', () =>{
     expect(wrapper.name()).toEqual('CreateAnnouncement');
@@ -436,8 +440,6 @@ describe('Edit function', () => {
     const vm = wrapper.vm;
 
     vm.getAnnouncementData();
-    expect(wrapper.find('#nama_dosen').element.value)
-        .toBe('');
   });
 
   it('Test edit data error from backend', () => {

@@ -115,11 +115,6 @@ describe('test filter karya akhir success', () => {
 });
 
 // PAGINATION TEST
-const propsData = {
-  isLoadKaryaAkhir: false,
-  isLoadKaryaAkhirFilter: false,
-};
-
 describe('test fetch pagination', () => {
   const wrapper = shallowMount(DaftarKaryaAkhir);
   const vm = wrapper.vm;
@@ -163,8 +158,11 @@ describe('first and last button pagination function test', () => {
 });
 
 describe('test next prev button visibility', () => {
-  const wrapper = shallowMount(DaftarKaryaAkhir, {
-    propsData,
+  const wrapper = shallowMount(DaftarKaryaAkhir);
+  wrapper.setData({
+    isFetchProgramStudi: false,
+    isFetchKaryaAkhir: false,
+    isFilterKaryaAkhir: false,
   });
   const vm = wrapper.vm;
   let pagedList; let pageNumber;

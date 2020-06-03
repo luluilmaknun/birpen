@@ -1,5 +1,8 @@
 <template>
-  <div id="app" class="home-surat">
+  <div v-if="isReadDataKaryaAkhir">
+    <img src="@/assets/icons/loader.svg"/>
+  </div>
+  <div v-else id="app" class="home-surat">
     <h2 class="title-home">
       Selamat Datang di
       <br>
@@ -90,16 +93,20 @@ export default {
       isAdmin: localStorage.getItem('is_admin') === 'true',
       isAlumni: localStorage.getItem('role') === 'alumni',
       isFormCompleted: false,
+      isReadDataKaryaAkhir: false,
     };
   },
   created: function() {
+    this.isReadDataKaryaAkhir = true;
     karyaAkhirApi.readDataKaryaAkhir(localStorage.getItem('username'))
         .then((d) => {
           this.isFormCompleted = true;
+          this.isReadDataKaryaAkhir = false;
         }).catch((e) => {
           if (e.response.status == 404) {
             this.isFormCompleted = false;
           }
+          this.isReadDataKaryaAkhir = false;
         });
   },
   methods: {
@@ -107,7 +114,6 @@ export default {
       this.$router.push({path: link});
     },
   },
-
   components: {
     'vue-load-image': VueLoadImage,
   },

@@ -1,5 +1,8 @@
 <template>
-  <div class="PengajuanDospem">
+  <div v-if="isGetMahasiswaProfile || isReadDataKaryaAkhir">
+    <img src="@/assets/icons/loader.svg"/>
+  </div>
+  <div v-else class="PengajuanDospem">
     <div class="container">
       <div class="border">
         <div id="print">
@@ -141,6 +144,8 @@ export default {
       judul_karya_en: '',
       tanggal: '',
       ipk: '',
+      isGetMahasiswaProfile: false,
+      isReadDataKaryaAkhir: false,
     };
   },
   methods: {
@@ -179,6 +184,7 @@ export default {
                   + this.translateMonth(today.getMonth()+1)
                   + ' ' + today.getFullYear();
 
+      this.isReadDataKaryaAkhir = true;
       karyaAkhirApi.readDataKaryaAkhir(localStorage.getItem('username'))
           .then((d) => {
             const data = d.data['data_karya_akhir'];
@@ -191,14 +197,17 @@ export default {
             this.judul_karya_id = data['judul_karya_id'];
             this.judul_karya_en = data['judul_karya_en'];
             this.ipk = data['ipk'];
+            this.isReadDataKaryaAkhir = false;
           });
 
+      this.isGetMahasiswaProfile = true;
       karyaAkhirApi.getMahasiswaProfile().then((d) => {
         const data = d.data['mahasiswa'];
 
         this.nama = data['nama'];
         this.npm = data['npm'];
         this.program_studi = data['program_studi'];
+        this.isGetMahasiswaProfile = false;
       });
     },
   },

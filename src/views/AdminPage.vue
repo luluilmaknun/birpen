@@ -1,5 +1,8 @@
 <template>
-  <div>
+  <div v-if="isFetchAdmin">
+    <img src="@/assets/icons/loader.svg"/>
+  </div>
+  <div v-else>
     <h1 class="title-admin">
       Daftar Admin
     </h1>
@@ -27,11 +30,6 @@
           </td>
         </tr>
       </table>
-
-      <div v-if="isLoadAdminTable">
-        <img src="@/assets/icons/loader.svg"/>
-      </div>
-
     </div>
   </div>
 </template>
@@ -54,7 +52,7 @@ export default {
       ],
       response: {},
       listAdmin: [],
-      isLoadAdminTable: false,
+      isFetchAdmin: false,
     };
   },
   created() {
@@ -62,14 +60,13 @@ export default {
   },
   methods: {
     fetchAdmin() {
-      this.isLoadAdminTable = true;
+      this.isFetchAdmin = true;
       adminApi.fetchAdmin().then((d) => {
-        this.isLoadAdminTable = false;
         this.response = d.data;
-
         for (let i = 0; i < this.response.admin.length; i++) {
           this.$set(this.listAdmin, i, this.response.admin[i]);
         }
+        this.isFetchAdmin = false;
       });
     },
   },

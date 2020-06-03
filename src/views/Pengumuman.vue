@@ -1,5 +1,8 @@
 <template>
-  <div>
+  <div v-if="isFetchPengumuman || isFetchFilteredPengumuman">
+    <img src="@/assets/icons/loader.svg"/>
+  </div>
+  <div v-else>
     <modal
     name="detail-modal"
     :pivotX="0.0"
@@ -131,10 +134,7 @@
             <td/>
           </tr>
         </table>
-        <div v-if="isLoadPengumuman">
-          <img src="@/assets/icons/loader.svg"/>
-        </div>
-        <h2 v-else>Tidak ada pengumuman</h2>
+        <h2>Tidak ada pengumuman</h2>
       </div>
 
       <!-- table if there are datas -->
@@ -230,9 +230,6 @@
             </td>
           </tr>
         </table>
-        <div v-if="isLoadPengumuman">
-          <img src="@/assets/icons/loader.svg"/>
-        </div>
       </div>
 
       <!-- TOMORROW -->
@@ -263,10 +260,7 @@
             <td/>
           </tr>
         </table>
-        <div v-if="isLoadPengumuman">
-          <img src="@/assets/icons/loader.svg"/>
-        </div>
-        <h2 v-else>Tidak ada pengumuman</h2>
+        <h2>Tidak ada pengumuman</h2>
       </div>
 
       <!-- table if there are datas -->
@@ -362,9 +356,6 @@
             </td>
           </tr>
         </table>
-        <div v-if="isLoadPengumuman">
-          <img src="@/assets/icons/loader.svg"/>
-        </div>
       </div>
     </div>
 
@@ -397,10 +388,7 @@
             <td/>
           </tr>
         </table>
-        <div v-if="isLoadFilter">
-          <img src="@/assets/icons/loader.svg"/>
-        </div>
-        <h2 v-else>Tidak ada pengumuman</h2>
+        <h2>Tidak ada pengumuman</h2>
       </div>
 
 
@@ -497,12 +485,8 @@
             </td>
           </tr>
         </table>
-        <div v-if="isLoadFilter">
-          <img src="@/assets/icons/loader.svg"/>
-        </div>
       </div>
     </div>
-
   </div>
 </template>
 
@@ -550,8 +534,8 @@ export default {
       tomorrowDate: '',
       filterDate: '',
       error_msg: '',
-      isLoadPengumuman: false,
-      isLoadFilter: false,
+      isFetchPengumuman: false,
+      isFetchFilteredPengumuman: false,
     };
   },
   created: function() {
@@ -575,26 +559,27 @@ export default {
     fetchFilteredPengumuman: function(date) {
       const dateResult = this.getFilteredDate(date);
       this.filterDate = dateResult;
-      this.isLoadFilter = true;
+      this.isFetchFilteredPengumuman = true;
       announcementApi.getAnnouncementFiltered(date).then((result) => {
-        this.isLoadFilter = false;
         this.response = result.data;
         for (let i = 0; i < this.response.pengumuman_response.length; i++) {
           this.$set(
               this.filteredAnnouncement, i, this.response.pengumuman_response[i]
           );
         }
+        this.isFetchFilteredPengumuman = false;
       });
     },
     fetchPengumuman: function() {
-      this.isLoadPengumuman = true;
+      this.isFetchPengumuman = true;
       announcementApi.getAnnouncementDefault().then((d) => {
-        this.isLoadPengumuman = false;
         this.response = d.data;
         this.responseToList(this.response.pengumuman_today, this.today);
         this.responseToList(this.response.pengumuman_tomo, this.tomorrow);
+        this.isFetchPengumuman = false;
       }).catch((error) => {
         this.error_msg = error.response.data.detail;
+        this.isFetchPengumuman = false;
       });
     },
     responseToList: function(theResponse, theList) {
