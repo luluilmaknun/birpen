@@ -206,6 +206,7 @@
             :
           </div>
           <div class='col-6'>
+            {{ ipk.toFixed(2) }}
           </div>
         </div>
         <div class='row'>
@@ -675,6 +676,7 @@ export default {
       judul_karya_id: '',
       judul_karya_en: '',
       tanggal: '',
+      ipk: '',
     };
   },
   created() {
@@ -703,6 +705,7 @@ export default {
           this.pembimbing_pendamping = data['pembimbing_pendamping'];
           this.judul_karya_id = data['judul_karya_id'];
           this.judul_karya_en = data['judul_karya_en'];
+          this.ipk = data['ipk'];
           this.fetchData();
         }).catch((e) => {
           this.goToPage('sidang-akhir');
