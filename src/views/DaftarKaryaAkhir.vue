@@ -1,25 +1,26 @@
 <template>
   <div>
     <h1>Mahasiswa Sidang Karya Akhir</h1>
-    <div class="filter-div">
-      <button v-on:click="performFilter(namaAngkatan, chosenStudi)"
-      class="cari-button">
-        Cari
-      </button>
-      <input placeholder="Tulis nama angkatan"
-      class="filter-element" id="angkatan-input" v-model="namaAngkatan"/>
-      <select class="filter-element" id="studi-choices" v-model="chosenStudi">
-        <option :value="''" hidden>Pilih Program Studi</option>
-        <option v-for="studi in programStudi"
-        :key="studi.nama"
-        :value="studi.nama">
-          {{ studi.nama }}
-        </option>
-      </select>
-    </div>
-    <!-- TABLE SECTION -->
-    <div v-if="!isFilterLoaded" class="table-div">
-      <table>
+    <div class="table-div">
+      <!-- FILTER SECTION -->
+      <div class="filter-div">
+        <button v-on:click="performFilter(namaAngkatan, chosenStudi)"
+        class="cari-button">
+          Cari
+        </button>
+        <input placeholder="Tulis nama angkatan"
+        class="filter-element" id="angkatan-input" v-model="namaAngkatan"/>
+        <select class="filter-element" id="studi-choices" v-model="chosenStudi">
+          <option :value="''">Semua</option>
+          <option v-for="studi in programStudi"
+          :key="studi.nama"
+          :value="studi.nama">
+            {{ studi.nama }}
+          </option>
+        </select>
+      </div>
+      <!-- UNFILTERED TABLE -->
+      <table v-if="!isFilterLoaded">
         <tr>
           <th v-for="head in tableHead" :key="head" id="header">
             {{ head }}
@@ -43,10 +44,8 @@
           </td>
         </tr>
       </table>
-    </div>
-    <!-- FILTERED TABLE -->
-    <div v-else class="table-div">
-      <table>
+      <!-- FILTERED TABLE -->
+      <table v-else>
         <tr>
           <th v-for="head in tableHead" :key="head" id="header">
             {{ head }}
@@ -70,6 +69,7 @@
           </td>
         </tr>
       </table>
+      <h2 class="errormsg"> {{ errormsg }} </h2>
     </div>
     <!-- PAGINATION -->
     <div class="pagination-section">
@@ -158,6 +158,10 @@ export default {
       this.renderPagedList = [];
       this.pageNumber = 1;
       apiSidangAkhir.filterMahasiswa(angkatan, prodi).then((result) => {
+        this.errormsg = '';
+        if (result.data.detail != undefined) {
+          this.errormsg = result.data.detail;
+        }
         this.filteredKaryaAkhir = result.data.mahasiswa_karya_akhir;
         this.fetchPagination(this.filteredKaryaAkhir, this.pagedList);
         this.renderPagination(this.pageNumber, this.pagedList);
@@ -243,10 +247,15 @@ export default {
   flex-direction: row-reverse;
   align-items: center;
   margin-top: 20px;
+  margin-bottom: 20px;
+  min-width: 100%;
 }
 .filter-div .filter-element {
+  padding: 0;
+  margin: 0;
   text-align: center;
   width: 200px;
+  min-height: 20px;
   background: none;
   border-style: solid;
   border-width: 2px;
@@ -258,24 +267,10 @@ export default {
   margin-left: 10px;
   margin-right: 10px;
 }
-.detail-button {
-  background: none;
-  border-style: solid;
-  border-width: 2px;
-  border-radius: 100px;
-  color: white;
-  background-color: #5386E8;
-  border-color: #5386E8;
-  font-weight: bolder;
-  padding: 5px;
-}
-.detail-button:hover {
-  background-color: white;
-  color: #5386E8;
-}
 /* Table styling */
 .table-div {
-  min-width: 700px;
+  max-width: 1000px;
+  min-width: 1000px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -293,6 +288,7 @@ th, td {
   padding-right: 1.5em;
   padding-top: 1em;
   padding-bottom: 1em;
+  word-wrap: break-word;
 }
 th {
   background-color: #2D3033;
@@ -366,5 +362,10 @@ tr:nth-child(odd) {
 .page-number {
   margin-left: 10px;
   margin-right: 10px;
+}
+.errormsg {
+  color: red;
+  margin-top: 30px;
+  font-size: 16pt;
 }
 </style>
