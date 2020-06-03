@@ -31,7 +31,8 @@ class JenisKaryaAkhir(models.Model):
 
 
 class DataKaryaAkhir(models.Model):
-    mahasiswa = models.OneToOneField(User, on_delete=models.CASCADE)
+    mahasiswa = models.OneToOneField(User, on_delete=models.CASCADE,
+                                     related_name='data_karya_akhir')
     peminatan_mahasiswa = models.CharField(max_length=100, null=False, blank=False)
     jenis_karya_akhir = models.ForeignKey(JenisKaryaAkhir, on_delete=models.CASCADE)
     sks_diperoleh = models.PositiveIntegerField(null=False, blank=False)
@@ -39,6 +40,7 @@ class DataKaryaAkhir(models.Model):
     pembimbing_pendamping = models.CharField(max_length=70, blank=True)
     judul_karya_id = models.TextField(null=False, blank=False)
     judul_karya_en = models.TextField(blank=True)
+    ipk = models.FloatField(null=False, blank=False)
 
     class Meta:
         verbose_name = 'data karya akhir'
