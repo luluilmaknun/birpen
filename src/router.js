@@ -59,8 +59,6 @@ const router = new Router({
       },
     },
     {
-      path: '/surat/sidang/surat-karya-akhir-siap-uji/',
-      name: 'surat-karya-akhir-siap-uji',
       path: '/surat/sidang/unduh/',
       name: 'unduh-dokumen-karya-akhir',
       component: UnduhDokumenKaryaAkhir,
