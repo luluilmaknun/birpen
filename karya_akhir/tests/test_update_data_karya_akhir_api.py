@@ -50,7 +50,8 @@ class CreateDataKaryaAkhirTest(TestCase):
             pembimbing="Lulu Ilmaknun S.Ak",
             pembimbing_pendamping="Annida Safira S.Ak",
             judul_karya_id="Sebuah Judul",
-            judul_karya_en="A Title"
+            judul_karya_en="A Title",
+            ipk=3
         )
 
         self.valid_data = {
@@ -60,7 +61,8 @@ class CreateDataKaryaAkhirTest(TestCase):
             "pembimbing": "Ahmad Fauzan S.Ak",
             "pembimbing_pendamping": "Yusuf Tri S.Ak",
             "judul_karya_id": "Sebuah Karya",
-            "judul_karya_en": "A Masterpiece"
+            "judul_karya_en": "A Masterpiece",
+            "ipk": 3
         }
 
     def test_unauthorized_request_cant_create_data_karya_akhir(self):
@@ -87,7 +89,8 @@ class CreateDataKaryaAkhirTest(TestCase):
             "pembimbing": "Ahmad Fauzan S.Ak",
             "pembimbing_pendamping": "Yusuf Tri S.Ak",
             "judul_karya_id": "Sebuah Karya",
-            "judul_karya_en": "A Masterpiece"
+            "judul_karya_en": "A Masterpiece",
+            "ipk": 3
         }
 
         self.client.credentials(HTTP_AUTHORIZATION="Bearer " + self.token_mahasiswa)
@@ -103,7 +106,8 @@ class CreateDataKaryaAkhirTest(TestCase):
             "pembimbing": "Ahmad Fauzan S.Ak",
             "pembimbing_pendamping": "Yusuf Tri S.Ak",
             "judul_karya_id": "Sebuah Karya",
-            "judul_karya_en": "A Masterpiece"
+            "judul_karya_en": "A Masterpiece",
+            "ipk": 3
         }
 
         self.client.credentials(HTTP_AUTHORIZATION="Bearer " + self.token_mahasiswa)
@@ -119,7 +123,8 @@ class CreateDataKaryaAkhirTest(TestCase):
             "pembimbing": "Ahmad Fauzan S.Ak",
             "pembimbing_pendamping": "Yusuf Tri S.Ak",
             "judul_karya_id": "Sebuah Karya",
-            "judul_karya_en": "A Masterpiece"
+            "judul_karya_en": "A Masterpiece",
+            "ipk": 3
         }
 
         self.client.credentials(HTTP_AUTHORIZATION="Bearer " + self.token_mahasiswa)
@@ -135,7 +140,8 @@ class CreateDataKaryaAkhirTest(TestCase):
             "pembimbing": "Ahmad Fauzan S.Ak",
             "pembimbing_pendamping": "Yusuf Tri S.Ak",
             "judul_karya_id": "Sebuah Karya",
-            "judul_karya_en": "A Masterpiece"
+            "judul_karya_en": "A Masterpiece",
+            "ipk": 3
         }
 
         self.client.credentials(HTTP_AUTHORIZATION="Bearer " + self.token_mahasiswa)
@@ -151,7 +157,8 @@ class CreateDataKaryaAkhirTest(TestCase):
             "pembimbing": "Ahmad Fauzan S.Ak",
             "pembimbing_pendamping": "Yusuf Tri S.Ak",
             "judul_karya_id": "Sebuah Karya",
-            "judul_karya_en": "A Masterpiece"
+            "judul_karya_en": "A Masterpiece",
+            "ipk": 3
         }
 
         self.client.credentials(HTTP_AUTHORIZATION="Bearer " + self.token_mahasiswa)
