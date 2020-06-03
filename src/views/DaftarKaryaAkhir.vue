@@ -76,7 +76,8 @@
       </div>
     </div>
     <!-- PAGINATION -->
-    <div class="pagination-section" v-if="!isLoadKaryaAkhir">
+    <div class="pagination-section"
+      v-if="!isLoadKaryaAkhir || !isLoadKaryaAkhirFilter">
       <div class="button-box-2">
         <button class="pagination-button"
         id="first-page-button" v-show="showFirst" v-on:click="this.toFirstPage">
