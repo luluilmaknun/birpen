@@ -62,6 +62,14 @@
       </div>
 
       <div>
+        <label class="label" for="ipk">
+          IPK:
+        </label>
+        <input type="number" id="ipk" required=""
+          v-model="ipk">
+      </div>
+
+      <div>
         <label class="label" for="pembimbing">
           Pembimbing Karya Akhir:
         </label>
@@ -118,6 +126,7 @@ export default {
       program_studi: '',
       peminatan_mahasiswa: '',
       sks_diperoleh: 0,
+      ipk: 0,
       pembimbing: '',
       pembimbing_pendamping: '',
       judul_karya_id: '',
@@ -160,6 +169,7 @@ export default {
             this.peminatan_mahasiswa = data['peminatan_mahasiswa'];
             this.jenis_karya_akhir = data['jenis_karya_akhir'];
             this.sks_diperoleh = parseInt(data['sks_diperoleh']);
+            this.ipk = parseInt(data['ipk']);
             this.pembimbing = data['pembimbing'];
             this.pembimbing_pendamping = data['pembimbing_pendamping'];
             this.judul_karya_id = data['judul_karya_id'];
@@ -179,6 +189,7 @@ export default {
       request['peminatan_mahasiswa'] = this.peminatan_mahasiswa;
       request['jenis_karya_akhir'] = this.jenis_karya_akhir;
       request['sks_diperoleh'] = this.sks_diperoleh;
+      request['ipk'] = this.ipk;
       request['pembimbing'] = this.pembimbing;
       request['pembimbing_pendamping'] = this.pembimbing_pendamping;
       request['judul_karya_id'] = this.judul_karya_id;
