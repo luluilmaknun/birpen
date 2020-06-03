@@ -183,7 +183,7 @@ export default {
       this.date = today.getDate() + ' '
                   + this.translateMonth(today.getMonth()+1)
                   + ' ' + today.getFullYear();
-      
+
       this.isReadDataKaryaAkhir = true;
       karyaAkhirApi.readDataKaryaAkhir(localStorage.getItem('username'))
           .then((d) => {
@@ -199,7 +199,7 @@ export default {
             this.ipk = data['ipk'];
             this.isReadDataKaryaAkhir = false;
           });
-      
+
       this.isGetMahasiswaProfile = true;
       karyaAkhirApi.getMahasiswaProfile().then((d) => {
         const data = d.data['mahasiswa'];

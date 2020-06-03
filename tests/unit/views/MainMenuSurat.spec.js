@@ -17,6 +17,9 @@ const $router = {
 
 describe('Tes Elemen Halaman Main Menu Surat', () => {
   const wrapper = shallowMount(MainMenuSurat);
+  wrapper.setData({
+    isReadDataKaryaAkhir: false,
+  });
 
   it('Main Menu Surat name : MainMenuSurat', () =>{
     expect(wrapper.name()).toEqual('MainMenuSurat');

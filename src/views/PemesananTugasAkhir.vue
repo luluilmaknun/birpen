@@ -1,5 +1,6 @@
 <template>
-  <div v-if="isFetchJenisKaryaAkhir || isGetMahasiswaProfile || isReadDataKaryaAkhir">
+  <div v-if="isFetchJenisKaryaAkhir ||
+    isGetMahasiswaProfile || isReadDataKaryaAkhir">
     <img src="@/assets/icons/loader.svg"/>
   </div>
   <div v-else id="pemesanan-tugas-akhir" class="page-container">
@@ -161,7 +162,7 @@ export default {
         this.error_message_seen = true;
         this.isFetchJenisKaryaAkhir = false;
       });
-      
+
       this.isGetMahasiswaProfile = true;
       karyaAkhirApi.getMahasiswaProfile().then((d) => {
         const data = d.data['mahasiswa'];

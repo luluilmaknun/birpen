@@ -567,7 +567,7 @@ export default {
               this.filteredAnnouncement, i, this.response.pengumuman_response[i]
           );
         }
-      this.isFetchFilteredPengumuman = false;
+        this.isFetchFilteredPengumuman = false;
       });
     },
     fetchPengumuman: function() {

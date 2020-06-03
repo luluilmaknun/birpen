@@ -207,7 +207,7 @@ export default {
                   + ' '
                   + this.translateMonth(today.getMonth()+1)
                   + ' ' + today.getFullYear();
-      
+
       this.isReadDataKaryaAkhir = true;
       karyaAkhirApi.readDataKaryaAkhir(localStorage.getItem('username'))
           .then((d) => {

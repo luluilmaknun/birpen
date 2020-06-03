@@ -740,7 +740,7 @@ export default {
                 this.surat_karya_akhir[i]['nama'].split(' ').join('-');
               this.surat_karya_akhir[i]['link'] = namaSurat.toLowerCase();
             }
-          this.isFetchData = false;
+            this.isFetchData = false;
           }
       );
     },
