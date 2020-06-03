@@ -66,7 +66,7 @@
           IPK:
         </label>
         <input type="number" id="ipk" required=""
-          v-model="ipk">
+          v-model="ipk" step="0.01">
       </div>
 
       <div>
