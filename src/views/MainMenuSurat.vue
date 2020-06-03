@@ -37,7 +37,7 @@
           <h3>Dokumen Kelengkapan Sidang Karya Akhir</h3>
         </div>
         <!-- KARYA AKHIR NON ADMIN -->
-        <div v-else id="button_dokumen_sidang_akhir"
+        <div v-else-if="!isAlumni" id="button_dokumen_sidang_akhir"
           class="menu-item" @click="goToPage('/surat/sidang/')">
           <div class="menu-image-container">
             <vue-load-image>
@@ -88,6 +88,7 @@ export default {
   data: function() {
     return {
       isAdmin: localStorage.getItem('is_admin') === 'true',
+      isAlumni: localStorage.getItem('role') === 'alumni',
       isFormCompleted: false,
     };
   },
