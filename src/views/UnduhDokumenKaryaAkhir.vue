@@ -1,5 +1,8 @@
 <template>
-  <div id="unduh-karya-akhir">
+  <div v-if="isFetchData || isGetMahasiswaProfile || isReadDataKaryaAkhir">
+    <img src="@/assets/icons/loader.svg"/>
+  </div>
+  <div v-else id="unduh-karya-akhir">
     <div>
       <h2 class="title">
         Unduh Dokumen Kelengkapan
@@ -677,15 +680,20 @@ export default {
       judul_karya_en: '',
       tanggal: '',
       ipk: '',
+      isFetchData: false,
+      isGetMahasiswaProfile: false,
+      isReadDataKaryaAkhir: false,
     };
   },
   created() {
+    this.isGetMahasiswaProfile = true;
     karyaAkhirApi.getMahasiswaProfile().then((d) => {
       const data = d.data['mahasiswa'];
 
       this.nama = data['nama'];
       this.npm = data['npm'];
       this.program_studi = data['program_studi'];
+      this.isGetMahasiswaProfile = false;
     });
 
     const today = new Date();
@@ -694,6 +702,7 @@ export default {
                 + this.translateMonth(today.getMonth()+1)
                 + ' ' + today.getFullYear();
 
+    this.isReadDataKaryaAkhir = true;
     karyaAkhirApi.readDataKaryaAkhir(localStorage.getItem('username'))
         .then((d) => {
           const data = d.data['data_karya_akhir'];
@@ -706,15 +715,18 @@ export default {
           this.judul_karya_id = data['judul_karya_id'];
           this.judul_karya_en = data['judul_karya_en'];
           this.ipk = data['ipk'];
+          this.isReadDataKaryaAkhir = false;
           this.fetchData();
         }).catch((e) => {
           if (e.response.status == 404) {
             this.isFormCompleted = false;
+            this.isReadDataKaryaAkhir = false;
           }
         });
   },
   methods: {
     fetchData() {
+      this.isFetchData = true;
       karyaAkhirApi.fetchDaftarSuratKaryaAkhir().then(
           (d) => {
             for (let i=0; i<d.data.surat_karya_akhir.length; i++) {
@@ -728,6 +740,7 @@ export default {
                 this.surat_karya_akhir[i]['nama'].split(' ').join('-');
               this.surat_karya_akhir[i]['link'] = namaSurat.toLowerCase();
             }
+          this.isFetchData = false;
           }
       );
     },

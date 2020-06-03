@@ -1,5 +1,8 @@
 <template>
-  <div>
+  <div v-if="isFetchAlumni">
+    <img src="@/assets/icons/loader.svg"/>
+  </div>
+  <div v-else>
     <h1 class="title-alumni">
       Daftar Alumni
     </h1>
@@ -32,9 +35,6 @@
           </td>
         </tr>
       </table>
-      <div v-if="isLoadAlumniTable">
-        <img src="@/assets/icons/loader.svg"/>
-      </div>
     </div>
   </div>
 </template>
@@ -55,7 +55,7 @@ export default {
       ],
       listAlumni: [],
       response: {},
-      isLoadAlumniTable: false,
+      isFetchAlumni: false,
     };
   },
   created() {
@@ -63,14 +63,13 @@ export default {
   },
   methods: {
     fetchAlumni() {
-      this.isLoadAlumniTable = true;
+      this.isFetchAlumni = true;
       alumniServices.fetchAlumni().then((result) => {
-        this.isLoadAlumniTable = false;
         this.response = result.data;
-
         for (let i = 0; i < this.response.alumni.length; i++) {
           this.$set(this.listAlumni, i, this.response.alumni[i]);
         }
+        this.isFetchAlumni = false;
       });
     },
   },

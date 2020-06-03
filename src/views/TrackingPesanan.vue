@@ -1,5 +1,8 @@
 <template>
-  <div>
+  <div v-if="isFetchTrackingPesanan">
+    <img src="@/assets/icons/loader.svg"/>
+  </div>
+  <div v-else>
     <div class="table-div">
       <h2>Daftar Pengajuan Surat</h2>
       <table aria-hidden="true">
@@ -71,11 +74,6 @@
         </button>
       </div>
     </div>
-
-    <div v-if="isLoadTracking">
-      <img src="@/assets/icons/loader.svg"/>
-    </div>
-
   </div>
 </template>
 
@@ -103,7 +101,7 @@ export default {
       pageNumber: 1,
       errorResponse: {},
       isAdmin: localStorage.getItem('is_admin') === 'true',
-      isLoadTracking: false,
+      isFetchTrackingPesanan: false,
     };
   },
   created: function() {
@@ -111,17 +109,18 @@ export default {
   },
   methods: {
     fetchTrackingPesanan: function() {
-      this.isLoadTracking = true;
+      this.isFetchTrackingPesanan = true;
       trackingPesananApi.getTrackingPesanan().then((result) => {
-        this.isLoadTracking = false;
         this.response = result.data;
         this.responseToList(this.response.pesanan, this.trackingList);
         // Perform modify created date
         this.fetchDateCreated(this.trackingList, 'waktu_pemesanan');
         this.fetchPagination(this.trackingList, this.pagedTrackingList);
         this.renderPagination(this.pageNumber, this.pagedTrackingList);
+        this.isFetchTrackingPesanan = false;
       }).catch((error) => {
         this.errorResponse = error.data;
+        this.isFetchTrackingPesanan = false;
       });
     },
     responseToList: function(theResponse, theList) {

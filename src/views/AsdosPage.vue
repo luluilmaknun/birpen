@@ -1,5 +1,8 @@
 <template>
-  <div>
+  <div v-if="isFetchAsdos">
+    <img src="@/assets/icons/loader.svg"/>
+  </div>
+  <div v-else>
 
     <h1 class="title-asdos">
       Daftar Asisten
@@ -27,9 +30,6 @@
           </td>
         </tr>
       </table>
-      <div v-if="isLoadAsdosTable">
-        <img src="@/assets/icons/loader.svg"/>
-      </div>
     </div>
 
   </div>
@@ -67,7 +67,7 @@ export default {
       ],
       response: {},
       listAsisten: [],
-      isLoadAsdosTable: false,
+      isFetchAsdos: false,
     };
   },
   created: function() {
@@ -75,14 +75,13 @@ export default {
   },
   methods: {
     fetchAsdos: function() {
-      this.isLoadAsdosTable = true;
+      this.isFetchAsdos = true;
       asistenServices.getAsisten().then((d) => {
-        this.isLoadAsdosTable = false;
         this.response = d.data;
-        // TODO get asdos to this.response
         for (let i = 0; i < this.response.asisten_dosen.length; i++) {
           this.$set(this.listAsisten, i, this.response.asisten_dosen[i]);
         }
+        this.isFetchAsdos = false;
       });
     },
   },

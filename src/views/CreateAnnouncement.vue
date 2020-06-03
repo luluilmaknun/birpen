@@ -1,5 +1,8 @@
 <template>
-  <div id="create-announcement" class="page-container">
+  <div v-if="isFetchData || isGetAnnouncementData">
+    <img src="@/assets/icons/loader.svg"/>
+  </div>
+  <div v-else id="create-announcement" class="page-container">
     <h2 v-if="edit" class="title" style="color: black">Edit Pengumuman</h2>
     <h2 v-else class="title" style="color: black">Buat Pengumuman</h2>
     <br>
@@ -143,6 +146,8 @@ export default {
       response: {},
       error_message: '',
       error_message_seen: false,
+      isFetchData: false,
+      isGetAnnouncementData: false,
     };
   },
   created: function() {
@@ -154,6 +159,7 @@ export default {
   },
   methods: {
     fetchData: function() {
+      this.isFetchData = true,
       dropdownApi.fetch().then((d) => {
         this.response = d.data;
 
@@ -167,6 +173,7 @@ export default {
             this.response.sesi);
         this.setData(this.daftar_nama_status_pengumuman,
             this.response.status_pengumuman);
+        this.isFetchData = false;
       });
     },
     setData: function(target, source) {
@@ -175,6 +182,7 @@ export default {
       }
     },
     getAnnouncementData: function(pk) {
+      this.isGetAnnouncementData = true;
       announcementApi.getAnnouncement(pk).then((d) => {
         const data = d.data.pengumuman;
 
@@ -195,6 +203,7 @@ export default {
         if (this.jenis_pengumuman == 'Asistensi') {
           this.nama_asisten = data['nama_asisten'];
         }
+        this.isGetAnnouncementData = false;
       });
     },
     validateData: function() {
