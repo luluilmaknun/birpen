@@ -271,6 +271,8 @@ export default {
 .table-div {
   max-width: 1000px;
   min-width: 1000px;
+  min-height: 600px;
+  max-height: 600px;
   display: flex;
   flex-direction: column;
   align-items: center;
