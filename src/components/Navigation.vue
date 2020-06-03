@@ -32,20 +32,30 @@
 
         <div class="admin-dropdown-container">
           <router-link class="nav-elem" id="admin-dropdown-elem"
-          ref="asisten-button" :to="{ name: 'alumni' }">
-          Alumni</router-link>
+                       ref="asisten-button" :to="{ name: 'alumni' }">
+            Alumni
+          </router-link>
           <router-link class="nav-elem" id="admin-dropdown-elem"
-          ref="asisten-button" :to="{ name: 'admin' }">
-          Admin</router-link>
+                       ref="asisten-button" :to="{ name: 'admin' }">
+            Admin
+          </router-link>
           <router-link class="nav-elem" id="admin-dropdown-elem"
-          ref="asisten-button" :to="{ name: 'asisten' }">
-          Asisten</router-link>
+                       ref="asisten-button" :to="{ name: 'asisten' }">
+            Asisten
+          </router-link>
         </div>
       </div>
+
+      <label v-if="is_admin">
+        <a class="nav-elem"
+           :href="`api/admin/login/?next=/api/admin/`"
+           id="adm-page-button">
+          Halaman Admin
+        </a>
+      </label>
     </div>
 
     <div class="nav-elem-container-right" id="desktop-nav">
-
       <label v-if="is_authenticated === false">
         <router-link class="nav-elem"
         ref="register-button" :to="{ name: 'register' }">
