@@ -38,6 +38,7 @@ def edit_data_karya_akhir(request):
         data_karya_akhir.pembimbing_pendamping = request.data.get('pembimbing_pendamping')
         data_karya_akhir.judul_karya_id = request.data.get('judul_karya_id')
         data_karya_akhir.judul_karya_en = request.data.get('judul_karya_en')
+        data_karya_akhir.ipk = request.data.get('ipk')
         data_karya_akhir.save()
 
     except DataKaryaAkhir.DoesNotExist:
@@ -130,6 +131,7 @@ def create_data_karya_akhir(request):
         data_karya_akhir.pembimbing_pendamping = request.data.get('pembimbing_pendamping')
         data_karya_akhir.judul_karya_id = request.data.get('judul_karya_id')
         data_karya_akhir.judul_karya_en = request.data.get('judul_karya_en')
+        data_karya_akhir.ipk = request.data.get('ipk')
         data_karya_akhir.save()
 
     except (ObjectDoesNotExist, IntegrityError, DataError, ValueError):
