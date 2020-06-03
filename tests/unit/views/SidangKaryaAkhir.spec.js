@@ -216,3 +216,19 @@ describe('test next prev button visibility', () => {
     expect(lastPageButton.isVisible()).toBe(false);
   });
 });
+
+describe('increament and decreament', () => {
+  const wrapper = shallowMount(DaftarKaryaAkhir);
+  const vm = wrapper.vm;
+  vm.pagedList = [1, 1, 1, 1];
+  it('test increament', () => {
+    vm.pageNumber = 1;
+    vm.increamentPage();
+    expect(vm.pageNumber).toBe(2);
+  });
+  it('test decreament', () => {
+    vm.pageNumber = 2;
+    vm.decreamentPage();
+    expect(vm.pageNumber).toBe(1);
+  });
+});
