@@ -12,7 +12,20 @@
 
     <div class="menu-container">
       <div class="menu-item-list">
-        <div id="button_dokumen_sidang_akhir"
+        <!-- KARYA AKHIR ADMIN -->
+        <div v-if="isAdmin" id="button_dokumen_sidang_akhir"
+          class="menu-item" @click="goToPage('/surat/sidang/daftarKaryaAkhir')">
+          <div class="menu-image-container">
+            <vue-load-image>
+              <img slot="image" src="@/assets/images/sidang.png"
+               class="menu-icon" alt="Klik untuk menuju layanan sidang akhir" />
+              <img slot="preloader" src="@/assets/icons/loader.svg"/>
+            </vue-load-image>
+          </div>
+          <h3>Dokumen Kelengkapan Sidang Karya Akhir</h3>
+        </div>
+        <!-- KARYA AKHIR NON ADMIN -->
+        <div v-else id="button_dokumen_sidang_akhir"
           class="menu-item" @click="goToPage('/surat/sidang/')">
           <div class="menu-image-container">
             <vue-load-image>
@@ -59,7 +72,11 @@ import VueLoadImage from 'vue-load-image';
 
 export default {
   name: 'MainMenuSurat',
-
+  data: function() {
+    return {
+      isAdmin: localStorage.getItem('is_admin') === 'true',
+    };
+  },
   methods: {
     goToPage(link) {
       this.$router.push({path: link});

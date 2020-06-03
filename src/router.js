@@ -13,6 +13,7 @@ import AlumniPage from '@/views/AlumniPage.vue';
 import DetailPengajuanSurat from '@/views/DetailPengajuanSurat.vue';
 import TrackingPesanan from '@/views/TrackingPesanan.vue';
 import DokumenAkademik from '@/views/DokumenAkademik.vue';
+import DaftarKaryaAkhir from '@/views/DaftarKaryaAkhir.vue';
 import KaryaAkhirSiapUji from '@/views/KaryaAkhirSiapUji';
 import PengajuanDospem from '@/views/PengajuanDospem';
 import PenunjukkanDospem from '@/views/PenunjukkanDospem';
@@ -47,6 +48,14 @@ const router = new Router({
       meta: {
         requiresAuth: true,
         requiresPrivilegeToAccessSidang: true,
+      },
+    },
+    {
+      path: '/surat/sidang/daftarKaryaAkhir',
+      name: 'daftar-karya-akhir',
+      component: DaftarKaryaAkhir,
+      meta: {
+        requiresAuth: true,
       },
     },
     {
