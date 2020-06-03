@@ -80,7 +80,8 @@ class SSOUITest(TestCase):
             }),
             ORG_CODE['id'][SSOUITest.ATTRIBUTES_MAHASISWA['kd_org']]
         )
-        self.assertEqual(self.user.email, f"{self.user.username}@ui.ac.id")
+        self.assertEqual(self.user.profile.year_of_entry, "20" + self.user.profile.npm[:2])
+        self.assertEqual(self.user.email, self.user.username + "@ui.ac.id")
         self.assertEqual(self.user.first_name, "Ice")
         self.assertEqual(self.user.last_name, "Bear")
 
@@ -100,7 +101,7 @@ class SSOUITest(TestCase):
             }),
             SSOUITest.ATTRIBUTES_STAFF
         )
-        self.assertEqual(self.user.email, f"{self.user.username}@ui.ac.id")
+        self.assertEqual(self.user.email, self.user.username + "@ui.ac.id")
         self.assertEqual(self.user.first_name, "Honey")
         self.assertEqual(self.user.last_name, "Bear")
 
