@@ -19,4 +19,7 @@ export default {
   fetchDetail(username) {
     return api.get('karya-akhir/'+username+'/');
   },
+  fetchDaftarSuratKaryaAkhir() {
+    return api.get('karya-akhir/surat/');
+  },
 };
