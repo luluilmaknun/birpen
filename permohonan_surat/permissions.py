@@ -9,6 +9,10 @@ class IsPrivilegedToRequestAcademicLetter(permissions.BasePermission):
                request.user.is_alumni()
 
 
+class IsPrivilegedToUpdateAcademicLetterStatus(permissions.BasePermission):
+    def has_permission(self, request, view):
+        return request.user.is_admin()
+
 class IsPrivilegedToReadPesanan(permissions.BasePermission):
     def has_permission(self, request, view):
         return request.user.is_mahasiswa() or \
@@ -25,11 +29,6 @@ class IsPrivilegedToReadDetailPesanan(permissions.BasePermission):
 
         return Pesanan.objects.filter(id=id_pesanan).count() == 1 and \
                Pesanan.objects.get(id=id_pesanan).pemesan == request.user
-
-
-class IsPrivilegedToUpdateAcademicLetterStatus(permissions.BasePermission):
-    def has_permission(self, request, view):
-        return request.user.is_admin()
 
 
 class IsPrivilegedToGetMahasiswaProfile(permissions.BasePermission):
