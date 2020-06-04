@@ -24,7 +24,7 @@
       <!-- DROPDOWN -->
       <div v-if="is_admin" id="admin-dropdown-div">
         <button id="button-admin">
-          Manajemen Pengguna
+          Manajemen
           <img id="dropdown-img"
           src="./../assets/images/white-arrow-png-41944.png"
           alt="Klik untuk opsi lebih lanjut" />
@@ -43,16 +43,14 @@
                        ref="asisten-button" :to="{ name: 'asisten' }">
             Asisten
           </router-link>
+          <a class="nav-elem"
+           :href="`/api/admin/login/?next=/api/admin/`"
+           id="adm-page-button"
+          target="_blank">
+          Database
+        </a>
         </div>
       </div>
-
-      <label v-if="is_admin">
-        <a class="nav-elem"
-           :href="`api/admin/login/?next=/api/admin/`"
-           id="adm-page-button">
-          Halaman Admin
-        </a>
-      </label>
     </div>
 
     <div class="nav-elem-container-right" id="desktop-nav">
