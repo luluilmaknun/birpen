@@ -152,7 +152,7 @@ export default {
       }
     },
     fetchPagination: function(theList, pagedList) {
-      const base = 3;
+      const base = 5;
       let temp = [];
       let count = 0;
       for (let i = 0; i < theList.length; i++) {
