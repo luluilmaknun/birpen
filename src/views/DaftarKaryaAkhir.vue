@@ -90,7 +90,7 @@
         </button>
       </div>
       <div class="button-box">
-        <p class="page-number">{{ pageNumber }}</p>
+        <p class="page-number">{{ pageNumber }} of {{ pagedList.length }}</p>
       </div>
       <div class="button-box">
         <button class="pagination-button"
@@ -160,7 +160,7 @@ export default {
         this.isFetchKaryaAkhir = false;
       }).catch((err) => {
         this.isFetchKaryaAkhir = false;
-      });;
+      });
     },
     performFilter: function(angkatan, prodi) {
       this.isFilterLoaded = true;
@@ -170,11 +170,11 @@ export default {
       this.pagedList = [];
       this.renderPagedList = [];
       this.pageNumber = 1;
-      this.isFilterKaryaAkhir = true,
       apiSidangAkhir.filterMahasiswa(angkatan, prodi).then((result) => {
         this.errormsg = '';
         if (result.data.detail != undefined) {
           this.errormsg = result.data.detail;
+          return;
         }
         this.filteredKaryaAkhir = result.data.mahasiswa_karya_akhir;
         this.fetchPagination(this.filteredKaryaAkhir, this.pagedList);
@@ -365,7 +365,7 @@ tr:nth-child(odd) {
   visibility: visible;
 }
 .button-box {
-  width: 45px;
+  width: 80px;
   height: 40px;
 }
 .button-box-2 {
