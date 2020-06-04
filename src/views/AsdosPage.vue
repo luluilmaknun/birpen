@@ -116,10 +116,10 @@ export default {
         for (let i = 0; i < this.response.asisten_dosen.length; i++) {
           this.$set(this.listAsisten, i, this.response.asisten_dosen[i]);
         }
+        this.fetchPagination(this.listAsisten, this.pagedList);
+        this.renderPagination(this.pageNumber, this.pagedList);
         this.isFetchAsdos = false;
       });
-      this.fetchPagination(this.listAsisten, this.pagedList);
-      this.renderPagination(this.pageNumber, this.pagedList);
     },
     fetchPagination: function(theList, pagedList) {
       const base = 5;
