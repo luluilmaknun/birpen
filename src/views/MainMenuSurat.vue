@@ -1,8 +1,5 @@
 <template>
-  <div v-if="isReadDataKaryaAkhir">
-    <img src="@/assets/icons/loader.svg"/>
-  </div>
-  <div v-else id="app" class="home-surat">
+  <div id="app" class="home-surat">
     <h2 class="title-home">
       Selamat Datang di
       <br>
@@ -41,6 +38,17 @@
         </div>
         <!-- KARYA AKHIR NON ADMIN -->
         <div v-else-if="!isAlumni" id="button_dokumen_sidang_akhir"
+          class="menu-item" @click="goToPage('/surat/sidang/')">
+          <div class="menu-image-container">
+            <vue-load-image>
+              <img slot="image" src="@/assets/images/sidang.png"
+               class="menu-icon" alt="Klik untuk menuju layanan sidang akhir" />
+              <img slot="preloader" src="@/assets/icons/loader.svg"/>
+            </vue-load-image>
+          </div>
+          <h3>Dokumen Kelengkapan Sidang Karya Akhir</h3>
+        </div>
+        <div v-else-if="!isDosen" id="button_dokumen_sidang_akhir"
           class="menu-item" @click="goToPage('/surat/sidang/')">
           <div class="menu-image-container">
             <vue-load-image>
@@ -92,21 +100,18 @@ export default {
     return {
       isAdmin: localStorage.getItem('is_admin') === 'true',
       isAlumni: localStorage.getItem('role') === 'alumni',
+      isDosen: localStorage.getItem('role') === 'staff',
       isFormCompleted: false,
-      isReadDataKaryaAkhir: false,
     };
   },
   created: function() {
-    this.isReadDataKaryaAkhir = true;
     karyaAkhirApi.readDataKaryaAkhir(localStorage.getItem('username'))
         .then((d) => {
           this.isFormCompleted = true;
-          this.isReadDataKaryaAkhir = false;
         }).catch((e) => {
           if (e.response.status == 404) {
             this.isFormCompleted = false;
           }
-          this.isReadDataKaryaAkhir = false;
         });
   },
   methods: {
@@ -114,6 +119,7 @@ export default {
       this.$router.push({path: link});
     },
   },
+
   components: {
     'vue-load-image': VueLoadImage,
   },
