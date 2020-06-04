@@ -45,7 +45,7 @@
         </button>
       </div>
       <div class="button-box">
-        <p class="page-number">{{ pageNumber }}</p>
+        <p class="page-number">{{ pageNumber }} of {{ pagedList.length }}</p>
       </div>
       <div class="button-box">
         <button class="pagination-button"
@@ -116,10 +116,10 @@ export default {
         for (let i = 0; i < this.response.asisten_dosen.length; i++) {
           this.$set(this.listAsisten, i, this.response.asisten_dosen[i]);
         }
-        this.fetchPagination(this.listAsisten, this.pagedList);
-        this.renderPagination(this.pageNumber, this.pagedList);
         this.isFetchAsdos = false;
       });
+      this.fetchPagination(this.listAsisten, this.pagedList);
+      this.renderPagination(this.pageNumber, this.pagedList);
     },
     fetchPagination: function(theList, pagedList) {
       const base = 5;
@@ -297,7 +297,7 @@ td#username {
   visibility: visible;
 }
 .button-box {
-  width: 45px;
+  width: 80px;
   height: 40px;
 }
 .button-box-2 {
@@ -313,5 +313,8 @@ td#username {
 .page-number {
   margin-left: 10px;
   margin-right: 10px;
+  min-width: 200px;
+  max-width: 200px;
+  text-align: center;
 }
 </style>

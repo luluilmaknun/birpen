@@ -51,7 +51,7 @@
         </button>
       </div>
       <div class="button-box">
-        <p class="page-number">{{ pageNumber }}</p>
+        <p class="page-number">{{ pageNumber }} of {{ pagedList.length }}</p>
       </div>
       <div class="button-box">
         <button class="pagination-button"
@@ -260,7 +260,7 @@ td#username {
   visibility: visible;
 }
 .button-box {
-  width: 45px;
+  width: 80px;
   height: 40px;
 }
 .button-box-2 {
