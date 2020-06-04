@@ -160,7 +160,7 @@ export default {
         this.isFetchKaryaAkhir = false;
       }).catch((err) => {
         this.isFetchKaryaAkhir = false;
-      });;
+      });
     },
     performFilter: function(angkatan, prodi) {
       this.isFilterLoaded = true;
