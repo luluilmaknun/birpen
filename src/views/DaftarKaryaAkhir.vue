@@ -158,7 +158,9 @@ export default {
         this.fetchPagination(this.karyaAkhir, this.pagedList);
         this.renderPagination(this.pageNumber, this.pagedList);
         this.isFetchKaryaAkhir = false;
-      });
+      }).catch((err) => {
+        this.isFetchKaryaAkhir = false;
+      });;
     },
     performFilter: function(angkatan, prodi) {
       this.isFilterLoaded = true;
@@ -177,6 +179,8 @@ export default {
         this.filteredKaryaAkhir = result.data.mahasiswa_karya_akhir;
         this.fetchPagination(this.filteredKaryaAkhir, this.pagedList);
         this.renderPagination(this.pageNumber, this.pagedList);
+        this.isFilterKaryaAkhir = false;
+      }).catch((err) => {
         this.isFilterKaryaAkhir = false;
       });
     },
