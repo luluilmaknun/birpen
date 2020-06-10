@@ -1,0 +1,37 @@
+[
+    {
+        "model":"karya_akhir.suratkaryaakhir",
+        "pk":1,
+        "fields":{
+            "nama":"Surat Keterangan Karya Akhir Siap Uji"
+        }
+    },
+    {
+        "model":"karya_akhir.suratkaryaakhir",
+        "pk":2,
+        "fields":{
+            "nama":"Form Pengajuan Dosen Pembimbing Karya Akhir"
+        }
+    },
+    {
+        "model":"karya_akhir.suratkaryaakhir",
+        "pk":3,
+        "fields":{
+            "nama":"Formulir Penunjukkan Dosen Pembimbing"
+        }
+    },
+    {
+        "model":"karya_akhir.suratkaryaakhir",
+        "pk":4,
+        "fields":{
+            "nama":"Surat Pernyataan"
+        }
+    },
+    {
+        "model":"karya_akhir.suratkaryaakhir",
+        "pk":5,
+        "fields":{
+            "nama":"Surat Permohonan Mengikuti Ujian Karya Akhir Bersyarat (UKAB)"
+        }
+    }
+]

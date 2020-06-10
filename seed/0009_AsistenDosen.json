@@ -1,0 +1,23 @@
+[
+    {
+        "model": "asdos.asistendosen",
+        "pk": 1,
+        "fields": {
+          "username": "@asdos"
+        }
+    },
+    {
+      "model": "asdos.asistendosen",
+      "pk": 2,
+      "fields": {
+        "username": "ichlassul.affan"
+      }
+    },
+    {
+      "model": "asdos.asistendosen",
+      "pk": 3,
+      "fields": {
+        "username": "agas.yanpratama"
+      }
+    }
+]

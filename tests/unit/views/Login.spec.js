@@ -1,0 +1,105 @@
+import {shallowMount, createLocalVue} from '@vue/test-utils';
+import Login from '@/views/Login.vue';
+import VueRouter from 'vue-router';
+import axios from 'axios';
+
+const localVue = createLocalVue();
+localVue.use(VueRouter);
+const router = new VueRouter();
+
+jest.mock('axios', () => {
+  return {
+    post: jest.fn(() => Promise.resolve({data: {}})),
+  };
+});
+
+describe('Tes login page', () => {
+  const wrapper = shallowMount(Login);
+
+  it('apakah ada field username', () => {
+    const field = wrapper.find('.username-input');
+    expect(field.exists()).toBe(true);
+    expect(wrapper.html()).toContain('Username:');
+  });
+
+  it('apakah ada field password', () => {
+    const field = wrapper.find('.password-input');
+    expect(field.exists()).toBe(true);
+    expect(wrapper.html()).toContain('Password:');
+  });
+
+  it('apakah tombol masuk bisa diklik', () => {
+    const button = wrapper.find('.login-button');
+    expect(button.exists()).toBe(true);
+    button.trigger('click');
+  });
+
+  it('apakah terdapat tombol buat akun', () => {
+    const button = wrapper.find('#buat-akun');
+    expect(button.exists()).toBe(true);
+    expect(wrapper.html()).toContain('Buat Akun');
+  });
+
+  it('apakah terdapat tombol login dengan SSO', () => {
+    const button = wrapper.find('#sso-link');
+    expect(button.exists()).toBe(true);
+    expect(wrapper.html()).toContain('Login with<br>SSO');
+  });
+
+  it('test klik enter untuk masuk', () => {
+    wrapper.find('#uname').trigger('keyup.enter');
+    wrapper.find('#pass').trigger('keyup.enter');
+  });
+});
+
+describe('Tes login non sso', () => {
+  const wrapper = shallowMount(Login, {
+    localVue,
+    router,
+    data() {
+      return {
+        username: 'admin',
+        password: 'admin',
+      };
+    },
+    mocks: {
+      $router: {
+        push: jest.fn(),
+      },
+    },
+  });
+
+  const vm = wrapper.vm;
+
+  it('test berhasil', () => {
+    global.window = Object.create(window);
+    const url = 'http://birpen.com';
+    Object.defineProperty(window, 'location', {
+      value: {
+        href: url,
+      },
+    });
+    vm.login();
+    expect(window.location.href).toEqual(url);
+  });
+
+  it('test error', () => {
+    const error = new Error('error');
+
+    error.response = {
+      status: 400,
+      data: {
+        success: false,
+        detail: 'Username tidak ditemukan',
+      },
+    };
+
+    axios.post.mockImplementation(() => Promise.reject(error));
+
+    vm.login();
+    vm.$nextTick(() => {
+      expect(vm.message).toBe('Username tidak ditemukan');
+    });
+  });
+});
+

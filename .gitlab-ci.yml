@@ -1,0 +1,115 @@
+variables:
+  POSTGRES_DB: $DB_NAME
+  POSTGRES_USER: $DB_USER
+  POSTGRES_PASSWORD: $DB_PASSWORD
+  POSTGRES_HOST_AUTH_METHOD: $DB_HOST_AUTH_METHOD
+
+services:
+  - postgres:12.2-alpine
+
+stages:
+  - test
+  - analysis
+  - staging
+  - production
+
+UnitTestVue:
+  image: node:alpine
+  stage: test
+  before_script:
+    - yarn install
+  when: on_success
+  script:
+    - yarn test
+  artifacts:
+    paths:
+    - coverage/lcov.info
+    expire_in: 1 day
+
+UnitTestDjango:
+  image: python:3.6
+  stage: test
+  before_script:
+    - pip install -r requirements.txt
+    - pip install -r requirements_dev.txt
+  when: on_success
+  script:
+    - cp -r public/ dist/
+    - python3 run_lint.py
+    - python3 manage.py makemigrations rest_framework_jwt
+    - coverage run --include='landing_page/*,pengumuman/*,permohonan_surat/*,asdos/*,admin_birpen/*,alumni/*,sso_ui/*,permohonan_surat/*,karya_akhir/*,' manage.py test
+    - coverage report -m
+    - coverage xml
+  artifacts:
+    paths:
+    - coverage.xml
+    expire_in: 1 day
+
+SonarScanner:
+  image: addianto/sonar-scanner-cli:latest
+  stage: analysis
+  script:
+    - >
+      sonar-scanner 
+      -Dsonar.host.url=https://pmpl.cs.ui.ac.id/sonarqube
+      -Dsonar.login=$SONARQUBE_TOKEN
+      -Dsonar.branch.name=$CI_COMMIT_REF_NAME 
+      -Dsonar.projectKey=$SONARQUBE_PROJECT_KEY
+
+Staging Deployment Heroku:
+  image: ruby:2.4
+  stage: staging
+  before_script:
+    - gem install dpl
+    - wget -qO- https://cli-assets.heroku.com/install-ubuntu.sh | sh
+  script:
+    - dpl --provider=heroku --app=$STAGING_HEROKU_APPNAME --api-key=$STAGING_HEROKU_APIKEY
+    - export HEROKU_API_KEY=$STAGING_HEROKU_APIKEY
+    - heroku run --app $STAGING_HEROKU_APPNAME migrate
+  environment:
+    name: staging_heroku
+    url: $STAGING_HEROKU_APP_HOST
+  only:
+    - staging
+
+Staging Deployment VM:
+  image: ruby:2.4
+  stage: staging
+  before_script:
+    - apt-get update -qq
+    - apt-get install -qq git
+    - 'which ssh-agent || ( apt-get install -qq openssh-client )'
+    - eval $(ssh-agent -s)
+    - ssh-add <(echo "$SSH_PRIVATE_KEY")
+    - mkdir -p ~/.ssh
+    - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
+  script:
+    - >
+      ssh admin@10.119.106.13 
+      "cd pplukan-feb-ui-biro-pendidikan-online &&
+      git checkout staging &&
+      git pull origin staging &&
+      bash stop.sh &&
+      bash start.sh &&
+      exit"
+  environment:
+    name: staging_vm
+    url: $VM_URL
+  only:
+    - staging
+
+Production Deployment:
+  image: ruby:2.4
+  stage: production
+  before_script:
+    - gem install dpl
+    - wget -qO- https://cli-assets.heroku.com/install-ubuntu.sh | sh
+  script:
+    - dpl --provider=heroku --app=$HEROKU_APPNAME --api-key=$HEROKU_APIKEY
+    - export HEROKU_API_KEY=$HEROKU_APIKEY
+    - heroku run --app $HEROKU_APPNAME migrate
+  environment:
+    name: production
+    url: $HEROKU_APP_HOST
+  only:
+    - master    

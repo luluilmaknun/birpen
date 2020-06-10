@@ -1,0 +1,16 @@
+[
+    {
+        "model": "admin_birpen.admin",
+        "pk": 1,
+        "fields": {
+          "username": "@admin"
+        }
+    },
+    {
+        "model": "admin_birpen.admin",
+        "pk": 2,
+        "fields": {
+          "username": "magnus.alvarez"
+        }
+    }
+]

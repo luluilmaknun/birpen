@@ -1,0 +1,254 @@
+[
+    {
+        "model": "sso_ui.user",
+        "pk": 1,
+        "fields": {
+            "password": "pbkdf2_sha256$180000$vzjkHouFpSHZ$Rjh7REF5/yMotAj2LZDRRE7KIOUPRzlMG6GCs+gmxS0=",
+            "last_login": "2020-03-02T06:04:43Z",
+            "is_superuser": true,
+            "username": "@admin",
+            "first_name": "Athallah",
+            "last_name": "Annafis",
+            "email": "admin@ui.ac.id",
+            "is_staff": true,
+            "is_active": true,
+            "date_joined": "2020-03-01T10:30:43Z",
+            "groups": [],
+            "user_permissions": []
+        }
+    },
+    {
+        "model": "sso_ui.user",
+        "pk": 2,
+        "fields": {
+            "password": "pbkdf2_sha256$180000$Ith9FBlcMfHn$r8cRaW6L+XTcLIs7DneQpNAb+Jj4ojjVvioGPjAgoeA=",
+            "last_login": null,
+            "is_superuser": true,
+            "username": "@mahasiswa",
+            "first_name": "Yusuf Tri",
+            "last_name": "Ardho",
+            "email": "mahasiswa@ui.ac.id",
+            "is_staff": true,
+            "is_active": true,
+            "date_joined": "2020-03-02T06:06:16Z",
+            "groups": [],
+            "user_permissions": []
+        }
+    },
+    {
+        "model": "sso_ui.user",
+        "pk": 3,
+        "fields": {
+            "password": "pbkdf2_sha256$180000$GP7Hq00Qlo9H$KtRCUSO5BUhZrG4Ejf+E0xczuGN4Gc0Sb5N8VWJjJ/U=",
+            "last_login": null,
+            "is_superuser": true,
+            "username": "@mahasiswa_dua",
+            "first_name": "Annida Safira",
+            "last_name": "Arief",
+            "email": "mahasiswa_dua@ui.ac.id",
+            "is_staff": true,
+            "is_active": true,
+            "date_joined": "2020-03-02T06:06:16Z",
+            "groups": [],
+            "user_permissions": []
+        }
+    },
+    {
+        "model": "sso_ui.user",
+        "pk": 4,
+        "fields": {
+            "password": "pbkdf2_sha256$180000$fCDFg2XlSAAj$aPVdozUNcdk/36e9ZYrxCK+Sf0YmGXC1zDmey1pVd6k=",
+            "last_login": null,
+            "is_superuser": true,
+            "username": "@dosen",
+            "first_name": "Ahmad Fauzan",
+            "last_name": "A. I.",
+            "email": "dosen@ui.ac.id",
+            "is_staff": true,
+            "is_active": true,
+            "date_joined": "2020-03-02T06:06:32Z",
+            "groups": [],
+            "user_permissions": []
+        }
+    },
+    {
+        "model": "sso_ui.user",
+        "pk": 5,
+        "fields": {
+            "password": "pbkdf2_sha256$180000$ZwSWpRJrBvax$hcwXq+cx+daMJwFLeYZCO8/F+MI1zN/ayPTxYf1XFDQ=",
+            "last_login": null,
+            "is_superuser": true,
+            "username": "@asdos",
+            "first_name": "Lulu Ilmaknun",
+            "last_name": "Qurotaini",
+            "email": "asdos@ui.ac.id",
+            "is_staff": true,
+            "is_active": true,
+            "date_joined": "2020-03-02T06:07:07Z",
+            "groups": [],
+            "user_permissions": []
+        }
+    },
+    {
+        "model": "sso_ui.user",
+        "pk": 6,
+        "fields": {
+            "password": "pbkdf2_sha256$180000$ZwSWpRJrBvax$hcwXq+cx+daMJwFLeYZCO8/F+MI1zN/ayPTxYf1XFDQ=",
+            "last_login": null,
+            "is_superuser": true,
+            "username": "agas.yanpratama",
+            "first_name": "Agas",
+            "last_name": "Yanpratama",
+            "email": "agas.yanpratama@ui.ac.id",
+            "is_staff": true,
+            "is_active": true,
+            "date_joined": "2020-03-02T06:07:07Z",
+            "groups": [],
+            "user_permissions": []
+        }
+    },
+    {
+        "model": "sso_ui.user",
+        "pk": 7,
+        "fields": {
+            "password": "pbkdf2_sha256$180000$ZwSWpRJrBvax$hcwXq+cx+daMJwFLeYZCO8/F+MI1zN/ayPTxYf1XFDQ=",
+            "last_login": null,
+            "is_superuser": true,
+            "username": "ichlassul.affan",
+            "first_name": "Ichlassul",
+            "last_name": "Affan",
+            "email": "ichlassul.affan@ui.ac.id",
+            "is_staff": true,
+            "is_active": true,
+            "date_joined": "2020-03-02T06:07:07Z",
+            "groups": [],
+            "user_permissions": []
+        }
+    },
+    {
+        "model": "sso_ui.user",
+        "pk": 8,
+        "fields": {
+            "password": "pbkdf2_sha256$180000$ZwSWpRJrBvax$hcwXq+cx+daMJwFLeYZCO8/F+MI1zN/ayPTxYf1XFDQ=",
+            "last_login": null,
+            "is_superuser": true,
+            "username": "magnus.alvarez",
+            "first_name": "Magnus",
+            "last_name": "Alvarez",
+            "email": "magnus.alvarez@ui.ac.id",
+            "is_staff": true,
+            "is_active": true,
+            "date_joined": "2020-03-02T06:07:07Z",
+            "groups": [],
+            "user_permissions": []
+        }
+    },
+    {
+        "model": "sso_ui.user",
+        "pk": 9,
+        "fields": {
+            "password": "pbkdf2_sha256$180000$ZwSWpRJrBvax$hcwXq+cx+daMJwFLeYZCO8/F+MI1zN/ayPTxYf1XFDQ=",
+            "last_login": null,
+            "is_superuser": true,
+            "username": "@magna.alamna",
+            "first_name": "Magna",
+            "last_name": "Alamna",
+            "email": "magnaalamna@ui.ac.id",
+            "is_staff": true,
+            "is_active": true,
+            "date_joined": "2020-03-02T06:07:07Z",
+            "groups": [],
+            "user_permissions": []
+        }
+    }, 
+    {
+        "model": "sso_ui.user",
+        "pk": 10,
+        "fields": {
+            "password": "pbkdf2_sha256$180000$ZwSWpRJrBvax$hcwXq+cx+daMJwFLeYZCO8/F+MI1zN/ayPTxYf1XFDQ=",
+            "last_login": null,
+            "is_superuser": true,
+            "username": "@sheryl.alamna",
+            "first_name": "Sheryl",
+            "last_name": "Alamna",
+            "email": "sherylalamna@ui.ac.id",
+            "is_staff": true,
+            "is_active": true,
+            "date_joined": "2020-03-02T06:07:07Z",
+            "groups": [],
+            "user_permissions": []
+        }
+    },
+    {
+        "model": "sso_ui.user",
+        "pk": 11,
+        "fields": {
+            "password": "pbkdf2_sha256$180000$ZwSWpRJrBvax$hcwXq+cx+daMJwFLeYZCO8/F+MI1zN/ayPTxYf1XFDQ=",
+            "last_login": null,
+            "is_superuser": false,
+            "username": "magnatauro.rondo",
+            "first_name": "Magnatauro",
+            "last_name": "Rondo",
+            "email": "magnatauro.rondo@ui.ac.id",
+            "is_staff": false,
+            "is_active": true,
+            "date_joined": "2020-03-02T06:07:07Z",
+            "groups": [],
+            "user_permissions": []
+        }
+    },
+    {
+        "model": "sso_ui.user",
+        "pk": 12,
+        "fields": {
+            "password": "pbkdf2_sha256$180000$ZwSWpRJrBvax$hcwXq+cx+daMJwFLeYZCO8/F+MI1zN/ayPTxYf1XFDQ=",
+            "last_login": null,
+            "is_superuser": false,
+            "username": "callista.rondo",
+            "first_name": "Callista",
+            "last_name": "Rondo",
+            "email": "callista.rondo@ui.ac.id",
+            "is_staff": false,
+            "is_active": true,
+            "date_joined": "2020-03-02T06:07:07Z",
+            "groups": [],
+            "user_permissions": []
+        }
+    },
+    {
+        "model": "sso_ui.user",
+        "pk": 13,
+        "fields": {
+            "password": "pbkdf2_sha256$180000$ZwSWpRJrBvax$hcwXq+cx+daMJwFLeYZCO8/F+MI1zN/ayPTxYf1XFDQ=",
+            "last_login": null,
+            "is_superuser": false,
+            "username": "nuema.rondo",
+            "first_name": "Nuema",
+            "last_name": "Rondo",
+            "email": "nuema.rondo@ui.ac.id",
+            "is_staff": false,
+            "is_active": true,
+            "date_joined": "2020-03-02T06:07:07Z",
+            "groups": [],
+            "user_permissions": []
+        }
+    },
+    {
+        "model": "sso_ui.user",
+        "pk": 14,
+        "fields": {
+            "password": "pbkdf2_sha256$180000$ZwSWpRJrBvax$hcwXq+cx+daMJwFLeYZCO8/F+MI1zN/ayPTxYf1XFDQ=",
+            "last_login": null,
+            "is_superuser": false,
+            "username": "firly.rondo",
+            "first_name": "Firly",
+            "last_name": "Rondo",
+            "email": "firly.rondo@ui.ac.id",
+            "is_staff": false,
+            "is_active": true,
+            "date_joined": "2020-03-02T06:07:07Z",
+            "groups": [],
+            "user_permissions": []
+        }
+    }
+]
